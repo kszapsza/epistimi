@@ -1,0 +1,42 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.navbar {
+  background: $black;
+  color: $white;
+  display: block;
+  padding: .5rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+
+  .navbar-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+
+  .navbar-logo {
+    font: {
+      size: 24px;
+      weight: 600;
+    }
+  }
+
+  .navbar-user {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .5rem;
+
+    .navbar-user-name {
+      font: {
+        size: 13px;
+      }
+    }
+  }
+}
