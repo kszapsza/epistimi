@@ -1,4 +1,6 @@
-import ArticleThumbnail from '../ArticleThumbnail';
+import { ArticleThumbnail } from '../ArticleThumbnail';
+import { MessageBox, MessageBoxStyle } from '../../shared';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 const sampleArticles = [
   {
@@ -33,12 +35,16 @@ const sampleArticles = [
   }
 ];
 
-const ArticleListing = (): JSX.Element => {
+export const ArticleListing = (): JSX.Element => {
   return (
     <>
-      {sampleArticles.map((article) => <ArticleThumbnail {...article} />)}
+      {(!sampleArticles || sampleArticles.length === 0) &&
+        <MessageBox style={MessageBoxStyle.WARNING} icon={<ErrorOutlineIcon/>}>
+          Nie udało się załadować artykułów!
+        </MessageBox>}
+      {sampleArticles.map((article, idx) =>
+        <ArticleThumbnail key={`article-${idx}`} {...article} />
+      )}
     </>
   )
 };
-
-export default ArticleListing;

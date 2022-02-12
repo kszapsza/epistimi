@@ -1,3 +1,1 @@
-import ArticleListing from './ArticleListing';
-
-export default ArticleListing;
+export { ArticleListing } from './ArticleListing';

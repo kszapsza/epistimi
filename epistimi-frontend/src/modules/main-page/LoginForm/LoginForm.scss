@@ -1,3 +1,4 @@
+@import 'src/styles/dimensions';
 @import 'src/styles/themes';
 
 .login-form-box {
@@ -6,44 +7,41 @@
   gap: 2rem;
   height: 90vh;
   justify-content: center;
-  padding: 2rem;
+  padding: 5rem 0;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    height: auto;
+  }
 
   .login-form {
     display: flex;
     flex-direction: column;
+    gap: .75rem;
 
     .login-form-group {
+      align-items: center;
       display: flex;
       flex-direction: row;
       padding: .15rem 0;
 
       label {
         flex: 2;
+        font: {
+          size: 14px;
+        }
+        padding: 0 .35rem 0;
       }
 
       input {
+        border-bottom: 1px solid rgba($black, .25);
         flex: 3;
+        padding: .25rem;
+
+        &:focus {
+          border-bottom: 1px solid $black;
+          outline: none;
+        }
       }
-    }
-
-    label {
-      font: {
-        size: 14px;
-      }
-    }
-
-    input {
-      border-bottom: 1px solid $gray;
-      padding: .25rem;
-
-      &:focus {
-        border-bottom: 1px solid $blue;
-        outline: none;
-      }
-    }
-
-    button {
-      margin: 2rem 0;
     }
   }
 }

@@ -1,6 +1,6 @@
 import './Button.scss';
 
-interface ButtonProps {
+export interface ButtonProps {
   children: JSX.Element | string;
   style?: ButtonStyle;
 }
@@ -12,12 +12,10 @@ export enum ButtonStyle {
   DESTRUCTIVE = 'btn-destructive'
 }
 
-const Button = (props: ButtonProps): JSX.Element => {
+export const Button = (props: ButtonProps): JSX.Element => {
   return (
     <button className={props.style?.toString() || 'btn'}>
       {props.children}
     </button>
   )
 }
-
-export default Button;

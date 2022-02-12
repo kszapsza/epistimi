@@ -1,27 +1,26 @@
 import './ArticleThumbnail.scss';
 
-interface ArticleThumbnailProps {
+export interface ArticleThumbnailProps {
   image?: string;
   title: string;
   description: string;
 }
 
-const ArticleThumbnail = (props: ArticleThumbnailProps): JSX.Element => {
+export const ArticleThumbnail = (props: ArticleThumbnailProps): JSX.Element => {
+  const image = props.image ?? 'article-default.jpg';
   return (
-    <div className={'article-thumbnail'}>
-      {props.image && <div className={'article-thumbnail-image'}>
-        <img alt={props.title} src={`${process.env.PUBLIC_URL}/images/${props.image}`}/>
-      </div>}
-      <div className={'article-thumbnail-metadata'}>
-        <div className={'article-thumbnail-title'}>
+    <div className="article-thumbnail">
+      <div className="article-thumbnail-image">
+        <img alt={props.title} src={`${process.env.PUBLIC_URL}/images/${image}`}/>
+      </div>
+      <div className="article-thumbnail-metadata">
+        <h3 className="article-thumbnail-title">
           {props.title}
-        </div>
-        <div className={'article-thumbnail-description'}>
+        </h3>
+        <div className="article-thumbnail-description" role="description">
           {props.description}
         </div>
       </div>
     </div>
   )
 };
-
-export default ArticleThumbnail;

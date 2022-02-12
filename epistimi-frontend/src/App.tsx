@@ -5,11 +5,11 @@ import { Navbar } from './modules/shared';
 
 const App = (): JSX.Element => {
   return (
-    <div className={'main'}>
+    <main className="main">
       <Navbar/>
       <MainPage/>
-    </div>
+    </main>
   );
 }
 
-export default App;
+export { App };

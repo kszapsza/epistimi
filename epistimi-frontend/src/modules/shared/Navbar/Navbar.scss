@@ -11,10 +11,10 @@
   z-index: 1;
 
   .navbar-wrapper {
+    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
     margin: 0 auto;
     max-width: 1200px;
   }
@@ -27,11 +27,11 @@
   }
 
   .navbar-user {
+    align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
     gap: .5rem;
+    justify-content: flex-end;
 
     .navbar-user-name {
       font: {

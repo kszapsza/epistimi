@@ -6,6 +6,7 @@
   border-radius: $subtle-radius;
   flex: 1;
   min-width: 250px;
+  overflow: hidden;
 
   &:hover {
     cursor: pointer;
@@ -21,7 +22,6 @@
     width: 100%;
 
     img {
-      border-radius: $subtle-radius $subtle-radius 0 0;
       transition-duration: 500ms;
       width: 100%;
 

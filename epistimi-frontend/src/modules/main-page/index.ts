@@ -1,4 +1,4 @@
-export {default as ArticleListing} from './ArticleListing';
-export {default as ArticleThumbnail} from './ArticleThumbnail';
-export {default as LoginForm} from './LoginForm';
-export {default as MainPage} from './MainPage';
+export { ArticleListing } from './ArticleListing';
+export { ArticleThumbnail } from './ArticleThumbnail';
+export { LoginForm } from './LoginForm';
+export { MainPage } from './MainPage';

@@ -1,3 +1,1 @@
-import ArticleThumbnail from './ArticleThumbnail';
-
-export default ArticleThumbnail;
+export { ArticleThumbnail } from './ArticleThumbnail';
