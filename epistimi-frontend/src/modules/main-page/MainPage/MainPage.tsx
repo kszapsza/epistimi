@@ -1,6 +1,6 @@
 import { ArticleListing } from '../ArticleListing';
 import { LoginForm } from '../LoginForm';
-import { Footer } from '../../shared/Footer';
+import { Footer } from '../Footer';
 import './MainPage.scss';
 
 export const MainPage = (): JSX.Element => {

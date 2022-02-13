@@ -12,6 +12,7 @@ export const LoginForm = (): JSX.Element => {
 
   const submitHandler = (data: UnpackNestedValue<LoginFormData>): void => {
     console.log(data);
+    // TODO
   };
 
   return (
@@ -20,13 +21,12 @@ export const LoginForm = (): JSX.Element => {
         className="login-form"
         onSubmit={handleSubmit(submitHandler)}
       >
-        <MessageBox
+        {(errors.username || errors.password) && <MessageBox
           style={MessageBoxStyle.WARNING}
           small={true}
-          hidden={!errors.username && !errors.password}
         >
           Niepoprawne dane logowania!
-        </MessageBox>
+        </MessageBox>}
         <div className="login-form-groups">
           <div className="login-form-group">
             <label htmlFor="username">Nazwa użytkownika:</label>
@@ -35,7 +35,7 @@ export const LoginForm = (): JSX.Element => {
               autoFocus={true}
               id="username"
               type="text"
-              {...register('username', { required: 'To pole jest wymagane' })}
+              {...register('username', { required: true })}
             />
           </div>
           <div className="login-form-group">
@@ -44,7 +44,7 @@ export const LoginForm = (): JSX.Element => {
               autoComplete="current-password"
               id="password"
               type="password"
-              {...register('password', { required: 'To pole jest wymagane' })}
+              {...register('password', { required: true })}
             />
           </div>
         </div>

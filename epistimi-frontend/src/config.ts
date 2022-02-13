@@ -1,1 +1,0 @@
-export const EPISTIMI_BACKEND = 'http://localhost:8080/api';

@@ -1,12 +1,11 @@
-import { ReactElement } from 'react';
+import { ReactChild, ReactElement } from 'react';
 import './MessageBox.scss';
 
 export interface MessageBoxProps {
-  children: ReactElement | string;
+  children: ReactChild;
   style?: MessageBoxStyle;
   icon?: ReactElement;
   small?: boolean;
-  hidden?: boolean;
 }
 
 export enum MessageBoxStyle {
@@ -23,10 +22,7 @@ export const MessageBox = (props: MessageBoxProps): JSX.Element => {
   ].join(' ');
 
   return (
-    <div
-      className={mboxClasses}
-      style={{ visibility: (props.hidden ? 'hidden' : 'visible') }}
-    >
+    <div className={mboxClasses}>
       {props.icon && <div className="mbox-icon">
         {props.icon}
       </div>}

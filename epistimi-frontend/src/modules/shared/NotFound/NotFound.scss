@@ -1,0 +1,31 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.not-found {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - #{$navbar-height});
+  justify-content: center;
+  margin: auto;
+  overflow: hidden;
+  width: 100%;
+}
+
+.not-found-code {
+  border: 0;
+  font-size: 80px;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    font: {
+      size: 60px;
+    };
+  }
+}
+
+.not-found-desc {
+  font: {
+    size: 20px;
+    weight: 300;
+  }
+}

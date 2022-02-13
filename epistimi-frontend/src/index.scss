@@ -1,4 +1,6 @@
+@import 'src/styles/dimensions';
 @import 'src/styles/fonts';
+@import 'src/styles/themes';
 
 /* General */
 
@@ -14,13 +16,17 @@ html {
 }
 
 body {
-  margin: 0;
   font: {
     family: $system;
     size: 15px;
   }
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  all: unset;
+  cursor: pointer;
 }
 
 code {

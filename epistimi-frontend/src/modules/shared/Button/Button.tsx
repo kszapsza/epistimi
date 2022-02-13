@@ -1,7 +1,8 @@
 import './Button.scss';
+import { ReactChild } from 'react';
 
 export interface ButtonProps {
-  children: JSX.Element | string;
+  children: ReactChild;
   style?: ButtonStyle;
 }
 
