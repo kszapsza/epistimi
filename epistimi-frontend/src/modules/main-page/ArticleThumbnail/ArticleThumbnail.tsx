@@ -1,6 +1,6 @@
 import './ArticleThumbnail.scss';
 
-export interface ArticleThumbnailProps {
+interface ArticleThumbnailProps {
   image?: string;
   title: string;
   description: string;

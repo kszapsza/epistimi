@@ -4,8 +4,12 @@ import './index.scss';
 import { App } from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import axios from 'axios';
 // import { store } from './app/store';
 // import { Provider } from 'react-redux';
+
+axios.defaults.baseURL = 'http://localhost:8080/api';
+axios.defaults.headers.post['Accept'] = 'application/json';
 
 ReactDOM.render(
   <React.StrictMode>
