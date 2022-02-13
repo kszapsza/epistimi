@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { queryByText, render, waitFor } from '@testing-library/react';
+import { queryByText, waitFor } from '@testing-library/react';
 import { ArticleListing } from './ArticleListing';
+import { renderWithRouter } from '../../../util/test-util';
 
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
@@ -14,10 +15,8 @@ describe('ArticleListing component', () => {
   it('should render an error message if API fails to respond', async () => {
     // given
     axiosMock.get.mockRejectedValue({});
-
     // when
-    const { getByText } = render(<ArticleListing/>);
-
+    const { getByText } = renderWithRouter(<ArticleListing/>);
     // then
     await waitFor(() => {
       expect(axiosMock.get).toHaveBeenCalledWith('article');
@@ -32,10 +31,8 @@ describe('ArticleListing component', () => {
         articles: []
       }
     });
-
     // when
-    const { getByText } = render(<ArticleListing/>);
-
+    const { getByText } = renderWithRouter(<ArticleListing/>);
     // then
     await waitFor(() => {
       expect(getByText(/nie udało się załadować artykułów/i)).toBeInTheDocument();
@@ -60,10 +57,8 @@ describe('ArticleListing component', () => {
         ]
       }
     });
-
     // when
-    const { getAllByRole, queryByText } = render(<ArticleListing/>);
-
+    const { getAllByRole, queryByText } = renderWithRouter(<ArticleListing/>);
     // then
     await waitFor(() => {
       expect(axiosMock.get).toHaveBeenCalledWith('article');

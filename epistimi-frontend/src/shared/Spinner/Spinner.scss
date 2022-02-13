@@ -1,0 +1,25 @@
+@import 'src/styles/themes';
+
+.spinner {
+  height: 60px;
+  margin: auto;
+  width: 60px;
+
+  .spinner-border {
+    animation: spinner-rotation 1s linear infinite;
+    border: 6px solid transparent;
+    border-radius: 50%;
+    border-top: 6px solid rgb($black, .25);
+    height: 100%;
+    width: 100%;
+  }
+}
+
+@keyframes spinner-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

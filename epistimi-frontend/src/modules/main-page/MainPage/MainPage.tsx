@@ -1,13 +1,20 @@
+import { Article } from '../Article';
 import { ArticleListing } from '../ArticleListing';
 import { LoginForm } from '../LoginForm';
-import { Footer } from '../Footer';
+import { Footer } from '../../../shared/Footer';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import React from 'react';
 import './MainPage.scss';
 
 export const MainPage = (): JSX.Element => {
   return (
     <div className="main-page">
       <div className="main-page-left">
-        <ArticleListing/>
+        <Routes>
+          <Route path={'/'} element={<ArticleListing/>}/>
+          <Route path={'/article/*'} element={<Article/>}/>
+          <Route path={'/*'} element={<Navigate to={'/404'}/>}/>
+        </Routes>
       </div>
       <div className="main-page-right">
         <div className="main-page-copy">

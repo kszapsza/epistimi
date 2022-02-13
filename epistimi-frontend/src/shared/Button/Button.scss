@@ -1,0 +1,60 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.btn {
+  background: $gray;
+  border-radius: $subtle-radius;
+  color: $black;
+  font: {
+    size: 13px;
+    weight: 600;
+  }
+  margin: 0;
+  padding: 0.35rem 0.7rem;
+
+  &:disabled {
+    background: rgba($black, .1);
+    color: rgba($black, .3);
+  }
+
+  &:hover {
+    background: rgba($black, .075);
+    cursor: pointer;
+  }
+}
+
+@mixin btn-themed($bg-color, $fg-color) {
+  @extend .btn;
+
+  background: $bg-color;
+  color: $fg-color;
+
+  &:hover {
+    background: rgba($bg-color, .85);
+  }
+
+  &:disabled {
+    background: rgba($black, .1);
+    color: rgba($black, .3);
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.btn-dark {
+  @include btn-themed($black, $white);
+}
+
+.btn-primary {
+  @include btn-themed($blue, $white);
+}
+
+.btn-constructive {
+  @include btn-themed($teal, $white);
+}
+
+.btn-destructive {
+  @include btn-themed($red, $white);
+}

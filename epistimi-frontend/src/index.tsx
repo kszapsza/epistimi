@@ -10,6 +10,7 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8080/api';
 axios.defaults.headers.post['Accept'] = 'application/json';
+axios.defaults.timeout = 1000;
 
 ReactDOM.render(
   <React.StrictMode>
