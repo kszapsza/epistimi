@@ -11,7 +11,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 import static pl.edu.wat.wcy.epistimi.user.User.Type.EPISTIMI_ADMIN
-import static pl.edu.wat.wcy.epistimi.user.User.Type.ORGANIZATION_EMPLOYEE
+import static pl.edu.wat.wcy.epistimi.user.User.Type.ORGANIZATION_ADMIN
 import static pl.edu.wat.wcy.epistimi.user.User.Type.PARENT
 import static pl.edu.wat.wcy.epistimi.user.User.Type.STUDENT
 
@@ -55,9 +55,9 @@ class OrganizationServiceTest extends Specification {
         noExceptionThrown()
 
         and: 'organization with this admin is successfully registered'
-        organizationRepository.findById(newOrganization.id).adminId == user.id
+        organizationRepository.findById(newOrganization.id).admin.id == user.id
 
         where:
-        accountType << [EPISTIMI_ADMIN, ORGANIZATION_EMPLOYEE]
+        accountType << [EPISTIMI_ADMIN, ORGANIZATION_ADMIN]
     }
 }

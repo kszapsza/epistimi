@@ -4,10 +4,12 @@ import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.infrastructure.UserDbRepository
 
 @Repository
 class OrganizationDbRepository(
-    private val organizationMongoDbRepository: OrganizationMongoDbRepository
+    private val organizationMongoDbRepository: OrganizationMongoDbRepository,
+    private val userDbRepository: UserDbRepository,
 ) : OrganizationRepository {
 
     override fun findAll(): List<Organization> =
@@ -17,7 +19,7 @@ class OrganizationDbRepository(
     private fun OrganizationMongoDbDocument.toDomain() = Organization(
         id = this.id!!,
         name = this.name,
-        adminId = this.adminId,
+        admin = userDbRepository.findById(this.adminId),
         status = Organization.Status.valueOf(this.status)
     )
 
@@ -31,7 +33,7 @@ class OrganizationDbRepository(
             OrganizationMongoDbDocument(
                 id = null,
                 name = organization.name,
-                adminId = organization.adminId,
+                adminId = organization.admin.id,
                 status = organization.status.toString()
             )
         ).toDomain()
@@ -41,7 +43,7 @@ class OrganizationDbRepository(
             OrganizationMongoDbDocument(
                 id = organization.id,
                 name = organization.name,
-                adminId = organization.adminId,
+                adminId = organization.admin.id,
                 status = organization.status.toString()
             )
         ).toDomain()

@@ -22,7 +22,10 @@ class OrganizationController(
     @GetMapping
     fun getOrganizations(): ResponseEntity<OrganizationsResponse> =
         ResponseEntity.ok(
-            organizationService.getOrganizations()
+            OrganizationsResponse(
+                organizationService.getOrganizations()
+                    .map { OrganizationResponse.fromDomain(it) }
+            )
         )
 
     @PostMapping
@@ -30,7 +33,9 @@ class OrganizationController(
         @RequestBody organizationRegisterRequest: OrganizationRegisterRequest
     ): ResponseEntity<OrganizationResponse> =
         ResponseEntity.ok(
-            organizationService.registerOrganization(organizationRegisterRequest)
+            OrganizationResponse.fromDomain(
+                organizationService.registerOrganization(organizationRegisterRequest)
+            )
         )
 
     @PatchMapping("{organizationId}/status")
@@ -39,6 +44,8 @@ class OrganizationController(
         @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest
     ): ResponseEntity<OrganizationResponse> =
         ResponseEntity.ok(
-            organizationService.changeOrganizationStatus(organizationId, organizationChangeStatusRequest)
+            OrganizationResponse.fromDomain(
+                organizationService.changeOrganizationStatus(organizationId, organizationChangeStatusRequest)
+            )
         )
 }

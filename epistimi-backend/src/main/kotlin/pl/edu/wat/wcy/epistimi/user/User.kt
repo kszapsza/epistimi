@@ -8,7 +8,8 @@ data class User(
 ) {
     enum class Type {
         EPISTIMI_ADMIN,
-        ORGANIZATION_EMPLOYEE,
+        ORGANIZATION_ADMIN,
+        TEACHER,
         STUDENT,
         PARENT
     }
