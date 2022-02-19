@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationService
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationResponse
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationsResponse
+import pl.edu.wat.wcy.epistimi.user.dto.UserResponse
 
 @RestController
 @RequestMapping("/api/organization")
@@ -24,18 +26,24 @@ class OrganizationController(
         ResponseEntity.ok(
             OrganizationsResponse(
                 organizationService.getOrganizations()
-                    .map { OrganizationResponse.fromDomain(it) }
+                    .map { it.toResponse() }
             )
         )
+
+    private fun Organization.toResponse() = OrganizationResponse(
+        id = this.id,
+        name = this.name,
+        admin = UserResponse.fromDomain(this.admin),
+        status = this.status.toString()
+    )
 
     @PostMapping
     fun registerOrganization(
         @RequestBody organizationRegisterRequest: OrganizationRegisterRequest
     ): ResponseEntity<OrganizationResponse> =
         ResponseEntity.ok(
-            OrganizationResponse.fromDomain(
-                organizationService.registerOrganization(organizationRegisterRequest)
-            )
+            organizationService.registerOrganization(organizationRegisterRequest)
+                .toResponse()
         )
 
     @PatchMapping("{organizationId}/status")
@@ -44,8 +52,7 @@ class OrganizationController(
         @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest
     ): ResponseEntity<OrganizationResponse> =
         ResponseEntity.ok(
-            OrganizationResponse.fromDomain(
-                organizationService.changeOrganizationStatus(organizationId, organizationChangeStatusRequest)
-            )
+            organizationService.changeOrganizationStatus(organizationId, organizationChangeStatusRequest)
+                .toResponse()
         )
 }

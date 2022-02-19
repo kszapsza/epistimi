@@ -28,18 +28,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-/*
-sourceSets {
-    named("main") {
-        java.srcDir("src/main/kotlin")
-    }
-    named("test") {
-        java.srcDir("src/test/kotlin")
-        groovy.srcDir("src/test/groovy")
-    }
-}
-*/
-
 tasks {
     withType<KotlinCompile> {
         kotlinOptions {

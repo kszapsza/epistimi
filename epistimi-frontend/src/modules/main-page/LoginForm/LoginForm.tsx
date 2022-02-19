@@ -1,4 +1,4 @@
-import { Button, ButtonStyle, MessageBox, MessageBoxStyle } from '../../../shared';
+import { Button, ButtonStyle, MessageBox, MessageBoxStyle } from '../../../components';
 import { UnpackNestedValue, useForm } from 'react-hook-form';
 import './LoginForm.scss';
 

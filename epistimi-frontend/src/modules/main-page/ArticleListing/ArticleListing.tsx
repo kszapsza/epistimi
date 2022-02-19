@@ -1,7 +1,7 @@
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { useEffect, useState } from 'react';
 import { ArticleThumbnail } from '../ArticleThumbnail';
-import { MessageBox, MessageBoxStyle, Spinner } from '../../../shared';
+import { MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { Article, Articles } from '../../../dto/article';
 import axios from 'axios';
 

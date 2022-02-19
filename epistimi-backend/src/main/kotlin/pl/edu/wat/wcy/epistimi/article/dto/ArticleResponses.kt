@@ -7,16 +7,7 @@ data class ArticleResponse(
     val slug: String,
     val title: String,
     val description: String,
-) {
-    companion object {
-        fun fromDomain(article: Article) = ArticleResponse(
-            id = article.id,
-            slug = article.slug,
-            title = article.title,
-            description = article.description,
-        )
-    }
-}
+)
 
 data class ArticlesResponse(
     val articles: List<ArticleResponse>
