@@ -1,5 +1,6 @@
 package pl.edu.wat.wcy.epistimi.article.infrastructure
 
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.article.Article
 import pl.edu.wat.wcy.epistimi.article.ArticleNotFoundException
@@ -25,4 +26,11 @@ class ArticleDbRepository(
         articleMongoDbRepository.findById(articleId)
             .map { it.toDomain() }
             .orElseThrow { throw ArticleNotFoundException() }
+
+    override fun findBySlug(slug: String): Article =
+        try {
+            articleMongoDbRepository.findFirstBySlug(slug).toDomain()
+        } catch (e: EmptyResultDataAccessException) {
+            throw ArticleNotFoundException()
+        }
 }

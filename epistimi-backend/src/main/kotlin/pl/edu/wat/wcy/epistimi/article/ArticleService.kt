@@ -7,4 +7,5 @@ class ArticleService(
     val articleRepository: ArticleRepository
 ) {
     fun getArticles(): List<Article> = articleRepository.findAll()
+    fun getArticleBySlug(slug: String): Article = articleRepository.findBySlug(slug)
 }

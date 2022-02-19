@@ -4,4 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ArticleMongoDbRepository : MongoRepository<ArticleMongoDbDocument, String>
+interface ArticleMongoDbRepository : MongoRepository<ArticleMongoDbDocument, String> {
+    fun findFirstBySlug(slug: String): ArticleMongoDbDocument
+}

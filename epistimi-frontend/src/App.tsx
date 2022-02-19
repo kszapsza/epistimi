@@ -1,5 +1,5 @@
 import React from 'react';
-import { Article, ArticleListing, MainPage } from './modules/main-page';
+import { ArticleListing, ArticlePage, MainPage } from './modules/main-page';
 import { Header, NotFound } from './components';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { NavigationFrame } from './modules/navigation/NavigationFrame';
@@ -14,7 +14,7 @@ const App = (): JSX.Element => {
         <Routes>
           <Route path={'/'} element={<MainPage/>}>
             <Route path={'/'} element={<ArticleListing/>}/>
-            <Route path={'article/*'} element={<Article/>}/>
+            <Route path={'article/:slug'} element={<ArticlePage/>}/>
           </Route>
           <Route path={'/app'} element={<NavigationFrame/>}>
             <Route path={'summary'} element={<Summary/>}/>
