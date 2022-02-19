@@ -11,13 +11,17 @@
   width: 100%;
 
   @media screen and (max-width: $mobile-breakpoint) {
-    flex-direction: column-reverse;
+    flex-direction: column;
     height: 100%;
     padding: 0 .5rem;
   }
 
   .main-page-col {
-    padding: .25rem 1rem;
+    padding: 1rem 1.75rem;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      padding: 1rem;
+    }
   }
 
   .main-page-left {
@@ -32,7 +36,10 @@
     justify-content: flex-start;
     margin: 0 auto;
     overflow: scroll;
-    padding: .5rem 1rem;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      border-bottom: 1px solid rgba($black, .25);
+    }
   }
 
   .main-page-right {
@@ -43,15 +50,26 @@
     display: flex;
     flex: 3;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     max-width: 450px;
-    padding: 2rem;
 
     @media screen and (max-width: $mobile-breakpoint) {
       border: 0;
-      border-bottom: 1px solid rgba($black, .25);
       max-width: 95vw;
-      padding: 2rem .75rem;
+      min-height: calc(100vh - #{$navbar-height});
+    }
+
+    .main-page-jump-top {
+      font: {
+        size: 12px;
+      }
+      text: {
+        align: right;
+        decoration: underline;
+      }
+      @media screen and (min-width: $mobile-breakpoint) {
+        display: none;
+      }
     }
 
     .main-page-copy {

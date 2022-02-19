@@ -6,7 +6,7 @@
   color: $white;
   display: block;
   padding: .5rem;
-  position: sticky;
+  position: fixed;
   width: 100%;
   z-index: 1;
 
@@ -33,9 +33,9 @@
     gap: .5rem;
     justify-content: flex-end;
 
-    .navbar-user-name {
-      font: {
-        size: 13px;
+    .navbar-login {
+      @media (screen and min-width: $mobile-breakpoint) {
+        display: none;
       }
     }
   }

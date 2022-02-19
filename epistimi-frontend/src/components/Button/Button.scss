@@ -13,12 +13,12 @@
   padding: 0.35rem 0.7rem;
 
   &:disabled {
-    background: rgba($black, .1);
+    background: rgba($gray, .05);
     color: rgba($black, .3);
   }
 
   &:hover {
-    background: rgba($black, .075);
+    background: rgba($gray, .8);
     cursor: pointer;
   }
 }

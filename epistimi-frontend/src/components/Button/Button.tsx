@@ -1,10 +1,11 @@
-import { ReactChild } from 'react';
+import { MouseEvent, ReactChild } from 'react';
 import './Button.scss';
 
 export interface ButtonProps {
   children: ReactChild;
   style?: ButtonStyle;
   disabled?: boolean;
+  onClick?: (event: MouseEvent) => void;
 }
 
 export enum ButtonStyle {
@@ -20,6 +21,7 @@ export const Button = (props: ButtonProps): JSX.Element => {
     <button
       className={props.style?.toString() || 'btn'}
       disabled={props.disabled}
+      onClick={props.onClick}
     >
       {props.children}
     </button>

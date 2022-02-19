@@ -24,7 +24,7 @@ export const useFetch = <T>(url: string): FetchResponse<T> => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [url]);
 
   return { data, loading, error };
 };

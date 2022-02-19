@@ -20,7 +20,7 @@ export const LoginForm = (): JSX.Element => {
   };
 
   return (
-    <div className='login-form-box'>
+    <div className='login-form-box' id={'login'}>
       <form
         className='login-form'
         onSubmit={handleSubmit(submitHandler)}

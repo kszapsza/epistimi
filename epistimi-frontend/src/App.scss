@@ -1,3 +1,4 @@
+@import 'src/styles/dimensions';
 @import 'src/styles/themes';
 
 .main {
@@ -6,5 +7,6 @@
   flex-direction: column;
   margin: 0 auto;
   max-width: 1200px;
+  padding: $navbar-height 0 0;
   width: 100%;
 }
