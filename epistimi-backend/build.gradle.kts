@@ -21,7 +21,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
+    implementation("javax.xml.bind:jaxb-api:2.4.0-b180830.0359")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -29,6 +29,7 @@ dependencies {
     testImplementation("org.spockframework:spock-spring:2.1-M2-groovy-3.0")
     testImplementation("org.codehaus.groovy:groovy-all:3.0.8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("cglib:cglib-nodep:3.3.0")
 }
 
 tasks {
