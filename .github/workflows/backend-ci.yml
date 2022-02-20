@@ -1,0 +1,34 @@
+name: Backend CI
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./epistimi-backend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: adopt
+      - name: Grant gradlew execution permission
+        run: chmod +x gradlew
+      - name: 'Gradle: build'
+        run: ./gradlew assemble
+      - name: 'Gradle: test'
+        run: ./gradlew test
