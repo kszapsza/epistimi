@@ -22,8 +22,8 @@ class OrganizationService(
         } catch (e: UserNotFoundException) {
             throw AdministratorNotFoundException()
         }
-        if (admin.type != User.Type.EPISTIMI_ADMIN
-            && admin.type != User.Type.ORGANIZATION_ADMIN) {
+        if (admin.role != User.Role.EPISTIMI_ADMIN
+            && admin.role != User.Role.ORGANIZATION_ADMIN) {
             throw AdministratorInsufficientPermissionsException()
         }
         return organizationRepository.insert(

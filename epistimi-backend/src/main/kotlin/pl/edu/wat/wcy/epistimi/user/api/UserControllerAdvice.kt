@@ -1,17 +1,21 @@
 package pl.edu.wat.wcy.epistimi.user.api
 
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.context.request.WebRequest
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
+import pl.edu.wat.wcy.epistimi.user.UsernameAlreadyInUseException
+import pl.edu.wat.wcy.epistimi.util.ErrorMessage
 
-@ControllerAdvice
+@RestControllerAdvice
 class UserControllerAdvice {
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException::class)
-    fun handleUserNotFoundException() {
-        // TODO
-    }
+    fun handleUserNotFoundException(exception: Exception, request: WebRequest) =
+        ErrorMessage(exception, HttpStatus.NOT_FOUND, request).toResponseEntity()
+
+    @ExceptionHandler(UsernameAlreadyInUseException::class)
+    fun handleRegistrationBadRequestExceptions(exception: Exception, request: WebRequest) =
+        ErrorMessage(exception, HttpStatus.BAD_REQUEST, request).toResponseEntity()
 }

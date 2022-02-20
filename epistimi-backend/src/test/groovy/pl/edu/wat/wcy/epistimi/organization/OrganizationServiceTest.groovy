@@ -10,10 +10,10 @@ import pl.edu.wat.wcy.epistimi.user.UserRepository
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static pl.edu.wat.wcy.epistimi.user.User.Type.EPISTIMI_ADMIN
-import static pl.edu.wat.wcy.epistimi.user.User.Type.ORGANIZATION_ADMIN
-import static pl.edu.wat.wcy.epistimi.user.User.Type.PARENT
-import static pl.edu.wat.wcy.epistimi.user.User.Type.STUDENT
+import static pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
+import static pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
+import static pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
+import static pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 
 @SpringBootTest
 @Import([EpistimiTestConfiguration])
@@ -31,7 +31,7 @@ class OrganizationServiceTest extends Specification {
     @Unroll
     def 'should not register new organization if provided admin has account type #accountType'() {
         given: 'a user ineligible to be an organization admin'
-        def user = userRepository.insert(new User('', 'Jan', 'Kowalski', accountType))
+        def user = userRepository.insert(new User('', 'Jan', 'Kowalski', accountType, 'j.kowalski', '123'))
 
         when: 'I create an organization with an ineligible user'
         organizationService.registerOrganization(new OrganizationRegisterRequest('ABC', user.id))
@@ -46,7 +46,7 @@ class OrganizationServiceTest extends Specification {
     @Unroll
     def 'should register new organization if provided admin has account type #accountType'() {
         given: 'a user eligible to be an organization admin'
-        def user = userRepository.insert(new User('', 'Jan', 'Kowalski', accountType))
+        def user = userRepository.insert(new User('', 'Jan', 'Kowalski', accountType, 'j.kowalski', '123'))
 
         when: 'I create an organization with an eligible user'
         def newOrganization = organizationService.registerOrganization(new OrganizationRegisterRequest('ABC', user.id))

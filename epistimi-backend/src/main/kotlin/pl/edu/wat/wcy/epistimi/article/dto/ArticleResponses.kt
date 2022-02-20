@@ -1,7 +1,5 @@
 package pl.edu.wat.wcy.epistimi.article.dto
 
-import pl.edu.wat.wcy.epistimi.article.Article
-
 data class ArticleResponse(
     val id: String,
     val slug: String,

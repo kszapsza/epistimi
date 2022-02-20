@@ -4,9 +4,11 @@ data class User(
     val id: String,
     val firstName: String,
     val lastName: String,
-    val type: Type
+    val role: Role,
+    val username: String,
+    val passwordHash: String,
 ) {
-    enum class Type {
+    enum class Role {
         EPISTIMI_ADMIN,
         ORGANIZATION_ADMIN,
         TEACHER,

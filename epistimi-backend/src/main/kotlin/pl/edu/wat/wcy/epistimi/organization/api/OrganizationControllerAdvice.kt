@@ -1,29 +1,26 @@
 package pl.edu.wat.wcy.epistimi.organization.api
 
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.context.request.WebRequest
 import pl.edu.wat.wcy.epistimi.organization.AdministratorInsufficientPermissionsException
 import pl.edu.wat.wcy.epistimi.organization.AdministratorNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
+import pl.edu.wat.wcy.epistimi.util.ErrorMessage
 
-@ControllerAdvice
+@RestControllerAdvice
 class OrganizationControllerAdvice {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(
         AdministratorNotFoundException::class,
         AdministratorInsufficientPermissionsException::class,
     )
-    fun handleOrganizationBadRequestExceptions() {
-        // TODO
-    }
+    fun handleOrganizationBadRequestExceptions(exception: Exception, request: WebRequest) =
+        ErrorMessage(exception, HttpStatus.BAD_REQUEST, request).toResponseEntity()
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(OrganizationNotFoundException::class)
-    fun handleOrganizationNotFoundExceptions() {
-        // TODO
-    }
+    fun handleOrganizationNotFoundExceptions(exception: Exception, request: WebRequest) =
+        ErrorMessage(exception, HttpStatus.NOT_FOUND, request).toResponseEntity()
 
 }

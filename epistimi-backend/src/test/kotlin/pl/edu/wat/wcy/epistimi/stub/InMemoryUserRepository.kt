@@ -16,6 +16,10 @@ internal class InMemoryUserRepository(
         return users.find { it.id == userId } ?: throw UserNotFoundException()
     }
 
+    override fun findByUsername(username: String): User {
+        return users.find { it.username == username } ?: throw UserNotFoundException()
+    }
+
     override fun insert(user: User): User {
         return user.copy(id = users.size.toString())
             .also { users.add(it) }

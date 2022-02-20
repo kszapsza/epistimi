@@ -5,5 +5,7 @@ import pl.edu.wat.wcy.epistimi.user.User
 data class UserRegisterRequest(
     val firstName: String,
     val lastName: String,
-    val type: User.Type,
+    val role: User.Role,
+    val username: String,
+    val password: String,
 )

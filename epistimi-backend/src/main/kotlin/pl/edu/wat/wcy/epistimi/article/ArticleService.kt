@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ArticleService(
-    val articleRepository: ArticleRepository
+    private val articleRepository: ArticleRepository
 ) {
     fun getArticles(): List<Article> = articleRepository.findAll()
     fun getArticleBySlug(slug: String): Article = articleRepository.findBySlug(slug)

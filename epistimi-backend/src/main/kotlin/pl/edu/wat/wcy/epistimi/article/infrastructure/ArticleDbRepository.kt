@@ -8,7 +8,7 @@ import pl.edu.wat.wcy.epistimi.article.ArticleRepository
 
 @Repository
 class ArticleDbRepository(
-    val articleMongoDbRepository: ArticleMongoDbRepository
+    private val articleMongoDbRepository: ArticleMongoDbRepository
 ) : ArticleRepository {
 
     override fun findAll(): List<Article> =

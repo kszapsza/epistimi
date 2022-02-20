@@ -1,9 +1,12 @@
 package pl.edu.wat.wcy.epistimi.user.infrastructure
 
+import org.springframework.dao.DuplicateKeyException
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.user.UsernameAlreadyInUseException
 
 @Repository
 class UserDbRepository(
@@ -21,15 +24,29 @@ class UserDbRepository(
             .orElseThrow { throw UserNotFoundException() }
     }
 
+    override fun findByUsername(username: String): User {
+        return try {
+            userMongoDbRepository.findFirstByUsername(username).toDomain()
+        } catch (e: EmptyResultDataAccessException) {
+            throw UserNotFoundException()
+        }
+    }
+
     override fun insert(user: User): User {
-        return userMongoDbRepository.save(
-            UserMongoDbDocument(
-                id = null,
-                firstName = user.firstName,
-                lastName = user.lastName,
-                accountType = user.type.toString()
-            )
-        ).toDomain()
+        return try {
+            userMongoDbRepository.insert(
+                UserMongoDbDocument(
+                    id = null,
+                    firstName = user.firstName,
+                    lastName = user.lastName,
+                    role = user.role.toString(),
+                    username = user.username,
+                    passwordHash = user.passwordHash,
+                )
+            ).toDomain()
+        } catch (e: DuplicateKeyException) {
+            throw UsernameAlreadyInUseException(user.username)
+        }
     }
 
     override fun save(user: User): User {
@@ -38,7 +55,9 @@ class UserDbRepository(
                 id = user.id,
                 firstName = user.firstName,
                 lastName = user.lastName,
-                accountType = user.type.toString()
+                role = user.role.toString(),
+                username = user.username,
+                passwordHash = user.passwordHash,
             )
         ).toDomain()
     }

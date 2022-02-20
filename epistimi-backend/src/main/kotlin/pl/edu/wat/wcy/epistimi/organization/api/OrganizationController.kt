@@ -33,7 +33,13 @@ class OrganizationController(
     private fun Organization.toResponse() = OrganizationResponse(
         id = this.id,
         name = this.name,
-        admin = UserResponse.fromDomain(this.admin),
+        admin = UserResponse(
+            id = this.admin.id,
+            firstName = this.admin.firstName,
+            lastName = this.admin.lastName,
+            role = this.admin.role,
+            username = this.admin.username,
+        ),
         status = this.status.toString()
     )
 
