@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
+import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
@@ -18,10 +19,11 @@ class AuthenticationService(
     @Value("\${epistimi.security.jwt-secret}") private val jwtSecret: String,
     @Value("\${epistimi.security.jwt-expiry-millis}") private val jwtExpiryMillis: Long,
 ) {
-    fun login(loginRequest: LoginRequest): String {
+    fun login(loginRequest: LoginRequest): LoginResponse {
         return retrieveUser(loginRequest.username)
             .also { user -> checkPassword(loginRequest.password, user.passwordHash) }
             .let { user -> issueToken(user.username, user.role.toString()) }
+            .let { token -> LoginResponse(token) }
     }
 
     private fun retrieveUser(username: String): User {

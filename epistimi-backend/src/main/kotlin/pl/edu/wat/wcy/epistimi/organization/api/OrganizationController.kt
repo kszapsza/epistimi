@@ -1,13 +1,12 @@
 package pl.edu.wat.wcy.epistimi.organization.api
 
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationService
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
@@ -21,7 +20,11 @@ import pl.edu.wat.wcy.epistimi.user.dto.UserResponse
 class OrganizationController(
     private val organizationService: OrganizationService
 ) {
-    @GetMapping
+    @RequestMapping(
+        path = ["/"],
+        method = [RequestMethod.GET],
+        produces = [MediaType.APPLICATION_JSON_V1]
+    )
     fun getOrganizations(): ResponseEntity<OrganizationsResponse> =
         ResponseEntity.ok(
             OrganizationsResponse(
@@ -43,7 +46,11 @@ class OrganizationController(
         status = this.status.toString()
     )
 
-    @PostMapping
+    @RequestMapping(
+        path = ["/"],
+        method = [RequestMethod.POST],
+        produces = [MediaType.APPLICATION_JSON_V1]
+    )
     fun registerOrganization(
         @RequestBody organizationRegisterRequest: OrganizationRegisterRequest
     ): ResponseEntity<OrganizationResponse> =
@@ -52,7 +59,12 @@ class OrganizationController(
                 .toResponse()
         )
 
-    @PatchMapping("{organizationId}/status")
+    @RequestMapping(
+        path = ["/{organizationId}/status"],
+        method = [RequestMethod.PATCH],
+        consumes = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
+    )
     fun changeOrganizationStatus(
         @PathVariable organizationId: String,
         @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest
