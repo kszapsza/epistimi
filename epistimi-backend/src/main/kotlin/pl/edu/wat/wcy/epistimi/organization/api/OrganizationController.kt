@@ -21,7 +21,7 @@ class OrganizationController(
     private val organizationService: OrganizationService
 ) {
     @RequestMapping(
-        path = ["/"],
+        path = [""],
         method = [RequestMethod.GET],
         produces = [MediaType.APPLICATION_JSON_V1]
     )
@@ -47,7 +47,7 @@ class OrganizationController(
     )
 
     @RequestMapping(
-        path = ["/"],
+        path = [""],
         method = [RequestMethod.POST],
         produces = [MediaType.APPLICATION_JSON_V1]
     )

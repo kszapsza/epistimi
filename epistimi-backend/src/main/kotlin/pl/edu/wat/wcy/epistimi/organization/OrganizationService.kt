@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.organization
 
 import org.springframework.stereotype.Service
+import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.User
@@ -12,29 +13,36 @@ class OrganizationService(
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository
 ) {
+    companion object {
+        private val logger by logger()
+    }
+
     fun getOrganizations(): List<Organization> {
         return organizationRepository.findAll()
     }
 
     fun registerOrganization(registerRequest: OrganizationRegisterRequest): Organization {
-        val admin = try {
+        val user = try {
             userRepository.findById(registerRequest.adminId)
         } catch (e: UserNotFoundException) {
             throw AdministratorNotFoundException()
         }
-        if (admin.role != User.Role.EPISTIMI_ADMIN
-            && admin.role != User.Role.ORGANIZATION_ADMIN) {
+        if (!user.isEligibleToBeOrganizationAdmin()) {
+            logger.warn("Attempted to register an organization with user ineligible to be an organization admin")
             throw AdministratorInsufficientPermissionsException()
         }
         return organizationRepository.insert(
             Organization(
                 id = "",
                 name = registerRequest.name,
-                admin = admin,
+                admin = user,
                 status = Organization.Status.ENABLED
             )
         )
     }
+
+    private fun User.isEligibleToBeOrganizationAdmin() =
+        (role == User.Role.EPISTIMI_ADMIN || role == User.Role.ORGANIZATION_ADMIN)
 
     fun changeOrganizationStatus(
         organizationId: String,

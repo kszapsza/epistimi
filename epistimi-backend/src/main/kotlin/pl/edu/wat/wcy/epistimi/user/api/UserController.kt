@@ -30,7 +30,7 @@ class UserController(
         )
 
     @RequestMapping(
-        path = ["/"],
+        path = [""],
         method = [RequestMethod.POST],
         produces = [MediaType.APPLICATION_JSON_V1]
     )

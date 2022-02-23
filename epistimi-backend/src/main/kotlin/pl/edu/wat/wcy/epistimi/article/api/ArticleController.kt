@@ -17,7 +17,7 @@ class ArticleController(
     private val articleService: ArticleService
 ) {
     @RequestMapping(
-        path = ["/"],
+        path = [""],
         method = [RequestMethod.GET],
         produces = [MediaType.APPLICATION_JSON_V1]
     )
