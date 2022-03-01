@@ -42,6 +42,7 @@ class UserDbRepository(
                     role = user.role.toString(),
                     username = user.username,
                     passwordHash = user.passwordHash,
+                    sex = user.sex?.toString(),
                 )
             ).toDomain()
         } catch (e: DuplicateKeyException) {
@@ -58,6 +59,7 @@ class UserDbRepository(
                 role = user.role.toString(),
                 username = user.username,
                 passwordHash = user.passwordHash,
+                sex = user.sex?.toString(),
             )
         ).toDomain()
     }

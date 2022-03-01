@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.shared.MediaType
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationService
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
@@ -62,7 +62,6 @@ class OrganizationController(
     @RequestMapping(
         path = ["/{organizationId}/status"],
         method = [RequestMethod.PATCH],
-        consumes = [MediaType.APPLICATION_JSON_V1],
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun changeOrganizationStatus(

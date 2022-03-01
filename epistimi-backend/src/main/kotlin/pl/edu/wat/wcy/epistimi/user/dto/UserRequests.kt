@@ -8,4 +8,5 @@ data class UserRegisterRequest(
     val role: User.Role,
     val username: String,
     val password: String,
+    val sex: User.Sex? = null,
 )

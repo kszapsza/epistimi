@@ -13,6 +13,7 @@ data class UserMongoDbDocument(
     val role: String,
     @Indexed(unique = true) val username: String,
     val passwordHash: String,
+    val sex: String? = null,
 )
 
 fun UserMongoDbDocument.toDomain() = User(

@@ -1,5 +1,6 @@
 package pl.edu.wat.wcy.epistimi.organization
 
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
@@ -13,21 +14,18 @@ class OrganizationService(
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository
 ) {
-    companion object {
-        private val logger by logger()
-    }
-
     fun getOrganizations(): List<Organization> {
         return organizationRepository.findAll()
     }
 
+    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     fun registerOrganization(registerRequest: OrganizationRegisterRequest): Organization {
-        val user = try {
+        val requestedOrganizationAdmin = try {
             userRepository.findById(registerRequest.adminId)
         } catch (e: UserNotFoundException) {
             throw AdministratorNotFoundException()
         }
-        if (!user.isEligibleToBeOrganizationAdmin()) {
+        if (!requestedOrganizationAdmin.isEligibleToBeOrganizationAdmin()) {
             logger.warn("Attempted to register an organization with user ineligible to be an organization admin")
             throw AdministratorInsufficientPermissionsException()
         }
@@ -35,7 +33,7 @@ class OrganizationService(
             Organization(
                 id = "",
                 name = registerRequest.name,
-                admin = user,
+                admin = requestedOrganizationAdmin,
                 status = Organization.Status.ENABLED
             )
         )
@@ -44,6 +42,7 @@ class OrganizationService(
     private fun User.isEligibleToBeOrganizationAdmin() =
         (role == User.Role.EPISTIMI_ADMIN || role == User.Role.ORGANIZATION_ADMIN)
 
+    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     fun changeOrganizationStatus(
         organizationId: String,
         changeStatusRequest: OrganizationChangeStatusRequest
@@ -57,5 +56,9 @@ class OrganizationService(
                 status = changeStatusRequest.status
             )
         )
+    }
+    
+    companion object {
+        private val logger by logger()
     }
 }

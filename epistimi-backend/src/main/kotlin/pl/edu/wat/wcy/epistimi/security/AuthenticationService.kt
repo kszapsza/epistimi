@@ -22,8 +22,13 @@ class AuthenticationService(
     fun login(loginRequest: LoginRequest): LoginResponse {
         return retrieveUser(loginRequest.username)
             .also { user -> checkPassword(loginRequest.password, user.passwordHash) }
-            .let { user -> issueToken(user.username, user.role.toString()) }
-            .let { token -> LoginResponse(token) }
+            .let { user -> LoginResponse(
+                token = issueToken(user),
+                firstName = user.firstName,
+                lastName = user.lastName,
+                role = user.role.toString(),
+                username = user.username,
+            ) }
     }
 
     private fun retrieveUser(username: String): User {
@@ -40,15 +45,15 @@ class AuthenticationService(
         }
     }
 
-    private fun issueToken(username: String, role: String): String {
-        return System.currentTimeMillis().let { currentTimeMillis ->
-                Jwts.builder()
-                    .setSubject(username)
-                    .claim(JwtClaims.ROLE, role)
-                    .setIssuedAt(Date(currentTimeMillis))
-                    .setExpiration(Date(currentTimeMillis + jwtExpiryMillis))
-                    .signWith(SignatureAlgorithm.HS256, jwtSecret.toByteArray())
-                    .compact()
-            }
+    private fun issueToken(user: User): String {
+        return user.run {
+            Jwts.builder()
+                .setSubject(username)
+                .claim(JwtClaims.ROLE, role)
+                .setIssuedAt(Date(System.currentTimeMillis()))
+                .setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis))
+                .signWith(SignatureAlgorithm.HS256, jwtSecret.toByteArray())
+                .compact()
+        }
     }
 }

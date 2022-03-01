@@ -7,6 +7,7 @@ data class User(
     val role: Role,
     val username: String,
     val passwordHash: String,
+    val sex: Sex? = null,
 ) {
     enum class Role {
         EPISTIMI_ADMIN,
@@ -14,5 +15,9 @@ data class User(
         TEACHER,
         STUDENT,
         PARENT
+    }
+
+    enum class Sex {
+        MALE, FEMALE, OTHER
     }
 }

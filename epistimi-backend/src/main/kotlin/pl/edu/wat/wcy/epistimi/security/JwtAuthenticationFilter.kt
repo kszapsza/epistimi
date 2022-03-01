@@ -16,7 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import pl.edu.wat.wcy.epistimi.shared.api.ErrorMessage
+import pl.edu.wat.wcy.epistimi.shared.ErrorMessage
 import java.util.regex.Pattern
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
@@ -37,9 +37,8 @@ class JwtAuthenticationFilter(
                 .apply { status = HttpStatus.UNAUTHORIZED.value() }
                 .apply { setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) }
                 .apply { objectMapper.writeValue(outputStream, ErrorMessage(e, HttpStatus.UNAUTHORIZED, request)) }
-        } finally {
-            filterChain.doFilter(request, response)
         }
+        filterChain.doFilter(request, response)
     }
 
     private fun getAuthentication(authorizationHeader: String): Authentication? {
@@ -48,7 +47,7 @@ class JwtAuthenticationFilter(
                 UsernamePasswordAuthenticationToken(
                     jwtBody.subject,
                     null,
-                    setOf(SimpleGrantedAuthority(jwtBody[JwtClaims.ROLE] as String?))
+                    setOf(SimpleGrantedAuthority("ROLE_${jwtBody[JwtClaims.ROLE]}"))
                 )
             }
     }
