@@ -43,8 +43,13 @@ class WebSecurityConfiguration(
     fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/api/**")
+                registry
+                    .addMapping("/api/**")
                     .allowedMethods(HttpMethod.GET.name)
+                    .allowedOrigins("http://localhost:3000")
+                registry
+                    .addMapping("/auth/**")
+                    .allowedMethods(HttpMethod.POST.name)
                     .allowedOrigins("http://localhost:3000")
             }
         }

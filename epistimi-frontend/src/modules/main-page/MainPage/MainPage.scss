@@ -17,6 +17,8 @@
   }
 
   .main-page-col {
+    display: flex;
+    overflow: scroll;
     padding: 1rem 1.75rem;
 
     @media screen and (max-width: $mobile-breakpoint) {
@@ -28,14 +30,12 @@
     @extend .main-page-col;
     @include hide-scrollbar;
 
-    display: flex;
     flex: 4;
     flex-direction: row;
     flex-wrap: wrap;
     gap: .5rem;
     justify-content: flex-start;
     margin: 0 auto;
-    overflow: scroll;
 
     @media screen and (max-width: $mobile-breakpoint) {
       border-bottom: 1px solid rgba($black, .25);
@@ -47,10 +47,9 @@
 
     border: 0;
     border-left: 1px solid rgba($black, .25);
-    display: flex;
     flex: 3;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     max-width: 450px;
 
     @media screen and (max-width: $mobile-breakpoint) {

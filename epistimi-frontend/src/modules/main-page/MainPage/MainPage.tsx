@@ -1,9 +1,9 @@
 import React from 'react';
-import { LoginForm } from '../LoginForm';
 import { Footer } from '../../../components/Footer';
+import { HashLink } from 'react-router-hash-link';
+import { LoginForm } from '../LoginForm';
 import { Outlet } from 'react-router-dom';
 import './MainPage.scss';
-import { HashLink } from 'react-router-hash-link';
 
 export const MainPage = (): JSX.Element => {
   return (
@@ -12,11 +12,11 @@ export const MainPage = (): JSX.Element => {
         <Outlet/>
       </div>
       <div className={'main-page-right'}>
-        <HashLink smooth to={'#'}>
-          <div className={'main-page-jump-top'}>
+        <div className={'main-page-jump-top'}>
+          <HashLink smooth to={'#'}>
             Wróć do góry
-          </div>
-        </HashLink>
+          </HashLink>
+        </div>
         <div className={'main-page-copy'}>
           <h2>E&#x2011;dziennik i&nbsp;platforma e&#x2011;learningowa – od teraz w&nbsp;jednym miejscu.</h2>
           <div className={'main-page-copy-desc'}>

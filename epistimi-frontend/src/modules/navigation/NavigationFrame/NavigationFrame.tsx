@@ -6,7 +6,7 @@ import './NavigationFrame.scss';
 export const NavigationFrame = (): JSX.Element => {
   return (
     <>
-      <div className={'mainframe'}>
+      <div className={'navigation-frame'}>
         <div>
           <p>Lorem ipsum</p>
           <p>Lorem ipsum</p>

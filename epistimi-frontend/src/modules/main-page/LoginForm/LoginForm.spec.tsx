@@ -1,8 +1,17 @@
 import React from 'react';
-import { fireEvent, getByText, render, waitFor } from '@testing-library/react';
+import axios from 'axios';
 import { LoginForm } from './LoginForm';
+import { fireEvent, waitFor } from '@testing-library/react';
+import { render } from '../../../utils/test-render';
+
+jest.mock('axios');
+const axiosMock = axios as jest.Mocked<typeof axios>;
 
 describe('LoginForm component', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should render form properly', async () => {
     const { getByLabelText } = render(<LoginForm/>);
 
@@ -25,15 +34,13 @@ describe('LoginForm component', () => {
   });
 
   it('should not show any error message on submit if form is valid', async () => {
-    const { getByLabelText, getByRole, queryByText } = render(<LoginForm/>);
+    const { getByLabelText, queryByText } = render(<LoginForm/>);
 
     const usernameInput = getByLabelText(/nazwa użytkownika/i);
     const passwordInput = getByLabelText(/hasło/i);
-    const submitButton = getByRole('button');
 
     fireEvent.change(usernameInput, { target: { value: 'abc' } });
     fireEvent.change(passwordInput, { target: { value: '123' } });
-    fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(queryByText(/niepoprawne dane logowania/i)).toBeNull();
@@ -84,14 +91,50 @@ describe('LoginForm component', () => {
     });
 
     fireEvent.change(passwordInput, { target: { value: '123' } });
-    fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(usernameInput).toHaveValue('abc');
-      expect(passwordInput).toHaveValue('123');
       expect(queryByText(/niepoprawne dane logowania/i)).toBeNull();
     });
   });
 
-  // TODO: test for login form integration with backend
+  it.each([
+    ['server rejects credentials with (HTTP 401)', { response: { status: 401 } }, /niepoprawne dane logowania/i],
+    ['server fails to respond (HTTP 500)', { response: { status: 500 } }, /nie udało się połączyć z serwerem/i],
+    ['server fails to respond (no status code)', {}, /nie udało się połączyć z serwerem/i],
+  ])('should render an error message if form is valid, but %s', async (testCase, axiosResponse, message) => {
+    axiosMock.post.mockRejectedValue(axiosResponse);
+
+    const { getByLabelText, getByRole, queryByText } = render(<LoginForm/>);
+
+    fireEvent.change(getByLabelText(/nazwa użytkownika/i), { target: { value: 'abc' } });
+    fireEvent.change(getByLabelText(/hasło/i), { target: { value: '123' } });
+    fireEvent.click(getByRole('button'));
+
+    await waitFor(() => {
+      expect(queryByText(message)).toBeInTheDocument();
+    });
+  });
+
+  it('should not render an error message if server accepts login', async () => {
+    axiosMock.post.mockResolvedValue({
+      data: {
+        token: 'some_token',
+        firstName: 'Adam',
+        lastName: 'Nowak',
+        role: 'STUDENT',
+        username: 'a.nowak94',
+      },
+      status: 200,
+    });
+
+    const { getByLabelText, getByRole, queryByText } = render(<LoginForm/>);
+
+    fireEvent.change(getByLabelText(/nazwa użytkownika/i), { target: { value: 'abc' } });
+    fireEvent.change(getByLabelText(/hasło/i), { target: { value: '123' } });
+    fireEvent.click(getByRole('button'));
+
+    await waitFor(() => {
+      expect(queryByText(/niepoprawne dane logowania/i)).toBeNull();
+    });
+  });
 });

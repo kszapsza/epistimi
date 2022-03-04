@@ -22,13 +22,7 @@ class AuthenticationService(
     fun login(loginRequest: LoginRequest): LoginResponse {
         return retrieveUser(loginRequest.username)
             .also { user -> checkPassword(loginRequest.password, user.passwordHash) }
-            .let { user -> LoginResponse(
-                token = issueToken(user),
-                firstName = user.firstName,
-                lastName = user.lastName,
-                role = user.role.toString(),
-                username = user.username,
-            ) }
+            .let { user -> LoginResponse(token = issueToken(user)) }
     }
 
     private fun retrieveUser(username: String): User {
@@ -51,7 +45,7 @@ class AuthenticationService(
                 .setSubject(username)
                 .claim(JwtClaims.ROLE, role)
                 .setIssuedAt(Date(System.currentTimeMillis()))
-                .setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis))
+                //.setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis)) // TODO: no expiration for now
                 .signWith(SignatureAlgorithm.HS256, jwtSecret.toByteArray())
                 .compact()
         }

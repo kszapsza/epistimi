@@ -8,9 +8,8 @@
   font: {
     size: 13px;
     weight: 600;
-  }
-  margin: 0;
-  padding: 0.35rem 0.7rem;
+  };
+  padding: .35rem .7rem;
 
   &:disabled {
     background: rgba($gray, .05);

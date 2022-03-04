@@ -5,18 +5,21 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { NavigationFrame } from './modules/navigation/NavigationFrame';
 import { Summary } from './modules/summary';
 import './App.scss';
+import { useAppSelector } from './store/hooks';
 
 const App = (): JSX.Element => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+
   return (
     <>
       <Header/>
       <main className={'main'}>
         <Routes>
-          <Route path={'/'} element={<MainPage/>}>
+          <Route path={'/'} element={isAuthenticated ? <Navigate to={'/app/summary'}/> : <MainPage/>}>
             <Route path={'/'} element={<ArticleListing/>}/>
             <Route path={'article/:slug'} element={<ArticlePage/>}/>
           </Route>
-          <Route path={'/app'} element={<NavigationFrame/>}>
+          <Route path={'/app'} element={isAuthenticated ? <NavigationFrame/> : <Navigate to={'/'}/>}>
             <Route path={'summary'} element={<Summary/>}/>
           </Route>
           <Route path={'/404'} element={<NotFound/>}/>

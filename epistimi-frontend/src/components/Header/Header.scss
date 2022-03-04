@@ -1,7 +1,7 @@
 @import 'src/styles/dimensions';
 @import 'src/styles/themes';
 
-.navbar {
+.header {
   background: $black;
   color: $white;
   display: block;
@@ -10,7 +10,7 @@
   width: 100%;
   z-index: 1;
 
-  .navbar-wrapper {
+  .header-wrapper {
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -19,21 +19,34 @@
     max-width: 1200px;
   }
 
-  .navbar-logo {
-    font: {
-      size: 24px;
-      weight: 600;
+  .header-logo-box {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    .header-logo {
+      font: {
+        size: 24px;
+        weight: 600;
+      }
+    }
+
+    .header-role {
+      font: {
+        size: 24px;
+        weight: 300;
+      }
     }
   }
 
-  .navbar-user {
+  .header-user {
     align-items: center;
     display: flex;
     flex-direction: row;
     gap: .5rem;
     justify-content: flex-end;
 
-    .navbar-login {
+    .header-login {
       @media (screen and min-width: $mobile-breakpoint) {
         display: none;
       }

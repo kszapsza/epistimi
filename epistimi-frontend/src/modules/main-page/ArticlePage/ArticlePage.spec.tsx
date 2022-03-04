@@ -24,7 +24,7 @@ describe('ArticlePage component', () => {
     );
 
     await waitFor(() => {
-      expect(axiosMock.get).toHaveBeenCalledWith('article/test-slug');
+      expect(axiosMock.get).toHaveBeenCalledWith('api/article/test-slug');
       expect(getByText(/nie udało się załadować artykułu/i)).toBeInTheDocument();
     });
   });
@@ -48,7 +48,7 @@ describe('ArticlePage component', () => {
     );
 
     await waitFor(() => {
-      expect(axiosMock.get).toHaveBeenCalledWith('article/some-slug');
+      expect(axiosMock.get).toHaveBeenCalledWith('api/article/some-slug');
       expect(getByRole('heading')).toHaveTextContent(/lorem ipsum/i);
       expect(getByText(/dolor sit amet/i)).toBeInTheDocument();
     });

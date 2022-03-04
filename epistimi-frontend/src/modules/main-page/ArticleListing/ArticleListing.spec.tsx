@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { queryByText, render, waitFor } from '@testing-library/react';
+import { queryByText, waitFor } from '@testing-library/react';
 import { ArticleListing } from './ArticleListing';
-import { MemoryRouter } from 'react-router-dom';
+import { render } from '../../../utils/test-render';
 
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
@@ -15,15 +15,10 @@ describe('ArticleListing component', () => {
   it('should render an error message if API fails to respond', async () => {
     axiosMock.get.mockRejectedValue({});
 
-    const { getByText } = render(
-      <MemoryRouter>
-        <ArticleListing/>
-      </MemoryRouter>
-    );
-
+    const { getByText } = render(<ArticleListing/>);
 
     await waitFor(() => {
-      expect(axiosMock.get).toHaveBeenCalledWith('article');
+      expect(axiosMock.get).toHaveBeenCalledWith('api/article');
       expect(getByText(/nie udało się załadować artykułów/i)).toBeInTheDocument();
     });
   });
@@ -35,11 +30,7 @@ describe('ArticleListing component', () => {
       }
     });
 
-    const { getByText } = render(
-      <MemoryRouter>
-        <ArticleListing/>
-      </MemoryRouter>
-    );
+    const { getByText } = render(<ArticleListing/>);
 
     await waitFor(() => {
       expect(getByText(/nie udało się załadować artykułów/i)).toBeInTheDocument();
@@ -64,14 +55,10 @@ describe('ArticleListing component', () => {
       }
     });
 
-    const { getAllByRole, queryByText } = render(
-      <MemoryRouter>
-        <ArticleListing/>
-      </MemoryRouter>
-    );
+    const { getAllByRole, queryByText } = render(<ArticleListing/>);
 
     await waitFor(() => {
-      expect(axiosMock.get).toHaveBeenCalledWith('article');
+      expect(axiosMock.get).toHaveBeenCalledWith('api/article');
       expect(queryByText(/nie udało się załadować artykułów/i)).toBeNull();
       expect(getAllByRole('heading')[0]).toHaveTextContent('xyz');
       expect(getAllByRole('definition')[0]).toHaveTextContent('abc');

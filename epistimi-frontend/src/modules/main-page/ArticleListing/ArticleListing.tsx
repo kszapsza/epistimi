@@ -5,7 +5,7 @@ import { Articles } from '../../../dto/article';
 import { useFetch } from '../../../hooks/useFetch';
 
 export const ArticleListing = (): JSX.Element => {
-  const { data, loading } = useFetch<Articles>('article');
+  const { data, loading } = useFetch<Articles>('api/article');
 
   return (
     <>

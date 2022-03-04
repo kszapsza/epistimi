@@ -4,10 +4,6 @@
 .login-form-box {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  height: 90vh;
-  justify-content: center;
-  padding: 5rem 0;
 
   @media screen and (max-width: $mobile-breakpoint) {
     height: auto;
@@ -16,30 +12,56 @@
   .login-form {
     display: flex;
     flex-direction: column;
-    gap: .75rem;
 
-    .login-form-group {
-      align-items: center;
-      display: flex;
-      flex-direction: row;
-      padding: .15rem 0;
+    .login-form-groups {
+      margin: .75rem 0;
 
-      label {
-        flex: 2;
-        font: {
-          size: 14px;
+      .login-form-group {
+        align-items: center;
+        display: flex;
+        padding: .2rem 0;
+
+        label {
+          flex: 2;
+          font: {
+            size: 14px;
+          };
+          padding: 0 1rem 0 0;
         }
-        padding: 0 .35rem 0;
-      }
 
-      input {
-        border-bottom: 1px solid rgba($black, .25);
-        flex: 3;
-        padding: .25rem;
+        .login-form-field {
+          align-items: center;
+          display: flex;
+          flex: 3;
+          position: relative;
 
-        &:focus {
-          border-bottom: 1px solid $black;
-          outline: none;
+          .login-form-input {
+            border: 1px solid rgba($black, .15);
+            border-radius: $subtle-radius;
+            font: {
+              size: 14px;
+            };
+            padding: .3rem .75rem;
+            width: 100%;
+
+            &:focus {
+              border: 1px solid $black;
+              outline: none;
+            }
+          }
+
+          .login-form-show-password {
+            color: rgba($black, .6);
+            height: 20px;
+            position: absolute;
+            right: 7px;
+            top: 2px;
+
+            &:hover {
+              color: $black;
+              cursor: pointer;
+            }
+          }
         }
       }
     }

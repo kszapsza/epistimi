@@ -7,7 +7,7 @@ import './ArticlePage.scss';
 
 export const ArticlePage = (): JSX.Element => {
   const { slug } = useParams();
-  const { data: article, loading } = useFetch<Article>(`article/${slug}`);
+  const { data: article, loading } = useFetch<Article>(`api/article/${slug}`);
 
   return (
     <>
