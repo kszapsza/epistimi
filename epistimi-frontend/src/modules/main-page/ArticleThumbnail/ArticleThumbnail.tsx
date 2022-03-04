@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import './ArticleThumbnail.scss';
+import { Link } from 'react-router-dom';
 
 interface ArticleThumbnailProps {
   id: string;
@@ -27,5 +27,5 @@ export const ArticleThumbnail = (props: ArticleThumbnailProps): JSX.Element => {
         </div>
       </Link>
     </div>
-  )
+  );
 };

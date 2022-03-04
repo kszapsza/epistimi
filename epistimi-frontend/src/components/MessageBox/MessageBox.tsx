@@ -1,5 +1,5 @@
-import { ReactChild, ReactElement } from 'react';
 import './MessageBox.scss';
+import { ReactChild, ReactElement } from 'react';
 
 export interface MessageBoxProps {
   children: ReactChild;
@@ -18,7 +18,7 @@ export const MessageBox = (props: MessageBoxProps): JSX.Element => {
   const mboxClasses: string = [
     'mbox',
     (props.style || 'mbox-info'),
-    (props.small ? 'mbox-small' : '')
+    (props.small ? 'mbox-small' : ''),
   ].join(' ');
 
   return (

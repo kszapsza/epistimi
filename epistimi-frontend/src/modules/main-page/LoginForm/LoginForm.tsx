@@ -1,14 +1,14 @@
-import axios, { AxiosResponse } from 'axios';
+import './LoginForm.scss';
 import { Button, ButtonStyle, MessageBox, MessageBoxStyle } from '../../../components';
 import { LoginFormData, LoginResponse } from '../../../dto/login';
-import { fetchCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
+import { TOKEN_KEY, fetchCurrentUser } from '../../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import './LoginForm.scss';
+import axios, { AxiosResponse } from 'axios';
 
 export const LoginForm = (): JSX.Element => {
   const [serverUnauthorized, setServerUnauthorized] = useState<boolean>(false);
@@ -94,5 +94,5 @@ export const LoginForm = (): JSX.Element => {
         </Button>
       </form>
     </div>
-  )
+  );
 };

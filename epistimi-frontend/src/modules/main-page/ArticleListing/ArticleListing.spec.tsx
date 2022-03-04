@@ -1,8 +1,8 @@
-import React from 'react';
-import axios from 'axios';
-import { queryByText, waitFor } from '@testing-library/react';
 import { ArticleListing } from './ArticleListing';
 import { render } from '../../../utils/test-render';
+import { waitFor } from '@testing-library/react';
+import React from 'react';
+import axios from 'axios';
 
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
@@ -26,8 +26,8 @@ describe('ArticleListing component', () => {
   it('should render an error message if there are no articles', async () => {
     axiosMock.get.mockResolvedValue({
       data: {
-        articles: []
-      }
+        articles: [],
+      },
     });
 
     const { getByText } = render(<ArticleListing/>);
@@ -44,15 +44,15 @@ describe('ArticleListing component', () => {
           {
             id: '123',
             title: 'xyz',
-            description: 'abc'
+            description: 'abc',
           },
           {
             id: '456',
             title: 'foo',
-            description: 'bar'
-          }
-        ]
-      }
+            description: 'bar',
+          },
+        ],
+      },
     });
 
     const { getAllByRole, queryByText } = render(<ArticleListing/>);

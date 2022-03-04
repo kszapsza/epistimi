@@ -1,5 +1,5 @@
-import { MouseEvent, ReactChild } from 'react';
 import './Button.scss';
+import { MouseEvent, ReactChild } from 'react';
 
 export interface ButtonProps {
   children: ReactChild;
@@ -25,5 +25,5 @@ export const Button = (props: ButtonProps): JSX.Element => {
     >
       {props.children}
     </button>
-  )
-}
+  );
+};

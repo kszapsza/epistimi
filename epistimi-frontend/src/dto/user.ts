@@ -1,9 +1,9 @@
 export interface UserResponse {
-  id: String,
-  firstName: String,
-  lastName: String,
-  role: UserRole,
-  username: String,
+  id: string;
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+  username: string;
 }
 
 export enum UserRole {

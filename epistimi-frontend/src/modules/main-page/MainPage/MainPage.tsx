@@ -1,9 +1,9 @@
-import React from 'react';
+import './MainPage.scss';
 import { Footer } from '../../../components/Footer';
 import { HashLink } from 'react-router-hash-link';
 import { LoginForm } from '../LoginForm';
 import { Outlet } from 'react-router-dom';
-import './MainPage.scss';
+import React from 'react';
 
 export const MainPage = (): JSX.Element => {
   return (
@@ -29,4 +29,4 @@ export const MainPage = (): JSX.Element => {
       </div>
     </div>
   );
-}
+};

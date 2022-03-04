@@ -1,9 +1,9 @@
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import './ArticlePage.scss';
 import { Article } from '../../../dto/article';
 import { MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { useFetch } from '../../../hooks/useFetch';
 import { useParams } from 'react-router-dom';
-import './ArticlePage.scss';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 export const ArticlePage = (): JSX.Element => {
   const { slug } = useParams();

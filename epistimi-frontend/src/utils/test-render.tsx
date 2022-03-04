@@ -1,8 +1,8 @@
-import { store } from '../store/config';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import React, { ReactChild } from 'react';
+import { store } from '../store/config';
 import { render as tlRender } from '@testing-library/react';
+import React, { ReactChild } from 'react';
 
 export const render = (children: ReactChild) => {
   return tlRender(

@@ -1,14 +1,14 @@
+import './index.scss';
 import * as serviceWorker from './serviceWorker';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
 import { App } from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { TOKEN_KEY } from './store/slices/authSlice';
 import { persistor, store } from './store/config';
-import './index.scss';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8080/';
 axios.defaults.timeout = 1000;

@@ -1,8 +1,8 @@
+import { ArticlePage } from './ArticlePage';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render, waitFor } from '@testing-library/react';
 import React from 'react';
 import axios from 'axios';
-import { ArticlePage } from './ArticlePage';
-import { render, waitFor } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
@@ -35,8 +35,8 @@ describe('ArticlePage component', () => {
         id: '42',
         slug: 'some-slug',
         title: 'Lorem ipsum',
-        description: 'dolor sit amet'
-      }
+        description: 'dolor sit amet',
+      },
     });
 
     const { getByRole, getByText } = render(

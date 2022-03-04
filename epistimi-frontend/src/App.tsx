@@ -1,11 +1,11 @@
-import React from 'react';
+import './App.scss';
 import { ArticleListing, ArticlePage, MainPage } from './modules/main-page';
 import { Header, NotFound } from './components';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { NavigationFrame } from './modules/navigation/NavigationFrame';
 import { Summary } from './modules/summary';
-import './App.scss';
 import { useAppSelector } from './store/hooks';
+import React from 'react';
 
 const App = (): JSX.Element => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
@@ -28,6 +28,6 @@ const App = (): JSX.Element => {
       </main>
     </>
   );
-}
+};
 
 export { App };

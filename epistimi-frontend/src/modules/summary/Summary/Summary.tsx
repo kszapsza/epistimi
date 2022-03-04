@@ -8,5 +8,5 @@ export const Summary = (): JSX.Element => {
     <div className="summary">
       {user && `your role: ${user.role}`}
     </div>
-  )
+  );
 };

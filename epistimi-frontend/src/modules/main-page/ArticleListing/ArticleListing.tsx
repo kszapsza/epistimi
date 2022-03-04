@@ -1,8 +1,8 @@
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { ArticleThumbnail } from '../ArticleThumbnail';
-import { MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { Articles } from '../../../dto/article';
+import { MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { useFetch } from '../../../hooks/useFetch';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 export const ArticleListing = (): JSX.Element => {
   const { data, loading } = useFetch<Articles>('api/article');
@@ -18,5 +18,5 @@ export const ArticleListing = (): JSX.Element => {
         <ArticleThumbnail key={`article-${idx}`} {...article} />
       )}
     </>
-  )
+  );
 };

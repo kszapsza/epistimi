@@ -1,7 +1,7 @@
-import React from 'react';
 import { ArticleThumbnail } from './ArticleThumbnail';
-import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { render } from '@testing-library/react';
+import React from 'react';
 
 describe('ArticleThumbnail component', () => {
   it('should render a thumbnail with provided image', async () => {

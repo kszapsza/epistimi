@@ -1,12 +1,12 @@
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import NoAccountsIcon from '@mui/icons-material/NoAccounts';
+import './Header.scss';
 import { Button, ButtonStyle } from '../Button';
 import { HashLink } from 'react-router-hash-link';
 import { Link } from 'react-router-dom';
+import { TOKEN_KEY, removeCurrentUser } from '../../store/slices/authSlice';
 import { UserRole } from '../../dto/user';
-import { removeCurrentUser, TOKEN_KEY } from '../../store/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import './Header.scss';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NoAccountsIcon from '@mui/icons-material/NoAccounts';
 
 export const Header = (): JSX.Element => {
   const { isAuthenticated, user } = useAppSelector((state) => state.auth);
@@ -56,5 +56,5 @@ export const Header = (): JSX.Element => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};

@@ -1,8 +1,8 @@
-import storage from 'redux-persist/lib/storage';
-import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { currentUserReducer } from './slices/authSlice';
-import { persistReducer, persistStore } from 'redux-persist'
+import { Action, ThunkAction, combineReducers, configureStore } from '@reduxjs/toolkit';
 import { PERSIST, REGISTER } from 'redux-persist/es/constants';
+import { currentUserReducer } from './slices/authSlice';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 const rootReducer = combineReducers({
   auth: currentUserReducer,

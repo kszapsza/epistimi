@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, Draft } from '@reduxjs/toolkit';
+import { Draft, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { UserResponse } from '../../dto/user';
 import axios, { AxiosResponse } from 'axios';
 

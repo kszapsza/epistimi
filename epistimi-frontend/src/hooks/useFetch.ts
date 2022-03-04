@@ -4,7 +4,7 @@ import axios, { AxiosError } from 'axios';
 interface FetchResponse<T> {
   data?: T,
   loading: boolean,
-  error?: any,
+  error?: AxiosError,
 }
 
 export const useFetch = <T = unknown>(url: string): FetchResponse<T> => {
