@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.UserId
 
 @Document(collection = "users")
 data class UserMongoDbDocument(
@@ -17,7 +18,7 @@ data class UserMongoDbDocument(
 )
 
 fun UserMongoDbDocument.toDomain() = User(
-    id = this.id!!,
+    id = UserId(this.id!!),
     firstName = this.firstName,
     lastName = this.lastName,
     role = User.Role.valueOf(this.role),

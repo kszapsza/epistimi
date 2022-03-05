@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import pl.edu.wat.wcy.epistimi.shared.MediaType
+import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationService
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
@@ -37,7 +37,7 @@ class OrganizationController(
         id = this.id,
         name = this.name,
         admin = UserResponse(
-            id = this.admin.id,
+            id = this.admin.id!!.value,
             firstName = this.admin.firstName,
             lastName = this.admin.lastName,
             role = this.admin.role,

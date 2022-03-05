@@ -53,7 +53,7 @@ class UserDbRepository(
     override fun save(user: User): User {
         return userMongoDbRepository.save(
             UserMongoDbDocument(
-                id = user.id,
+                id = user.id?.value,
                 firstName = user.firstName,
                 lastName = user.lastName,
                 role = user.role.toString(),

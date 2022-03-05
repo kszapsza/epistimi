@@ -22,7 +22,7 @@ class OrganizationServiceTest extends Specification {
     @Unroll
     def 'should not register new organization if provided admin has account type #accountType'() {
         given: 'a user ineligible to be an organization admin'
-        userRepository.findById('123') >> new User('', 'Jan', 'Kowalski', accountType, 'j.kowalski', '123', MALE)
+        userRepository.findById('123') >> new User(null, 'Jan', 'Kowalski', accountType, 'j.kowalski', '123', null, MALE, null, null, null)
 
         when: 'I create an organization with an ineligible user'
         organizationService.registerOrganization(new OrganizationRegisterRequest('ABC', '123'))
@@ -37,7 +37,7 @@ class OrganizationServiceTest extends Specification {
     @Unroll
     def 'should register new organization if provided admin has account type #accountType'() {
         given: 'a user eligible to be an organization admin'
-        userRepository.findById('123') >> new User('', 'Jan', 'Kowalski', accountType, 'j.kowalski', '123', MALE)
+        userRepository.findById('123') >> new User(null, 'Jan', 'Kowalski', accountType, 'j.kowalski', '123', null, MALE, null, null, null)
 
         when: 'I create an organization with an eligible user'
         organizationService.registerOrganization(new OrganizationRegisterRequest('ABC', '123'))

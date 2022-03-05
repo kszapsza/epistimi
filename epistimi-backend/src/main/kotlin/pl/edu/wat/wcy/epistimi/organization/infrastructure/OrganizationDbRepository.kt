@@ -33,7 +33,7 @@ class OrganizationDbRepository(
             OrganizationMongoDbDocument(
                 id = null,
                 name = organization.name,
-                adminId = organization.admin.id,
+                adminId = organization.admin.id!!.value,
                 status = organization.status.toString()
             )
         ).toDomain()
@@ -43,7 +43,7 @@ class OrganizationDbRepository(
             OrganizationMongoDbDocument(
                 id = organization.id,
                 name = organization.name,
-                adminId = organization.admin.id,
+                adminId = organization.admin.id!!.value,
                 status = organization.status.toString()
             )
         ).toDomain()

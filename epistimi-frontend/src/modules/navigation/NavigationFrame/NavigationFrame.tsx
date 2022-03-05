@@ -1,7 +1,6 @@
 import './NavigationFrame.scss';
 import { Footer } from '../../../components/Footer';
 import { Outlet } from 'react-router-dom';
-import React from 'react';
 
 export const NavigationFrame = (): JSX.Element => {
   return (

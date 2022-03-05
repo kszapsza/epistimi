@@ -21,7 +21,7 @@ class UserService(
     fun registerUser(registerRequest: UserRegisterRequest): User =
         userRepository.insert(
             User(
-                id = "",
+                id = null,
                 firstName = registerRequest.firstName,
                 lastName = registerRequest.lastName,
                 role = registerRequest.role,

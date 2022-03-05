@@ -1,13 +1,19 @@
 package pl.edu.wat.wcy.epistimi.user
 
+import pl.edu.wat.wcy.epistimi.shared.Address
+
 data class User(
-    val id: String,
+    val id: UserId? = null,
     val firstName: String,
     val lastName: String,
     val role: Role,
     val username: String,
     val passwordHash: String,
+    val pesel: String? = null,
     val sex: Sex? = null,
+    val email: String? = null,
+    val phoneNumber: String? = null,
+    val address: Address? = null,
 ) {
     enum class Role {
         EPISTIMI_ADMIN,
@@ -21,3 +27,8 @@ data class User(
         MALE, FEMALE, OTHER
     }
 }
+
+@JvmInline
+value class UserId(
+    val value: String
+)

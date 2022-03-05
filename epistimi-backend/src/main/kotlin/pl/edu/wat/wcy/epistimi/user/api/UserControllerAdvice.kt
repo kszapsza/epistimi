@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UsernameAlreadyInUseException
-import pl.edu.wat.wcy.epistimi.shared.ErrorMessage
+import pl.edu.wat.wcy.epistimi.shared.api.ErrorMessage
 
 @RestControllerAdvice
 class UserControllerAdvice {
