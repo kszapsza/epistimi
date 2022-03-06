@@ -1,0 +1,28 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.menu-frame {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 3rem;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.menu {
+  border: 1px solid rgba($black, .1);
+  border-radius: $subtle-radius;
+  list-style: none;
+  min-width: 200px;
+  width: 20%;
+
+  li {
+    border-top: 1px solid rgba($black, .1);
+    list-style: none;
+
+    &:first-child {
+      border: 0;
+    }
+  }
+}

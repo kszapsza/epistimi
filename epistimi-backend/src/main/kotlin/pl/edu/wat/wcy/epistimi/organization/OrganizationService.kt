@@ -31,7 +31,7 @@ class OrganizationService(
         }
         return organizationRepository.insert(
             Organization(
-                id = "",
+                id = null,
                 name = registerRequest.name,
                 admin = requestedOrganizationAdmin,
                 status = Organization.Status.ENABLED

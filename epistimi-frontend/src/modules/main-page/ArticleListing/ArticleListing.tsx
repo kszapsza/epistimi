@@ -1,8 +1,8 @@
-import { ArticleThumbnail } from '../ArticleThumbnail';
 import { Articles } from '../../../dto/article';
+import { ArticleThumbnail } from '../ArticleThumbnail';
+import { ErrorOutline } from '@mui/icons-material';
 import { MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { useFetch } from '../../../hooks/useFetch';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 export const ArticleListing = (): JSX.Element => {
   const { data, loading } = useFetch<Articles>('api/article');
@@ -11,7 +11,7 @@ export const ArticleListing = (): JSX.Element => {
     <>
       {loading && <Spinner/>}
       {(!data || data.articles.length === 0) && !loading &&
-        <MessageBox style={MessageBoxStyle.WARNING} icon={<ErrorOutlineIcon/>}>
+        <MessageBox style={MessageBoxStyle.WARNING} icon={<ErrorOutline/>}>
           Nie udało się załadować artykułów!
         </MessageBox>}
       {data && data.articles.map((article, idx) =>

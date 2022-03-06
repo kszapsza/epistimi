@@ -1,13 +1,12 @@
 import './LoginForm.scss';
 import { Button, ButtonStyle, MessageBox, MessageBoxStyle } from '../../../components';
+import { fetchCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
 import { LoginFormData, LoginResponse } from '../../../dto/login';
-import { TOKEN_KEY, fetchCurrentUser } from '../../../store/slices/authSlice';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios, { AxiosResponse } from 'axios';
 
 export const LoginForm = (): JSX.Element => {
@@ -15,7 +14,7 @@ export const LoginForm = (): JSX.Element => {
   const [serverFailed, setServerFailed] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
+  const { formState: { errors }, handleSubmit, register } = useForm<LoginFormData>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -83,7 +82,7 @@ export const LoginForm = (): JSX.Element => {
                 {...register('password', { required: true })}
               />
               <div className={'login-form-show-password'} onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <VisibilityOffIcon style={{ width: '16px' }}/> : <VisibilityIcon style={{ width: '16px' }}/>}
+                {showPassword ? <VisibilityOff style={{ width: '16px' }}/> : <Visibility style={{ width: '16px' }}/>}
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@ package pl.edu.wat.wcy.epistimi.organization.infrastructure
 
 import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.organization.Organization
+import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.user.infrastructure.UserDbRepository
@@ -17,7 +18,7 @@ class OrganizationDbRepository(
             .map { it.toDomain() }
 
     private fun OrganizationMongoDbDocument.toDomain() = Organization(
-        id = this.id!!,
+        id = OrganizationId(this.id!!),
         name = this.name,
         admin = userDbRepository.findById(this.adminId),
         status = Organization.Status.valueOf(this.status)
@@ -41,7 +42,7 @@ class OrganizationDbRepository(
     override fun save(organization: Organization): Organization =
         organizationMongoDbRepository.save(
             OrganizationMongoDbDocument(
-                id = organization.id,
+                id = organization.id!!.value,
                 name = organization.name,
                 adminId = organization.admin.id!!.value,
                 status = organization.status.toString()

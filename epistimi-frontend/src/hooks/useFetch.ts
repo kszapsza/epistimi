@@ -15,7 +15,7 @@ export const useFetch = <T = unknown>(url: string): FetchResponse<T> => {
   useEffect(() => {
     let unmounted = false;
 
-    axios.get<T>(url)
+    !data && axios.get<T>(url)
       .then(({ data }) => {
         if (unmounted) return;
         setData(data);
@@ -33,7 +33,7 @@ export const useFetch = <T = unknown>(url: string): FetchResponse<T> => {
     return () => {
       unmounted = true;
     };
-  }, [url]);
+  }, []);
 
   return { data, loading, error };
 };

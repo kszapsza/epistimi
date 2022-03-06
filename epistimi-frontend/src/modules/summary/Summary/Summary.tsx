@@ -6,7 +6,7 @@ export const Summary = (): JSX.Element => {
 
   return (
     <div className="summary">
-      {user && `your role: ${user.role}`}
+      <h2>{user && `Witaj, ${user.firstName}!`}</h2>
     </div>
   );
 };

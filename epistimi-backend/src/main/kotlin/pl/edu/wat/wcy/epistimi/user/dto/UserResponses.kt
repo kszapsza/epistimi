@@ -8,4 +8,5 @@ data class UserResponse(
     val lastName: String,
     val role: User.Role,
     val username: String,
+    val sex: User.Sex?,
 )

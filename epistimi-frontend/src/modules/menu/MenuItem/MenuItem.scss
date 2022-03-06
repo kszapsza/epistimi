@@ -1,0 +1,39 @@
+@import 'src/styles/themes';
+
+.menu-item {
+  display: block;
+  padding: .85rem;
+  transition-duration: 100ms;
+
+  &:hover {
+    background-color: $gray;
+    cursor: pointer;
+  }
+}
+
+.menu-item-active {
+  @extend .menu-item;
+  border-right: 5px solid $blue;
+  font: {
+    weight: 600;
+  };
+}
+
+.menu-item-content {
+  align-items: center;
+  display: flex;
+  gap: .75rem;
+
+  .menu-item-icon {
+    height: 20px;
+    width: 20px;
+
+    img, svg {
+      height: 20px;
+      width: 20px;
+    }
+  }
+
+  .menu-item-label {
+  }
+}

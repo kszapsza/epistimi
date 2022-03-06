@@ -3,6 +3,7 @@ package pl.edu.wat.wcy.epistimi.article.infrastructure
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.article.Article
+import pl.edu.wat.wcy.epistimi.article.ArticleId
 import pl.edu.wat.wcy.epistimi.article.ArticleNotFoundException
 import pl.edu.wat.wcy.epistimi.article.ArticleRepository
 
@@ -16,7 +17,7 @@ class ArticleDbRepository(
             .map { it.toDomain() }
 
     private fun ArticleMongoDbDocument.toDomain() = Article(
-        id = this.id,
+        id = ArticleId(this.id),
         slug = this.slug,
         title = this.title,
         description = this.description,

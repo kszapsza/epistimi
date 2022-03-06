@@ -40,7 +40,7 @@ class ArticleController(
         )
 
     private fun Article.toResponse() = ArticleResponse(
-        id = this.id,
+        id = this.id!!.value,
         slug = this.slug,
         title = this.title,
         description = this.description,

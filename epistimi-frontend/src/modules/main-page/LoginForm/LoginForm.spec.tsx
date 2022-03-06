@@ -1,8 +1,8 @@
-import { LoginForm } from './LoginForm';
 import { fireEvent, waitFor } from '@testing-library/react';
+import { LoginForm } from './LoginForm';
 import { render } from '../../../utils/test-render';
-import React from 'react';
 import axios from 'axios';
+import React from 'react';
 
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;

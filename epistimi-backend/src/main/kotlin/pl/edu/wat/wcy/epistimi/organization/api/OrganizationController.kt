@@ -6,19 +6,18 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationService
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationResponse
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationsResponse
-import pl.edu.wat.wcy.epistimi.user.dto.UserResponse
+import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 
 @RestController
 @RequestMapping("/api/organization")
 class OrganizationController(
-    private val organizationService: OrganizationService
+    private val organizationService: OrganizationService,
 ) {
     @RequestMapping(
         path = [""],
@@ -34,16 +33,10 @@ class OrganizationController(
         )
 
     private fun Organization.toResponse() = OrganizationResponse(
-        id = this.id,
+        id = this.id!!.value,
         name = this.name,
-        admin = UserResponse(
-            id = this.admin.id!!.value,
-            firstName = this.admin.firstName,
-            lastName = this.admin.lastName,
-            role = this.admin.role,
-            username = this.admin.username,
-        ),
-        status = this.status.toString()
+        admin = this.admin.toResponse(),
+        status = this.status.toString(),
     )
 
     @RequestMapping(

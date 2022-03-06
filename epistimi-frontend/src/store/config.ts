@@ -1,6 +1,6 @@
-import { Action, ThunkAction, combineReducers, configureStore } from '@reduxjs/toolkit';
-import { PERSIST, REGISTER } from 'redux-persist/es/constants';
+import { Action, combineReducers, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { currentUserReducer } from './slices/authSlice';
+import { PERSIST, REGISTER } from 'redux-persist/es/constants';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 

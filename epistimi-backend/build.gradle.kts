@@ -37,7 +37,6 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-security")
     implementation("org.springframework.boot", "spring-boot-starter-web")
     testImplementation("io.kotest", "kotest-assertions-core", Versions.KOTEST)
-//    testImplementation("io.kotest", "kotest-framework-datatest", Versions.KOTEST)
     testImplementation("io.kotest", "kotest-property", Versions.KOTEST)
     testImplementation("io.kotest", "kotest-runner-junit5", Versions.KOTEST)
     testImplementation("io.mockk", "mockk", Versions.MOCKK)

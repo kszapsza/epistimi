@@ -1,6 +1,5 @@
 import { ArticleThumbnail } from './ArticleThumbnail';
-import { MemoryRouter } from 'react-router-dom';
-import { render } from '@testing-library/react';
+import { render } from '../../../utils/test-render';
 import React from 'react';
 
 describe('ArticleThumbnail component', () => {
@@ -13,11 +12,7 @@ describe('ArticleThumbnail component', () => {
       description: 'Description',
     };
 
-    const { getByRole } = render(
-      <MemoryRouter>
-        <ArticleThumbnail {...props} />
-      </MemoryRouter>
-    );
+    const { getByRole } = render(<ArticleThumbnail {...props} />);
 
     expect(getByRole('img')).toHaveAttribute('src', '/images/abc.jpg');
     expect(getByRole('heading')).toHaveTextContent('Article');
@@ -32,11 +27,7 @@ describe('ArticleThumbnail component', () => {
       description: 'Description',
     };
 
-    const { getByRole } = render(
-      <MemoryRouter>
-        <ArticleThumbnail {...props} />
-      </MemoryRouter>
-    );
+    const { getByRole } = render(<ArticleThumbnail {...props} />);
 
     // TODO: test links!
     expect(getByRole('img')).toHaveAttribute('src', '/images/article-default.jpg');

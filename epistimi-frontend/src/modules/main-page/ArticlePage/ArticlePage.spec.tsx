@@ -1,8 +1,8 @@
 import { ArticlePage } from './ArticlePage';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { render, waitFor } from '@testing-library/react';
-import React from 'react';
 import axios from 'axios';
+import React from 'react';
 
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;

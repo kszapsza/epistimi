@@ -1,8 +1,8 @@
-import { Draft, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, Draft } from '@reduxjs/toolkit';
 import { UserResponse } from '../../dto/user';
 import axios, { AxiosResponse } from 'axios';
 
-interface CurrentUserState {
+export interface AuthState {
   user: UserResponse | null;
   isAuthenticated: boolean;
   isFetching: boolean;
@@ -16,9 +16,9 @@ export const authSlice = createSlice({
     user: null,
     isAuthenticated: false,
     isFetching: false,
-  } as CurrentUserState,
+  } as AuthState,
   reducers: {
-    removeCurrentUser: (state: Draft<CurrentUserState>) => {
+    removeCurrentUser: (state: Draft<AuthState>) => {
       state.user = null;
       state.isAuthenticated = false;
       state.isFetching = false;
@@ -26,17 +26,17 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCurrentUser.pending, (state: Draft<CurrentUserState>) => {
+      .addCase(fetchCurrentUser.pending, (state: Draft<AuthState>) => {
         state.isAuthenticated = false;
         state.isFetching = true;
         state.user = null;
       })
-      .addCase(fetchCurrentUser.fulfilled, (state: Draft<CurrentUserState>, action) => {
+      .addCase(fetchCurrentUser.fulfilled, (state: Draft<AuthState>, action) => {
         state.isAuthenticated = true;
         state.isFetching = false;
         state.user = action.payload;
       })
-      .addCase(fetchCurrentUser.rejected, (state: Draft<CurrentUserState>) => {
+      .addCase(fetchCurrentUser.rejected, (state: Draft<AuthState>) => {
         state.isAuthenticated = false;
         state.isFetching = false;
         state.user = null;

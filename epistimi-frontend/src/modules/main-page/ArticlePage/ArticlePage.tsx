@@ -1,9 +1,9 @@
 import './ArticlePage.scss';
 import { Article } from '../../../dto/article';
+import { ErrorOutline } from '@mui/icons-material';
 import { MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { useFetch } from '../../../hooks/useFetch';
 import { useParams } from 'react-router-dom';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 export const ArticlePage = (): JSX.Element => {
   const { slug } = useParams();
@@ -13,7 +13,7 @@ export const ArticlePage = (): JSX.Element => {
     <>
       {loading && <Spinner/>}
       {!article && !loading &&
-        <MessageBox style={MessageBoxStyle.WARNING} icon={<ErrorOutlineIcon/>}>
+        <MessageBox style={MessageBoxStyle.WARNING} icon={<ErrorOutline/>}>
           Nie udało się załadować artykułu!
         </MessageBox>}
       {article &&
