@@ -2,13 +2,17 @@
 @import 'src/styles/themes';
 
 .btn {
+  align-items: center;
   background: $gray;
   border-radius: $subtle-radius;
   color: $black;
+  display: flex;
+  flex-direction: row;
   font: {
     size: 13px;
     weight: 600;
-  };
+  }
+  justify-content: center;
   padding: .35rem .7rem;
 
   &:disabled {
@@ -19,6 +23,12 @@
   &:hover {
     background: rgba($gray, .8);
     cursor: pointer;
+  }
+
+  img, svg {
+    height: 18px;
+    padding: 0 .1rem;
+    width: 18px;
   }
 }
 

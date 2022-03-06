@@ -37,6 +37,7 @@ describe('RequireAuth wrapper', () => {
         />,
     }));
     await waitFor(() => {
+      expect(queryByText(/protected element/i)).not.toBeInTheDocument();
       expect(queryByText(/redirected/i)).toBeInTheDocument();
     });
   });
@@ -64,7 +65,8 @@ describe('RequireAuth wrapper', () => {
         />,
     }));
     await waitFor(() => {
-      expect(queryByText(/protected element/i)).toBeNull();
+      expect(queryByText(/protected element/i)).not.toBeInTheDocument();
+      expect(queryByText(/redirected/i)).toBeInTheDocument();
     });
   });
 
@@ -79,7 +81,7 @@ describe('RequireAuth wrapper', () => {
     }));
     await waitFor(() => {
       expect(queryByText(/protected element/i)).toBeInTheDocument();
-      expect(queryByText(/redirected/i)).toBeNull();
+      expect(queryByText(/redirected/i)).not.toBeInTheDocument();
     });
   });
 
@@ -95,7 +97,7 @@ describe('RequireAuth wrapper', () => {
     }));
     await waitFor(() => {
       expect(queryByText(/protected element/i)).toBeInTheDocument();
-      expect(queryByText(/redirected/i)).toBeNull();
+      expect(queryByText(/redirected/i)).not.toBeInTheDocument();
     });
   });
 });

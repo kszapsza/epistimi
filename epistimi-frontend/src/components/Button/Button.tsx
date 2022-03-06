@@ -6,6 +6,7 @@ export interface ButtonProps {
   style?: ButtonStyle;
   disabled?: boolean;
   onClick?: (event: MouseEvent) => void;
+  icon?: JSX.Element;
 }
 
 export enum ButtonStyle {
@@ -23,6 +24,7 @@ export const Button = (props: ButtonProps): JSX.Element => {
       disabled={props.disabled}
       onClick={props.onClick}
     >
+      {props.icon}
       {props.children}
     </button>
   );

@@ -12,7 +12,7 @@
 
 .menu {
   border: 1px solid rgba($black, .1);
-  border-radius: $subtle-radius;
+  border-radius: 0 $subtle-radius $subtle-radius 0;
   list-style: none;
   min-width: 200px;
   width: 20%;

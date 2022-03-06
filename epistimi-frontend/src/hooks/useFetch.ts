@@ -33,7 +33,7 @@ export const useFetch = <T = unknown>(url: string): FetchResponse<T> => {
     return () => {
       unmounted = true;
     };
-  }, []);
+  }, [url]);
 
   return { data, loading, error };
 };
