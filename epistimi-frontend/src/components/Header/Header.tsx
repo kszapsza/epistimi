@@ -45,7 +45,9 @@ export const Header = (): JSX.Element => {
           {isAuthenticated && user && (
             <>
               <Link onClick={handleLogout} to={'/'}>
-                <AccountCircle/>
+                <div role={'button'} aria-label={'Log out'}>
+                  <AccountCircle/>
+                </div>
               </Link>
             </>
           )}

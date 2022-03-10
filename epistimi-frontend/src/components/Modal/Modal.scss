@@ -1,0 +1,36 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.modal-container {
+  background-color: rgba($black, .3);
+  height: 100%;
+  left: 0;
+  padding: 0 .75rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+
+  .modal {
+    background-color: $white;
+    border: 1px solid $gray;
+    border-radius: $subtle-radius;
+    margin: 15% auto;
+    max-width: 600px;
+    min-width: 300px;
+    overflow-x: scroll;
+    padding: 1rem;
+    width: 100%;
+
+    .modal-close {
+      color: rgba($black, .6);
+      float: right;
+      padding: 0 0 .1rem .1rem;
+
+      &:hover {
+        color: rgba($black, .8);
+        cursor: pointer;
+      }
+    }
+  }
+}

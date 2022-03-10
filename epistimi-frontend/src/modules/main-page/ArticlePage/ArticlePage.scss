@@ -30,6 +30,7 @@
 
     .article-description {
       font: {
+        size: 14px;
         weight: bold;
       }
     }
@@ -42,7 +43,10 @@
 
   .article-content {
     p {
-      margin-bottom: 1rem;
+      font: {
+        size: 14px;
+      }
+      margin-bottom: 1rem;;
     }
   }
 }

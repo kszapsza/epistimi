@@ -10,6 +10,15 @@ class UserService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
 ) {
+    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
+    fun getUsers(userRole: User.Role?): List<User> {
+        return if (userRole == null) {
+            userRepository.findAll()
+        } else {
+            userRepository.findAllByRole(userRole)
+        }
+    }
+
     fun getUserByUsername(username: String): User =
         userRepository.findByUsername(username)
 

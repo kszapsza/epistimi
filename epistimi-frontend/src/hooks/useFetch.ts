@@ -16,21 +16,21 @@ export const useFetch = <T = unknown>(url: string): FetchResponse<T> => {
     let unmounted = false;
 
     !data && axios.get<T>(url)
-      .then(({ data }) => {
+      .then(({ data }): void => {
         if (unmounted) return;
         setData(data);
         setLoading(false);
       })
-      .catch((error: AxiosError) => {
+      .catch((error: AxiosError): void => {
         if (unmounted) return;
         setError(error);
       })
-      .finally(() => {
+      .finally((): void => {
         if (unmounted) return;
         setLoading(false);
       });
 
-    return () => {
+    return (): void => {
       unmounted = true;
     };
   }, [url]);

@@ -3,7 +3,6 @@ import { currentUserReducer } from '../../../store/slices/authSlice';
 import { render } from '../../../utils/test-render';
 import { Summary } from './Summary';
 import { UserRole } from '../../../dto/user';
-import React from 'react';
 
 describe('Summary component', () => {
   const storeMock: Store = createStore(
@@ -25,8 +24,8 @@ describe('Summary component', () => {
     },
   );
 
-  it('should render user greeting', async () => {
-    const { getByRole } = render(<Summary />, storeMock);
+  it('should render user greeting', () => {
+    const { getByRole } = render(<Summary/>, storeMock);
     expect(getByRole('heading')).toHaveTextContent(/witaj, jan/i);
   });
 });

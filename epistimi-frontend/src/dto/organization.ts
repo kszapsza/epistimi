@@ -15,3 +15,8 @@ export enum OrganizationStatus {
   ENABLED = 'ENABLED',
   DISABLED = 'DISABLED',
 }
+
+export interface OrganizationRegisterRequest {
+  name: string;
+  adminId: string;
+}

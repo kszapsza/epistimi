@@ -10,3 +10,7 @@ data class UserResponse(
     val username: String,
     val sex: User.Sex?,
 )
+
+data class UsersResponse(
+    val users: List<UserResponse>,
+)

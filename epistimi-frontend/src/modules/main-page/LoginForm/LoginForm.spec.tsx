@@ -1,8 +1,9 @@
 import { fireEvent, waitFor } from '@testing-library/react';
 import { LoginForm } from './LoginForm';
 import { render } from '../../../utils/test-render';
+import { store } from '../../../store/config';
+import { TOKEN_KEY } from '../../../store/slices/authSlice';
 import axios from 'axios';
-import React from 'react';
 
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
@@ -119,12 +120,7 @@ describe('LoginForm component', () => {
     axiosMock.post.mockResolvedValue({
       data: {
         token: 'some_token',
-        firstName: 'Adam',
-        lastName: 'Nowak',
-        role: 'STUDENT',
-        username: 'a.nowak94',
       },
-      status: 200,
     });
 
     const { getByLabelText, getByRole, queryByText } = render(<LoginForm/>);
@@ -135,6 +131,41 @@ describe('LoginForm component', () => {
 
     await waitFor(() => {
       expect(queryByText(/niepoprawne dane logowania/i)).toBeNull();
+    });
+  });
+
+  it('should log in and store user data', async () => {
+    const userData = {
+      firstName: 'Adam',
+      lastName: 'Nowak',
+      role: 'STUDENT',
+      username: 'a.nowak94',
+    };
+
+    const loginMock = axiosMock.post.mockResolvedValue({
+      data: {
+        token: 'some_token',
+      },
+    });
+    const currentUserMock = axiosMock.get.mockResolvedValue({
+      data: {
+        ...userData,
+      },
+    });
+
+    const { getByLabelText, getByRole } = render(<LoginForm/>, store);
+
+    fireEvent.change(getByLabelText(/nazwa użytkownika/i), { target: { value: 'abc' } });
+    fireEvent.change(getByLabelText(/hasło/i), { target: { value: '123' } });
+    fireEvent.click(getByRole('button'));
+
+    await waitFor(() => {
+      expect(loginMock).toHaveBeenCalledTimes(1);
+      expect(currentUserMock).toHaveBeenCalledTimes(1);
+      expect(localStorage.getItem(TOKEN_KEY)).toBe('some_token');
+      expect(store.getState().auth.isAuthenticated).toBeTruthy();
+      expect(store.getState().auth.isFetching).toBeFalsy();
+      expect(store.getState().auth.user).toStrictEqual(userData);
     });
   });
 });

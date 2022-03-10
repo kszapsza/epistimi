@@ -3,7 +3,7 @@ import { render } from '../../../utils/test-render';
 import React from 'react';
 
 describe('ArticleThumbnail component', () => {
-  it('should render a thumbnail with provided image', async () => {
+  it('should render a thumbnail with provided image', () => {
     const props = {
       id: '123',
       slug: 'article',
@@ -19,7 +19,7 @@ describe('ArticleThumbnail component', () => {
     expect(getByRole('definition')).toHaveTextContent('Description');
   });
 
-  it('should render a thumbnail with default image if it was not provided', async () => {
+  it('should render a thumbnail with default image if it was not provided', () => {
     const props = {
       id: '234',
       slug: 'article',
