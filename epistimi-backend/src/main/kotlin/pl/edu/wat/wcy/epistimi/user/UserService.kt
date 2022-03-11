@@ -28,7 +28,7 @@ class UserService(
 
     @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN', 'ORGANIZATION_ADMIN')")
     fun registerUser(registerRequest: UserRegisterRequest): User =
-        userRepository.insert(
+        userRepository.save(
             User(
                 id = null,
                 firstName = registerRequest.firstName,

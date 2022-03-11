@@ -17,7 +17,7 @@ class ArticleDbRepository(
             .map { it.toDomain() }
 
     private fun ArticleMongoDbDocument.toDomain() = Article(
-        id = ArticleId(this.id),
+        id = ArticleId(this.id!!),
         slug = this.slug,
         title = this.title,
         description = this.description,
@@ -34,4 +34,15 @@ class ArticleDbRepository(
         } catch (e: EmptyResultDataAccessException) {
             throw ArticleNotFoundException()
         }
+
+    override fun save(article: Article): Article {
+        return articleMongoDbRepository.save(
+            ArticleMongoDbDocument(
+                id = article.id?.value,
+                slug = article.slug,
+                title = article.title,
+                description = article.description,
+            )
+        ).toDomain()
+    }
 }

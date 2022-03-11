@@ -56,7 +56,7 @@ class OrganizationServiceTest : ShouldSpec({
             row(ORGANIZATION_ADMIN),
         ) { userRole ->
             every { userRepository.findById("123") } returns userStub(userRole)
-            every { organizationRepository.insert(any()) } returnsArgument 0
+            every { organizationRepository.save(any()) } returnsArgument 0
 
             shouldNotThrow<AdministratorInsufficientPermissionsException> {
                 organizationService.registerOrganization(

@@ -29,7 +29,7 @@ class OrganizationService(
             logger.warn("Attempted to register an organization with user ineligible to be an organization admin")
             throw AdministratorInsufficientPermissionsException()
         }
-        return organizationRepository.insert(
+        return organizationRepository.save(
             Organization(
                 id = null,
                 name = registerRequest.name,

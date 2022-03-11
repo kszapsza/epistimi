@@ -5,6 +5,5 @@ interface UserRepository {
     fun findAllByRole(role: User.Role): List<User>
     fun findById(userId: String): User
     fun findByUsername(username: String): User
-    fun insert(user: User): User
     fun save(user: User): User
 }
