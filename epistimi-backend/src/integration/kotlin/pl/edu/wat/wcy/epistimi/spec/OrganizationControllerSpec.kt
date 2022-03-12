@@ -38,6 +38,61 @@ class OrganizationControllerSpec(
     private val userStubbing: UserStubbing,
 ) : BaseIntegrationSpec({
 
+    should("return single organization") {
+        // given
+        val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "sp7_admin")
+        val organization = organizationStubbing.organizationExists(name = "SP7", admin = organizationAdmin)
+        val headers = securityStubbing.authorizationHeaderFor(STUDENT)
+
+        // when
+        val response = restTemplate.exchange<String>(
+            url = "/api/organization/${organization.id!!.value}", method = GET, requestEntity = HttpEntity(null, headers)
+        )
+
+        // then
+        response.statusCode shouldBe OK
+        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+        //language=JSON
+        response.body!! shouldEqualSpecifiedJson """
+            {
+              "id": "${organization.id!!.value}",
+              "name": "SP7",
+              "admin": {
+                "id": "${organizationAdmin.id!!.value}",
+                "firstName": "Jan",
+                "lastName": "Kowalski",
+                "role": "ORGANIZATION_ADMIN",
+                "username": "sp7_admin",
+                "pesel": "10210155874",
+                "sex": "MALE",
+                "email": "j.kowalski@gmail.com",
+                "phoneNumber": "+48123456789",
+                "address": {
+                  "street": "Szkolna 17",
+                  "postalCode": "15-640",
+                  "city": "Białystok",
+                  "countryCode": "PL"
+                }
+              },
+              "status": "ENABLED"
+            }
+        """.trimIndent()
+
+    }
+
+    should("return HTTP 404 if organization with provided id does not exist") {
+        // given
+        val headers = securityStubbing.authorizationHeaderFor(STUDENT)
+
+        // when
+        val response = restTemplate.exchange<String>(
+            url = "/api/organization/42", method = GET, requestEntity = HttpEntity(null, headers)
+        )
+
+        // then
+        response.statusCode shouldBe NOT_FOUND
+    }
+
     should("return HTTP 401 for multiget if user is not authenticated") {
         // when
         val response = restTemplate.exchange<String>(
@@ -200,26 +255,26 @@ class OrganizationControllerSpec(
         //language=JSON
         response.body!! shouldEqualSpecifiedJson """
             {                 
-                  "name": "Gimnazjum nr 2",
-                  "admin": {
-                    "id": "${organizationAdmin.id!!.value}",
-                    "firstName": "Jan",
-                    "lastName": "Kowalski",
-                    "role": "ORGANIZATION_ADMIN",
-                    "username": "g2_admin",
-                    "pesel": "10210155874",
-                    "sex": "MALE",
-                    "email": "j.kowalski@gmail.com",
-                    "phoneNumber": "+48123456789",
-                    "address": {
-                      "street": "Szkolna 17",
-                      "postalCode": "15-640",
-                      "city": "Białystok",
-                      "countryCode": "PL"
-                    }
-                  },
-                  "status": "ENABLED"
+              "name": "Gimnazjum nr 2",
+              "admin": {
+                "id": "${organizationAdmin.id!!.value}",
+                "firstName": "Jan",
+                "lastName": "Kowalski",
+                "role": "ORGANIZATION_ADMIN",
+                "username": "g2_admin",
+                "pesel": "10210155874",
+                "sex": "MALE",
+                "email": "j.kowalski@gmail.com",
+                "phoneNumber": "+48123456789",
+                "address": {
+                  "street": "Szkolna 17",
+                  "postalCode": "15-640",
+                  "city": "Białystok",
+                  "countryCode": "PL"
                 }
+              },
+              "status": "ENABLED"
+            }
         """.trimIndent()
     }
 
@@ -247,9 +302,7 @@ class OrganizationControllerSpec(
 
         // when
         val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}",
-            method = PUT,
-            requestEntity = HttpEntity(body)
+            url = "/api/organization/${organization.id!!.value}", method = PUT, requestEntity = HttpEntity(body)
         )
 
         // then
@@ -271,9 +324,7 @@ class OrganizationControllerSpec(
 
             // when
             val response = restTemplate.exchange<String>(
-                url = "/api/organization/${organization.id!!.value}/status",
-                method = PUT,
-                requestEntity = HttpEntity(body, headers)
+                url = "/api/organization/${organization.id!!.value}/status", method = PUT, requestEntity = HttpEntity(body, headers)
             )
 
             // then
@@ -288,9 +339,7 @@ class OrganizationControllerSpec(
 
         // when
         val response = restTemplate.exchange<String>(
-            url = "/api/organization/42/status",
-            method = PUT,
-            requestEntity = HttpEntity(body, headers)
+            url = "/api/organization/42/status", method = PUT, requestEntity = HttpEntity(body, headers)
         )
 
         // then
@@ -306,9 +355,7 @@ class OrganizationControllerSpec(
 
         // when
         val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}/status",
-            method = PUT,
-            requestEntity = HttpEntity(body, headers)
+            url = "/api/organization/${organization.id!!.value}/status", method = PUT, requestEntity = HttpEntity(body, headers)
         )
 
         // then
@@ -318,24 +365,24 @@ class OrganizationControllerSpec(
         response.body!! shouldEqualSpecifiedJson """
             {
               "name": "SP7",
-                  "admin": {
-                    "id": "${organizationAdmin.id!!.value}",
-                    "firstName": "Jan",
-                    "lastName": "Kowalski",
-                    "role": "ORGANIZATION_ADMIN",
-                    "username": "sp7_admin",
-                    "pesel": "10210155874",
-                    "sex": "MALE",
-                    "email": "j.kowalski@gmail.com",
-                    "phoneNumber": "+48123456789",
-                    "address": {
-                      "street": "Szkolna 17",
-                      "postalCode": "15-640",
-                      "city": "Białystok",
-                      "countryCode": "PL"
-                    }
-                  },
-                  "status": "DISABLED"
+              "admin": {
+                "id": "${organizationAdmin.id!!.value}",
+                "firstName": "Jan",
+                "lastName": "Kowalski",
+                "role": "ORGANIZATION_ADMIN",
+                "username": "sp7_admin",
+                "pesel": "10210155874",
+                "sex": "MALE",
+                "email": "j.kowalski@gmail.com",
+                "phoneNumber": "+48123456789",
+                "address": {
+                  "street": "Szkolna 17",
+                  "postalCode": "15-640",
+                  "city": "Białystok",
+                  "countryCode": "PL"
+                }
+              },
+              "status": "DISABLED"
             }
         """.trimIndent()
     }

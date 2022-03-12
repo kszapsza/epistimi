@@ -21,6 +21,17 @@ import java.net.URI
 class OrganizationController(
     private val organizationService: OrganizationService,
 ) {
+    @RequestMapping(
+        path = ["{organizationId}"],
+        method = [RequestMethod.GET],
+        produces = [MediaType.APPLICATION_JSON_V1],
+    )
+    fun getOrganization(
+        @PathVariable organizationId: String,
+    ): ResponseEntity<OrganizationResponse> = ResponseEntity.ok(
+        organizationService.getOrganization(organizationId).toResponse()
+    )
+
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @RequestMapping(
         path = [""],

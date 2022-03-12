@@ -13,6 +13,12 @@ class OrganizationService(
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository
 ) {
+    fun getOrganization(
+        organizationId: String
+    ): Organization {
+        return organizationRepository.findById(organizationId)
+    }
+
     fun getOrganizations(): List<Organization> {
         return organizationRepository.findAll()
     }
