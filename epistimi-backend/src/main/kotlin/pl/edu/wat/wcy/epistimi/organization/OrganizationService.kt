@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.epistimi.organization
 
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
@@ -18,7 +17,6 @@ class OrganizationService(
         return organizationRepository.findAll()
     }
 
-    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     fun registerOrganization(registerRequest: OrganizationRegisterRequest): Organization {
         val requestedOrganizationAdmin = try {
             userRepository.findById(registerRequest.adminId)
@@ -42,7 +40,6 @@ class OrganizationService(
     private fun User.isEligibleToBeOrganizationAdmin() =
         (role == User.Role.EPISTIMI_ADMIN || role == User.Role.ORGANIZATION_ADMIN)
 
-    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     fun changeOrganizationStatus(
         organizationId: String,
         changeStatusRequest: OrganizationChangeStatusRequest
@@ -57,7 +54,7 @@ class OrganizationService(
             )
         )
     }
-    
+
     companion object {
         private val logger by logger()
     }

@@ -2,7 +2,6 @@ spring:
   data:
     mongodb:
       database: epistimi_integration
-      uri: mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@cluster0.i5gua.mongodb.net/epistimi?retryWrites=true&w=majority
 epistimi:
   security:
     jwt-secret: jwt_secret

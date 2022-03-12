@@ -1,6 +1,8 @@
-package pl.edu.wat.wcy.epistimi.article
+package pl.edu.wat.wcy.epistimi.stub
 
 import org.springframework.stereotype.Component
+import pl.edu.wat.wcy.epistimi.article.Article
+import pl.edu.wat.wcy.epistimi.article.ArticleRepository
 
 @Component
 class ArticleStubbing(

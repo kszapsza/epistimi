@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import pl.edu.wat.wcy.epistimi.config.MongoListener
+import pl.edu.wat.wcy.epistimi.config.MongoDbConfigListener
 import pl.edu.wat.wcy.epistimi.config.ProjectConfig
 
 @ActiveProfiles("integration")
@@ -18,8 +18,8 @@ abstract class BaseIntegrationSpec(body: ShouldSpec.() -> Unit) : ShouldSpec(bod
         @DynamicPropertySource
         @JvmStatic
         fun configure(registry: DynamicPropertyRegistry) {
-            registry.add("spring.data.mongodb.uri") { ProjectConfig.mongoListener.container.replicaSetUrl }
-            registry.add("spring.data.mongodb.database") { MongoListener.MONGODB_DATABASE_NAME }
+            registry.add("spring.data.mongodb.uri") { ProjectConfig.mongoDbConfigListener.container.replicaSetUrl }
+            registry.add("spring.data.mongodb.database") { MongoDbConfigListener.MONGODB_DATABASE_NAME }
         }
     }
 }

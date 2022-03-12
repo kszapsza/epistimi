@@ -34,13 +34,13 @@ class OrganizationServiceTest : ShouldSpec({
         )
     }
 
-    should("fail to register new organization if provided admin has user role") {
-        forAll(
-            row(STUDENT),
-            row(PARENT),
-            row(TEACHER),
-        ) { userRole ->
-            every { userRepository.findById("123") } returns userStub(userRole)
+    forAll(
+        row(STUDENT),
+        row(PARENT),
+        row(TEACHER),
+    ) { role ->
+        should("fail to register new organization if provided admin has $role role") {
+            every { userRepository.findById("123") } returns userStub(role)
 
             shouldThrow<AdministratorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
@@ -50,12 +50,12 @@ class OrganizationServiceTest : ShouldSpec({
         }
     }
 
-    should("successfully register new organization if provided admin has user role") {
-        forAll(
-            row(EPISTIMI_ADMIN),
-            row(ORGANIZATION_ADMIN),
-        ) { userRole ->
-            every { userRepository.findById("123") } returns userStub(userRole)
+    forAll(
+        row(EPISTIMI_ADMIN),
+        row(ORGANIZATION_ADMIN),
+    ) { role ->
+        should("successfully register new organization if provided admin has $role role") {
+            every { userRepository.findById("123") } returns userStub(role)
             every { organizationRepository.save(any()) } returnsArgument 0
 
             shouldNotThrow<AdministratorInsufficientPermissionsException> {

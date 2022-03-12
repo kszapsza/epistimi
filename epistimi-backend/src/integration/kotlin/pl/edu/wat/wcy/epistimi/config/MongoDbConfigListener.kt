@@ -3,15 +3,15 @@ package pl.edu.wat.wcy.epistimi.config
 import com.mongodb.client.MongoClient
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
-import io.kotest.core.listeners.AfterEachListener
 import io.kotest.core.listeners.AfterProjectListener
+import io.kotest.core.listeners.AfterTestListener
 import io.kotest.core.listeners.BeforeProjectListener
 import io.kotest.core.test.TestCase
 import io.kotest.core.test.TestResult
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.utility.DockerImageName
 
-class MongoListener : BeforeProjectListener, AfterProjectListener, AfterEachListener {
+class MongoDbConfigListener : BeforeProjectListener, AfterProjectListener, AfterTestListener {
     lateinit var container: MongoDBContainer
     lateinit var client: MongoClient
     lateinit var database: MongoDatabase
@@ -26,7 +26,7 @@ class MongoListener : BeforeProjectListener, AfterProjectListener, AfterEachList
         container.stop()
     }
 
-    override suspend fun afterEach(testCase: TestCase, result: TestResult) {
+    override suspend fun afterTest(testCase: TestCase, result: TestResult) {
         database.listCollectionNames()
             .map { collectionName -> database.getCollection(collectionName) }
             .forEach { collection -> collection.drop() }

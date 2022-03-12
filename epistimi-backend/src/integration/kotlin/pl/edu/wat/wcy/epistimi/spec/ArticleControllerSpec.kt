@@ -1,17 +1,20 @@
-package pl.edu.wat.wcy.epistimi.article
+package pl.edu.wat.wcy.epistimi.spec
 
 import io.kotest.assertions.json.shouldEqualSpecifiedJson
 import io.kotest.matchers.shouldBe
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
+import pl.edu.wat.wcy.epistimi.article.Article
+import pl.edu.wat.wcy.epistimi.article.ArticleId
+import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.stub.ArticleStubbing
 
 class ArticleControllerSpec(
-    @Autowired private val articleStubbing: ArticleStubbing,
-    @Autowired private val restTemplate: TestRestTemplate,
+    private val articleStubbing: ArticleStubbing,
+    private val restTemplate: TestRestTemplate,
 ) : BaseIntegrationSpec({
 
     should("return empty list of articles") {
@@ -20,12 +23,13 @@ class ArticleControllerSpec(
 
         // then
         response.statusCode shouldBe OK
+        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
         //language=JSON
         response.body!! shouldEqualSpecifiedJson """
             {
                 "articles": []
             }
-        """
+        """.trimIndent()
     }
 
     should("return list of articles") {
@@ -40,6 +44,7 @@ class ArticleControllerSpec(
 
         // then
         response.statusCode shouldBe OK
+        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
         //language=JSON
         response.body!! shouldEqualSpecifiedJson """
             {
@@ -58,7 +63,7 @@ class ArticleControllerSpec(
                     }
                 ]
             }
-        """
+        """.trimIndent()
     }
 
     should("return an article with provided slug") {
@@ -72,6 +77,7 @@ class ArticleControllerSpec(
 
         // then
         response.statusCode shouldBe OK
+        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
         //language=JSON
         response.body!! shouldEqualSpecifiedJson """
             {
@@ -80,10 +86,10 @@ class ArticleControllerSpec(
                 "title": "Foo",
                 "description": "foobar"
             }
-        """
+        """.trimIndent()
     }
 
-    should("return not found if article with provided slug doesn't exist") {
+    should("return HTTP 404 if article with provided slug doesn't exist") {
         // given
         articleStubbing.articlesExist(
             Article(id = ArticleId("1"), slug = "foo", title = "Foo", description = "foobar"),

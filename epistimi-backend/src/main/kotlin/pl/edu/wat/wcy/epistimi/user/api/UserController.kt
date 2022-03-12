@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.user.api
 
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,6 +21,7 @@ import pl.edu.wat.wcy.epistimi.user.dto.UsersResponse
 class UserController(
     private val userService: UserService,
 ) {
+    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @RequestMapping(
         path = [""],
         method = [RequestMethod.GET],
@@ -44,6 +46,7 @@ class UserController(
         userService.getUserByUsername(authentication.principal as String).toResponse()
     )
 
+    @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN', 'ORGANIZATION_ADMIN')")
     @RequestMapping(
         path = ["/{userId}"],
         method = [RequestMethod.GET],
@@ -55,6 +58,7 @@ class UserController(
         userService.getUserById(userId).toResponse()
     )
 
+    @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN', 'ORGANIZATION_ADMIN')")
     @RequestMapping(
         path = [""],
         method = [RequestMethod.POST],

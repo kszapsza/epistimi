@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.epistimi.user
 
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
@@ -10,7 +9,6 @@ class UserService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
 ) {
-    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     fun getUsers(userRole: User.Role?): List<User> {
         return if (userRole == null) {
             userRepository.findAll()
@@ -22,11 +20,9 @@ class UserService(
     fun getUserByUsername(username: String): User =
         userRepository.findByUsername(username)
 
-    @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN', 'ORGANIZATION_ADMIN')")
     fun getUserById(userId: String): User =
         userRepository.findById(userId)
 
-    @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN', 'ORGANIZATION_ADMIN')")
     fun registerUser(registerRequest: UserRegisterRequest): User =
         userRepository.save(
             User(
@@ -36,7 +32,11 @@ class UserService(
                 role = registerRequest.role,
                 username = registerRequest.username,
                 passwordHash = passwordEncoder.encode(registerRequest.password),
+                pesel = registerRequest.pesel,
                 sex = registerRequest.sex,
+                email = registerRequest.email,
+                phoneNumber = registerRequest.phoneNumber,
+                address = registerRequest.address,
             )
         )
 }
