@@ -1,3 +1,4 @@
+import { disabledOrganization, enabledOrganization } from '../../../stubs/organization';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { Organizations } from './Organizations';
 import { OrganizationsResponse } from '../../../dto/organization';
@@ -55,30 +56,8 @@ describe('Organizations component', () => {
 
   const organizationsResponse: OrganizationsResponse = {
     organizations: [
-      {
-        id: '1',
-        name: 'szkoła 1',
-        admin: {
-          id: '1',
-          firstName: 'Bogusław',
-          lastName: 'Nowak',
-          role: UserRole.ORGANIZATION_ADMIN,
-          username: 'b.nowak',
-        },
-        status: 'DISABLED',
-      },
-      {
-        id: '2',
-        name: 'szkoła 2',
-        admin: {
-          id: '2',
-          firstName: 'Zbigniew',
-          lastName: 'Bączek',
-          role: UserRole.ORGANIZATION_ADMIN,
-          username: 'z.baczek',
-        },
-        status: 'ENABLED',
-      },
+      disabledOrganization,
+      enabledOrganization,
     ],
   };
 

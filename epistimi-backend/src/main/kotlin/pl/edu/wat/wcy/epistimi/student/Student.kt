@@ -7,6 +7,9 @@ data class Student(
     val id: StudentId? = null,
     val userId: UserId,
     val parentIds: List<ParentId>,
+
+    // TODO: should student (parent, teacher) be connected to only one specific organization?
+    //  if not, show to cope with students (parent, teacher) connected with potentially many various organizations?
 )
 
 @JvmInline

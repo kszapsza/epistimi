@@ -1,0 +1,17 @@
+@import 'src/styles/themes';
+
+.organization-status {
+  font: {
+    weight: 600;
+  };
+}
+
+.organization-status-disabled {
+  @extend .organization-status;
+  color: $red;
+}
+
+.organization-status-enabled {
+  @extend .organization-status;
+  color: $teal;
+}

@@ -28,5 +28,19 @@
     .organization-name {
       font-weight: 500;
     }
+
+    .organization-entries {
+      margin-top: .75rem;
+      max-width: 600px;
+      width: 100%;
+    }
+  }
+
+  .organization-stats {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    margin: .5rem 0 0;
+    width: 100%;
   }
 }

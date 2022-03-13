@@ -3,15 +3,20 @@ import { Button, MessageBox, MessageBoxStyle, Spinner } from '../../../component
 import { Create, Done, ErrorOutline } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { Modal } from '../../../components/Modal';
+import { OrganizationColorStatus } from '../OrganizationColorStatus/OrganizationColorStatus';
 import { OrganizationCreate } from '../OrganizationCreate';
 import { OrganizationResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
+import { useEffect, useState } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
-import { useState } from 'react';
 
 export const Organizations = (): JSX.Element => {
   const { data, loading, error } = useFetch<OrganizationsResponse>('api/organization');
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
   const [createdMessageOpen, setCreatedMessageOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.title = 'Placówki – Epistimi';
+  }, []);
 
   const activeCount: number = data?.organizations.filter((organization) => {
     return organization.status == OrganizationStatus.ENABLED;
@@ -64,7 +69,7 @@ export const Organizations = (): JSX.Element => {
                 <td><Link to={`./${id}`}><samp>{id}</samp></Link></td>
                 <td>{name}</td>
                 <td>{admin.username}</td>
-                <td>{status.toString()}</td>
+                <td>{<OrganizationColorStatus status={status}/>}</td>
               </tr>,
             )}
             </tbody>

@@ -4,7 +4,7 @@ export interface OrganizationResponse {
   id: string;
   name: string;
   admin: UserResponse;
-  status: string;
+  status: OrganizationStatus;
 }
 
 export interface OrganizationsResponse {
@@ -19,4 +19,8 @@ export enum OrganizationStatus {
 export interface OrganizationRegisterRequest {
   name: string;
   adminId: string;
+}
+
+export interface OrganizationChangeStatusRequest {
+  status: OrganizationStatus;
 }

@@ -1,45 +1,86 @@
 import './OrganizationDetails.scss';
-import { Block, Edit } from '@mui/icons-material';
-import { Button, Spinner } from '../../../components';
+import { Block, Done, Edit } from '@mui/icons-material';
+import { Button, MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { Modal } from '../../../components/Modal';
-import { OrganizationResponse } from '../../../dto/organization';
+import { OrganizationColorStatus } from '../OrganizationColorStatus/OrganizationColorStatus';
+import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
+import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
+import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
+import { OrganizationStatusChange } from '../OrganizationStatusChange';
+import { useEffect, useState } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
 
 export const OrganizationDetails = (): JSX.Element => {
   const { id } = useParams();
-  const { data, loading, error } = useFetch<OrganizationResponse>(`/api/organization/${id}`);
+  const { data: organization, loading, error } = useFetch<OrganizationResponse>(`/api/organization/${id}`);
 
-  const [deactivateModalOpened, setDeactivateModalOpened] = useState<boolean>(false);
+  const [statusChangeModalOpened, setStatusChangeModalOpened] = useState<boolean>(false);
   const [editModalOpened, setEditModalOpened] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.title = 'Szczegóły placówki – Epistimi';
+  }, []);
+
+  if (loading) {
+    return <Spinner/>;
+  }
+
+  const handleStatusChange = (updatedOrganization: OrganizationResponse): void => {
+    organization && (organization.status = updatedOrganization.status);
+    setStatusChangeModalOpened(false);
+  };
 
   return (
     <div className={'organization-details'}>
-      <Modal open={deactivateModalOpened} onClose={() => setDeactivateModalOpened(false)}>
-        deactivate modal
-      </Modal>
-      <Modal open={editModalOpened} onClose={() => setEditModalOpened(false)}>
-        edit modal
-      </Modal>
-      <div className={'organization-header'}>
-        <h2>Szczegóły placówki</h2>
-        <div className={'organization-actions'}>
-          <Button icon={<Block/>} onClick={() => setDeactivateModalOpened(true)}>Dezaktywuj placówkę</Button>
-          <Button icon={<Edit/>} onClick={() => setEditModalOpened(true)}>Edytuj dane</Button>
+      {loading &&
+        <Spinner/>}
+      {error &&
+        <MessageBox style={MessageBoxStyle.WARNING}>
+          Nie udało się załadować szczegółów organizacji
+        </MessageBox>}
+      {organization && <>
+        <Modal open={statusChangeModalOpened} onClose={() => setStatusChangeModalOpened(false)}>
+          <OrganizationStatusChange organization={organization} onStatusChange={handleStatusChange}/>
+        </Modal>
+        <Modal open={editModalOpened} onClose={() => setEditModalOpened(false)}>
+          edit modal
+        </Modal>
+        <div className={'organization-header'}>
+          <h2>Szczegóły placówki</h2>
+          <div className={'organization-actions'}>
+            {organization.status === OrganizationStatus.ENABLED &&
+              <Button icon={<Block/>} onClick={() => setStatusChangeModalOpened(true)}>Dezaktywuj placówkę</Button>}
+            {organization.status === OrganizationStatus.DISABLED &&
+              <Button icon={<Done/>} onClick={() => setStatusChangeModalOpened(true)}>Aktywuj placówkę</Button>}
+            <Button icon={<Edit/>} onClick={() => setEditModalOpened(true)}>Edytuj dane</Button>
+          </div>
         </div>
-      </div>
-      <div className={'organization-data'}>
-        {loading && <Spinner/>}
-        {data && (
-          <>
-            <div className={'organization-name'}>{data.name}</div>
-            <div className={'organization-values'}>
-              123
-            </div>
-          </>
-        )}
-      </div>
+        <div className={'organization-data'}>
+          <div className={'organization-name'}>
+            {organization.name}
+          </div>
+          <div className={'organization-entries'}>
+            <OrganizationDetailsKeyValue
+              label={'Id:'}
+              value={<samp>{organization.id}</samp>}
+            />
+            <OrganizationDetailsKeyValue
+              label={'Administrator:'}
+              value={`${organization.admin.lastName} ${organization.admin.firstName} (${organization.admin.username})`}
+            />
+            <OrganizationDetailsKeyValue
+              label={'Status:'}
+              value={<OrganizationColorStatus status={organization.status}/>}
+            />
+          </div>
+        </div>
+        <div className={'organization-stats'}>
+          <OrganizationDetailsStatsTile label={'Zarejestrowanych klas:'} value={'N/A'}/>
+          <OrganizationDetailsStatsTile label={'Zarejestrowanych uczniów:'} value={'N/A'}/>
+          <OrganizationDetailsStatsTile label={'Zarejestrowanych nauczycieli:'} value={'N/A'}/>
+        </div>
+      </>}
     </div>
   );
 };
