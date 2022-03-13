@@ -3,7 +3,6 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { render, waitFor } from '@testing-library/react';
 import { RequireAuth } from './RequireAuth';
 import { UserRole } from '../../dto/user';
-import React from 'react';
 
 describe('RequireAuth wrapper', () => {
   const prepareRouter = (

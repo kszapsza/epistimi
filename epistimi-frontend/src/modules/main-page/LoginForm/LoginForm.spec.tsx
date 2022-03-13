@@ -18,7 +18,7 @@ describe('LoginForm component', () => {
 
     await waitFor(() => {
       expect(getByLabelText(/nazwa użytkownika/i)).toHaveValue('');
-      expect(getByLabelText(/hasło/i)).toHaveValue('');
+      expect(getByLabelText(/^hasło$/i)).toHaveValue('');
     });
   });
 
@@ -38,7 +38,7 @@ describe('LoginForm component', () => {
     const { getByLabelText, queryByText } = render(<LoginForm/>);
 
     const usernameInput = getByLabelText(/nazwa użytkownika/i);
-    const passwordInput = getByLabelText(/hasło/i);
+    const passwordInput = getByLabelText(/^hasło$/i);
 
     fireEvent.change(usernameInput, { target: { value: 'abc' } });
     fireEvent.change(passwordInput, { target: { value: '123' } });
@@ -65,7 +65,7 @@ describe('LoginForm component', () => {
   it('should show an error message on submit if username is missing', async () => {
     const { getByLabelText, getByRole, getByText } = render(<LoginForm/>);
 
-    const passwordInput = getByLabelText(/hasło/i);
+    const passwordInput = getByLabelText(/^hasło$/i);
     const submitButton = getByRole('button');
 
     fireEvent.change(passwordInput, { target: { value: '123' } });
@@ -80,7 +80,7 @@ describe('LoginForm component', () => {
     const { getByLabelText, getByRole, queryByText } = render(<LoginForm/>);
 
     const usernameInput = getByLabelText(/nazwa użytkownika/i);
-    const passwordInput = getByLabelText(/hasło/i);
+    const passwordInput = getByLabelText(/^hasło$/i);
     const submitButton = getByRole('button');
 
     fireEvent.change(usernameInput, { target: { value: 'abc' } });
@@ -108,7 +108,7 @@ describe('LoginForm component', () => {
     const { getByLabelText, getByRole, queryByText } = render(<LoginForm/>);
 
     fireEvent.change(getByLabelText(/nazwa użytkownika/i), { target: { value: 'abc' } });
-    fireEvent.change(getByLabelText(/hasło/i), { target: { value: '123' } });
+    fireEvent.change(getByLabelText(/^hasło$/i), { target: { value: '123' } });
     fireEvent.click(getByRole('button'));
 
     await waitFor(() => {
@@ -126,7 +126,7 @@ describe('LoginForm component', () => {
     const { getByLabelText, getByRole, queryByText } = render(<LoginForm/>);
 
     fireEvent.change(getByLabelText(/nazwa użytkownika/i), { target: { value: 'abc' } });
-    fireEvent.change(getByLabelText(/hasło/i), { target: { value: '123' } });
+    fireEvent.change(getByLabelText(/^hasło$/i), { target: { value: '123' } });
     fireEvent.click(getByRole('button'));
 
     await waitFor(() => {
@@ -156,7 +156,7 @@ describe('LoginForm component', () => {
     const { getByLabelText, getByRole } = render(<LoginForm/>, store);
 
     fireEvent.change(getByLabelText(/nazwa użytkownika/i), { target: { value: 'abc' } });
-    fireEvent.change(getByLabelText(/hasło/i), { target: { value: '123' } });
+    fireEvent.change(getByLabelText(/^hasło$/i), { target: { value: '123' } });
     fireEvent.click(getByRole('button'));
 
     await waitFor(() => {
@@ -167,5 +167,20 @@ describe('LoginForm component', () => {
       expect(store.getState().auth.isFetching).toBeFalsy();
       expect(store.getState().auth.user).toStrictEqual(userData);
     });
+  });
+
+  it('should toggle password input type (password/text) on "eye" button click', () => {
+    const { getByLabelText, getByTitle } = render(<LoginForm/>);
+
+    const passwordInput = getByLabelText(/^hasło$/i) as HTMLInputElement;
+    const passwordVisibilityButton = getByTitle(/pokaż hasło/i);
+
+    expect(passwordInput.type).toBe('password');
+
+    fireEvent.click(passwordVisibilityButton);
+    expect(passwordInput.type).toBe('text');
+
+    fireEvent.click(passwordVisibilityButton);
+    expect(passwordInput.type).toBe('password');
   });
 });

@@ -17,6 +17,8 @@ export const Modal = ({ children, onClose, open }: ModalProps): JSX.Element => {
     ref: modalRef,
   });
 
+  // TODO: [Esc] click closes modal
+
   if (!open) {
     return (<></>);
   }

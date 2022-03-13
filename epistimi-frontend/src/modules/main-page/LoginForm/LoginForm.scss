@@ -12,6 +12,9 @@
   .login-form {
     display: flex;
     flex-direction: column;
+    font: {
+      size: 13px;
+    };
 
     .login-form-groups {
       margin: .75rem 0;
@@ -23,9 +26,6 @@
 
         label {
           flex: 2;
-          font: {
-            size: 14px;
-          };
           padding: 0 1rem 0 0;
         }
 
@@ -38,9 +38,6 @@
           .login-form-input {
             border: 1px solid rgba($black, .15);
             border-radius: $subtle-radius;
-            font: {
-              size: 14px;
-            };
             padding: .3rem .75rem;
             width: 100%;
 

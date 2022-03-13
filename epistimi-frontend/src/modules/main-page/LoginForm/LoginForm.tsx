@@ -42,13 +42,13 @@ export const LoginForm = (): JSX.Element => {
   };
 
   return (
-    <div className='login-form-box' id={'login'}>
+    <div className={'login-form-box'} id={'login'}>
       <form
-        className='login-form'
+        className={'login-form'}
         onSubmit={handleSubmit((formData) => handleLogin(formData))}
       >
         {hasErrors() &&
-          <MessageBox style={MessageBoxStyle.WARNING} small={true} >
+          <MessageBox style={MessageBoxStyle.WARNING} small={true}>
             Niepoprawne dane logowania
           </MessageBox>}
         {serverFailed &&
@@ -81,7 +81,12 @@ export const LoginForm = (): JSX.Element => {
                 type={showPassword ? 'text' : 'password'}
                 {...register('password', { required: true })}
               />
-              <div className={'login-form-show-password'} onClick={() => setShowPassword(!showPassword)}>
+              <div
+                aria-label={'Pokaż hasło'}
+                className={'login-form-show-password'}
+                onClick={() => setShowPassword(!showPassword)}
+                title={'Pokaż hasło'}
+              >
                 {showPassword ? <VisibilityOff style={{ width: '16px' }}/> : <Visibility style={{ width: '16px' }}/>}
               </div>
             </div>

@@ -1,6 +1,8 @@
+import { fireEvent, waitFor } from '@testing-library/react';
 import { Organizations } from './Organizations';
+import { OrganizationsResponse } from '../../../dto/organization';
 import { render } from '../../../utils/test-render';
-import { waitFor } from '@testing-library/react';
+import { UserRole, UserSex, UsersResponse } from '../../../dto/user';
 import axios from 'axios';
 
 jest.mock('axios');
@@ -24,34 +26,7 @@ describe('Organizations component', () => {
 
   it('should render a table with organizations', async () => {
     axiosMock.get.mockResolvedValue({
-      data: {
-        organizations: [
-          {
-            id: '1',
-            name: 'szkoła 1',
-            admin: {
-              id: '1',
-              firstName: 'Bogusław',
-              lastName: 'Nowak',
-              role: 'ORGANIZATION_ADMIN',
-              username: 'b.nowak',
-            },
-            status: 'DISABLED',
-          },
-          {
-            id: '2',
-            name: 'szkoła 2',
-            admin: {
-              id: '2',
-              firstName: 'Zbigniew',
-              lastName: 'Bączek',
-              role: 'ORGANIZATION_ADMIN',
-              username: 'z.baczek',
-            },
-            status: 'ENABLED',
-          },
-        ],
-      },
+      data: organizationsResponse,
     });
     const { queryAllByRole } = render(<Organizations/>);
 
@@ -61,4 +36,71 @@ describe('Organizations component', () => {
       // TODO: to be continued
     });
   });
+
+  it('should open create organization modal window on button click', async () => {
+    axiosMock.get
+      .mockResolvedValueOnce({ data: organizationsResponse })
+      .mockResolvedValueOnce({ data: organizationAdminsResponse });
+
+    const { getByText } = render(<Organizations/>);
+
+    await waitFor(() => {
+      const modalButton = getByText(/utwórz nową/i) as HTMLButtonElement;
+      fireEvent.click(modalButton);
+
+      const modalWindowHeader = getByText(/tworzenie nowej placówki/i);
+      expect(modalWindowHeader).toBeInTheDocument();
+    });
+  });
+
+  const organizationsResponse: OrganizationsResponse = {
+    organizations: [
+      {
+        id: '1',
+        name: 'szkoła 1',
+        admin: {
+          id: '1',
+          firstName: 'Bogusław',
+          lastName: 'Nowak',
+          role: UserRole.ORGANIZATION_ADMIN,
+          username: 'b.nowak',
+        },
+        status: 'DISABLED',
+      },
+      {
+        id: '2',
+        name: 'szkoła 2',
+        admin: {
+          id: '2',
+          firstName: 'Zbigniew',
+          lastName: 'Bączek',
+          role: UserRole.ORGANIZATION_ADMIN,
+          username: 'z.baczek',
+        },
+        status: 'ENABLED',
+      },
+    ],
+  };
+
+  const organizationAdminsResponse: UsersResponse = {
+    users: [
+      {
+        id: '42',
+        firstName: 'Jan',
+        lastName: 'Kowalski',
+        role: UserRole.ORGANIZATION_ADMIN,
+        username: 'j.kowalski',
+        pesel: '10210155874',
+        sex: UserSex.MALE,
+        email: 'j.kowalski@gmail.com',
+        phoneNumber: '+48123456789',
+        address: {
+          street: 'Szkolna 17',
+          postalCode: '15-640',
+          city: 'Białystok',
+          countryCode: 'PL',
+        },
+      },
+    ],
+  };
 });
