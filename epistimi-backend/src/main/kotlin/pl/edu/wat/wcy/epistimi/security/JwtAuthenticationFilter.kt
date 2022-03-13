@@ -9,7 +9,6 @@ import io.jsonwebtoken.Jwts
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -17,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import pl.edu.wat.wcy.epistimi.shared.api.ErrorMessage
+import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import java.util.regex.Pattern
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest
@@ -35,7 +35,7 @@ class JwtAuthenticationFilter(
         } catch (e: UnauthorizedException) {
             response
                 .apply { status = HttpStatus.UNAUTHORIZED.value() }
-                .apply { setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) }
+                .apply { setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_V1) }
                 .apply { objectMapper.writeValue(outputStream, ErrorMessage(e, HttpStatus.UNAUTHORIZED, request)) }
         }
         filterChain.doFilter(request, response)

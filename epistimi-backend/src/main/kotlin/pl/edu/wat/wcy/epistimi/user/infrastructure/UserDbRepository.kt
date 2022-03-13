@@ -37,36 +37,26 @@ class UserDbRepository(
         }
     }
 
-    override fun insert(user: User): User {
+    override fun save(user: User): User {
         return try {
-            userMongoDbRepository.insert(
+            userMongoDbRepository.save(
                 UserMongoDbDocument(
-                    id = null,
+                    id = user.id?.value,
                     firstName = user.firstName,
                     lastName = user.lastName,
                     role = user.role.toString(),
                     username = user.username,
                     passwordHash = user.passwordHash,
+                    pesel = user.pesel,
                     sex = user.sex?.toString(),
+                    email = user.email,
+                    phoneNumber = user.phoneNumber,
+                    address = user.address,
                 )
             ).toDomain()
         } catch (e: DuplicateKeyException) {
-            throw UsernameAlreadyInUseException(user.username)
+            throw UsernameAlreadyInUseException(user.username) // TODO: should be tested
         }
-    }
-
-    override fun save(user: User): User {
-        return userMongoDbRepository.save(
-            UserMongoDbDocument(
-                id = user.id?.value,
-                firstName = user.firstName,
-                lastName = user.lastName,
-                role = user.role.toString(),
-                username = user.username,
-                passwordHash = user.passwordHash,
-                sex = user.sex?.toString(),
-            )
-        ).toDomain()
     }
 
 }

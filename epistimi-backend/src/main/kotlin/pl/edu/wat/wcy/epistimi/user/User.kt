@@ -22,7 +22,11 @@ data class User(
         lastName = this.lastName,
         role = this.role,
         username = this.username,
+        pesel = this.pesel,
         sex = this.sex,
+        email = this.email,
+        phoneNumber = this.phoneNumber,
+        address = this.address,
     )
 
     enum class Role {

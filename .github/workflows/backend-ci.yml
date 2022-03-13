@@ -32,3 +32,5 @@ jobs:
         run: ./gradlew assemble
       - name: 'Gradle: test'
         run: ./gradlew test
+      - name: 'Gradle: integration'
+        run: ./gradlew integration

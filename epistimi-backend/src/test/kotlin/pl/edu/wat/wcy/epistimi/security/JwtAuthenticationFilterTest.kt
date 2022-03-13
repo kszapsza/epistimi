@@ -11,14 +11,13 @@ import org.springframework.mock.web.MockFilterChain
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 
-class JwtAuthenticationFilterTest : ShouldSpec({
-
-    should("reject a request") {
-        forAll(
-            row("", "Authorization token missing"),
-            row("abc", "Authorization token missing"),
-            row("Bearer abc", "Authorization token invalid"),
-        ) { authorizationHeader, errorMessage ->
+internal class JwtAuthenticationFilterTest : ShouldSpec({
+    forAll(
+        row("Authorization header missing", "", "Authorization token missing"),
+        row("Authorization header without Bearer prefix", "abc", "Authorization token missing"),
+        row("Authorization header invalid", "Bearer abc", "Authorization token invalid"),
+    ) { scenario, authorizationHeader, errorMessage ->
+        should("reject a request ($scenario)") {
             val objectMapper = ObjectMapper()
             val filterChainMock = MockFilterChain()
             val requestMock = MockHttpServletRequest()

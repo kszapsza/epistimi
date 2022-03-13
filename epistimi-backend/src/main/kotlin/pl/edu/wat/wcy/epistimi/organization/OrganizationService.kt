@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.epistimi.organization
 
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
@@ -14,11 +13,16 @@ class OrganizationService(
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository
 ) {
+    fun getOrganization(
+        organizationId: String
+    ): Organization {
+        return organizationRepository.findById(organizationId)
+    }
+
     fun getOrganizations(): List<Organization> {
         return organizationRepository.findAll()
     }
 
-    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     fun registerOrganization(registerRequest: OrganizationRegisterRequest): Organization {
         val requestedOrganizationAdmin = try {
             userRepository.findById(registerRequest.adminId)
@@ -29,7 +33,7 @@ class OrganizationService(
             logger.warn("Attempted to register an organization with user ineligible to be an organization admin")
             throw AdministratorInsufficientPermissionsException()
         }
-        return organizationRepository.insert(
+        return organizationRepository.save(
             Organization(
                 id = null,
                 name = registerRequest.name,
@@ -42,7 +46,6 @@ class OrganizationService(
     private fun User.isEligibleToBeOrganizationAdmin() =
         (role == User.Role.EPISTIMI_ADMIN || role == User.Role.ORGANIZATION_ADMIN)
 
-    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     fun changeOrganizationStatus(
         organizationId: String,
         changeStatusRequest: OrganizationChangeStatusRequest
@@ -57,7 +60,7 @@ class OrganizationService(
             )
         )
     }
-    
+
     companion object {
         private val logger by logger()
     }

@@ -1,0 +1,71 @@
+package pl.edu.wat.wcy.epistimi.spec
+
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.string.shouldNotBeEmpty
+import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.boot.test.web.client.exchange
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpMethod.POST
+import org.springframework.http.HttpStatus.OK
+import org.springframework.http.HttpStatus.UNAUTHORIZED
+import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
+import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
+import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
+import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.stub.UserStubbing
+
+internal class AuthenticationControllerSpec(
+    private val restTemplate: TestRestTemplate,
+    private val userStubbing: UserStubbing,
+) : BaseIntegrationSpec({
+
+    should("reject with HTTP 401 if provided username doesn't exist") {
+        // given
+        val body = LoginRequest(username = "foo", password = "42")
+
+        // when
+        val response = restTemplate.exchange<String>(
+            url = "/auth/login",
+            method = POST,
+            requestEntity = HttpEntity(body, null),
+        )
+
+        // then
+        response.statusCode shouldBe UNAUTHORIZED
+    }
+
+    should("reject with HTTP 401 if username exists but password is not valid") {
+        // given
+        userStubbing.userExists(username = "foo", password = "24")
+        val body = LoginRequest(username = "foo", password = "42")
+
+        // when
+        val response = restTemplate.exchange<String>(
+            url = "/auth/login",
+            method = POST,
+            requestEntity = HttpEntity(body, null),
+        )
+
+        // then
+        response.statusCode shouldBe UNAUTHORIZED
+    }
+
+    should("issue a Bearer token if provided username and password are valid") {
+        // given
+        val user = userStubbing.userExists(username = "foo", password = "42")
+        val body = LoginRequest(username = "foo", password = "42")
+
+        // when
+        val response = restTemplate.exchange<LoginResponse>(
+            url = "/auth/login",
+            method = POST,
+            requestEntity = HttpEntity(body, null),
+        )
+
+        // then
+        response.statusCode shouldBe OK
+        response.headers.contentType.toString() shouldContain MediaType.APPLICATION_JSON_V1
+        response.body!!.token.shouldNotBeEmpty()
+    }
+})

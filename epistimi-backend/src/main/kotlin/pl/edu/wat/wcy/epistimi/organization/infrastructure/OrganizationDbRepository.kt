@@ -29,20 +29,10 @@ class OrganizationDbRepository(
             .map { it.toDomain() }
             .orElseThrow { throw OrganizationNotFoundException() }
 
-    override fun insert(organization: Organization): Organization =
-        organizationMongoDbRepository.insert(
-            OrganizationMongoDbDocument(
-                id = null,
-                name = organization.name,
-                adminId = organization.admin.id!!.value,
-                status = organization.status.toString()
-            )
-        ).toDomain()
-
     override fun save(organization: Organization): Organization =
         organizationMongoDbRepository.save(
             OrganizationMongoDbDocument(
-                id = organization.id!!.value,
+                id = organization.id?.value,
                 name = organization.name,
                 adminId = organization.admin.id!!.value,
                 status = organization.status.toString()
