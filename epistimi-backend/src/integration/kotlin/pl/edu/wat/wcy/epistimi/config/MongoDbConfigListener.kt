@@ -11,7 +11,7 @@ import io.kotest.core.test.TestResult
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.utility.DockerImageName
 
-class MongoDbConfigListener : BeforeProjectListener, AfterProjectListener, AfterTestListener {
+internal class MongoDbConfigListener : BeforeProjectListener, AfterProjectListener, AfterTestListener {
     lateinit var container: MongoDBContainer
     lateinit var client: MongoClient
     lateinit var database: MongoDatabase

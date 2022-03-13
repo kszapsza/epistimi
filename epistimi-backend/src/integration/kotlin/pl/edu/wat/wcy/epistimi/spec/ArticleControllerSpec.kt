@@ -12,7 +12,7 @@ import pl.edu.wat.wcy.epistimi.article.ArticleId
 import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import pl.edu.wat.wcy.epistimi.stub.ArticleStubbing
 
-class ArticleControllerSpec(
+internal class ArticleControllerSpec(
     private val articleStubbing: ArticleStubbing,
     private val restTemplate: TestRestTemplate,
 ) : BaseIntegrationSpec({

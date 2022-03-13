@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Versions {
+    const val APACHE_HTTP_CLIENT = "4.5.13"
     const val JAXB = "2.4.0-b180830.0359"
     const val JJWT = "0.9.1"
     const val KOTEST = "5.1.0"
@@ -57,9 +58,11 @@ dependencies {
     testImplementation("io.mockk", "mockk", Versions.MOCKK)
     testImplementation("org.springframework.boot", "spring-boot-starter-test")
 
+    integrationImplementation("io.kotest", "kotest-assertions-core-jvm", Versions.KOTEST)
     integrationImplementation("io.kotest", "kotest-assertions-json", Versions.KOTEST)
     integrationImplementation("io.kotest.extensions", "kotest-extensions-spring", Versions.KOTEST_SPRING)
     integrationImplementation("io.kotest.extensions", "kotest-extensions-testcontainers", Versions.KOTEST_TC)
+    integrationImplementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
     integrationImplementation("org.testcontainers", "mongodb", Versions.TC_MONGO)
 }
 

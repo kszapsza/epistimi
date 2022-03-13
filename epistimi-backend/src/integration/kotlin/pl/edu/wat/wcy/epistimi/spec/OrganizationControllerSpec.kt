@@ -31,7 +31,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 
-class OrganizationControllerSpec(
+internal class OrganizationControllerSpec(
     private val restTemplate: TestRestTemplate,
     private val organizationStubbing: OrganizationStubbing,
     private val securityStubbing: SecurityStubbing,
@@ -46,7 +46,9 @@ class OrganizationControllerSpec(
 
         // when
         val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}", method = GET, requestEntity = HttpEntity(null, headers)
+            url = "/api/organization/${organization.id!!.value}",
+            method = GET,
+            requestEntity = HttpEntity(null, headers)
         )
 
         // then
@@ -86,7 +88,9 @@ class OrganizationControllerSpec(
 
         // when
         val response = restTemplate.exchange<String>(
-            url = "/api/organization/42", method = GET, requestEntity = HttpEntity(null, headers)
+            url = "/api/organization/42",
+            method = GET,
+            requestEntity = HttpEntity(null, headers)
         )
 
         // then
@@ -302,7 +306,9 @@ class OrganizationControllerSpec(
 
         // when
         val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}", method = PUT, requestEntity = HttpEntity(body)
+            url = "/api/organization/${organization.id!!.value}",
+            method = PUT,
+            requestEntity = HttpEntity(body)
         )
 
         // then
@@ -324,7 +330,9 @@ class OrganizationControllerSpec(
 
             // when
             val response = restTemplate.exchange<String>(
-                url = "/api/organization/${organization.id!!.value}/status", method = PUT, requestEntity = HttpEntity(body, headers)
+                url = "/api/organization/${organization.id!!.value}/status",
+                method = PUT,
+                requestEntity = HttpEntity(body, headers)
             )
 
             // then
@@ -339,7 +347,9 @@ class OrganizationControllerSpec(
 
         // when
         val response = restTemplate.exchange<String>(
-            url = "/api/organization/42/status", method = PUT, requestEntity = HttpEntity(body, headers)
+            url = "/api/organization/42/status",
+            method = PUT,
+            requestEntity = HttpEntity(body, headers)
         )
 
         // then
@@ -355,7 +365,9 @@ class OrganizationControllerSpec(
 
         // when
         val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}/status", method = PUT, requestEntity = HttpEntity(body, headers)
+            url = "/api/organization/${organization.id!!.value}/status",
+            method = PUT,
+            requestEntity = HttpEntity(body, headers)
         )
 
         // then

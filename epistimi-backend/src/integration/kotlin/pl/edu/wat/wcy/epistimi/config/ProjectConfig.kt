@@ -3,7 +3,7 @@ package pl.edu.wat.wcy.epistimi.config
 import io.kotest.core.config.AbstractProjectConfig
 import io.kotest.core.extensions.Extension
 
-object ProjectConfig : AbstractProjectConfig() {
+internal object ProjectConfig : AbstractProjectConfig() {
     val mongoDbConfigListener = MongoDbConfigListener()
 
     override fun extensions(): List<Extension> {

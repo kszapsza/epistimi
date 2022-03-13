@@ -7,7 +7,7 @@ import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
 import pl.edu.wat.wcy.epistimi.user.User
 
 @Component
-class SecurityStubbing(
+internal class SecurityStubbing(
     private val userStubbing: UserStubbing,
     private val authenticationService: AuthenticationService,
 ) {

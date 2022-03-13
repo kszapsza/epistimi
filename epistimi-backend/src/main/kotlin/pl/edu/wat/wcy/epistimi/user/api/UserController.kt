@@ -15,12 +15,24 @@ import pl.edu.wat.wcy.epistimi.user.UserService
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.dto.UserResponse
 import pl.edu.wat.wcy.epistimi.user.dto.UsersResponse
+import java.net.URI
 
 @RestController
 @RequestMapping("/api/user")
 class UserController(
     private val userService: UserService,
 ) {
+    @RequestMapping(
+        path = ["/current"],
+        method = [RequestMethod.GET],
+        produces = [MediaType.APPLICATION_JSON_V1],
+    )
+    fun getCurrentUser(
+        authentication: Authentication,
+    ): ResponseEntity<UserResponse> = ResponseEntity.ok(
+        userService.getUserByUsername(authentication.principal as String).toResponse()
+    )
+
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @RequestMapping(
         path = [""],
@@ -35,17 +47,6 @@ class UserController(
         )
     )
 
-    @RequestMapping(
-        path = ["/current"],
-        method = [RequestMethod.GET],
-        produces = [MediaType.APPLICATION_JSON_V1],
-    )
-    fun getCurrentUser(
-        authentication: Authentication,
-    ): ResponseEntity<UserResponse> = ResponseEntity.ok(
-        userService.getUserByUsername(authentication.principal as String).toResponse()
-    )
-
     @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN', 'ORGANIZATION_ADMIN')")
     @RequestMapping(
         path = ["/{userId}"],
@@ -58,7 +59,7 @@ class UserController(
         userService.getUserById(userId).toResponse()
     )
 
-    @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN', 'ORGANIZATION_ADMIN')")
+    @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN')")
     @RequestMapping(
         path = [""],
         method = [RequestMethod.POST],
@@ -66,7 +67,10 @@ class UserController(
     )
     fun registerUser(
         @RequestBody registerRequest: UserRegisterRequest
-    ): ResponseEntity<UserResponse> = ResponseEntity.ok(
-        userService.registerUser(registerRequest).toResponse()
-    )
+    ): ResponseEntity<UserResponse> =
+        userService.registerUser(registerRequest).let {
+            ResponseEntity
+                .created(URI("/api/user/${it.id!!.value}"))
+                .body(it.toResponse())
+        }
 }

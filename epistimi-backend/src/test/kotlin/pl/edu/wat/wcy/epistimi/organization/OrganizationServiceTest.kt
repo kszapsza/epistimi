@@ -18,7 +18,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
 
-class OrganizationServiceTest : ShouldSpec({
+internal class OrganizationServiceTest : ShouldSpec({
     val organizationRepository = mockk<OrganizationRepository>()
     val userRepository = mockk<UserRepository>()
     val organizationService = OrganizationService(organizationRepository, userRepository)
@@ -40,8 +40,10 @@ class OrganizationServiceTest : ShouldSpec({
         row(TEACHER),
     ) { role ->
         should("fail to register new organization if provided admin has $role role") {
+            // given
             every { userRepository.findById("123") } returns userStub(role)
 
+            // when & then
             shouldThrow<AdministratorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", "123")
@@ -55,9 +57,11 @@ class OrganizationServiceTest : ShouldSpec({
         row(ORGANIZATION_ADMIN),
     ) { role ->
         should("successfully register new organization if provided admin has $role role") {
+            // given
             every { userRepository.findById("123") } returns userStub(role)
             every { organizationRepository.save(any()) } returnsArgument 0
 
+            // when & then
             shouldNotThrow<AdministratorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", "123")
@@ -66,9 +70,11 @@ class OrganizationServiceTest : ShouldSpec({
         }
     }
 
-    should("fail to register new organization if admin with provided does not exist") {
+    should("fail to register new organization if admin with provided id does not exist") {
+        // given
         every { userRepository.findById("123") } throws UserNotFoundException()
 
+        // when & then
         shouldThrow<AdministratorNotFoundException> {
             organizationService.registerOrganization(
                 OrganizationRegisterRequest("ABC", "123")

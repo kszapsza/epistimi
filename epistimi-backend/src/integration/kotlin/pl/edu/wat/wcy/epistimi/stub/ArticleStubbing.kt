@@ -5,7 +5,7 @@ import pl.edu.wat.wcy.epistimi.article.Article
 import pl.edu.wat.wcy.epistimi.article.ArticleRepository
 
 @Component
-class ArticleStubbing(
+internal class ArticleStubbing(
     private val articleRepository: ArticleRepository
 ) {
     fun articlesExist(vararg articles: Article) {

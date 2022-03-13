@@ -13,7 +13,7 @@ import pl.edu.wat.wcy.epistimi.config.ProjectConfig
     classes = [EpistimiApplication::class],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 )
-abstract class BaseIntegrationSpec(body: ShouldSpec.() -> Unit) : ShouldSpec(body) {
+internal abstract class BaseIntegrationSpec(body: ShouldSpec.() -> Unit) : ShouldSpec(body) {
     companion object {
         @DynamicPropertySource
         @JvmStatic

@@ -9,7 +9,7 @@ import pl.edu.wat.wcy.epistimi.user.UserService
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
 
 @Component
-class UserStubbing(
+internal class UserStubbing(
     private val userService: UserService,
 ) {
     fun userExists(
@@ -28,4 +28,18 @@ class UserStubbing(
             UserRegisterRequest(firstName, lastName, role, username, password, pesel, sex, email, phoneNumber, address)
         )
     }
+
+    val registerRequest
+        get() = UserRegisterRequest(
+            firstName = "Jan",
+            lastName = "Kowalski",
+            role = STUDENT,
+            username = "j.kowalski",
+            password = "123456",
+            pesel = "10210155874",
+            sex = MALE,
+            email = "j.kowalski@gmail.com",
+            phoneNumber = "+48123456789",
+            address = Address(street = "Szkolna 17", postalCode = "15-640", city = "Białystok", countryCode = "PL"),
+        )
 }

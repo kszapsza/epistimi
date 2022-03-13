@@ -8,7 +8,7 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.user.User
 
 @Component
-class OrganizationStubbing(
+internal class OrganizationStubbing(
     private val organizationRepository: OrganizationRepository,
 ) {
     fun organizationExists(

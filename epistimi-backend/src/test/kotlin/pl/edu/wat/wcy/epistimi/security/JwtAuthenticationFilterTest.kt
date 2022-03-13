@@ -11,7 +11,7 @@ import org.springframework.mock.web.MockFilterChain
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 
-class JwtAuthenticationFilterTest : ShouldSpec({
+internal class JwtAuthenticationFilterTest : ShouldSpec({
     forAll(
         row("Authorization header missing", "", "Authorization token missing"),
         row("Authorization header without Bearer prefix", "abc", "Authorization token missing"),
