@@ -3,7 +3,7 @@ import { Button, MessageBox, MessageBoxStyle, Spinner } from '../../../component
 import { Create, Done, ErrorOutline } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { Modal } from '../../../components/Modal';
-import { OrganizationColorStatus } from '../OrganizationColorStatus/OrganizationColorStatus';
+import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationCreate } from '../OrganizationCreate';
 import { OrganizationResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
 import { useEffect, useState } from 'react';

@@ -14,6 +14,16 @@ describe('Organizations component', () => {
     jest.resetAllMocks();
   });
 
+  it('should set page title', async () => {
+    axiosMock.get.mockResolvedValue({});
+
+    render(<Organizations/>);
+
+    await waitFor(() => {
+      expect(document.title).toBe('Placówki – Epistimi');
+    });
+  });
+
   it('should render an error message if organizations could not be fetched from API', async () => {
     axiosMock.get.mockRejectedValue({});
 

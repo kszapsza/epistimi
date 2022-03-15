@@ -7,7 +7,7 @@ A platform combining electronic school diary and e-learning features.
 **Backend:**
 
 * Kotlin & Spring Boot
-* Groovy & Spock
+* Kotest
 * MongoDB
 
 **Frontend:**

@@ -2,7 +2,7 @@ import './OrganizationDetails.scss';
 import { Block, Done, Edit } from '@mui/icons-material';
 import { Button, MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { Modal } from '../../../components/Modal';
-import { OrganizationColorStatus } from '../OrganizationColorStatus/OrganizationColorStatus';
+import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
 import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
