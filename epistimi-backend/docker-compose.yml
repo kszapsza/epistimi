@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  mongodb:
+    container_name: epistimi_mongodb
+    environment:
+      MONGO_INITDB_DATABASE: epistimi
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_ROOT_USERNAME: admin
+    image: mongo:latest
+    ports:
+        - '27017:27017'
+    restart: always
+    volumes:
+        - ./data/mongo/init_db_users.js:/docker-entrypoint-initdb.d/init_db_users.js:ro
