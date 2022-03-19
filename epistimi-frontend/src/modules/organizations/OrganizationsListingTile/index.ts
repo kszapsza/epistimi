@@ -1,0 +1,1 @@
+export { OrganizationsListingTile } from './OrganizationsListingTile';

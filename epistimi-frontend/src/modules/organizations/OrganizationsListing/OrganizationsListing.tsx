@@ -1,15 +1,14 @@
-import './Organizations.scss';
+import './OrganizationsListing.scss';
 import { Button, MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { Create, Done, ErrorOutline } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
 import { Modal } from '../../../components/Modal';
-import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationCreate } from '../OrganizationCreate';
 import { OrganizationResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
+import { OrganizationsListingTile } from '../OrganizationsListingTile';
 import { useEffect, useState } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
 
-export const Organizations = (): JSX.Element => {
+export const OrganizationsListing = (): JSX.Element => {
   const { data, loading, error } = useFetch<OrganizationsResponse>('api/organization');
   const [createModalOpen, setCreateModalOpen] = useState<boolean>(false);
   const [createdMessageOpen, setCreatedMessageOpen] = useState<boolean>(false);
@@ -55,27 +54,19 @@ export const Organizations = (): JSX.Element => {
       {loading && <Spinner/>}
 
       {data &&
-        <>
-          <table className={'organizations-listing'}>
-            <tbody>
-            <tr>
-              <th>Id</th>
-              <th>Nazwa</th>
-              <th>Administrator</th>
-              <th>Status</th>
-            </tr>
-            {data.organizations.map(({ id, name, admin, status }) =>
-              <tr key={id}>
-                <td><Link to={`./${id}`}><samp>{id}</samp></Link></td>
-                <td>{name}</td>
-                <td>{admin.username}</td>
-                <td>{<OrganizationColorStatus status={status}/>}</td>
-              </tr>,
-            )}
-            </tbody>
-          </table>
-          <p>Łącznie: {data.organizations.length}, w tym aktywnych: {activeCount}.</p>
-        </>}
+        <div className={'organizations-listing'}>
+          {data.organizations.map(({ id, name, admin, status }) =>
+            <OrganizationsListingTile
+              key={id}
+              id={id}
+              name={name}
+              admin={admin.username}
+              status={status}
+            />)}
+          <div className={'organizations-listing-summary'}>
+            Łącznie: {data.organizations.length}, w tym aktywnych: {activeCount}.
+          </div>
+        </div>}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { enabledOrganization } from '../../../stubs/organization';
 import { OrganizationDetails } from './OrganizationDetails';
 import { render } from '../../../utils/test-render';
 import { waitFor } from '@testing-library/react';
@@ -17,5 +18,26 @@ describe('OrganizationDetails component', () => {
     });
   });
 
-  // it('', () => {});
+  it('should properly render component', async () => {
+    axiosMock.get.mockResolvedValue({
+      data: enabledOrganization,
+    });
+
+    const { getAllByRole } = render(<OrganizationDetails/>);
+
+    await waitFor(() => {
+      expect(getAllByRole('heading')[0]).toHaveTextContent(/szczegóły placówki/i);
+      // TODO: organization details assertions
+    });
+  });
+
+  it('should render an error message if server fails to respond', async () => {
+    axiosMock.get.mockRejectedValue({});
+
+    const { getByText } = render(<OrganizationDetails/>);
+
+    await waitFor(() => {
+      expect(getByText(/nie udało się załadować szczegółów organizacji/i)).toBeInTheDocument();
+    });
+  });
 });

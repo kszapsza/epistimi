@@ -76,9 +76,9 @@ export const OrganizationDetails = (): JSX.Element => {
           </div>
         </div>
         <div className={'organization-stats'}>
-          <OrganizationDetailsStatsTile label={'Zarejestrowanych klas:'} value={'N/A'}/>
-          <OrganizationDetailsStatsTile label={'Zarejestrowanych uczniów:'} value={'N/A'}/>
-          <OrganizationDetailsStatsTile label={'Zarejestrowanych nauczycieli:'} value={'N/A'}/>
+          <OrganizationDetailsStatsTile label={'Aktywnych klas:'} value={'N/A'}/>
+          <OrganizationDetailsStatsTile label={'Aktywnych uczniów:'} value={'N/A'}/>
+          <OrganizationDetailsStatsTile label={'Aktywnych nauczycieli:'} value={'N/A'}/>
         </div>
       </>}
     </div>

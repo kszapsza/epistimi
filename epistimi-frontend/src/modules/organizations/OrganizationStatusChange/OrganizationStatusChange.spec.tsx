@@ -70,6 +70,4 @@ describe('OrganizationStatusChange component', () => {
       { status: OrganizationStatus.ENABLED },
     );
   });
-
-
 });

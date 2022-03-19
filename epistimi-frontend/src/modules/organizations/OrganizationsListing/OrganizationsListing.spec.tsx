@@ -1,6 +1,6 @@
 import { disabledOrganization, enabledOrganization } from '../../../stubs/organization';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { Organizations } from './Organizations';
+import { OrganizationsListing } from './OrganizationsListing';
 import { OrganizationsResponse } from '../../../dto/organization';
 import { render } from '../../../utils/test-render';
 import { UserRole, UserSex, UsersResponse } from '../../../dto/user';
@@ -9,7 +9,7 @@ import axios from 'axios';
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
 
-describe('Organizations component', () => {
+describe('OrganizationsListing component', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -17,7 +17,7 @@ describe('Organizations component', () => {
   it('should set page title', async () => {
     axiosMock.get.mockResolvedValue({});
 
-    render(<Organizations/>);
+    render(<OrganizationsListing/>);
 
     await waitFor(() => {
       expect(document.title).toBe('Placówki – Epistimi');
@@ -27,7 +27,7 @@ describe('Organizations component', () => {
   it('should render an error message if organizations could not be fetched from API', async () => {
     axiosMock.get.mockRejectedValue({});
 
-    const { queryByText } = render(<Organizations/>);
+    const { queryByText } = render(<OrganizationsListing/>);
 
     await waitFor(() => {
       expect(axiosMock.get).toHaveBeenCalledWith('api/organization');
@@ -39,12 +39,17 @@ describe('Organizations component', () => {
     axiosMock.get.mockResolvedValue({
       data: organizationsResponse,
     });
-    const { queryAllByRole } = render(<Organizations/>);
+    const { queryAllByRole } = render(<OrganizationsListing/>);
 
     await waitFor(() => {
+      const rows = queryAllByRole('row');
+
       expect(axiosMock.get).toHaveBeenCalledWith('api/organization');
-      expect(queryAllByRole('row')).toHaveLength(3);
-      // TODO: to be continued
+      expect(rows).toHaveLength(2);
+      expect(rows[0]).toHaveTextContent(/sp7/i);
+      expect(rows[0]).toHaveTextContent(/nieaktywna/i);
+      expect(rows[1]).toHaveTextContent(/sp7/i);
+      expect(rows[1]).toHaveTextContent(/aktywna/i);
     });
   });
 
@@ -53,7 +58,7 @@ describe('Organizations component', () => {
       .mockResolvedValueOnce({ data: organizationsResponse })
       .mockResolvedValueOnce({ data: organizationAdminsResponse });
 
-    const { getByText } = render(<Organizations/>);
+    const { getByText } = render(<OrganizationsListing/>);
 
     await waitFor(() => {
       const modalButton = getByText(/utwórz nową/i) as HTMLButtonElement;
