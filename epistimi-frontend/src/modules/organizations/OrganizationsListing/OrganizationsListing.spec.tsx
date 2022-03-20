@@ -56,7 +56,7 @@ describe('OrganizationsListing component', () => {
   it('should open create organization modal window on button click', async () => {
     axiosMock.get
       .mockResolvedValueOnce({ data: organizationsResponse })
-      .mockResolvedValueOnce({ data: organizationAdminsResponse });
+      .mockResolvedValue({ data: organizationAdminsResponse });
 
     const { getByText } = render(<OrganizationsListing/>);
 

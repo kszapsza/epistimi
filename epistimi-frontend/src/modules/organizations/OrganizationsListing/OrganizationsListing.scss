@@ -2,8 +2,6 @@
 @import 'src/styles/util';
 
 .organizations {
-  @include hide-scrollbar;
-
   display: flex;
   flex-direction: column;
   height: 100%;

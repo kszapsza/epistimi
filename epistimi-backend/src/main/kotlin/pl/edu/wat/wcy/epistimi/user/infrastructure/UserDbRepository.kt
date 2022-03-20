@@ -13,13 +13,13 @@ class UserDbRepository(
     private val userMongoDbRepository: UserMongoDbRepository
 ) : UserRepository {
 
-    override fun findAllByRole(role: User.Role): List<User> {
-        return userMongoDbRepository.findAllByRole(role.toString())
+    override fun findAll(): List<User> {
+        return userMongoDbRepository.findAll()
             .map { it.toDomain() }
     }
 
-    override fun findAll(): List<User> {
-        return userMongoDbRepository.findAll()
+    override fun findAllByRoleIn(roles: Collection<User.Role>): List<User> {
+        return userMongoDbRepository.findAllByRoleIn(roles.map { it.toString() })
             .map { it.toDomain() }
     }
 

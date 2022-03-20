@@ -9,11 +9,11 @@ class UserService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
 ) {
-    fun getUsers(userRole: User.Role?): List<User> {
-        return if (userRole == null) {
+    fun getUsers(userRoles: List<User.Role>?): List<User> {
+        return if (userRoles == null) {
             userRepository.findAll()
         } else {
-            userRepository.findAllByRole(userRole)
+            userRepository.findAllByRoleIn(userRoles)
         }
     }
 

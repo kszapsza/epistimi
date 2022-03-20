@@ -53,7 +53,7 @@ internal class AuthenticationControllerSpec(
 
     should("issue a Bearer token if provided username and password are valid") {
         // given
-        val user = userStubbing.userExists(username = "foo", password = "42")
+        userStubbing.userExists(username = "foo", password = "42")
         val body = LoginRequest(username = "foo", password = "42")
 
         // when

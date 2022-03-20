@@ -18,9 +18,11 @@ import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
+import pl.edu.wat.wcy.epistimi.data.DummyAddress
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.DISABLED
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
+import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
@@ -30,6 +32,8 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
+import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
+import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
 
 internal class OrganizationControllerSpec(
     private val restTemplate: TestRestTemplate,
@@ -38,10 +42,43 @@ internal class OrganizationControllerSpec(
     private val userStubbing: UserStubbing,
 ) : BaseIntegrationSpec({
 
+    val stubOrganizationAdmin = {
+        userStubbing.userExists(
+            role = ORGANIZATION_ADMIN,
+            username = "sp7_admin",
+            firstName = "Adrianna",
+            lastName = "Nowak",
+            pesel = "58030515441",
+            sex = FEMALE,
+            email = "a.nowak@gmail.com",
+            phoneNumber = "+48987654321",
+            address = DummyAddress().copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+        )
+    }
+
+    val stubOrganizationDirector = {
+        userStubbing.userExists(
+            role = TEACHER,
+            username = "sp7_director",
+            firstName = "Jan",
+            lastName = "Ważny",
+            pesel = "65080289523",
+            sex = MALE,
+            email = "j.wazny@gmail.com",
+            phoneNumber = "+48123456789",
+            address = DummyAddress().copy(street = "Wrocławska 5", postalCode = "15-644"),
+        )
+    }
+
     should("return single organization") {
         // given
-        val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "sp7_admin")
-        val organization = organizationStubbing.organizationExists(name = "SP7", admin = organizationAdmin)
+        val organizationAdmin = stubOrganizationAdmin()
+        val organizationDirector = stubOrganizationDirector()
+        val organization = organizationStubbing.organizationExists(
+            name = "SP7",
+            admin = organizationAdmin,
+            director = organizationDirector
+        )
         val headers = securityStubbing.authorizationHeaderFor(STUDENT)
 
         // when
@@ -61,20 +98,43 @@ internal class OrganizationControllerSpec(
               "name": "SP7",
               "admin": {
                 "id": "${organizationAdmin.id!!.value}",
-                "firstName": "Jan",
-                "lastName": "Kowalski",
+                "firstName": "Adrianna",
+                "lastName": "Nowak",
                 "role": "ORGANIZATION_ADMIN",
                 "username": "sp7_admin",
-                "pesel": "10210155874",
+                "pesel": "58030515441",
+                "sex": "FEMALE",
+                "email": "a.nowak@gmail.com",
+                "phoneNumber": "+48987654321",
+                "address": {
+                  "street": "Świętego Andrzeja Boboli 10",
+                  "postalCode": "15-649",
+                  "city": "Białystok",
+                  "countryCode": "PL"
+                }
+              },
+              "director": {
+                "id": "${organizationDirector.id!!.value}",
+                "firstName": "Jan",
+                "lastName": "Ważny",
+                "role": "TEACHER",
+                "username": "sp7_director",
+                "pesel": "65080289523",
                 "sex": "MALE",
-                "email": "j.kowalski@gmail.com",
+                "email": "j.wazny@gmail.com",
                 "phoneNumber": "+48123456789",
                 "address": {
+                  "street": "Wrocławska 5",
+                  "postalCode": "15-644",
+                  "city": "Białystok",
+                  "countryCode": "PL"
+                }
+              },
+              "address": {
                   "street": "Szkolna 17",
                   "postalCode": "15-640",
                   "city": "Białystok",
                   "countryCode": "PL"
-                }
               },
               "status": "ENABLED"
             }
@@ -154,8 +214,13 @@ internal class OrganizationControllerSpec(
 
     should("return list of organizations") {
         // given
-        val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "sp7_admin")
-        val organization = organizationStubbing.organizationExists(name = "SP7", admin = organizationAdmin)
+        val organizationAdmin = stubOrganizationAdmin()
+        val organizationDirector = stubOrganizationDirector()
+        val organization = organizationStubbing.organizationExists(
+            name = "SP7",
+            admin = organizationAdmin,
+            director = organizationDirector
+        )
         val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
 
         // when
@@ -177,20 +242,43 @@ internal class OrganizationControllerSpec(
                   "name": "SP7",
                   "admin": {
                     "id": "${organizationAdmin.id!!.value}",
-                    "firstName": "Jan",
-                    "lastName": "Kowalski",
+                    "firstName": "Adrianna",
+                    "lastName": "Nowak",
                     "role": "ORGANIZATION_ADMIN",
                     "username": "sp7_admin",
-                    "pesel": "10210155874",
+                    "pesel": "58030515441",
+                    "sex": "FEMALE",
+                    "email": "a.nowak@gmail.com",
+                    "phoneNumber": "+48987654321",
+                    "address": {
+                      "street": "Świętego Andrzeja Boboli 10",
+                      "postalCode": "15-649",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                    }
+                  },
+                  "director": {
+                    "id": "${organizationDirector.id!!.value}",
+                    "firstName": "Jan",
+                    "lastName": "Ważny",
+                    "role": "TEACHER",
+                    "username": "sp7_director",
+                    "pesel": "65080289523",
                     "sex": "MALE",
-                    "email": "j.kowalski@gmail.com",
+                    "email": "j.wazny@gmail.com",
                     "phoneNumber": "+48123456789",
                     "address": {
+                      "street": "Wrocławska 5",
+                      "postalCode": "15-644",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                    }
+                  },
+                  "address": {
                       "street": "Szkolna 17",
                       "postalCode": "15-640",
                       "city": "Białystok",
                       "countryCode": "PL"
-                    }
                   },
                   "status": "ENABLED"
                 }
@@ -201,8 +289,20 @@ internal class OrganizationControllerSpec(
 
     should("fail registering new organization with HTTP 401 if user is not authenticated") {
         // given
-        val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "g2_admin")
-        val body = OrganizationRegisterRequest(name = "Gimnazjum nr 2", adminId = organizationAdmin.id!!.value)
+        val organizationAdmin = stubOrganizationAdmin()
+        val organizationDirector = stubOrganizationDirector()
+
+        val body = OrganizationRegisterRequest(
+            name = "Gimnazjum nr 2",
+            adminId = organizationAdmin.id!!.value,
+            directorId = organizationDirector.id!!.value,
+            address = Address(
+                street = "Szkolna 17",
+                postalCode = "15-640",
+                city = "Białystok",
+                countryCode = "PL",
+            )
+        )
 
         // when
         val response = restTemplate.exchange<String>(
@@ -223,9 +323,21 @@ internal class OrganizationControllerSpec(
     ) { role ->
         should("fail registering new organization with HTTP 403 if user is unauthorized ($role)") {
             // given
-            val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "g2_admin")
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
             val headers = securityStubbing.authorizationHeaderFor(role)
-            val body = OrganizationRegisterRequest(name = "Gimnazjum nr 2", adminId = organizationAdmin.id!!.value)
+
+            val body = OrganizationRegisterRequest(
+                name = "Gimnazjum nr 2",
+                adminId = organizationAdmin.id!!.value,
+                directorId = organizationDirector.id!!.value,
+                address = Address(
+                    street = "Szkolna 17",
+                    postalCode = "15-640",
+                    city = "Białystok",
+                    countryCode = "PL",
+                )
+            )
 
             // when
             val response = restTemplate.exchange<String>(
@@ -241,9 +353,16 @@ internal class OrganizationControllerSpec(
 
     should("register new organization") {
         // given
-        val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "g2_admin")
+        val organizationAdmin = stubOrganizationAdmin()
+        val organizationDirector = stubOrganizationDirector()
         val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationRegisterRequest(name = "Gimnazjum nr 2", adminId = organizationAdmin.id!!.value)
+
+        val body = OrganizationRegisterRequest(
+            name = "Gimnazjum nr 2",
+            adminId = organizationAdmin.id!!.value,
+            directorId = organizationDirector.id!!.value,
+            address = DummyAddress(),
+        )
 
         // when
         val response = restTemplate.exchange<String>(
@@ -262,20 +381,43 @@ internal class OrganizationControllerSpec(
               "name": "Gimnazjum nr 2",
               "admin": {
                 "id": "${organizationAdmin.id!!.value}",
-                "firstName": "Jan",
-                "lastName": "Kowalski",
+                "firstName": "Adrianna",
+                "lastName": "Nowak",
                 "role": "ORGANIZATION_ADMIN",
-                "username": "g2_admin",
-                "pesel": "10210155874",
+                "username": "sp7_admin",
+                "pesel": "58030515441",
+                "sex": "FEMALE",
+                "email": "a.nowak@gmail.com",
+                "phoneNumber": "+48987654321",
+                "address": {
+                  "street": "Świętego Andrzeja Boboli 10",
+                  "postalCode": "15-649",
+                  "city": "Białystok",
+                  "countryCode": "PL"
+                }
+              },
+              "director": {
+                "id": "${organizationDirector.id!!.value}",
+                "firstName": "Jan",
+                "lastName": "Ważny",
+                "role": "TEACHER",
+                "username": "sp7_director",
+                "pesel": "65080289523",
                 "sex": "MALE",
-                "email": "j.kowalski@gmail.com",
+                "email": "j.wazny@gmail.com",
                 "phoneNumber": "+48123456789",
                 "address": {
+                  "street": "Wrocławska 5",
+                  "postalCode": "15-644",
+                  "city": "Białystok",
+                  "countryCode": "PL"
+                }
+              },
+              "address": {
                   "street": "Szkolna 17",
                   "postalCode": "15-640",
                   "city": "Białystok",
                   "countryCode": "PL"
-                }
               },
               "status": "ENABLED"
             }
@@ -284,8 +426,46 @@ internal class OrganizationControllerSpec(
 
     should("fail registering organization with HTTP 400 if provided admin does not exist") {
         // given
+        val organizationDirector = stubOrganizationDirector()
         val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationRegisterRequest(name = "Gimnazjum nr 2", adminId = "42")
+        val body = OrganizationRegisterRequest(
+            name = "Gimnazjum nr 2",
+            adminId = "42",
+            directorId = organizationDirector.id!!.value,
+            address = Address(
+                street = "Szkolna 17",
+                postalCode = "15-640",
+                city = "Białystok",
+                countryCode = "PL",
+            )
+        )
+
+        // when
+        val response = restTemplate.exchange<String>(
+            url = "/api/organization",
+            method = POST,
+            requestEntity = HttpEntity(body, headers),
+        )
+
+        // then
+        response.statusCode shouldBe BAD_REQUEST
+    }
+
+    should("fail registering organization with HTTP 400 if provided director does not exist") {
+        // given
+        val organizationAdmin = stubOrganizationAdmin()
+        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+        val body = OrganizationRegisterRequest(
+            name = "Gimnazjum nr 2",
+            adminId = organizationAdmin.id!!.value,
+            directorId = "42",
+            address = Address(
+                street = "Szkolna 17",
+                postalCode = "15-640",
+                city = "Białystok",
+                countryCode = "PL",
+            )
+        )
 
         // when
         val response = restTemplate.exchange<String>(
@@ -300,8 +480,13 @@ internal class OrganizationControllerSpec(
 
     should("fail changing organization status with HTTP 401 if user is not authenticated") {
         // given
-        val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "sp7_admin")
-        val organization = organizationStubbing.organizationExists(name = "SP7", admin = organizationAdmin)
+        val organizationAdmin = stubOrganizationAdmin()
+        val organizationDirector = stubOrganizationDirector()
+        val organization = organizationStubbing.organizationExists(
+            name = "SP7",
+            admin = organizationAdmin,
+            director = organizationDirector
+        )
         val body = OrganizationChangeStatusRequest(status = DISABLED)
 
         // when
@@ -323,8 +508,13 @@ internal class OrganizationControllerSpec(
     ) { role ->
         should("fail changing organization status with HTTP 403 if user is unauthorized ($role)") {
             // given
-            val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "sp7_admin")
-            val organization = organizationStubbing.organizationExists(name = "SP7", admin = organizationAdmin)
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
+            val organization = organizationStubbing.organizationExists(
+                name = "SP7",
+                admin = organizationAdmin,
+                director = organizationDirector
+            )
             val headers = securityStubbing.authorizationHeaderFor(role)
             val body = OrganizationChangeStatusRequest(status = DISABLED)
 
@@ -358,8 +548,13 @@ internal class OrganizationControllerSpec(
 
     should("change organization status") {
         // given
-        val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "sp7_admin")
-        val organization = organizationStubbing.organizationExists(name = "SP7", admin = organizationAdmin)
+        val organizationAdmin = stubOrganizationAdmin()
+        val organizationDirector = stubOrganizationDirector()
+        val organization = organizationStubbing.organizationExists(
+            name = "SP7",
+            admin = organizationAdmin,
+            director = organizationDirector
+        )
         val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
         val body = OrganizationChangeStatusRequest(status = DISABLED)
 
@@ -379,20 +574,43 @@ internal class OrganizationControllerSpec(
               "name": "SP7",
               "admin": {
                 "id": "${organizationAdmin.id!!.value}",
-                "firstName": "Jan",
-                "lastName": "Kowalski",
+                "firstName": "Adrianna",
+                "lastName": "Nowak",
                 "role": "ORGANIZATION_ADMIN",
                 "username": "sp7_admin",
-                "pesel": "10210155874",
+                "pesel": "58030515441",
+                "sex": "FEMALE",
+                "email": "a.nowak@gmail.com",
+                "phoneNumber": "+48987654321",
+                "address": {
+                  "street": "Świętego Andrzeja Boboli 10",
+                  "postalCode": "15-649",
+                  "city": "Białystok",
+                  "countryCode": "PL"
+                }
+              },
+              "director": {
+                "id": "${organizationDirector.id!!.value}",
+                "firstName": "Jan",
+                "lastName": "Ważny",
+                "role": "TEACHER",
+                "username": "sp7_director",
+                "pesel": "65080289523",
                 "sex": "MALE",
-                "email": "j.kowalski@gmail.com",
+                "email": "j.wazny@gmail.com",
                 "phoneNumber": "+48123456789",
                 "address": {
+                  "street": "Wrocławska 5",
+                  "postalCode": "15-644",
+                  "city": "Białystok",
+                  "countryCode": "PL"
+                }
+              },
+              "address": {
                   "street": "Szkolna 17",
                   "postalCode": "15-640",
                   "city": "Białystok",
                   "countryCode": "PL"
-                }
               },
               "status": "DISABLED"
             }

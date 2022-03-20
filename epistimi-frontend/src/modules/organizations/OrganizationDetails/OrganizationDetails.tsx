@@ -70,6 +70,10 @@ export const OrganizationDetails = (): JSX.Element => {
               value={`${organization.admin.lastName} ${organization.admin.firstName} (${organization.admin.username})`}
             />
             <OrganizationDetailsKeyValue
+              label={'Dyrektor:'}
+              value={`${organization.director.lastName} ${organization.director.firstName} (${organization.director.username})`}
+            />
+            <OrganizationDetailsKeyValue
               label={'Status:'}
               value={<OrganizationColorStatus status={organization.status}/>}
             />

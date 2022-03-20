@@ -40,7 +40,7 @@ class UserController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun getUsers(
-        @RequestParam(required = false) role: User.Role?
+        @RequestParam(required = false) role: List<User.Role>?
     ): ResponseEntity<UsersResponse> = ResponseEntity.ok(
         UsersResponse(
             users = userService.getUsers(role).map { it.toResponse() }

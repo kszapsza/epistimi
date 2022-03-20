@@ -21,7 +21,9 @@ class OrganizationDbRepository(
         id = OrganizationId(this.id!!),
         name = this.name,
         admin = userDbRepository.findById(this.adminId),
-        status = Organization.Status.valueOf(this.status)
+        status = Organization.Status.valueOf(this.status),
+        director = userDbRepository.findById(this.directorId),
+        address = this.address,
     )
 
     override fun findById(organizationId: String): Organization =
@@ -35,7 +37,9 @@ class OrganizationDbRepository(
                 id = organization.id?.value,
                 name = organization.name,
                 adminId = organization.admin.id!!.value,
-                status = organization.status.toString()
+                status = organization.status.toString(),
+                directorId = organization.director.id!!.value,
+                address = organization.address,
             )
         ).toDomain()
 }
