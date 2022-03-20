@@ -24,12 +24,12 @@
 
     .modal-close {
       color: rgba($black, .6);
+      cursor: pointer;
       float: right;
       padding: 0 0 .1rem .1rem;
 
       &:hover {
         color: rgba($black, .8);
-        cursor: pointer;
       }
     }
   }

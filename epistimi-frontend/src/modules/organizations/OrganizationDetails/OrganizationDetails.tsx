@@ -1,6 +1,6 @@
 import './OrganizationDetails.scss';
+import { Back, Button, MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { Block, Done, Edit } from '@mui/icons-material';
-import { Button, MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { Modal } from '../../../components/Modal';
 import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
@@ -47,8 +47,11 @@ export const OrganizationDetails = (): JSX.Element => {
           edit modal
         </Modal>
         <div className={'organization-header'}>
-          <h2>Szczegóły placówki</h2>
-          <div className={'organization-actions'}>
+          <div className={'organization-header-group'}>
+            <Back/>
+            <h2>Szczegóły placówki</h2>
+          </div>
+          <div className={'organization-header-group'}>
             {organization.status === OrganizationStatus.ENABLED &&
               <Button icon={<Block/>} onClick={() => setStatusChangeModalOpened(true)}>Dezaktywuj placówkę</Button>}
             {organization.status === OrganizationStatus.DISABLED &&

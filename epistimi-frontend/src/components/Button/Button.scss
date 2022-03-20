@@ -6,6 +6,7 @@
   background: $gray;
   border-radius: $subtle-radius;
   color: $black;
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   font: {
@@ -22,7 +23,6 @@
 
   &:hover {
     background: rgba($gray, .8);
-    cursor: pointer;
   }
 
   img, svg {
