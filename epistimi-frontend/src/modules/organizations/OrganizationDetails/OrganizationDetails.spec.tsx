@@ -1,4 +1,4 @@
-import { enabledOrganization } from '../../../stubs/organization';
+import { disabledOrganization, enabledOrganization } from '../../../stubs/organization';
 import { OrganizationDetails } from './OrganizationDetails';
 import { render } from '../../../utils/test-render';
 import { waitFor } from '@testing-library/react';
@@ -27,7 +27,23 @@ describe('OrganizationDetails component', () => {
 
     await waitFor(() => {
       expect(getAllByRole('heading')[0]).toHaveTextContent(/szczegóły placówki/i);
-      // TODO: organization details assertions
+    });
+  });
+
+  it.each([
+    ['Dezaktywuj placówkę', enabledOrganization],
+    ['Aktywuj placówkę', disabledOrganization],
+  ])('should render status change button (%s)', async (statusButtonLabel, mockData) => {
+    axiosMock.get.mockResolvedValue({
+      data: mockData,
+    });
+
+    const { queryAllByRole } = render(<OrganizationDetails/>);
+
+    await waitFor(() => {
+      const buttons = queryAllByRole('button') as HTMLButtonElement[];
+      expect(buttons[0]).toHaveTextContent(statusButtonLabel);
+      expect(buttons[1]).toHaveTextContent('Edytuj dane');
     });
   });
 
