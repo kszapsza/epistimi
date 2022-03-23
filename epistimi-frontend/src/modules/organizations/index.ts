@@ -1,5 +1,5 @@
 export { OrganizationColorStatus } from './OrganizationColorStatus';
-export { OrganizationCreate } from './OrganizationCreate';
+export { OrganizationEdit } from './OrganizationEdit';
 export { OrganizationDetails } from './OrganizationDetails';
 export { OrganizationDetailsKeyValue } from './OrganizationDetailsKeyValue';
 export { OrganizationDetailsStatsTile } from './OrganizationDetailsStatsTile';

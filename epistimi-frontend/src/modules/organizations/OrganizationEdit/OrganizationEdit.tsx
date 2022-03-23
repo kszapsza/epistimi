@@ -1,4 +1,4 @@
-import './OrganizationCreate.scss';
+import './OrganizationEdit.scss';
 import { Button, ButtonStyle, MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { OrganizationRegisterRequest, OrganizationResponse } from '../../../dto/organization';
 import { useFetch } from '../../../hooks/useFetch';
@@ -7,16 +7,33 @@ import { UsersResponse } from '../../../dto/user';
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 
-interface OrganizationCreateProps {
-  onCreated: (organization: OrganizationResponse) => void;
+interface OrganizationEditProps {
+  submitCallback: (organization: OrganizationResponse) => void;
+  variant: 'create' | 'update';
+  organizationId?: string;
+  defaults?: OrganizationResponse;
 }
 
-export const OrganizationCreate = (props: OrganizationCreateProps): JSX.Element => {
+// TODO: Update variant not covered in tests !!!
+
+export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
   const {
     formState: { errors },
     handleSubmit,
     register,
-  } = useForm<OrganizationRegisterRequest>({ defaultValues: { address: { countryCode: 'PL' } } });
+  } = useForm<OrganizationRegisterRequest>({
+    defaultValues: {
+      name: props.defaults?.name || '',
+      adminId: props.defaults?.admin.id,
+      directorId: props.defaults?.director.id,
+      address: {
+        street: props.defaults?.address.street || '',
+        postalCode: props.defaults?.address.postalCode || '',
+        city: props.defaults?.address.city || '',
+        countryCode: props.defaults?.address.countryCode || 'PL',
+      },
+    },
+  });
 
   const { data: admins, loading: adminsLoading } = useFetch<UsersResponse>('/api/user?role=ORGANIZATION_ADMIN');
   const { data: directors, loading: directorsLoading } = useFetch<UsersResponse>('/api/user?role=ORGANIZATION_ADMIN&role=TEACHER');
@@ -27,6 +44,33 @@ export const OrganizationCreate = (props: OrganizationCreateProps): JSX.Element 
     return <Spinner/>;
   }
 
+  const getHeading = (): string => {
+    switch (props.variant) {
+      case 'create':
+        return 'Tworzenie nowej placówki';
+      case 'update':
+        return 'Edytowanie placówki';
+    }
+  };
+
+  const getButtonStyle = (): ButtonStyle => {
+    switch (props.variant) {
+      case 'create':
+        return ButtonStyle.CONSTRUCTIVE;
+      case 'update':
+        return ButtonStyle.PRIMARY;
+    }
+  };
+
+  const getButtonLabel = (): string => {
+    switch (props.variant) {
+      case 'create':
+        return 'Utwórz';
+      case 'update':
+        return 'Zapisz';
+    }
+  };
+
   const hasErrors = (): boolean => {
     return !!errors.name
       || !!errors.adminId
@@ -34,11 +78,20 @@ export const OrganizationCreate = (props: OrganizationCreateProps): JSX.Element 
       || !!errors.address;
   };
 
-  const onSave = (formData: OrganizationRegisterRequest): void => {
-    axios.post<OrganizationResponse, AxiosResponse<OrganizationResponse>, OrganizationRegisterRequest>(
-      '/api/organization', formData,
+  const onSubmit = (formData: OrganizationRegisterRequest): void => {
+    const action = props.variant == 'update'
+      ? axios.put
+      : axios.post;
+    const endpoint = props.variant == 'update' && props.organizationId
+      ? `/api/organization/${props.organizationId}`
+      : '/api/organization';
+
+    action<OrganizationResponse,
+      AxiosResponse<OrganizationResponse>,
+      OrganizationRegisterRequest>(
+      endpoint, formData,
     ).then((response) => {
-      props.onCreated(response.data);
+      props.submitCallback(response.data);
     }).catch(() => {
       setSubmitFailed(true);
     });
@@ -46,7 +99,7 @@ export const OrganizationCreate = (props: OrganizationCreateProps): JSX.Element 
 
   return (
     <div className={'organization-create'}>
-      <h3>Tworzenie nowej placówki</h3>
+      <h3>{getHeading()}</h3>
 
       {hasErrors() &&
         <MessageBox style={MessageBoxStyle.WARNING}>
@@ -61,22 +114,25 @@ export const OrganizationCreate = (props: OrganizationCreateProps): JSX.Element 
 
       <form
         className={'organization-create-form'}
-        onSubmit={handleSubmit((formData) => onSave(formData))}
+        onSubmit={handleSubmit((formData) => onSubmit(formData))}
       >
         <div className={'organization-create-form-group'}>
           <label htmlFor={'name'}>Nazwa</label>
-          <input autoComplete={'organization'} id={'name'} {...register('name', { required: true })}/>
+          <input
+            autoComplete={'organization'}
+            autoFocus={true}
+            id={'name'}
+            {...register('name', { required: true })}/>
         </div>
 
         <div className={'organization-create-form-group'}>
           <label htmlFor={'admin'}>Administrator</label>
           <select id={'admin'} {...register('adminId', { required: true })}>
             <option key={undefined} value={''}/>
-            {admins?.users.map((admin) => {
-              return <option key={admin.id} value={admin.id}>
+            {admins?.users.map((admin) =>
+              <option key={admin.id} value={admin.id}>
                 {admin.lastName} {admin.firstName} ({admin.username})
-              </option>;
-            })}
+              </option>)}
           </select>
         </div>
 
@@ -84,11 +140,10 @@ export const OrganizationCreate = (props: OrganizationCreateProps): JSX.Element 
           <label htmlFor={'director'}>Dyrektor</label>
           <select id={'director'} {...register('directorId', { required: true })}>
             <option key={undefined} value={''}/>
-            {directors?.users.map((director) => {
-              return <option key={director.id} value={director.id}>
+            {directors?.users.map((director) =>
+              <option key={director.id} value={director.id}>
                 {director.lastName} {director.firstName} ({director.username})
-              </option>;
-            })}
+              </option>)}
           </select>
         </div>
 
@@ -126,8 +181,8 @@ export const OrganizationCreate = (props: OrganizationCreateProps): JSX.Element 
             {...register('address.countryCode', { required: true })}/>
         </div>
 
-        <Button style={ButtonStyle.CONSTRUCTIVE}>
-          Utwórz
+        <Button style={getButtonStyle()}>
+          {getButtonLabel()}
         </Button>
       </form>
     </div>

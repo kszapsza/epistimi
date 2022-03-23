@@ -1,6 +1,6 @@
 import { fireEvent, waitFor } from '@testing-library/react';
 import { Matcher } from '@testing-library/dom/types/matches';
-import { OrganizationCreate } from './OrganizationCreate';
+import { OrganizationEdit } from './OrganizationEdit';
 import { OrganizationRegisterRequest, OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
 import { render } from '../../../utils/test-render';
 import { UserRole, UserSex } from '../../../dto/user';
@@ -22,7 +22,9 @@ describe('OrganizationCreate component', () => {
       data: organizationDirectorsResponse,
     });
 
-    const { getByLabelText, getByRole, queryByText } = render(<OrganizationCreate onCreated={jest.fn()}/>);
+    const { getByLabelText, getByRole, queryByText } = render(
+      <OrganizationEdit submitCallback={jest.fn()} variant={'create'}/>,
+    );
 
     await waitFor(() => {
       const input = getByLabelText(/nazwa/i) as HTMLInputElement;
@@ -61,7 +63,9 @@ describe('OrganizationCreate component', () => {
     });
 
     const onCreatedMock = jest.fn();
-    const { getByRole, getByText } = render(<OrganizationCreate onCreated={onCreatedMock}/>);
+    const { getByRole, getByText } = render(
+      <OrganizationEdit submitCallback={onCreatedMock} variant={'create'}/>,
+    );
 
     await waitFor(() => {
       fireEvent.click(getByRole('button'));
@@ -81,7 +85,9 @@ describe('OrganizationCreate component', () => {
     axiosMock.post.mockRejectedValue({});
 
     const onCreatedMock = jest.fn();
-    const { getByLabelText, getByRole, getByText } = render(<OrganizationCreate onCreated={onCreatedMock}/>);
+    const { getByLabelText, getByRole, getByText } = render(
+      <OrganizationEdit submitCallback={onCreatedMock} variant={'create'}/>,
+    );
 
     await waitFor(() => {
       fillOutWholeForm(getByLabelText);
@@ -116,7 +122,9 @@ describe('OrganizationCreate component', () => {
     axiosMock.post.mockResolvedValue({ data: postResponse });
 
     const onCreatedMock = jest.fn();
-    const { getByLabelText, getByRole, queryByText } = render(<OrganizationCreate onCreated={onCreatedMock}/>);
+    const { getByLabelText, getByRole, queryByText } = render(
+      <OrganizationEdit submitCallback={onCreatedMock} variant={'create'}/>,
+    );
 
     await waitFor(() => {
       fillOutWholeForm(getByLabelText);
@@ -145,7 +153,7 @@ describe('OrganizationCreate component', () => {
   });
 
   const fillOutWholeForm = (
-    getByLabelText: (arg: Matcher) => HTMLElement
+    getByLabelText: (arg: Matcher) => HTMLElement,
   ): void => {
     fireEvent.change(getByLabelText(/nazwa/i), { target: { value: 'SP7' } });
     fireEvent.change(getByLabelText(/administrator/i), { target: { value: '42' } });

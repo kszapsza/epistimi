@@ -70,6 +70,22 @@ class OrganizationService(
         }
     }
 
+    fun updateOrganization(
+        organizationId: String,
+        updateRequest: OrganizationRegisterRequest
+    ): Organization {
+        return organizationRepository.update(
+            Organization(
+                id = OrganizationId(organizationId),
+                name = updateRequest.name,
+                admin = tryRetrieveAdmin(updateRequest.adminId),
+                status = ENABLED,
+                director = tryRetrieveDirector(updateRequest.directorId),
+                address = updateRequest.address,
+            )
+        )
+    }
+
     fun changeOrganizationStatus(
         organizationId: String,
         changeStatusRequest: OrganizationChangeStatusRequest

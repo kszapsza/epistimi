@@ -2,7 +2,7 @@ import './OrganizationsListing.scss';
 import { Button, MessageBox, MessageBoxStyle, Spinner } from '../../../components';
 import { Create, Done, ErrorOutline } from '@mui/icons-material';
 import { Modal } from '../../../components/Modal';
-import { OrganizationCreate } from '../OrganizationCreate';
+import { OrganizationEdit } from '../OrganizationEdit';
 import { OrganizationResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationsListingTile } from '../OrganizationsListingTile';
 import { useEffect, useState } from 'react';
@@ -30,7 +30,7 @@ export const OrganizationsListing = (): JSX.Element => {
   return (
     <div className={'organizations'}>
       <Modal open={createModalOpen} onClose={() => setCreateModalOpen(false)}>
-        <OrganizationCreate onCreated={onOrganizationCreate}/>
+        <OrganizationEdit submitCallback={onOrganizationCreate} variant={'create'}/>
       </Modal>
       <div className={'organizations-actions'}>
         <h2>Placówki</h2>

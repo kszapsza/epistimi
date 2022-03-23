@@ -6,6 +6,10 @@
   flex-direction: column;
   width: 100%;
 
+  .organization-mbox-dock {
+    margin: 0 0 .75rem;
+  }
+
   .organization-header {
     align-items: center;
     display: flex;

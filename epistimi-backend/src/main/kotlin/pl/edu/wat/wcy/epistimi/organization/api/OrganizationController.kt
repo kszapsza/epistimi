@@ -62,7 +62,7 @@ class OrganizationController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun registerOrganization(
-        @RequestBody organizationRegisterRequest: OrganizationRegisterRequest
+        @RequestBody organizationRegisterRequest: OrganizationRegisterRequest,
     ): ResponseEntity<OrganizationResponse> =
         organizationService.registerOrganization(organizationRegisterRequest)
             .let {
@@ -79,10 +79,26 @@ class OrganizationController(
     )
     fun changeOrganizationStatus(
         @PathVariable organizationId: String,
-        @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest
+        @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest,
     ): ResponseEntity<OrganizationResponse> =
+        // TODO: Integration tests!!!
         ResponseEntity.ok(
             organizationService.changeOrganizationStatus(organizationId, organizationChangeStatusRequest)
+                .toResponse()
+        )
+
+    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
+    @RequestMapping(
+        path = ["/{organizationId}"],
+        method = [RequestMethod.PUT],
+        produces = [MediaType.APPLICATION_JSON_V1],
+    )
+    fun updateOrganization(
+        @PathVariable organizationId: String,
+        @RequestBody organizationUpdateRequest: OrganizationRegisterRequest,
+    ): ResponseEntity<OrganizationResponse> =
+        ResponseEntity.ok(
+            organizationService.updateOrganization(organizationId, organizationUpdateRequest)
                 .toResponse()
         )
 }

@@ -5,6 +5,7 @@ import { Modal } from '../../../components/Modal';
 import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
 import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
+import { OrganizationEdit } from '../OrganizationEdit';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationStatusChange } from '../OrganizationStatusChange';
 import { useEffect, useState } from 'react';
@@ -13,10 +14,17 @@ import { useParams } from 'react-router-dom';
 
 export const OrganizationDetails = (): JSX.Element => {
   const { id } = useParams();
-  const { data: organization, loading, error } = useFetch<OrganizationResponse>(`/api/organization/${id}`);
+
+  const {
+    data: organization,
+    setData: setOrganization,
+    loading,
+    error,
+  } = useFetch<OrganizationResponse>(`/api/organization/${id}`);
 
   const [statusChangeModalOpened, setStatusChangeModalOpened] = useState<boolean>(false);
   const [editModalOpened, setEditModalOpened] = useState<boolean>(false);
+  const [updatedMessageOpen, setUpdatedMessageOpen] = useState<boolean>(false);
 
   useEffect(() => {
     document.title = 'Szczegóły placówki – Epistimi';
@@ -26,25 +34,46 @@ export const OrganizationDetails = (): JSX.Element => {
     return <Spinner/>;
   }
 
-  const handleStatusChange = (updatedOrganization: OrganizationResponse): void => {
+  const onOrganizationStatusChange = (updatedOrganization: OrganizationResponse): void => {
     organization && (organization.status = updatedOrganization.status);
     setStatusChangeModalOpened(false);
+  };
+
+  const onOrganizationUpdate = (updatedOrganization: OrganizationResponse): void => {
+    setOrganization(updatedOrganization);
+    setEditModalOpened(false);
+    setUpdatedMessageOpen(true);
   };
 
   return (
     <div className={'organization-details'}>
       {loading &&
         <Spinner/>}
-      {error &&
-        <MessageBox style={MessageBoxStyle.WARNING}>
-          Nie udało się załadować szczegółów organizacji
-        </MessageBox>}
+      {(error || updatedMessageOpen) &&
+        <div className={'organization-mbox-dock'}>
+          {error &&
+            <MessageBox style={MessageBoxStyle.WARNING}>
+              Nie udało się załadować szczegółów organizacji
+            </MessageBox>}
+          {updatedMessageOpen &&
+            <MessageBox style={MessageBoxStyle.CONSTRUCTIVE} icon={<Done/>}>
+              Zaktualizowano dane placówki
+            </MessageBox>}
+        </div>}
       {organization && <>
         <Modal open={statusChangeModalOpened} onClose={() => setStatusChangeModalOpened(false)}>
-          <OrganizationStatusChange organization={organization} onStatusChange={handleStatusChange}/>
+          <OrganizationStatusChange
+            organization={organization}
+            onStatusChange={onOrganizationStatusChange}
+          />
         </Modal>
         <Modal open={editModalOpened} onClose={() => setEditModalOpened(false)}>
-          edit modal
+          <OrganizationEdit
+            submitCallback={onOrganizationUpdate}
+            variant={'update'}
+            organizationId={organization.id}
+            defaults={{ ...organization }}
+          />
         </Modal>
         <div className={'organization-header'}>
           <div className={'organization-header-group'}>
