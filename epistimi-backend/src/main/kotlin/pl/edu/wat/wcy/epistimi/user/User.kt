@@ -14,7 +14,7 @@ data class User(
     val sex: Sex? = null,
     val email: String? = null,
     val phoneNumber: String? = null,
-    val address: Address? = null, // TODO: new fields in mongo repository!
+    val address: Address? = null,
 ) {
     fun toResponse() = UserResponse(
         id = this.id!!.value,
@@ -34,11 +34,13 @@ data class User(
         ORGANIZATION_ADMIN,
         TEACHER,
         STUDENT,
-        PARENT
+        PARENT,
     }
 
     enum class Sex {
-        MALE, FEMALE, OTHER
+        MALE,
+        FEMALE,
+        OTHER,
     }
 }
 

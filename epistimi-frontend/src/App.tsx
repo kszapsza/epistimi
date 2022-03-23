@@ -3,7 +3,8 @@ import { ArticleListing, ArticlePage, MainPage } from './modules/main-page';
 import { Header, NotFound } from './components';
 import { Menu } from './modules/menu';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Organizations } from './modules/organizations';
+import { OrganizationDetails } from './modules/organizations';
+import { OrganizationsListing } from './modules/organizations';
 import { RequireAuth } from './router/RequireAuth/RequireAuth';
 import { Summary } from './modules/summary';
 import { useAppSelector } from './store/hooks';
@@ -24,7 +25,9 @@ const App = (): JSX.Element => {
           <Route path={'/app'} element={<RequireAuth element={<Menu/>} auth={auth}/>}>
             <Route path={'summary'} element={<Summary/>}/>
             <Route path={'organizations'}
-                   element={<RequireAuth element={<Organizations/>} auth={auth} allowedRoles={[UserRole.EPISTIMI_ADMIN]}/>}/>
+                   element={<RequireAuth element={<OrganizationsListing/>} auth={auth} allowedRoles={[UserRole.EPISTIMI_ADMIN]}/>}/>
+            <Route path={'organizations/:id'}
+                   element={<RequireAuth element={<OrganizationDetails/>} auth={auth} allowedRoles={[UserRole.EPISTIMI_ADMIN]}/>}/>
           </Route>
           <Route path={'/404'} element={<NotFound/>}/>
           <Route path={'/*'} element={<Navigate to={'/404'}/>}/>

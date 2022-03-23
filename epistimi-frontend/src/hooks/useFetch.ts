@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 
 interface FetchResponse<T> {
   data?: T,
+  setData: Dispatch<T>;
   loading: boolean,
   error?: AxiosError,
 }
@@ -35,5 +36,10 @@ export const useFetch = <T = unknown>(url: string): FetchResponse<T> => {
     };
   }, [url]);
 
-  return { data, loading, error };
+  return {
+    data,
+    setData,
+    loading,
+    error,
+  };
 };

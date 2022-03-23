@@ -21,7 +21,9 @@ class OrganizationDbRepository(
         id = OrganizationId(this.id!!),
         name = this.name,
         admin = userDbRepository.findById(this.adminId),
-        status = Organization.Status.valueOf(this.status)
+        status = Organization.Status.valueOf(this.status),
+        director = userDbRepository.findById(this.directorId),
+        address = this.address,
     )
 
     override fun findById(organizationId: String): Organization =
@@ -30,12 +32,28 @@ class OrganizationDbRepository(
             .orElseThrow { throw OrganizationNotFoundException() }
 
     override fun save(organization: Organization): Organization =
-        organizationMongoDbRepository.save(
-            OrganizationMongoDbDocument(
-                id = organization.id?.value,
-                name = organization.name,
-                adminId = organization.admin.id!!.value,
-                status = organization.status.toString()
-            )
-        ).toDomain()
+        organization.toMongoDbDocument()
+            .let { organizationMongoDbRepository.save(it) }
+            .toDomain()
+
+    private fun Organization.toMongoDbDocument() =
+        OrganizationMongoDbDocument(
+            id = this.id?.value,
+            name = this.name,
+            adminId = this.admin.id!!.value,
+            status = this.status.toString(),
+            directorId = this.director.id!!.value,
+            address = this.address,
+        )
+
+    override fun update(organization: Organization): Organization {
+        val existingOrganization = organizationMongoDbRepository
+                .findById(organization.id!!.value)
+                .orElseThrow { throw OrganizationNotFoundException() }
+        return organization.toMongoDbDocument().let {
+                organizationMongoDbRepository.save(
+                    it.copy(status = existingOrganization.status)
+                )
+            }.toDomain()
+    }
 }

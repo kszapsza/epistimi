@@ -17,6 +17,8 @@
   }
 
   .main-page-col {
+    @include hide-scrollbar;
+
     display: flex;
     overflow: scroll;
     padding: 1rem 1.75rem;

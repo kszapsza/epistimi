@@ -154,6 +154,127 @@ internal class UserControllerSpec(
         """.trimIndent()
     }
 
+    should("return all users with provided role") {
+        // given
+        val user = userStubbing.userExists(username = "organization_admin", role = ORGANIZATION_ADMIN)
+        userStubbing.userExists(username = "teacher", role = TEACHER)
+
+        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+
+        // when
+        val response = restTemplate.exchange<String>(
+            url = "/api/user?role=ORGANIZATION_ADMIN",
+            method = GET,
+            requestEntity = HttpEntity(null, headers),
+        )
+
+        // then
+        response.statusCode shouldBe OK
+        response.headers.contentType.toString() shouldContain MediaType.APPLICATION_JSON_V1
+        //language=JSON
+        response.body!! shouldEqualSpecifiedJson """
+            {
+              "users": [
+                {
+                  "id": "${user.id!!.value}",
+                  "firstName": "Jan",
+                  "lastName": "Kowalski",
+                  "role": "ORGANIZATION_ADMIN",
+                  "username": "organization_admin",
+                  "pesel": "10210155874",
+                  "sex": "MALE",
+                  "email": "j.kowalski@gmail.com",
+                  "phoneNumber": "+48123456789",
+                  "address": {
+                    "street": "Szkolna 17",
+                    "postalCode": "15-640",
+                    "city": "Białystok",
+                    "countryCode": "PL"
+                  }
+                }
+              ]
+            }
+        """.trimIndent()
+    }
+
+    should("return all users with one of provided roles") {
+        // given
+        val organizationAdmin = userStubbing.userExists(username = "organization_admin", role = ORGANIZATION_ADMIN)
+        val teacher = userStubbing.userExists(username = "teacher", role = TEACHER)
+
+        userStubbing.userExists(username = "student", role = STUDENT)
+        userStubbing.userExists(username = "parent", role = PARENT)
+
+        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+
+        // when
+        val response = restTemplate.exchange<String>(
+            url = "/api/user?role=ORGANIZATION_ADMIN&role=TEACHER",
+            method = GET,
+            requestEntity = HttpEntity(null, headers),
+        )
+
+        // then
+        response.statusCode shouldBe OK
+        response.headers.contentType.toString() shouldContain MediaType.APPLICATION_JSON_V1
+        //language=JSON
+        response.body!! shouldEqualSpecifiedJson """
+            {
+              "users": [
+                {
+                  "id": "${organizationAdmin.id!!.value}",
+                  "firstName": "Jan",
+                  "lastName": "Kowalski",
+                  "role": "ORGANIZATION_ADMIN",
+                  "username": "organization_admin",
+                  "pesel": "10210155874",
+                  "sex": "MALE",
+                  "email": "j.kowalski@gmail.com",
+                  "phoneNumber": "+48123456789",
+                  "address": {
+                    "street": "Szkolna 17",
+                    "postalCode": "15-640",
+                    "city": "Białystok",
+                    "countryCode": "PL"
+                  }
+                },
+                {
+                  "id": "${teacher.id!!.value}",
+                  "firstName": "Jan",
+                  "lastName": "Kowalski",
+                  "role": "TEACHER",
+                  "username": "teacher",
+                  "pesel": "10210155874",
+                  "sex": "MALE",
+                  "email": "j.kowalski@gmail.com",
+                  "phoneNumber": "+48123456789",
+                  "address": {
+                    "street": "Szkolna 17",
+                    "postalCode": "15-640",
+                    "city": "Białystok",
+                    "countryCode": "PL"
+                  }
+                }
+              ]
+            }
+        """.trimIndent()
+    }
+
+    should("return fail looking for users if provided role is invalid") {
+        // given
+        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+
+        // when
+        val response = restTemplate.exchange<String>(
+            url = "/api/user?role=NON_EXISTENT_ROLE",
+            method = GET,
+            requestEntity = HttpEntity(null, headers),
+        )
+
+        // then
+        response.statusCode shouldBe BAD_REQUEST
+    }
+
     should("return HTTP 401 on get by id endpoint if user is not authenticated") {
         // given
         val user = userStubbing.userExists(role = EPISTIMI_ADMIN)

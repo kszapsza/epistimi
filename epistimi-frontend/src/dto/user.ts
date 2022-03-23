@@ -1,9 +1,16 @@
+import { Address } from './address';
+
 export interface UserResponse {
   id: string;
   firstName: string;
   lastName: string;
   role: UserRole;
   username: string;
+  pesel?: string,
+  sex?: UserSex,
+  email?: string,
+  phoneNumber?: string,
+  address?: Address,
 }
 
 export enum UserRole {
@@ -12,4 +19,14 @@ export enum UserRole {
   TEACHER = 'TEACHER',
   STUDENT = 'STUDENT',
   PARENT = 'PARENT',
+}
+
+export enum UserSex {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER',
+}
+
+export interface UsersResponse {
+  users: UserResponse[];
 }

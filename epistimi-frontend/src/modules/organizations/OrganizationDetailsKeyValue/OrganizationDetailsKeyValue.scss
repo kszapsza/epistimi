@@ -1,0 +1,19 @@
+@import 'src/styles/themes';
+
+.organization-entry {
+  display: flex;
+  flex-direction: row;
+  font: {
+    size: 14px;
+  };
+  margin-bottom: .15rem;
+
+  .organization-key {
+    color: rgba($black, .5);
+    flex: 1;
+  }
+
+  .organization-value {
+    flex: 2;
+  }
+}

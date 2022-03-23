@@ -8,6 +8,7 @@ import io.kotest.data.row
 import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
+import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
@@ -34,19 +35,27 @@ internal class OrganizationServiceTest : ShouldSpec({
         )
     }
 
+    val addressStub = Address(
+        street = "Szkolna 17",
+        postalCode = "15-640",
+        city = "Białystok",
+        countryCode = "PL",
+    )
+
     forAll(
         row(STUDENT),
         row(PARENT),
         row(TEACHER),
     ) { role ->
-        should("fail to register new organization if provided admin has $role role") {
+        should("fail to register a new organization if provided admin has $role role") {
             // given
-            every { userRepository.findById("123") } returns userStub(role)
+            every { userRepository.findById("admin_id") } returns userStub(role)
+            every { userRepository.findById("director_id") } returns userStub(TEACHER)
 
             // when & then
             shouldThrow<AdministratorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
-                    OrganizationRegisterRequest("ABC", "123")
+                    OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
                 )
             }
         }
@@ -56,28 +65,81 @@ internal class OrganizationServiceTest : ShouldSpec({
         row(EPISTIMI_ADMIN),
         row(ORGANIZATION_ADMIN),
     ) { role ->
-        should("successfully register new organization if provided admin has $role role") {
+        should("successfully register a new organization if provided admin has $role role") {
             // given
-            every { userRepository.findById("123") } returns userStub(role)
+            every { userRepository.findById("admin_id") } returns userStub(role)
+            every { userRepository.findById("director_id") } returns userStub(TEACHER)
             every { organizationRepository.save(any()) } returnsArgument 0
 
             // when & then
             shouldNotThrow<AdministratorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
-                    OrganizationRegisterRequest("ABC", "123")
+                    OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
                 )
             }
         }
     }
 
-    should("fail to register new organization if admin with provided id does not exist") {
+    should("fail to register a new organization if admin with provided id does not exist") {
         // given
-        every { userRepository.findById("123") } throws UserNotFoundException()
+        every { userRepository.findById("admin_id") } throws UserNotFoundException()
+        every { userRepository.findById("director_id") } returns userStub(TEACHER)
 
         // when & then
         shouldThrow<AdministratorNotFoundException> {
             organizationService.registerOrganization(
-                OrganizationRegisterRequest("ABC", "123")
+                OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+            )
+        }
+    }
+
+    forAll(
+        row(STUDENT),
+        row(PARENT),
+    ) { role ->
+        should("fail to register a new organization if provided director has $role role") {
+            // given
+            every { userRepository.findById("admin_id") } returns userStub(ORGANIZATION_ADMIN)
+            every { userRepository.findById("director_id") } returns userStub(role)
+
+            // when & then
+            shouldThrow<DirectorInsufficientPermissionsException> {
+                organizationService.registerOrganization(
+                    OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+                )
+            }
+        }
+    }
+
+    forAll(
+        row(EPISTIMI_ADMIN),
+        row(ORGANIZATION_ADMIN),
+        row(TEACHER),
+    ) { role ->
+        should("successfully register a new organization if provided director has $role role") {
+            // given
+            every { userRepository.findById("admin_id") } returns userStub(ORGANIZATION_ADMIN)
+            every { userRepository.findById("director_id") } returns userStub(role)
+
+            // when & then
+            shouldNotThrow<DirectorInsufficientPermissionsException> {
+                organizationService.registerOrganization(
+                    OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+                )
+            }
+        }
+    }
+
+
+    should("fail to register a new organization if provided director with provided id does not exist") {
+        // given
+        every { userRepository.findById("admin_id") } returns userStub(ORGANIZATION_ADMIN)
+        every { userRepository.findById("director_id") } throws UserNotFoundException()
+
+        // when & then
+        shouldThrow<DirectorNotFoundException> {
+            organizationService.registerOrganization(
+                OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
             )
         }
     }

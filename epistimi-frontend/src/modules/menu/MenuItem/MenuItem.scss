@@ -1,13 +1,13 @@
 @import 'src/styles/themes';
 
 .menu-item {
+  cursor: pointer;
   display: block;
   padding: .85rem;
   transition-duration: 100ms;
 
   &:hover {
     background-color: $gray;
-    cursor: pointer;
   }
 }
 

@@ -45,7 +45,11 @@ class WebSecurityConfiguration(
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry
                     .addMapping("/api/**")
-                    .allowedMethods(HttpMethod.GET.name)
+                    .allowedMethods(
+                        HttpMethod.GET.name,
+                        HttpMethod.POST.name,
+                        HttpMethod.PUT.name,
+                    )
                     .allowedOrigins("http://localhost:3000")
                 registry
                     .addMapping("/auth/**")

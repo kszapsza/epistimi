@@ -1,0 +1,25 @@
+@import 'src/styles/themes';
+@import 'src/styles/util';
+
+.organizations {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0 auto;
+  width: 100%;
+
+  .organizations-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .organizations-listing {
+    margin: .75rem 0 0;
+
+    .organizations-listing-summary {
+      color: rgba($black, .5);
+      margin-top: .75rem;
+    }
+  }
+}

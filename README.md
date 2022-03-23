@@ -6,13 +6,14 @@ A platform combining electronic school diary and e-learning features.
 
 **Backend:**
 
-* Kotlin & Spring Boot
-* Groovy & Spock
-* MongoDB
+* 🍅 Kotlin
+* 🍃 Spring Boot
+* 🧪 Kotest
+* 📦 MongoDB
 
 **Frontend:**
 
-* TypeScript & React
-* Redux
-* Jest & React Testing Library
-* SCSS
+* ⚛️ TypeScript & React
+* 📦 Redux
+* 🧪 Jest & React Testing Library
+* 🎨 SCSS

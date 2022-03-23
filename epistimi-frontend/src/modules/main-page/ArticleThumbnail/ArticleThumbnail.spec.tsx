@@ -1,6 +1,5 @@
 import { ArticleThumbnail } from './ArticleThumbnail';
 import { render } from '../../../utils/test-render';
-import React from 'react';
 
 describe('ArticleThumbnail component', () => {
   it('should render a thumbnail with provided image', () => {

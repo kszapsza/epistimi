@@ -15,21 +15,21 @@
     background-color: $white;
     border: 1px solid $gray;
     border-radius: $subtle-radius;
-    margin: 15% auto;
+    margin: 12% auto;
     max-width: 600px;
     min-width: 300px;
-    overflow-x: scroll;
+    overflow-x: auto;
     padding: 1rem;
     width: 100%;
 
     .modal-close {
       color: rgba($black, .6);
+      cursor: pointer;
       float: right;
       padding: 0 0 .1rem .1rem;
 
       &:hover {
         color: rgba($black, .8);
-        cursor: pointer;
       }
     }
   }

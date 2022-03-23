@@ -2,7 +2,6 @@ import { ArticleListing } from './ArticleListing';
 import { render } from '../../../utils/test-render';
 import { waitFor } from '@testing-library/react';
 import axios from 'axios';
-import React from 'react';
 
 jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
