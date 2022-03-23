@@ -4,6 +4,7 @@ import { Block, Done, Edit } from '@mui/icons-material';
 import { Modal } from '../../../components/Modal';
 import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
+import { OrganizationDetailsLocation } from '../OrganizationDetailsLocation';
 import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
 import { OrganizationEdit } from '../OrganizationEdit';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
@@ -89,9 +90,9 @@ export const OrganizationDetails = (): JSX.Element => {
           </div>
         </div>
         <div className={'organization-data'}>
-          <div className={'organization-name'}>
+          <h3 className={'organization-name'}>
             {organization.name}
-          </div>
+          </h3>
           <div className={'organization-entries'}>
             <OrganizationDetailsKeyValue
               label={'Id:'}
@@ -116,6 +117,7 @@ export const OrganizationDetails = (): JSX.Element => {
           <OrganizationDetailsStatsTile label={'Aktywnych uczniów:'} value={'N/A'}/>
           <OrganizationDetailsStatsTile label={'Aktywnych nauczycieli:'} value={'N/A'}/>
         </div>
+        <OrganizationDetailsLocation {...organization.address}/>
       </>}
     </div>
   );
