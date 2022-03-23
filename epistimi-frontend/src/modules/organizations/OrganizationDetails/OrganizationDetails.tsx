@@ -7,6 +7,7 @@ import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
 import { OrganizationDetailsLocation } from '../OrganizationDetailsLocation';
 import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
 import { OrganizationEdit } from '../OrganizationEdit';
+import { OrganizationEditVariant } from '../OrganizationEdit/OrganizationEdit';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationStatusChange } from '../OrganizationStatusChange';
 import { useEffect, useState } from 'react';
@@ -71,7 +72,7 @@ export const OrganizationDetails = (): JSX.Element => {
         <Modal open={editModalOpened} onClose={() => setEditModalOpened(false)}>
           <OrganizationEdit
             submitCallback={onOrganizationUpdate}
-            variant={'update'}
+            variant={OrganizationEditVariant.UPDATE}
             organizationId={organization.id}
             defaults={{ ...organization }}
           />

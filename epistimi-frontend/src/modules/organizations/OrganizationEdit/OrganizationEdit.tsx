@@ -7,14 +7,17 @@ import { UsersResponse } from '../../../dto/user';
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 
+export const enum OrganizationEditVariant {
+  CREATE = 'CREATE',
+  UPDATE = 'UPDATE',
+}
+
 interface OrganizationEditProps {
   submitCallback: (organization: OrganizationResponse) => void;
-  variant: 'create' | 'update';
+  variant: OrganizationEditVariant;
   organizationId?: string;
   defaults?: OrganizationResponse;
 }
-
-// TODO: Update variant not covered in tests !!!
 
 export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
   const {
@@ -46,27 +49,27 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
 
   const getHeading = (): string => {
     switch (props.variant) {
-      case 'create':
+      case OrganizationEditVariant.CREATE:
         return 'Tworzenie nowej placówki';
-      case 'update':
+      case OrganizationEditVariant.UPDATE:
         return 'Edytowanie placówki';
     }
   };
 
   const getButtonStyle = (): ButtonStyle => {
     switch (props.variant) {
-      case 'create':
+      case OrganizationEditVariant.CREATE:
         return ButtonStyle.CONSTRUCTIVE;
-      case 'update':
+      case OrganizationEditVariant.UPDATE:
         return ButtonStyle.PRIMARY;
     }
   };
 
   const getButtonLabel = (): string => {
     switch (props.variant) {
-      case 'create':
+      case OrganizationEditVariant.CREATE:
         return 'Utwórz';
-      case 'update':
+      case OrganizationEditVariant.UPDATE:
         return 'Zapisz';
     }
   };
@@ -79,12 +82,14 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
   };
 
   const onSubmit = (formData: OrganizationRegisterRequest): void => {
-    const action = props.variant == 'update'
-      ? axios.put
-      : axios.post;
-    const endpoint = props.variant == 'update' && props.organizationId
-      ? `/api/organization/${props.organizationId}`
-      : '/api/organization';
+    const action =
+      props.variant == OrganizationEditVariant.UPDATE
+        ? axios.put
+        : axios.post;
+    const endpoint =
+      props.variant == OrganizationEditVariant.UPDATE && props.organizationId
+        ? `/api/organization/${props.organizationId}`
+        : '/api/organization';
 
     action<OrganizationResponse,
       AxiosResponse<OrganizationResponse>,

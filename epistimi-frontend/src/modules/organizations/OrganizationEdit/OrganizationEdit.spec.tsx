@@ -1,6 +1,7 @@
+import { enabledOrganization } from '../../../stubs/organization';
 import { fireEvent, waitFor } from '@testing-library/react';
 import { Matcher } from '@testing-library/dom/types/matches';
-import { OrganizationEdit } from './OrganizationEdit';
+import { OrganizationEdit, OrganizationEditVariant } from './OrganizationEdit';
 import { OrganizationRegisterRequest, OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
 import { render } from '../../../utils/test-render';
 import { UserRole, UserSex } from '../../../dto/user';
@@ -14,7 +15,13 @@ describe('OrganizationCreate component', () => {
     jest.resetAllMocks();
   });
 
-  it('should render form properly', async () => {
+  it.each([
+    [OrganizationEditVariant.CREATE, 'Utwórz'],
+    [OrganizationEditVariant.UPDATE, 'Zapisz'],
+  ])('should render form properly (%s)', async (
+    variant: OrganizationEditVariant,
+    buttonLabel: string,
+  ) => {
     axiosMock.get.mockResolvedValueOnce({
       data: organizationAdminsResponse,
     });
@@ -23,7 +30,7 @@ describe('OrganizationCreate component', () => {
     });
 
     const { getByLabelText, getByRole, queryByText } = render(
-      <OrganizationEdit submitCallback={jest.fn()} variant={'create'}/>,
+      <OrganizationEdit submitCallback={jest.fn()} variant={variant}/>,
     );
 
     await waitFor(() => {
@@ -50,21 +57,26 @@ describe('OrganizationCreate component', () => {
       expect(directorSelect.options[1].innerHTML).toBe('Kowalska Adrianna (a.kowalska)');
 
       expect(button).toBeInTheDocument();
-      expect(button.innerHTML).toBe('Utwórz');
+      expect(button.innerHTML).toBe(buttonLabel);
 
       expect(queryByText(/wszystkie pola są wymagane/i)).toBeNull();
       expect(queryByText(/błąd serwera/i)).toBeNull();
     });
   });
 
-  it('should show an error message if form is empty', async () => {
+  it.each([
+    OrganizationEditVariant.CREATE,
+    OrganizationEditVariant.UPDATE,
+  ])('should show an error message if form is empty (%s)', async (
+    variant: OrganizationEditVariant,
+  ) => {
     axiosMock.get.mockResolvedValue({
       data: organizationAdminsResponse,
     });
 
     const onCreatedMock = jest.fn();
     const { getByRole, getByText } = render(
-      <OrganizationEdit submitCallback={onCreatedMock} variant={'create'}/>,
+      <OrganizationEdit submitCallback={onCreatedMock} variant={variant}/>,
     );
 
     await waitFor(() => {
@@ -75,18 +87,25 @@ describe('OrganizationCreate component', () => {
     });
   });
 
-  it('should show an error message if server fails to respond', async () => {
+  it.each([
+    [OrganizationEditVariant.CREATE, axiosMock.post],
+    [OrganizationEditVariant.UPDATE, axiosMock.put],
+  ])('should show an error message if server fails to respond (%s)', async (
+    variant: OrganizationEditVariant,
+    axiosActionMock,
+  ) => {
     axiosMock.get.mockResolvedValueOnce({
       data: organizationAdminsResponse,
     });
     axiosMock.get.mockResolvedValueOnce({
       data: organizationDirectorsResponse,
     });
-    axiosMock.post.mockRejectedValue({});
+
+    axiosActionMock.mockRejectedValue({});
 
     const onCreatedMock = jest.fn();
     const { getByLabelText, getByRole, getByText } = render(
-      <OrganizationEdit submitCallback={onCreatedMock} variant={'create'}/>,
+      <OrganizationEdit submitCallback={onCreatedMock} variant={variant}/>,
     );
 
     await waitFor(() => {
@@ -98,7 +117,14 @@ describe('OrganizationCreate component', () => {
     });
   });
 
-  it('should call `onCreated` callback on successful organization creation', async () => {
+  it.each([
+    [OrganizationEditVariant.CREATE, axiosMock.post, '/api/organization'],
+    [OrganizationEditVariant.UPDATE, axiosMock.put, '/api/organization/123'],
+  ])('should submit valid form and call `submitCallback` callback with server response (%s)', async (
+    variant: OrganizationEditVariant,
+    axiosActionMock,
+    endpoint: string,
+  ) => {
     axiosMock.get.mockResolvedValueOnce({
       data: organizationAdminsResponse,
     });
@@ -106,7 +132,7 @@ describe('OrganizationCreate component', () => {
       data: organizationDirectorsResponse,
     });
 
-    const postResponse: OrganizationResponse = {
+    const submitResponse: OrganizationResponse = {
       id: '123',
       name: 'SP7',
       admin: organizationAdminsResponse.users[0],
@@ -119,12 +145,15 @@ describe('OrganizationCreate component', () => {
         countryCode: 'PL',
       },
     };
-    axiosMock.post.mockResolvedValue({ data: postResponse });
+    axiosActionMock.mockResolvedValue({ data: submitResponse });
 
     const onCreatedMock = jest.fn();
     const { getByLabelText, getByRole, queryByText } = render(
-      <OrganizationEdit submitCallback={onCreatedMock} variant={'create'}/>,
-    );
+      <OrganizationEdit
+        submitCallback={onCreatedMock}
+        variant={variant}
+        organizationId={'123'}
+      />);
 
     await waitFor(() => {
       fillOutWholeForm(getByLabelText);
@@ -136,7 +165,7 @@ describe('OrganizationCreate component', () => {
       expect(queryByText(/wszystkie pola są wymagane/i)).toBeNull();
       expect(queryByText(/błąd serwera/i)).toBeNull();
 
-      expect(axiosMock.post).toHaveBeenCalledWith('/api/organization', {
+      expect(axiosActionMock).toHaveBeenCalledWith(endpoint, {
         name: 'SP7',
         adminId: '42',
         directorId: '43',
@@ -148,7 +177,34 @@ describe('OrganizationCreate component', () => {
         },
       } as OrganizationRegisterRequest);
 
-      expect(onCreatedMock).toBeCalledWith(postResponse);
+      expect(onCreatedMock).toBeCalledWith(submitResponse);
+    });
+  });
+
+  it('should fill out the form with default values if provided', async () => {
+    axiosMock.get.mockResolvedValueOnce({
+      data: organizationAdminsResponse,
+    });
+    axiosMock.get.mockResolvedValueOnce({
+      data: organizationDirectorsResponse,
+    });
+
+    const { getByLabelText } = render(
+      <OrganizationEdit
+        submitCallback={jest.fn()}
+        variant={OrganizationEditVariant.UPDATE}
+        organizationId={'123'}
+        defaults={enabledOrganization}
+      />);
+
+    await waitFor(() => {
+      expect(getByLabelText(/nazwa/i)).toHaveValue('SP7');
+      expect(getByLabelText(/administrator/i)).toHaveValue('42');
+      expect(getByLabelText(/dyrektor/i)).toHaveValue('43');
+      expect(getByLabelText(/ulica/i)).toHaveValue('Wrocławska 5');
+      expect(getByLabelText(/kod pocztowy/i)).toHaveValue('15-644');
+      expect(getByLabelText(/miasto/i)).toHaveValue('Białystok');
+      expect(getByLabelText(/kraj/i)).toHaveValue('PL');
     });
   });
 
@@ -207,4 +263,5 @@ describe('OrganizationCreate component', () => {
       },
     ],
   };
-});
+})
+;
