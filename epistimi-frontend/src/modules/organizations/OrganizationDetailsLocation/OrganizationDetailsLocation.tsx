@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import L from 'leaflet';
 
+const MAP_ZOOM = 16;
+
 interface CenterMapProps {
   lat: number;
   lon: number;
@@ -20,15 +22,13 @@ const CenterMap = (
   const map = useMap();
 
   useEffect(() => {
-    lat && lon && map.setView([lat, lon], 16);
+    lat && lon && map.setView([lat, lon], MAP_ZOOM);
   }, [lat, lon]);
 
   return <></>;
 };
 
-type OrganizationDetailsLocationProps = Address
-
-// TODO: Tests !!!
+type OrganizationDetailsLocationProps = Address;
 
 export const OrganizationDetailsLocation = (
   props: OrganizationDetailsLocationProps,

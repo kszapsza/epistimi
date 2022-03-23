@@ -10,7 +10,6 @@ describe('OrganizationDetailsKeyValue component', () => {
       />,
     );
 
-    expect(getByText('foo')).toBeInTheDocument();
-    expect(getByText('bar')).toBeInTheDocument();
+    expect(getByText('foo').parentElement).toHaveTextContent('bar');
   });
 });

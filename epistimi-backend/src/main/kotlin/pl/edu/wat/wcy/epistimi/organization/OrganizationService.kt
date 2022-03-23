@@ -72,7 +72,7 @@ class OrganizationService(
 
     fun updateOrganization(
         organizationId: String,
-        updateRequest: OrganizationRegisterRequest
+        updateRequest: OrganizationRegisterRequest,
     ): Organization {
         return organizationRepository.update(
             Organization(
@@ -88,7 +88,7 @@ class OrganizationService(
 
     fun changeOrganizationStatus(
         organizationId: String,
-        changeStatusRequest: OrganizationChangeStatusRequest
+        changeStatusRequest: OrganizationChangeStatusRequest,
     ): Organization {
         return organizationRepository.save(
             organizationRepository.findById(organizationId)

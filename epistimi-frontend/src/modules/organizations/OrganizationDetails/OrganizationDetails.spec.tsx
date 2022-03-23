@@ -1,5 +1,6 @@
 import { disabledOrganization, enabledOrganization } from '../../../stubs/organization';
 import { OrganizationDetails } from './OrganizationDetails';
+import { OrganizationResponse } from '../../../dto/organization';
 import { render } from '../../../utils/test-render';
 import { waitFor } from '@testing-library/react';
 import axios from 'axios';
@@ -33,7 +34,10 @@ describe('OrganizationDetails component', () => {
   it.each([
     ['Dezaktywuj placówkę', enabledOrganization],
     ['Aktywuj placówkę', disabledOrganization],
-  ])('should render status change button (%s)', async (statusButtonLabel, mockData) => {
+  ])('should render status change button (%s)', async (
+    statusButtonLabel: string,
+    mockData: OrganizationResponse,
+  ) => {
     axiosMock.get.mockResolvedValue({
       data: mockData,
     });

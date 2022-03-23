@@ -59,7 +59,10 @@
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!(react-native|my-project|redux-persist)/)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|scss|png)$": "identity-obj-proxy"
+    }
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.13.0",

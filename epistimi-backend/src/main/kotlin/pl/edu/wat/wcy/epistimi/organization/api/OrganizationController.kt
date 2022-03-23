@@ -81,7 +81,6 @@ class OrganizationController(
         @PathVariable organizationId: String,
         @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest,
     ): ResponseEntity<OrganizationResponse> =
-        // TODO: Integration tests!!!
         ResponseEntity.ok(
             organizationService.changeOrganizationStatus(organizationId, organizationChangeStatusRequest)
                 .toResponse()
