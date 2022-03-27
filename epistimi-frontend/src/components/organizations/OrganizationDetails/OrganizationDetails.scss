@@ -1,0 +1,63 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.organization-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .organization-mbox-dock {
+    margin: 0 0 .75rem;
+  }
+
+  .organization-header {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .organization-header-group {
+      display: flex;
+      flex-direction: row;
+      gap: .25rem;
+      justify-content: center;
+
+      @media screen and (max-width: $mobile-breakpoint) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .organization-data {
+    background-color: $white;
+    border: 1px solid $gray;
+    border-radius: $subtle-radius;
+    margin: .5rem 0 0;
+    padding: .75rem;
+
+    .organization-name {
+      font-weight: 600;
+      margin: 0 0 .5rem 0;
+    }
+
+    .organization-entries {
+      display: flex;
+      flex-direction: column;
+      gap: .2rem;
+      max-width: 600px;
+      width: 100%;
+    }
+  }
+
+  .organization-stats {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    margin: .5rem 0 0;
+    width: 100%;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      flex-direction: column;
+    }
+  }
+}

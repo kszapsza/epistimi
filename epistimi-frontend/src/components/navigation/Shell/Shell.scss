@@ -1,0 +1,16 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.app-shell-navbar {
+  min-height: calc(100vh - #{$navbar-height});
+}
+
+.app-shell-header {
+  background-color: $black;
+  color: $white;
+}
+
+.app-shell-outlet {
+  background-color: $light-gray;
+  min-height: calc(100vh - #{$navbar-height});
+}
