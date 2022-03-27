@@ -1,6 +1,6 @@
 import './LoginForm.scss';
 import { Alert, Button, PasswordInput, TextInput } from '@mantine/core';
-import { ErrorOutline } from '@mui/icons-material';
+import { AlertCircle } from 'tabler-icons-react';
 import { fetchCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
 import { LoginFormData, LoginResponse } from '../../../dto/login';
 import { useDispatch } from 'react-redux';
@@ -56,11 +56,11 @@ export const LoginForm = (): JSX.Element => {
         onSubmit={form.onSubmit((formData) => handleLogin(formData))}
       >
         {hasErrors() &&
-          <Alert icon={<ErrorOutline style={{ fontSize: '16px' }}/>} color="red">
+          <Alert icon={<AlertCircle size={16}/>} color="red">
             Niepoprawne dane logowania
           </Alert>}
         {serverFailed &&
-          <Alert icon={<ErrorOutline style={{ fontSize: '16px' }}/>} color="red">
+          <Alert icon={<AlertCircle size={16}/>} color="red">
             Nie udało się połączyć z&nbsp;serwerem
           </Alert>}
 

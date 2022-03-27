@@ -1,7 +1,7 @@
 import './OrganizationEdit.scss';
 import { Address } from '../../../dto/address';
 import { Alert, Button, Loader, NativeSelect, TextInput } from '@mantine/core';
-import { ErrorOutline } from '@mui/icons-material';
+import { AlertCircle } from 'tabler-icons-react';
 import { OrganizationRegisterRequest, OrganizationResponse } from '../../../dto/organization';
 import { useFetch } from '../../../hooks/useFetch';
 import { useForm } from '@mantine/form';
@@ -105,12 +105,12 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
   return (
     <div className={'organization-create'}>
       {hasErrors() &&
-        <Alert icon={<ErrorOutline style={{ fontSize: '16px' }}/>} color="red">
+        <Alert icon={<AlertCircle size={16}/>} color="red">
           Wszystkie pola są wymagane
         </Alert>
       }
       {submitFailed &&
-        <Alert icon={<ErrorOutline style={{ fontSize: '16px' }}/>} color="red">
+        <Alert icon={<AlertCircle size={16}/>} color="red">
           Błąd serwera
         </Alert>
       }

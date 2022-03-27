@@ -1,6 +1,6 @@
 import './OrganizationsListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { Create, Done, ErrorOutline } from '@mui/icons-material';
+import { AlertCircle, Check, Pencil } from 'tabler-icons-react';
 import { OrganizationEdit, OrganizationEditVariant } from '../OrganizationEdit';
 import { OrganizationResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationsListingTile } from '../OrganizationsListingTile';
@@ -44,7 +44,7 @@ export const OrganizationsListing = (): JSX.Element => {
       <div className={'organizations-actions'}>
         <Title order={2}>Placówki</Title>
         <Button
-          leftIcon={<Create style={{ fontSize: '16px' }}/>}
+          leftIcon={<Pencil size={16}/>}
           onClick={createModalHandlers.open}
           variant={'default'}
         >
@@ -53,11 +53,11 @@ export const OrganizationsListing = (): JSX.Element => {
       </div>
 
       {error &&
-        <Alert icon={<ErrorOutline style={{ fontSize: '16px' }}/>} color="red">
+        <Alert icon={<AlertCircle size={16}/>} color="red">
           Nie udało się załadować listy placówek!
         </Alert>}
       {createdMessageOpened &&
-        <Alert icon={<Done style={{ fontSize: '16px' }}/>} color="green">
+        <Alert icon={<Check size={16}/>} color="green">
           Pomyślnie utworzono nową placówkę
         </Alert>}
 

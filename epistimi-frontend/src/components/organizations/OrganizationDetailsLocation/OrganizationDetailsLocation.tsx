@@ -1,12 +1,11 @@
 import './OrganizationDetailsLocation.scss';
 import 'leaflet/dist/leaflet.css';
 import { Address } from '../../../dto/address';
-import { Loader, Title } from '@mantine/core';
+import { Location } from '../../../dto/location';
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
-import { NominatimResponse } from '../../../dto/external/nominatim';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { Title } from '@mantine/core';
+import { useEffect } from 'react';
 import L from 'leaflet';
 
 const MAP_ZOOM = 16;
@@ -28,31 +27,15 @@ const CenterMap = (
   return <></>;
 };
 
-type OrganizationDetailsLocationProps = Address;
+interface OrganizationDetailsLocationProps {
+  address: Address;
+  location?: Location;
+}
 
 export const OrganizationDetailsLocation = (
-  props: OrganizationDetailsLocationProps,
+  { address, location }: OrganizationDetailsLocationProps,
 ): JSX.Element => {
-  const [lat, setLat] = useState<number>();
-  const [lon, setLon] = useState<number>();
-  const [loading, setLoading] = useState<boolean>(true);
-
   useEffect(() => {
-    setupLeafletIcons();
-    setLoading(true);
-
-    axios.get<NominatimResponse[]>(buildNominatimUrl())
-      .then((response) => {
-        setLoading(false);
-        setLat(Number(response.data[0].lat));
-        setLon(Number(response.data[0].lon));
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, [props.street, props.postalCode, props.street, props.countryCode]);
-
-  const setupLeafletIcons = (): void => {
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -61,48 +44,40 @@ export const OrganizationDetailsLocation = (
       iconUrl: require('leaflet/dist/images/marker-icon.png'),
       shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
     });
-  };
-
-  const buildNominatimUrl = (): string => {
-    return 'https://nominatim.openstreetmap.org/search?format=json&q='
-      + encodeURIComponent(`${props.street}, ${props.postalCode} ${props.city}, ${formatCountry()}`);
-  };
+  }, []);
 
   const formatCountry = (): string => {
     return new Intl.DisplayNames('pl-PL', { type: 'region' })
-      .of(props.countryCode) ?? props.countryCode;
+      .of(address.countryCode) ?? address.countryCode;
   };
 
   return (
     <div className={'organization-location'}>
-      {loading && <Loader/>}
-      {!loading && <>
-        {lat && lon && <div className={'organization-map'}>
-          <MapContainer className={'organization-map-container'}>
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={[lat, lon]}/>
-            <CenterMap lat={lat} lon={lon}/>
-          </MapContainer>
-        </div>}
-        <div className={'organization-address'}>
-          <Title order={4}>Adres i kontakt</Title>
-          <OrganizationDetailsKeyValue
-            label={'Ulica'}
-            value={props.street}/>
-          <OrganizationDetailsKeyValue
-            label={'Kod pocztowy'}
-            value={props.postalCode}/>
-          <OrganizationDetailsKeyValue
-            label={'Miasto'}
-            value={props.city}/>
-          <OrganizationDetailsKeyValue
-            label={'Kraj'}
-            value={formatCountry()}/>
-        </div>
-      </>}
+      {location && <div className={'organization-map'}>
+        <MapContainer className={'organization-map-container'}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[location.latitude, location.longitude]}/>
+          <CenterMap lat={location.latitude} lon={location.longitude}/>
+        </MapContainer>
+      </div>}
+      <div className={'organization-address'}>
+        <Title order={4}>Adres i kontakt</Title>
+        <OrganizationDetailsKeyValue
+          label={'Ulica'}
+          value={address.street}/>
+        <OrganizationDetailsKeyValue
+          label={'Kod pocztowy'}
+          value={address.postalCode}/>
+        <OrganizationDetailsKeyValue
+          label={'Miasto'}
+          value={address.city}/>
+        <OrganizationDetailsKeyValue
+          label={'Kraj'}
+          value={formatCountry()}/>
+      </div>
     </div>
   );
 };

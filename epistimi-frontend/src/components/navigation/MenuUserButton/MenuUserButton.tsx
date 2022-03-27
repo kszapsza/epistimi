@@ -1,6 +1,6 @@
 import './MenuUserButton.scss';
 import { Avatar, Box, Group, Text, UnstyledButton, UnstyledButtonProps } from '@mantine/core';
-import { ChevronRight } from '@mui/icons-material';
+import { ChevronRight } from 'tabler-icons-react';
 import { forwardRef } from 'react';
 import { useAppSelector } from '../../../store/hooks';
 
@@ -31,7 +31,7 @@ export const MenuUserButton = forwardRef<HTMLButtonElement, MenuUserButtonProps>
               {user.username}
             </Text>
           </Box>
-          <ChevronRight style={{ fontSize: '18px' }}/>
+          <ChevronRight size={18}/>
         </Group>
       </UnstyledButton>
     </div>

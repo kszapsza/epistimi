@@ -1,7 +1,7 @@
 import './Header.scss';
 import { Burger, MediaQuery } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { Logout } from '@mui/icons-material';
+import { Logout } from 'tabler-icons-react';
 import { removeCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { UserRole } from '../../../dto/user';

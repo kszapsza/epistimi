@@ -1,5 +1,5 @@
 import './OrganizationStatusChange.scss';
-import { Block, Done } from '@mui/icons-material';
+import { Ban, Check } from 'tabler-icons-react';
 import { Button } from '@mantine/core';
 import { OrganizationChangeStatusRequest, OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
 import axios, { AxiosResponse } from 'axios';
@@ -33,7 +33,7 @@ export const OrganizationStatusChange =
             Czy na pewno chcesz zdezaktywować placówkę <strong>{organization.name}</strong>?
           </p>
           <Button
-            leftIcon={<Block/>}
+            leftIcon={<Ban/>}
             onClick={handleDisable}
             color={'red'}
           >Dezaktywuj</Button>
@@ -46,7 +46,7 @@ export const OrganizationStatusChange =
             Czy na pewno chcesz ponownie aktywować placówkę <strong>{organization.name}</strong>?
           </p>
           <Button
-            leftIcon={<Done/>}
+            leftIcon={<Check/>}
             onClick={handleEnable}
             color={'teal'}
           >Aktywuj</Button>

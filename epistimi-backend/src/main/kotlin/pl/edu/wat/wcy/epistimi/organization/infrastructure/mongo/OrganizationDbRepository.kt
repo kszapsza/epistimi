@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.organization.infrastructure
+package pl.edu.wat.wcy.epistimi.organization.infrastructure.mongo
 
 import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.organization.Organization
@@ -24,6 +24,7 @@ class OrganizationDbRepository(
         status = Organization.Status.valueOf(this.status),
         director = userDbRepository.findById(this.directorId),
         address = this.address,
+        location = this.location,
     )
 
     override fun findById(organizationId: String): Organization =
@@ -44,6 +45,7 @@ class OrganizationDbRepository(
             status = this.status.toString(),
             directorId = this.director.id!!.value,
             address = this.address,
+            location = this.location,
         )
 
     override fun update(organization: Organization): Organization {

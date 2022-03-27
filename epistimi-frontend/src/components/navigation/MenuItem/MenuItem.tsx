@@ -1,6 +1,6 @@
 import './MenuItem.scss';
 import { Group, Navbar, Text, ThemeIcon, UnstyledButton } from '@mantine/core';
-import { NavLink } from 'react-router-dom';
+import { Link, useMatch } from 'react-router-dom';
 
 interface MenuItemProps {
   icon: JSX.Element;
@@ -10,14 +10,16 @@ interface MenuItemProps {
 }
 
 export const MenuItem = (props: MenuItemProps): JSX.Element => {
+  const match = useMatch(props.href);
+
   return (
-    <Navbar.Section component={NavLink} to={props.href}>
+    <Navbar.Section component={Link} to={props.href}>
       <UnstyledButton className={'menu-item'} onClick={props.onClick}>
         <Group>
           <ThemeIcon variant={'light'} color={'blue'} size={'md'} className={'menu-item-icon'}>
             {props.icon}
           </ThemeIcon>
-          <Text size={'sm'}>
+          <Text size={'sm'} style={match ? { fontWeight: '600' } : {}}>
             {props.label}
           </Text>
         </Group>

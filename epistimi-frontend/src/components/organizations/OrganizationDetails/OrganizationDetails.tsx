@@ -1,6 +1,6 @@
 import './OrganizationDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { ArrowBack, Block, Done, Edit, ErrorOutline } from '@mui/icons-material';
+import { AlertCircle, ArrowBack, Ban, Check, Pencil } from 'tabler-icons-react';
 import { Link, useParams } from 'react-router-dom';
 import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
@@ -53,11 +53,11 @@ export const OrganizationDetails = (): JSX.Element => {
       {(error || updatedMessageOpened) &&
         <div className={'organization-mbox-dock'}>
           {error &&
-            <Alert icon={<ErrorOutline style={{ fontSize: '16px' }}/>} color="red">
+            <Alert icon={<AlertCircle size={16}/>} color="red">
               Nie udało się załadować szczegółów organizacji
             </Alert>}
           {updatedMessageOpened &&
-            <Alert icon={<Done style={{ fontSize: '16px' }}/>} color="green">
+            <Alert icon={<Check size={16}/>} color="green">
               Zaktualizowano dane placówki
             </Alert>}
         </div>}
@@ -89,26 +89,26 @@ export const OrganizationDetails = (): JSX.Element => {
         <div className={'organization-header'}>
           <div className={'organization-header-group'}>
             <ActionIcon variant={'transparent'} component={Link} to={'./..'}>
-              <ArrowBack fontSize={'medium'}/>
+              <ArrowBack size={18}/>
             </ActionIcon>
           </div>
           <div className={'organization-header-group'}>
             {organization.status === OrganizationStatus.ENABLED &&
               <Button
-                leftIcon={<Block style={{ fontSize: '16px' }}/>}
+                leftIcon={<Ban size={16}/>}
                 onClick={statusChangeModalHandlers.open}
                 variant={'default'}>
                 Dezaktywuj placówkę
               </Button>}
             {organization.status === OrganizationStatus.DISABLED &&
               <Button
-                leftIcon={<Done style={{ fontSize: '16px' }}/>}
+                leftIcon={<Check size={16}/>}
                 onClick={statusChangeModalHandlers.open}
                 variant={'default'}>
                 Aktywuj placówkę
               </Button>}
             <Button
-              leftIcon={<Edit style={{ fontSize: '16px' }}/>}
+              leftIcon={<Pencil size={16}/>}
               onClick={editModalHandlers.open}
               variant={'default'}>
               Edytuj dane
@@ -143,7 +143,10 @@ export const OrganizationDetails = (): JSX.Element => {
           <OrganizationDetailsStatsTile label={'Aktywnych uczniów:'} value={'N/A'}/>
           <OrganizationDetailsStatsTile label={'Aktywnych nauczycieli:'} value={'N/A'}/>
         </div>
-        <OrganizationDetailsLocation {...organization.address}/>
+        <OrganizationDetailsLocation
+          address={organization.address}
+          location={organization.location}
+        />
       </>}
     </div>
   );

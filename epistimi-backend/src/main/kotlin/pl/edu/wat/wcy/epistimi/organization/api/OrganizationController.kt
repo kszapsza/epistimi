@@ -53,6 +53,7 @@ class OrganizationController(
         status = this.status.toString(),
         director = this.director.toResponse(),
         address = this.address,
+        location = this.location,
     )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
