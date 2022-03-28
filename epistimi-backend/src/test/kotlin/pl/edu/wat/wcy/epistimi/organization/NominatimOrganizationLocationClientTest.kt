@@ -1,17 +1,13 @@
 package pl.edu.wat.wcy.epistimi.organization
 
 import io.kotest.core.spec.style.ShouldSpec
-import io.kotest.data.forAll
-import io.kotest.data.row
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.springframework.http.HttpMethod.GET
-import org.springframework.http.HttpStatus.BAD_REQUEST
-import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
-import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.ResponseEntity
+import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimOrganizationLocationClient
@@ -19,39 +15,34 @@ import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimRes
 import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimResponseEntry
 import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.shared.Location
+import java.net.URI
 
 internal class NominatimOrganizationLocationClientTest : ShouldSpec({
     val restTemplateMock = mockk<RestTemplate>()
     val locationClient = NominatimOrganizationLocationClient(restTemplateMock)
 
     should("return null if Nominatim API failed to respond") {
-        forAll(
-            row(BAD_REQUEST),
-            row(NOT_FOUND),
-            row(INTERNAL_SERVER_ERROR),
-        ) { statusCode ->
-            // given
-            every { restTemplateMock.exchange<NominatimResponse>(url = ofType(String::class), method = GET) }
-                .returns(ResponseEntity(statusCode))
+        // given
+        every { restTemplateMock.exchange<NominatimResponse>(url = ofType(URI::class), method = GET) }
+            .throws(RestClientException(""))
 
-            val address = Address(
-                street = "Szkolna 17",
-                postalCode = "15-640",
-                city = "Białystok",
-                countryCode = "PL",
-            )
+        val address = Address(
+            street = "Szkolna 17",
+            postalCode = "15-640",
+            city = "Białystok",
+            countryCode = "PL",
+        )
 
-            // when
-            val location = locationClient.getLocation(address)
+        // when
+        val location = locationClient.getLocation(address)
 
-            // then
-            location.shouldBeNull()
-        }
+        // then
+        location.shouldBeNull()
     }
 
     should("return null if Nominatim API returned empty response body") {
         // given
-        every { restTemplateMock.exchange<NominatimResponse>(url = ofType(String::class), method = GET) }
+        every { restTemplateMock.exchange<NominatimResponse>(url = ofType(URI::class), method = GET) }
             .returns(ResponseEntity.ok(null))
 
         // when
@@ -71,7 +62,7 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
 
     should("return null if Nominatim API returned empty array") {
         // given
-        every { restTemplateMock.exchange<NominatimResponse>(url = ofType(String::class), method = GET) }
+        every { restTemplateMock.exchange<NominatimResponse>(url = ofType(URI::class), method = GET) }
             .returns(ResponseEntity.ok(listOf()))
 
         // when
@@ -113,7 +104,7 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
             )
         )
 
-        every { restTemplateMock.exchange<NominatimResponse>(url = ofType(String::class), method = GET) }
+        every { restTemplateMock.exchange<NominatimResponse>(url = ofType(URI::class), method = GET) }
             .returns(ResponseEntity.ok(nominatimResponse))
 
         // when

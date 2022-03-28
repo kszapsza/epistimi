@@ -8,8 +8,7 @@ describe('MainPage component', () => {
   });
 
   it('should render heading and description', () => {
-    const { getByRole } = render(<MainPage/>);
-    expect(getByRole('heading'))
-      .toHaveTextContent('E‑dziennik i platforma e‑learningowa – od teraz w jednym miejscu.');
+    const { queryByText } = render(<MainPage/>);
+    expect(queryByText('E‑dziennik i platforma e‑learningowa – od teraz w jednym miejscu.')).toBeInTheDocument();
   });
 });

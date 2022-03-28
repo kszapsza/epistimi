@@ -27,4 +27,6 @@ describe('OrganizationDetailsLocation component', () => {
       expect(getByText(/kraj/i).parentElement).toHaveTextContent(/Polska/);
     });
   });
+
+  // TODO: check if map is hidden if there are no coordinates
 });

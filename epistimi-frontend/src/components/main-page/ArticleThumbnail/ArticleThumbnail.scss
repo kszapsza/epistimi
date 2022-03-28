@@ -6,44 +6,37 @@
   border-radius: $subtle-radius;
   cursor: pointer;
   flex: 1;
-  min-width: 250px;
+  min-width: 350px;
   overflow: hidden;
+}
 
-  &:nth-child(1) {
-    flex-basis: 100%;
-  }
+.article-thumbnail-image {
+  max-height: 200px;
+  overflow: hidden;
+  width: 100%;
 
-  .article-thumbnail-image {
-    max-height: 200px;
-    overflow: hidden;
+  img {
+    transition-duration: 500ms;
     width: 100%;
 
-    img {
-      transition-duration: 500ms;
-      width: 100%;
-
-      &:hover {
-        transform: scale(1.02);
-      }
+    &:hover {
+      transform: scale(1.02);
     }
   }
+}
 
-  .article-thumbnail-metadata {
-    padding: 0.85rem 1rem 1rem;
-
-    .article-thumbnail-title {
-      font: {
-        size: 18px;
-        weight: bold;
-      }
-      padding: 0 0 .5rem;
-    }
-
-    .article-thumbnail-description {
-      font: {
-        size: 13px;
-        weight: normal;
-      }
-    }
+.article-thumbnail-title {
+  font: {
+    size: 18px;
+    weight: bold;
   }
+  line-height: 25px;
+}
+
+.article-thumbnail-description {
+  font: {
+    size: 13px;
+    weight: normal;
+  }
+  line-height: 18px;
 }

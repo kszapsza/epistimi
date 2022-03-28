@@ -11,7 +11,7 @@ export const ArticleListing = (): JSX.Element => {
     <>
       {loading && <Loader/>}
       {(!data || data.articles.length === 0) && !loading &&
-        <Alert icon={<AlertCircle size={16}/>} color="red">
+        <Alert icon={<AlertCircle size={16}/>} color={'red'}>
           Nie udało się załadować artykułów!
         </Alert>}
       {data && data.articles.map((article, idx) =>

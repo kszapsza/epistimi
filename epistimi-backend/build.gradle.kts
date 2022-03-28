@@ -4,7 +4,7 @@ object Versions {
     const val APACHE_HTTP_CLIENT = "4.5.13"
     const val JAXB = "2.4.0-b180830.0359"
     const val JJWT = "0.9.1"
-    const val KOTEST = "5.1.0"
+    const val KOTEST = "5.2.2"
     const val KOTEST_SPRING = "1.1.0"
     const val KOTEST_TC = "1.2.1"
     const val KOTEST_WIREMOCK = "1.0.3"
@@ -45,6 +45,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module", "jackson-module-kotlin")
     implementation("io.jsonwebtoken", "jjwt", Versions.JJWT)
     implementation("javax.xml.bind", "jaxb-api", Versions.JAXB)
+    implementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
     implementation("org.jetbrains.kotlin", "kotlin-reflect")
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8")
     implementation("org.slf4j", "slf4j-api", Versions.SLF4J)

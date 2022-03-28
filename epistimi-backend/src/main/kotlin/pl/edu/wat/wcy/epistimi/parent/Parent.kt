@@ -1,5 +1,6 @@
 package pl.edu.wat.wcy.epistimi.parent
 
+import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.user.UserId
 
 /*
@@ -10,6 +11,7 @@ import pl.edu.wat.wcy.epistimi.user.UserId
 data class Parent(
     val id: ParentId? = null,
     val userId: UserId,
+    val organizationId: OrganizationId,
 )
 
 @JvmInline

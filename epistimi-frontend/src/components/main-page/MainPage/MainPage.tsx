@@ -1,5 +1,6 @@
 import './MainPage.scss';
-import { Footer } from '../../navigation/Footer';
+import { AppShell, Header } from '@mantine/core';
+import { Header as EpistimiHeader, Footer } from '../../navigation';
 import { HashLink } from 'react-router-hash-link';
 import { LoginForm } from '../LoginForm';
 import { Outlet } from 'react-router-dom';
@@ -10,7 +11,16 @@ export const MainPage = (): JSX.Element => {
     document.title = 'Epistimi';
   }, []);
 
-  return (
+  const header =
+    <Header
+      className={'app-shell-header'}
+      height={45}
+      p={'lg'}
+    >
+      <EpistimiHeader/>
+    </Header>;
+
+  const content = (
     <div className={'main-page'}>
       <div className={'main-page-left'}>
         <Outlet/>
@@ -32,5 +42,16 @@ export const MainPage = (): JSX.Element => {
         <Footer/>
       </div>
     </div>
+  );
+
+  return (
+    <AppShell
+      fixed
+      header={header}
+      navbarOffsetBreakpoint={'sm'}
+      padding={'xl'}
+    >
+      {content}
+    </AppShell>
   );
 };

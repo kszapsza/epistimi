@@ -1,20 +1,19 @@
 import './LoginForm.scss';
-import { Alert, Button, PasswordInput, TextInput } from '@mantine/core';
+import { Alert, Button, LoadingOverlay, PasswordInput, TextInput } from '@mantine/core';
 import { AlertCircle } from 'tabler-icons-react';
 import { fetchCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
 import { LoginFormData, LoginResponse } from '../../../dto/login';
 import { useDispatch } from 'react-redux';
 import { useForm } from '@mantine/form';
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 
 export const LoginForm = (): JSX.Element => {
+  const [loadingOverlay, setLoadingOverlay] = useState<boolean>(false);
   const [serverUnauthorized, setServerUnauthorized] = useState<boolean>(false);
   const [serverFailed, setServerFailed] = useState<boolean>(false);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const form = useForm<LoginFormData>({
     initialValues: {
@@ -35,8 +34,8 @@ export const LoginForm = (): JSX.Element => {
     axios.post<LoginResponse, AxiosResponse<LoginResponse>, LoginFormData>(
       'auth/login', formData,
     ).then((response: AxiosResponse<LoginResponse>) => {
+      setLoadingOverlay(true);
       localStorage.setItem(TOKEN_KEY, response.data.token);
-      navigate('/app/summary');
       dispatch(fetchCurrentUser());
     }).catch((error) => {
       if (error?.response?.status === 401) {
@@ -55,6 +54,7 @@ export const LoginForm = (): JSX.Element => {
         className={'login-form'}
         onSubmit={form.onSubmit((formData) => handleLogin(formData))}
       >
+        <LoadingOverlay visible={loadingOverlay} />
         {hasErrors() &&
           <Alert icon={<AlertCircle size={16}/>} color="red">
             Niepoprawne dane logowania

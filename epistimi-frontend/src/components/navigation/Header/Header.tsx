@@ -7,8 +7,8 @@ import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { UserRole } from '../../../dto/user';
 
 interface HeaderProps {
-  navbarOpened: boolean;
-  onBurgerClick: () => void;
+  navbarOpened?: boolean;
+  onBurgerClick?: () => void;
 }
 
 export const Header = (props: HeaderProps): JSX.Element => {
@@ -23,15 +23,16 @@ export const Header = (props: HeaderProps): JSX.Element => {
   return (
     <header className={'header'}>
       <div className={'header-wrapper'}>
-        <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>
-          <Burger
-            color={'white'}
-            mr={'xl'}
-            onClick={props.onBurgerClick}
-            opened={props.navbarOpened}
-            size={'sm'}
-          />
-        </MediaQuery>
+        {props.navbarOpened && props.onBurgerClick &&
+          <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>
+            <Burger
+              color={'white'}
+              mr={'xl'}
+              onClick={props.onBurgerClick}
+              opened={props.navbarOpened}
+              size={'sm'}
+            />
+          </MediaQuery>}
         <Link onClick={() => window.scroll(0, 0)}
               to={isAuthenticated ? '/app/summary' : '/'}>
           <div className={'header-logo-box'}>

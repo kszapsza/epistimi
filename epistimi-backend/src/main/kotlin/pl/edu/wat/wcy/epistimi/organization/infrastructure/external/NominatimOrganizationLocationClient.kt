@@ -1,14 +1,17 @@
 package pl.edu.wat.wcy.epistimi.organization.infrastructure.external
 
+import org.apache.http.client.utils.URIBuilder
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Component
+import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import pl.edu.wat.wcy.epistimi.organization.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.shared.Location
+import java.net.URI
 
 @Component
 class NominatimOrganizationLocationClient(
@@ -16,10 +19,28 @@ class NominatimOrganizationLocationClient(
 ) : OrganizationLocationClient {
 
     override fun getLocation(address: Address): Location? {
-        val url: String = buildNominatimUrl(address)
-        val response: ResponseEntity<NominatimResponse> = fetchFromNominatim(url)
+        return try {
+            val url = buildNominatimUrl(address)
+            val response = fetchFromNominatim(url)
+            getLocation(response)
+        } catch (e: RestClientException) {
+            null
+        }
+    }
 
-        return getLocation(response)
+    private fun buildNominatimUrl(address: Address): URI {
+        return URIBuilder(NOMINATIM_ENDPOINT)
+            .apply { path = "search" }
+            .apply { addParameter("format", "json") }
+            .apply { addParameter("q", "${address.street}, ${address.postalCode} ${address.city}, ${address.countryCode}") }
+            .build()
+    }
+
+    private fun fetchFromNominatim(url: URI): ResponseEntity<NominatimResponse> {
+        return restTemplate.exchange(
+            method = HttpMethod.GET,
+            url = url,
+        )
     }
 
     private fun getLocation(response: ResponseEntity<NominatimResponse>): Location? {
@@ -38,21 +59,7 @@ class NominatimOrganizationLocationClient(
         }
     }
 
-    private fun fetchFromNominatim(url: String): ResponseEntity<NominatimResponse> {
-        return restTemplate.exchange(
-            method = HttpMethod.GET,
-            url = url,
-        )
-    }
-
-    private fun buildNominatimUrl(address: Address): String {
-        val query = with(address) {
-            "$street, $postalCode $city, $countryCode"
-        }
-        return "$NOMINATIM_ENDPOINT$query"
-    }
-
     companion object {
-        private const val NOMINATIM_ENDPOINT: String = "https://nominatim.openstreetmap.org/search?format=json&q=";
+        private const val NOMINATIM_ENDPOINT: String = "https://nominatim.openstreetmap.org/search";
     }
 }

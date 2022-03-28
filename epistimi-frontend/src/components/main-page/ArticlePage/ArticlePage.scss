@@ -6,12 +6,12 @@
   flex-direction: column;
   gap: 1rem;
   width: 100%;
+  max-width: 900px;
 
   .article-header {
     display: flex;
     flex-direction: column;
     gap: .75rem;
-    padding: .75rem 0;
 
     .article-title {
       font: {
