@@ -50,16 +50,16 @@ class NominatimOrganizationLocationClient(
         ) {
             null
         } else {
-            with(response.body!![0]) {
-                Location(
-                    latitude = lat.toDouble(),
-                    longitude = lon.toDouble(),
-                )
-            }
+            response.body!![0].toLocation()
         }
     }
 
+    private fun NominatimResponseEntry.toLocation() = Location(
+        latitude = lat.toDouble(),
+        longitude = lon.toDouble(),
+    )
+
     companion object {
-        private const val NOMINATIM_ENDPOINT: String = "https://nominatim.openstreetmap.org/search";
+        private const val NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/search"
     }
 }

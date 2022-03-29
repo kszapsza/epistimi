@@ -2,7 +2,7 @@ import { ArticleListing, ArticlePage, MainPage } from './components/main-page';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { NotFound, Shell } from './components/navigation';
 import { OrganizationDetails, OrganizationsListing } from './components/organizations';
-import { RequireAuth } from './router/RequireAuth/RequireAuth';
+import { RequireAuth } from './router/RequireAuth';
 import { Summary } from './components/summary';
 import { useAppSelector } from './store/hooks';
 import { UserRole } from './dto/user';

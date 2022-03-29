@@ -48,7 +48,7 @@ export const OrganizationStatusChange =
           <Button
             leftIcon={<Check/>}
             onClick={handleEnable}
-            color={'teal'}
+            color={'green'}
           >Aktywuj</Button>
         </div>
       );

@@ -17,9 +17,9 @@ export const OrganizationsListing = (): JSX.Element => {
     document.title = 'Placówki – Epistimi';
   }, []);
 
-  const activeCount: number = data?.organizations.filter((organization) => {
-    return organization.status == OrganizationStatus.ENABLED;
-  }).length ?? 0;
+  const activeCount: number = data?.organizations
+    .filter((organization) => organization.status === OrganizationStatus.ENABLED)
+    .length ?? 0;
 
   const onOrganizationCreate = (organization: OrganizationResponse) => {
     data?.organizations.push(organization);
@@ -53,11 +53,11 @@ export const OrganizationsListing = (): JSX.Element => {
       </div>
 
       {error &&
-        <Alert icon={<AlertCircle size={16}/>} color="red">
+        <Alert icon={<AlertCircle size={16}/>} color={'red'}>
           Nie udało się załadować listy placówek!
         </Alert>}
       {createdMessageOpened &&
-        <Alert icon={<Check size={16}/>} color="green">
+        <Alert icon={<Check size={16}/>} color={'green'}>
           Pomyślnie utworzono nową placówkę
         </Alert>}
 
