@@ -6,7 +6,9 @@ import { UserRole } from '../../../dto/user';
 import { waitFor } from '@testing-library/react';
 
 describe('Header component', () => {
-  const storeMock: Store = createStore(
+  const getStoreMock = (
+    role: UserRole = UserRole.STUDENT,
+  ): Store => createStore(
     combineReducers({
       auth: currentUserReducer,
     }),
@@ -16,7 +18,7 @@ describe('Header component', () => {
           id: '123',
           firstName: 'Jan',
           lastName: 'Kowalski',
-          role: UserRole.STUDENT,
+          role,
           username: 'j.kowalski',
         },
         isAuthenticated: true,
@@ -25,7 +27,23 @@ describe('Header component', () => {
     },
   );
 
+  it('should render title', () => {
+    const storeMock = getStoreMock();
+    const { getByText } = render(<Header/>, storeMock);
+
+    expect(getByText('Epistimi')).toBeInTheDocument();
+  });
+
+  it('should render admin title', () => {
+    const storeMock = getStoreMock(UserRole.EPISTIMI_ADMIN);
+    const { getByText } = render(<Header/>, storeMock);
+
+    expect(getByText('Epistimi')).toBeInTheDocument();
+    expect(getByText('admin')).toBeInTheDocument();
+  });
+
   it('should logout user on button click', async () => {
+    const storeMock = getStoreMock();
     const { getByLabelText } = render(
       <Header onBurgerClick={jest.fn()} navbarOpened={true}/>,
       storeMock);
