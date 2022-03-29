@@ -16,6 +16,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
+import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
 
@@ -51,13 +52,13 @@ internal class OrganizationServiceTest : ShouldSpec({
     ) { role ->
         should("fail to register a new organization if provided admin has $role role") {
             // given
-            every { userRepository.findById("admin_id") } returns userStub(role)
-            every { userRepository.findById("director_id") } returns userStub(TEACHER)
+            every { userRepository.findById(UserId("admin_id")) } returns userStub(role)
+            every { userRepository.findById(UserId("director_id")) } returns userStub(TEACHER)
 
             // when & then
             shouldThrow<AdministratorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
-                    OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+                    OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
             }
         }
@@ -69,15 +70,15 @@ internal class OrganizationServiceTest : ShouldSpec({
     ) { role ->
         should("successfully register a new organization if provided admin has $role role") {
             // given
-            every { userRepository.findById("admin_id") } returns userStub(role)
-            every { userRepository.findById("director_id") } returns userStub(TEACHER)
+            every { userRepository.findById(UserId("admin_id")) } returns userStub(role)
+            every { userRepository.findById(UserId("director_id")) } returns userStub(TEACHER)
             every { organizationRepository.save(any()) } returnsArgument 0
             every { locationClient.getLocation(any()) } returns null
 
             // when & then
             shouldNotThrow<AdministratorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
-                    OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+                    OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
             }
         }
@@ -85,13 +86,13 @@ internal class OrganizationServiceTest : ShouldSpec({
 
     should("fail to register a new organization if admin with provided id does not exist") {
         // given
-        every { userRepository.findById("admin_id") } throws UserNotFoundException()
-        every { userRepository.findById("director_id") } returns userStub(TEACHER)
+        every { userRepository.findById(UserId("admin_id")) } throws UserNotFoundException()
+        every { userRepository.findById(UserId("director_id")) } returns userStub(TEACHER)
 
         // when & then
         shouldThrow<AdministratorNotFoundException> {
             organizationService.registerOrganization(
-                OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+                OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
             )
         }
     }
@@ -102,13 +103,13 @@ internal class OrganizationServiceTest : ShouldSpec({
     ) { role ->
         should("fail to register a new organization if provided director has $role role") {
             // given
-            every { userRepository.findById("admin_id") } returns userStub(ORGANIZATION_ADMIN)
-            every { userRepository.findById("director_id") } returns userStub(role)
+            every { userRepository.findById(UserId("admin_id")) } returns userStub(ORGANIZATION_ADMIN)
+            every { userRepository.findById(UserId("director_id")) } returns userStub(role)
 
             // when & then
             shouldThrow<DirectorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
-                    OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+                    OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
             }
         }
@@ -121,14 +122,14 @@ internal class OrganizationServiceTest : ShouldSpec({
     ) { role ->
         should("successfully register a new organization if provided director has $role role") {
             // given
-            every { userRepository.findById("admin_id") } returns userStub(ORGANIZATION_ADMIN)
-            every { userRepository.findById("director_id") } returns userStub(role)
+            every { userRepository.findById(UserId("admin_id")) } returns userStub(ORGANIZATION_ADMIN)
+            every { userRepository.findById(UserId("director_id")) } returns userStub(role)
             every { locationClient.getLocation(any()) } returns null
 
             // when & then
             shouldNotThrow<DirectorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
-                    OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+                    OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
             }
         }
@@ -137,13 +138,13 @@ internal class OrganizationServiceTest : ShouldSpec({
 
     should("fail to register a new organization if provided director with provided id does not exist") {
         // given
-        every { userRepository.findById("admin_id") } returns userStub(ORGANIZATION_ADMIN)
-        every { userRepository.findById("director_id") } throws UserNotFoundException()
+        every { userRepository.findById(UserId("admin_id")) } returns userStub(ORGANIZATION_ADMIN)
+        every { userRepository.findById(UserId("director_id")) } throws UserNotFoundException()
 
         // when & then
         shouldThrow<DirectorNotFoundException> {
             organizationService.registerOrganization(
-                OrganizationRegisterRequest("ABC", "admin_id", "director_id", addressStub)
+                OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
             )
         }
     }

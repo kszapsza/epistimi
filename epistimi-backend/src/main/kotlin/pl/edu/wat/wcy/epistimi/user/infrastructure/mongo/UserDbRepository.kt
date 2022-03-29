@@ -1,9 +1,10 @@
-package pl.edu.wat.wcy.epistimi.user.infrastructure
+package pl.edu.wat.wcy.epistimi.user.infrastructure.mongo
 
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
 import pl.edu.wat.wcy.epistimi.user.UsernameAlreadyInUseException
@@ -23,8 +24,8 @@ class UserDbRepository(
             .map { it.toDomain() }
     }
 
-    override fun findById(userId: String): User {
-        return userMongoDbRepository.findById(userId)
+    override fun findById(userId: UserId): User {
+        return userMongoDbRepository.findById(userId.value)
             .map { it.toDomain() }
             .orElseThrow { throw UserNotFoundException() }
     }

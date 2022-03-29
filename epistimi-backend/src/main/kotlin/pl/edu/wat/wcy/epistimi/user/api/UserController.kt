@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserService
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.dto.UserResponse
 import pl.edu.wat.wcy.epistimi.user.dto.UsersResponse
+import pl.edu.wat.wcy.epistimi.user.dto.toUserResponse
 import java.net.URI
 
 @RestController
@@ -30,7 +32,7 @@ class UserController(
     fun getCurrentUser(
         authentication: Authentication,
     ): ResponseEntity<UserResponse> = ResponseEntity.ok(
-        userService.getUserByUsername(authentication.principal as String).toResponse()
+        userService.getUserByUsername(authentication.principal as String).toUserResponse()
     )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
@@ -43,7 +45,7 @@ class UserController(
         @RequestParam(required = false) role: List<User.Role>?
     ): ResponseEntity<UsersResponse> = ResponseEntity.ok(
         UsersResponse(
-            users = userService.getUsers(role).map { it.toResponse() }
+            users = userService.getUsers(role).map { it.toUserResponse() }
         )
     )
 
@@ -54,9 +56,9 @@ class UserController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun getUserById(
-        @PathVariable userId: String,
+        @PathVariable userId: UserId,
     ): ResponseEntity<UserResponse> = ResponseEntity.ok(
-        userService.getUserById(userId).toResponse()
+        userService.getUserById(userId).toUserResponse()
     )
 
     @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN')")
@@ -71,6 +73,6 @@ class UserController(
         userService.registerUser(registerRequest).let {
             ResponseEntity
                 .created(URI("/api/user/${it.id!!.value}"))
-                .body(it.toResponse())
+                .body(it.toUserResponse())
         }
 }

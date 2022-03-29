@@ -16,6 +16,19 @@ data class UserResponse(
     val address: Address?,
 )
 
+fun User.toUserResponse() = UserResponse(
+    id = this.id!!.value,
+    firstName = this.firstName,
+    lastName = this.lastName,
+    role = this.role,
+    username = this.username,
+    pesel = this.pesel,
+    sex = this.sex,
+    email = this.email,
+    phoneNumber = this.phoneNumber,
+    address = this.address,
+)
+
 data class UsersResponse(
     val users: List<UserResponse>,
 )

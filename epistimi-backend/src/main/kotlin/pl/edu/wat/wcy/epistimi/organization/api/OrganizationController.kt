@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
-import pl.edu.wat.wcy.epistimi.organization.Organization
+import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationService
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationResponse
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationsResponse
+import pl.edu.wat.wcy.epistimi.organization.dto.toOrganizationResponse
 import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import java.net.URI
 
@@ -29,7 +30,7 @@ class OrganizationController(
     fun getOrganization(
         @PathVariable organizationId: String,
     ): ResponseEntity<OrganizationResponse> = ResponseEntity.ok(
-        organizationService.getOrganization(organizationId).toResponse()
+        organizationService.getOrganization(OrganizationId(organizationId)).toOrganizationResponse()
     )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
@@ -42,19 +43,9 @@ class OrganizationController(
         ResponseEntity.ok(
             OrganizationsResponse(
                 organizationService.getOrganizations()
-                    .map { it.toResponse() }
+                    .map { it.toOrganizationResponse() }
             )
         )
-
-    private fun Organization.toResponse() = OrganizationResponse(
-        id = this.id!!.value,
-        name = this.name,
-        admin = this.admin.toResponse(),
-        status = this.status.toString(),
-        director = this.director.toResponse(),
-        address = this.address,
-        location = this.location,
-    )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @RequestMapping(
@@ -69,7 +60,7 @@ class OrganizationController(
             .let {
                 ResponseEntity
                     .created(URI.create("/api/organization/${it.id}"))
-                    .body(it.toResponse())
+                    .body(it.toOrganizationResponse())
             }
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
@@ -83,8 +74,10 @@ class OrganizationController(
         @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest,
     ): ResponseEntity<OrganizationResponse> =
         ResponseEntity.ok(
-            organizationService.changeOrganizationStatus(organizationId, organizationChangeStatusRequest)
-                .toResponse()
+            organizationService.changeOrganizationStatus(
+                OrganizationId(organizationId),
+                organizationChangeStatusRequest,
+            ).toOrganizationResponse()
         )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
@@ -99,6 +92,6 @@ class OrganizationController(
     ): ResponseEntity<OrganizationResponse> =
         ResponseEntity.ok(
             organizationService.updateOrganization(organizationId, organizationUpdateRequest)
-                .toResponse()
+                .toOrganizationResponse()
         )
 }

@@ -20,7 +20,7 @@ class UserService(
     fun getUserByUsername(username: String): User =
         userRepository.findByUsername(username)
 
-    fun getUserById(userId: String): User =
+    fun getUserById(userId: UserId): User =
         userRepository.findById(userId)
 
     fun registerUser(registerRequest: UserRegisterRequest): User =

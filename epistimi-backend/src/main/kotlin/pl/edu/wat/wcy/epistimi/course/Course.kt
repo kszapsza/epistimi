@@ -1,17 +1,22 @@
 package pl.edu.wat.wcy.epistimi.course
 
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
+import pl.edu.wat.wcy.epistimi.organization.Organization
+import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.teacher.Teacher
 
 data class Course(
     val id: CourseId? = null,
-    val organizationId: OrganizationId,
-    val code: String,
+    val organization: Organization,
+    val code: Code,
     val schoolYear: String,
-    val classTeacherId: TeacherId,
-    val studentIds: List<StudentId>,
-)
+    val classTeacher: Teacher,
+    val students: List<Student>,
+) {
+    data class Code(
+        val number: Int,
+        val letter: String,
+    )
+}
 
 @JvmInline
 value class CourseId(

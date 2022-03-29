@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.user.infrastructure
+package pl.edu.wat.wcy.epistimi.user.infrastructure.mongo
 
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository

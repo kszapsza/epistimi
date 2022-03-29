@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.article.infrastructure
+package pl.edu.wat.wcy.epistimi.article.infrastructure.mongo
 
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Repository

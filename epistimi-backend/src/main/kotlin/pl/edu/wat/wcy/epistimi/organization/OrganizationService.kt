@@ -9,6 +9,7 @@ import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
+import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
 
@@ -18,7 +19,7 @@ class OrganizationService(
     private val userRepository: UserRepository,
     private val locationClient: OrganizationLocationClient,
 ) {
-    fun getOrganization(organizationId: String): Organization {
+    fun getOrganization(organizationId: OrganizationId): Organization {
         return organizationRepository.findById(organizationId)
     }
 
@@ -44,12 +45,12 @@ class OrganizationService(
         )
     }
 
-    private fun tryRetrieveAdmin(adminId: String): User {
+    private fun tryRetrieveAdmin(adminId: UserId): User {
         return try {
             userRepository.findById(adminId)
                 .also { validateOrganizationAdminRole(it) }
         } catch (e: UserNotFoundException) {
-            throw AdministratorNotFoundException()
+            throw AdministratorNotFoundException(adminId)
         }
     }
 
@@ -60,12 +61,12 @@ class OrganizationService(
         }
     }
 
-    private fun tryRetrieveDirector(directorId: String): User {
+    private fun tryRetrieveDirector(directorId: UserId): User {
         return try {
             userRepository.findById(directorId)
                 .also { validateOrganizationDirectorRole(it) }
         } catch (e: UserNotFoundException) {
-            throw DirectorNotFoundException()
+            throw DirectorNotFoundException(directorId)
         }
     }
 
@@ -98,7 +99,7 @@ class OrganizationService(
     }
 
     fun changeOrganizationStatus(
-        organizationId: String,
+        organizationId: OrganizationId,
         changeStatusRequest: OrganizationChangeStatusRequest,
     ): Organization {
         return organizationRepository.save(

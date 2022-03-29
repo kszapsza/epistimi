@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.shared.api.MediaType
-import pl.edu.wat.wcy.epistimi.article.Article
 import pl.edu.wat.wcy.epistimi.article.ArticleService
 import pl.edu.wat.wcy.epistimi.article.dto.ArticleResponse
 import pl.edu.wat.wcy.epistimi.article.dto.ArticlesResponse
+import pl.edu.wat.wcy.epistimi.article.dto.toResponse
 
 @RestController
 @RequestMapping("/api/article")
@@ -38,11 +38,4 @@ class ArticleController(
         ResponseEntity.ok(
             articleService.getArticleBySlug(slug).toResponse()
         )
-
-    private fun Article.toResponse() = ArticleResponse(
-        id = this.id!!.value,
-        slug = this.slug,
-        title = this.title,
-        description = this.description,
-    )
 }
