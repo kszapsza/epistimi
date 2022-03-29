@@ -17,36 +17,37 @@ internal class ArticleControllerSpec(
     private val restTemplate: TestRestTemplate,
 ) : BaseIntegrationSpec({
 
-    should("return empty list of articles") {
-        // when
-        val response = restTemplate.getForEntity<String>("/api/article")
+    context("get articles") {
+        should("return empty list of articles") {
+            // when
+            val response = restTemplate.getForEntity<String>("/api/article")
 
-        // then
-        response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
+            // then
+            response.statusCode shouldBe OK
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
             {
                 "articles": []
             }
         """.trimIndent()
-    }
+        }
 
-    should("return list of articles") {
-        // given
-        articleStubbing.articlesExist(
-            Article(id = ArticleId("1"), slug = "foo", title = "Foo", description = "foobar"),
-            Article(id = ArticleId("2"), slug = "bar", title = "Bar", description = "barfoo"),
-        )
+        should("return list of articles") {
+            // given
+            articleStubbing.articlesExist(
+                Article(id = ArticleId("1"), slug = "foo", title = "Foo", description = "foobar"),
+                Article(id = ArticleId("2"), slug = "bar", title = "Bar", description = "barfoo"),
+            )
 
-        // when
-        val response = restTemplate.getForEntity<String>("/api/article")
+            // when
+            val response = restTemplate.getForEntity<String>("/api/article")
 
-        // then
-        response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
+            // then
+            response.statusCode shouldBe OK
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
             {
                 "articles": [
                     {
@@ -64,22 +65,24 @@ internal class ArticleControllerSpec(
                 ]
             }
         """.trimIndent()
+        }
     }
 
-    should("return an article with provided slug") {
-        // given
-        articleStubbing.articlesExist(
-            Article(id = ArticleId("1"), slug = "foo", title = "Foo", description = "foobar"),
-        )
+    context("get article by slug") {
+        should("return an article with provided slug") {
+            // given
+            articleStubbing.articlesExist(
+                Article(id = ArticleId("1"), slug = "foo", title = "Foo", description = "foobar"),
+            )
 
-        // when
-        val response = restTemplate.getForEntity<String>("/api/article/foo")
+            // when
+            val response = restTemplate.getForEntity<String>("/api/article/foo")
 
-        // then
-        response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
+            // then
+            response.statusCode shouldBe OK
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
             {
                 "id": "1",
                 "slug": "foo",
@@ -87,18 +90,19 @@ internal class ArticleControllerSpec(
                 "description": "foobar"
             }
         """.trimIndent()
-    }
+        }
 
-    should("return HTTP 404 if article with provided slug doesn't exist") {
-        // given
-        articleStubbing.articlesExist(
-            Article(id = ArticleId("1"), slug = "foo", title = "Foo", description = "foobar"),
-        )
+        should("return HTTP 404 if article with provided slug doesn't exist") {
+            // given
+            articleStubbing.articlesExist(
+                Article(id = ArticleId("1"), slug = "foo", title = "Foo", description = "foobar"),
+            )
 
-        // when
-        val response = restTemplate.getForEntity<String>("/api/article/bar")
+            // when
+            val response = restTemplate.getForEntity<String>("/api/article/bar")
 
-        // then
-        response.statusCode shouldBe NOT_FOUND
+            // then
+            response.statusCode shouldBe NOT_FOUND
+        }
     }
 })

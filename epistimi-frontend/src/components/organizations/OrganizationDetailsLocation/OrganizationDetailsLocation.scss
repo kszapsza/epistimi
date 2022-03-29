@@ -1,0 +1,44 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.organization-location {
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
+  margin: .5rem auto 0;
+  min-height: 100px;
+  width: 100%;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    flex-direction: column-reverse;
+  }
+
+  .organization-map {
+    border: 1px solid $gray;
+    border-radius: $subtle-radius;
+    flex: 5;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+
+    .organization-map-container {
+      height: 400px;
+      z-index: 0;
+    }
+  }
+
+  .organization-address {
+    background-color: $white;
+    border: 1px solid $gray;
+    border-radius: $subtle-radius;
+    display: flex;
+    flex: 3;
+    flex-direction: column;
+    gap: .2rem;
+    padding: .75rem;
+
+    h4 {
+      margin-bottom: .75rem;
+    }
+  }
+}

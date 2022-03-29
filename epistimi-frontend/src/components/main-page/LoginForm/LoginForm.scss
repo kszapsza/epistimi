@@ -1,0 +1,27 @@
+@import 'src/styles/dimensions';
+
+.login-form-box {
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    height: auto;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    font: {
+      size: 13px;
+    }
+    gap: 1.5rem;
+    margin: 1rem 0;
+    position: relative;
+
+    .login-form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+  }
+}

@@ -1,0 +1,20 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.menu-user-box {
+  border-top: 1px solid $gray;
+  bottom: 0;
+  padding: .5rem 0;
+  width: 100%;
+
+  .menu-user-btn {
+    border-radius: $subtle-radius;
+    display: block;
+    padding: .75rem;
+    width: 100%;
+
+    &:hover {
+      background-color: $gray;
+    }
+  }
+}

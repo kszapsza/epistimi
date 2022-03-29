@@ -1,0 +1,27 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.organization-stats-tile {
+  align-items: center;
+  background-color: $white;
+  border: 1px solid $gray;
+  border-radius: $subtle-radius;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: .75rem;
+
+  .organization-stats-label {
+    font: {
+      size: 13px;
+    };
+  }
+
+  .organization-stats-value {
+    font: {
+      size: 18px;
+      weight: bold;
+    };
+  }
+}

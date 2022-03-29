@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.spec
 
 import io.kotest.assertions.json.shouldEqualSpecifiedJson
-import io.kotest.data.blocking.forAll
+import io.kotest.data.forAll
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -42,6 +42,8 @@ internal class OrganizationControllerSpec(
     private val userStubbing: UserStubbing,
 ) : BaseIntegrationSpec({
 
+    // TODO: Use WireMock to stub OpenStreetMap Nominatim responses!
+
     val stubOrganizationAdmin = {
         userStubbing.userExists(
             role = ORGANIZATION_ADMIN,
@@ -70,173 +72,30 @@ internal class OrganizationControllerSpec(
         )
     }
 
-    should("return single organization") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
-        val organization = organizationStubbing.organizationExists(
-            name = "SP7",
-            admin = organizationAdmin,
-            director = organizationDirector
-        )
-        val headers = securityStubbing.authorizationHeaderFor(STUDENT)
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}",
-            method = GET,
-            requestEntity = HttpEntity(null, headers)
-        )
-
-        // then
-        response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
-            {
-              "id": "${organization.id!!.value}",
-              "name": "SP7",
-              "admin": {
-                "id": "${organizationAdmin.id!!.value}",
-                "firstName": "Adrianna",
-                "lastName": "Nowak",
-                "role": "ORGANIZATION_ADMIN",
-                "username": "sp7_admin",
-                "pesel": "58030515441",
-                "sex": "FEMALE",
-                "email": "a.nowak@gmail.com",
-                "phoneNumber": "+48987654321",
-                "address": {
-                  "street": "Świętego Andrzeja Boboli 10",
-                  "postalCode": "15-649",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-                }
-              },
-              "director": {
-                "id": "${organizationDirector.id!!.value}",
-                "firstName": "Jan",
-                "lastName": "Ważny",
-                "role": "TEACHER",
-                "username": "sp7_director",
-                "pesel": "65080289523",
-                "sex": "MALE",
-                "email": "j.wazny@gmail.com",
-                "phoneNumber": "+48123456789",
-                "address": {
-                  "street": "Wrocławska 5",
-                  "postalCode": "15-644",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-                }
-              },
-              "address": {
-                  "street": "Szkolna 17",
-                  "postalCode": "15-640",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-              },
-              "status": "ENABLED"
-            }
-        """.trimIndent()
-
-    }
-
-    should("return HTTP 404 if organization with provided id does not exist") {
-        // given
-        val headers = securityStubbing.authorizationHeaderFor(STUDENT)
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/42",
-            method = GET,
-            requestEntity = HttpEntity(null, headers)
-        )
-
-        // then
-        response.statusCode shouldBe NOT_FOUND
-    }
-
-    should("return HTTP 401 for multiget if user is not authenticated") {
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization",
-            method = GET,
-        )
-
-        // then
-        response.statusCode shouldBe UNAUTHORIZED
-    }
-
-    forAll(
-        row(ORGANIZATION_ADMIN),
-        row(PARENT),
-        row(STUDENT),
-        row(TEACHER),
-    ) { role ->
-        should("return HTTP 403 for multiget if user is unauthorized ($role)") {
+    context("get organization by id") {
+        should("return single organization") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(role)
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
+            val organization = organizationStubbing.organizationExists(
+                name = "SP7",
+                admin = organizationAdmin,
+                director = organizationDirector
+            )
+            val headers = securityStubbing.authorizationHeaderFor(STUDENT)
 
             // when
             val response = restTemplate.exchange<String>(
-                url = "/api/organization",
+                url = "/api/organization/${organization.id!!.value}",
                 method = GET,
-                requestEntity = HttpEntity(null, headers),
+                requestEntity = HttpEntity(null, headers)
             )
 
             // then
-            response.statusCode shouldBe FORBIDDEN
-        }
-    }
-
-    should("return an empty list of all organizations") {
-        // given
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization",
-            method = GET,
-            requestEntity = HttpEntity(null, headers),
-        )
-
-        // then
-        response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
-            {
-              "organizations": []
-            }
-        """.trimIndent()
-    }
-
-    should("return list of organizations") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
-        val organization = organizationStubbing.organizationExists(
-            name = "SP7",
-            admin = organizationAdmin,
-            director = organizationDirector
-        )
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization",
-            method = GET,
-            requestEntity = HttpEntity(null, headers),
-        )
-
-        // then
-        response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
-            {
-              "organizations": [
+            response.statusCode shouldBe OK
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
                 {
                   "id": "${organization.id!!.value}",
                   "name": "SP7",
@@ -282,50 +141,162 @@ internal class OrganizationControllerSpec(
                   },
                   "status": "ENABLED"
                 }
-              ]
-            }
-        """.trimIndent()
-    }
+            """.trimIndent()
+        }
 
-    should("fail registering new organization with HTTP 401 if user is not authenticated") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
+        should("return HTTP 404 if organization with provided id does not exist") {
+            // given
+            val headers = securityStubbing.authorizationHeaderFor(STUDENT)
 
-        val body = OrganizationRegisterRequest(
-            name = "Gimnazjum nr 2",
-            adminId = organizationAdmin.id!!.value,
-            directorId = organizationDirector.id!!.value,
-            address = Address(
-                street = "Szkolna 17",
-                postalCode = "15-640",
-                city = "Białystok",
-                countryCode = "PL",
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization/42",
+                method = GET,
+                requestEntity = HttpEntity(null, headers)
             )
-        )
 
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization",
-            method = POST,
-            requestEntity = HttpEntity(body),
-        )
-
-        // then
-        response.statusCode shouldBe UNAUTHORIZED
+            // then
+            response.statusCode shouldBe NOT_FOUND
+        }
     }
 
-    forAll(
-        row(ORGANIZATION_ADMIN),
-        row(PARENT),
-        row(STUDENT),
-        row(TEACHER),
-    ) { role ->
-        should("fail registering new organization with HTTP 403 if user is unauthorized ($role)") {
+    context("get organizations") {
+        should("return HTTP 401 for multiget if user is not authenticated") {
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization",
+                method = GET,
+            )
+
+            // then
+            response.statusCode shouldBe UNAUTHORIZED
+        }
+
+        should("return HTTP 403 for multiget if user is unauthorized") {
+            forAll(
+                row(ORGANIZATION_ADMIN),
+                row(PARENT),
+                row(STUDENT),
+                row(TEACHER),
+            ) { role ->
+                // given
+                val headers = securityStubbing.authorizationHeaderFor(role)
+
+                // when
+                val response = restTemplate.exchange<String>(
+                    url = "/api/organization",
+                    method = GET,
+                    requestEntity = HttpEntity(null, headers),
+                )
+
+                // then
+                response.statusCode shouldBe FORBIDDEN
+            }
+        }
+
+        should("return an empty list of all organizations") {
+            // given
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization",
+                method = GET,
+                requestEntity = HttpEntity(null, headers),
+            )
+
+            // then
+            response.statusCode shouldBe OK
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
+                {
+                  "organizations": []
+                }
+            """.trimIndent()
+        }
+
+        should("return list of organizations") {
             // given
             val organizationAdmin = stubOrganizationAdmin()
             val organizationDirector = stubOrganizationDirector()
-            val headers = securityStubbing.authorizationHeaderFor(role)
+            val organization = organizationStubbing.organizationExists(
+                name = "SP7",
+                admin = organizationAdmin,
+                director = organizationDirector
+            )
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization",
+                method = GET,
+                requestEntity = HttpEntity(null, headers),
+            )
+
+            // then
+            response.statusCode shouldBe OK
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
+                {
+                  "organizations": [
+                    {
+                      "id": "${organization.id!!.value}",
+                      "name": "SP7",
+                      "admin": {
+                        "id": "${organizationAdmin.id!!.value}",
+                        "firstName": "Adrianna",
+                        "lastName": "Nowak",
+                        "role": "ORGANIZATION_ADMIN",
+                        "username": "sp7_admin",
+                        "pesel": "58030515441",
+                        "sex": "FEMALE",
+                        "email": "a.nowak@gmail.com",
+                        "phoneNumber": "+48987654321",
+                        "address": {
+                          "street": "Świętego Andrzeja Boboli 10",
+                          "postalCode": "15-649",
+                          "city": "Białystok",
+                          "countryCode": "PL"
+                        }
+                      },
+                      "director": {
+                        "id": "${organizationDirector.id!!.value}",
+                        "firstName": "Jan",
+                        "lastName": "Ważny",
+                        "role": "TEACHER",
+                        "username": "sp7_director",
+                        "pesel": "65080289523",
+                        "sex": "MALE",
+                        "email": "j.wazny@gmail.com",
+                        "phoneNumber": "+48123456789",
+                        "address": {
+                          "street": "Wrocławska 5",
+                          "postalCode": "15-644",
+                          "city": "Białystok",
+                          "countryCode": "PL"
+                        }
+                      },
+                      "address": {
+                          "street": "Szkolna 17",
+                          "postalCode": "15-640",
+                          "city": "Białystok",
+                          "countryCode": "PL"
+                      },
+                      "status": "ENABLED"
+                    }
+                  ]
+                }
+            """.trimIndent()
+        }
+    }
+
+    context("register new organization") {
+        should("fail registering new organization with HTTP 401 if user is not authenticated") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
 
             val body = OrganizationRegisterRequest(
                 name = "Gimnazjum nr 2",
@@ -343,170 +314,179 @@ internal class OrganizationControllerSpec(
             val response = restTemplate.exchange<String>(
                 url = "/api/organization",
                 method = POST,
+                requestEntity = HttpEntity(body),
+            )
+
+            // then
+            response.statusCode shouldBe UNAUTHORIZED
+        }
+
+        should("fail registering new organization with HTTP 403 if user is unauthorized") {
+            forAll(
+                row(ORGANIZATION_ADMIN),
+                row(PARENT),
+                row(STUDENT),
+                row(TEACHER),
+            ) { role ->
+                // given
+                val organizationAdmin = stubOrganizationAdmin()
+                val organizationDirector = stubOrganizationDirector()
+                val headers = securityStubbing.authorizationHeaderFor(role)
+
+                val body = OrganizationRegisterRequest(
+                    name = "Gimnazjum nr 2",
+                    adminId = organizationAdmin.id!!.value,
+                    directorId = organizationDirector.id!!.value,
+                    address = Address(
+                        street = "Szkolna 17",
+                        postalCode = "15-640",
+                        city = "Białystok",
+                        countryCode = "PL",
+                    )
+                )
+
+                // when
+                val response = restTemplate.exchange<String>(
+                    url = "/api/organization",
+                    method = POST,
+                    requestEntity = HttpEntity(body, headers),
+                )
+
+                // then
+                response.statusCode shouldBe FORBIDDEN
+            }
+        }
+
+        should("sucessfully register new organization") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+
+            val body = OrganizationRegisterRequest(
+                name = "Gimnazjum nr 2",
+                adminId = organizationAdmin.id!!.value,
+                directorId = organizationDirector.id!!.value,
+                address = DummyAddress(),
+            )
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization",
+                method = POST,
                 requestEntity = HttpEntity(body, headers),
             )
 
             // then
-            response.statusCode shouldBe FORBIDDEN
+            response.statusCode shouldBe CREATED
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            response.headers.location.toString() shouldContain "/api/organization"
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
+                {                 
+                  "name": "Gimnazjum nr 2",
+                  "admin": {
+                    "id": "${organizationAdmin.id!!.value}",
+                    "firstName": "Adrianna",
+                    "lastName": "Nowak",
+                    "role": "ORGANIZATION_ADMIN",
+                    "username": "sp7_admin",
+                    "pesel": "58030515441",
+                    "sex": "FEMALE",
+                    "email": "a.nowak@gmail.com",
+                    "phoneNumber": "+48987654321",
+                    "address": {
+                      "street": "Świętego Andrzeja Boboli 10",
+                      "postalCode": "15-649",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                    }
+                  },
+                  "director": {
+                    "id": "${organizationDirector.id!!.value}",
+                    "firstName": "Jan",
+                    "lastName": "Ważny",
+                    "role": "TEACHER",
+                    "username": "sp7_director",
+                    "pesel": "65080289523",
+                    "sex": "MALE",
+                    "email": "j.wazny@gmail.com",
+                    "phoneNumber": "+48123456789",
+                    "address": {
+                      "street": "Wrocławska 5",
+                      "postalCode": "15-644",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                    }
+                  },
+                  "address": {
+                      "street": "Szkolna 17",
+                      "postalCode": "15-640",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                  },
+                  "status": "ENABLED"
+                }
+            """.trimIndent()
+        }
+
+        should("fail registering organization with HTTP 400 if provided admin does not exist") {
+            // given
+            val organizationDirector = stubOrganizationDirector()
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val body = OrganizationRegisterRequest(
+                name = "Gimnazjum nr 2",
+                adminId = "42",
+                directorId = organizationDirector.id!!.value,
+                address = Address(
+                    street = "Szkolna 17",
+                    postalCode = "15-640",
+                    city = "Białystok",
+                    countryCode = "PL",
+                )
+            )
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization",
+                method = POST,
+                requestEntity = HttpEntity(body, headers),
+            )
+
+            // then
+            response.statusCode shouldBe BAD_REQUEST
+        }
+
+        should("fail registering organization with HTTP 400 if provided director does not exist") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val body = OrganizationRegisterRequest(
+                name = "Gimnazjum nr 2",
+                adminId = organizationAdmin.id!!.value,
+                directorId = "42",
+                address = Address(
+                    street = "Szkolna 17",
+                    postalCode = "15-640",
+                    city = "Białystok",
+                    countryCode = "PL",
+                )
+            )
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization",
+                method = POST,
+                requestEntity = HttpEntity(body, headers),
+            )
+
+            // then
+            response.statusCode shouldBe BAD_REQUEST
         }
     }
 
-    should("register new organization") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-
-        val body = OrganizationRegisterRequest(
-            name = "Gimnazjum nr 2",
-            adminId = organizationAdmin.id!!.value,
-            directorId = organizationDirector.id!!.value,
-            address = DummyAddress(),
-        )
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization",
-            method = POST,
-            requestEntity = HttpEntity(body, headers),
-        )
-
-        // then
-        response.statusCode shouldBe CREATED
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        response.headers.location.toString() shouldContain "/api/organization"
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
-            {                 
-              "name": "Gimnazjum nr 2",
-              "admin": {
-                "id": "${organizationAdmin.id!!.value}",
-                "firstName": "Adrianna",
-                "lastName": "Nowak",
-                "role": "ORGANIZATION_ADMIN",
-                "username": "sp7_admin",
-                "pesel": "58030515441",
-                "sex": "FEMALE",
-                "email": "a.nowak@gmail.com",
-                "phoneNumber": "+48987654321",
-                "address": {
-                  "street": "Świętego Andrzeja Boboli 10",
-                  "postalCode": "15-649",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-                }
-              },
-              "director": {
-                "id": "${organizationDirector.id!!.value}",
-                "firstName": "Jan",
-                "lastName": "Ważny",
-                "role": "TEACHER",
-                "username": "sp7_director",
-                "pesel": "65080289523",
-                "sex": "MALE",
-                "email": "j.wazny@gmail.com",
-                "phoneNumber": "+48123456789",
-                "address": {
-                  "street": "Wrocławska 5",
-                  "postalCode": "15-644",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-                }
-              },
-              "address": {
-                  "street": "Szkolna 17",
-                  "postalCode": "15-640",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-              },
-              "status": "ENABLED"
-            }
-        """.trimIndent()
-    }
-
-    should("fail registering organization with HTTP 400 if provided admin does not exist") {
-        // given
-        val organizationDirector = stubOrganizationDirector()
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationRegisterRequest(
-            name = "Gimnazjum nr 2",
-            adminId = "42",
-            directorId = organizationDirector.id!!.value,
-            address = Address(
-                street = "Szkolna 17",
-                postalCode = "15-640",
-                city = "Białystok",
-                countryCode = "PL",
-            )
-        )
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization",
-            method = POST,
-            requestEntity = HttpEntity(body, headers),
-        )
-
-        // then
-        response.statusCode shouldBe BAD_REQUEST
-    }
-
-    should("fail registering organization with HTTP 400 if provided director does not exist") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationRegisterRequest(
-            name = "Gimnazjum nr 2",
-            adminId = organizationAdmin.id!!.value,
-            directorId = "42",
-            address = Address(
-                street = "Szkolna 17",
-                postalCode = "15-640",
-                city = "Białystok",
-                countryCode = "PL",
-            )
-        )
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization",
-            method = POST,
-            requestEntity = HttpEntity(body, headers),
-        )
-
-        // then
-        response.statusCode shouldBe BAD_REQUEST
-    }
-
-    should("fail changing organization status with HTTP 401 if user is not authenticated") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
-        val organization = organizationStubbing.organizationExists(
-            name = "SP7",
-            admin = organizationAdmin,
-            director = organizationDirector
-        )
-        val body = OrganizationChangeStatusRequest(status = DISABLED)
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}",
-            method = PUT,
-            requestEntity = HttpEntity(body)
-        )
-
-        // then
-        response.statusCode shouldBe UNAUTHORIZED
-    }
-
-    forAll(
-        row(ORGANIZATION_ADMIN),
-        row(PARENT),
-        row(STUDENT),
-        row(TEACHER),
-    ) { role ->
-        should("fail changing organization status with HTTP 403 if user is unauthorized ($role)") {
+    context("change organization status") {
+        should("fail changing organization status with HTTP 401 if user is not authenticated") {
             // given
             val organizationAdmin = stubOrganizationAdmin()
             val organizationDirector = stubOrganizationDirector()
@@ -515,7 +495,75 @@ internal class OrganizationControllerSpec(
                 admin = organizationAdmin,
                 director = organizationDirector
             )
-            val headers = securityStubbing.authorizationHeaderFor(role)
+            val body = OrganizationChangeStatusRequest(status = DISABLED)
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization/${organization.id!!.value}",
+                method = PUT,
+                requestEntity = HttpEntity(body)
+            )
+
+            // then
+            response.statusCode shouldBe UNAUTHORIZED
+        }
+
+        should("fail changing organization status with HTTP 403 if user is unauthorized") {
+            forAll(
+                row(ORGANIZATION_ADMIN),
+                row(PARENT),
+                row(STUDENT),
+                row(TEACHER),
+            ) { role ->
+                // given
+                val organizationAdmin = stubOrganizationAdmin()
+                val organizationDirector = stubOrganizationDirector()
+                val organization = organizationStubbing.organizationExists(
+                    name = "SP7",
+                    admin = organizationAdmin,
+                    director = organizationDirector
+                )
+                val headers = securityStubbing.authorizationHeaderFor(role)
+                val body = OrganizationChangeStatusRequest(status = DISABLED)
+
+                // when
+                val response = restTemplate.exchange<String>(
+                    url = "/api/organization/${organization.id!!.value}/status",
+                    method = PUT,
+                    requestEntity = HttpEntity(body, headers)
+                )
+
+                // then
+                response.statusCode shouldBe FORBIDDEN
+            }
+        }
+
+        should("fail changing organization status with HTTP 404 if organization with provided id doesn't exist") {
+            // given
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val body = OrganizationChangeStatusRequest(status = DISABLED)
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization/42/status",
+                method = PUT,
+                requestEntity = HttpEntity(body, headers)
+            )
+
+            // then
+            response.statusCode shouldBe NOT_FOUND
+        }
+
+        should("successfully change organization status") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
+            val organization = organizationStubbing.organizationExists(
+                name = "SP7",
+                admin = organizationAdmin,
+                director = organizationDirector
+            )
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationChangeStatusRequest(status = DISABLED)
 
             // when
@@ -526,174 +574,160 @@ internal class OrganizationControllerSpec(
             )
 
             // then
-            response.statusCode shouldBe FORBIDDEN
+            response.statusCode shouldBe OK
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
+                {
+                  "name": "SP7",
+                  "admin": {
+                    "id": "${organizationAdmin.id!!.value}",
+                    "firstName": "Adrianna",
+                    "lastName": "Nowak",
+                    "role": "ORGANIZATION_ADMIN",
+                    "username": "sp7_admin",
+                    "pesel": "58030515441",
+                    "sex": "FEMALE",
+                    "email": "a.nowak@gmail.com",
+                    "phoneNumber": "+48987654321",
+                    "address": {
+                      "street": "Świętego Andrzeja Boboli 10",
+                      "postalCode": "15-649",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                    }
+                  },
+                  "director": {
+                    "id": "${organizationDirector.id!!.value}",
+                    "firstName": "Jan",
+                    "lastName": "Ważny",
+                    "role": "TEACHER",
+                    "username": "sp7_director",
+                    "pesel": "65080289523",
+                    "sex": "MALE",
+                    "email": "j.wazny@gmail.com",
+                    "phoneNumber": "+48123456789",
+                    "address": {
+                      "street": "Wrocławska 5",
+                      "postalCode": "15-644",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                    }
+                  },
+                  "address": {
+                      "street": "Szkolna 17",
+                      "postalCode": "15-640",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                  },
+                  "status": "DISABLED"
+                }
+            """.trimIndent()
         }
     }
 
-    should("fail changing organization status with HTTP 404 if organization with provided id doesn't exist") {
-        // given
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationChangeStatusRequest(status = DISABLED)
+    context("update organization") {
+        should("fail updating organization with HTTP 400 if new admin does not exist") {
+            // given
+            val organizationDirector = stubOrganizationDirector()
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val body = OrganizationRegisterRequest(
+                name = "Changed Name",
+                adminId = "42",
+                directorId = organizationDirector.id!!.value,
+                address = DummyAddress(),
+            )
 
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/42/status",
-            method = PUT,
-            requestEntity = HttpEntity(body, headers)
-        )
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization/42",
+                method = PUT,
+                requestEntity = HttpEntity(body, headers)
+            )
 
-        // then
-        response.statusCode shouldBe NOT_FOUND
-    }
+            // then
+            response.statusCode shouldBe BAD_REQUEST
+        }
 
-    should("change organization status") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
-        val organization = organizationStubbing.organizationExists(
-            name = "SP7",
-            admin = organizationAdmin,
-            director = organizationDirector
-        )
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationChangeStatusRequest(status = DISABLED)
+        should("fail updating organization with HTTP 400 if new director does not exist") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val body = OrganizationRegisterRequest(
+                name = "Changed Name",
+                adminId = organizationAdmin.id!!.value,
+                directorId = "42",
+                address = DummyAddress(),
+            )
 
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}/status",
-            method = PUT,
-            requestEntity = HttpEntity(body, headers)
-        )
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization/42",
+                method = PUT,
+                requestEntity = HttpEntity(body, headers)
+            )
 
-        // then
-        response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
-            {
-              "name": "SP7",
-              "admin": {
-                "id": "${organizationAdmin.id!!.value}",
-                "firstName": "Adrianna",
-                "lastName": "Nowak",
-                "role": "ORGANIZATION_ADMIN",
-                "username": "sp7_admin",
-                "pesel": "58030515441",
-                "sex": "FEMALE",
-                "email": "a.nowak@gmail.com",
-                "phoneNumber": "+48987654321",
-                "address": {
-                  "street": "Świętego Andrzeja Boboli 10",
-                  "postalCode": "15-649",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-                }
-              },
-              "director": {
-                "id": "${organizationDirector.id!!.value}",
-                "firstName": "Jan",
-                "lastName": "Ważny",
-                "role": "TEACHER",
-                "username": "sp7_director",
-                "pesel": "65080289523",
-                "sex": "MALE",
-                "email": "j.wazny@gmail.com",
-                "phoneNumber": "+48123456789",
-                "address": {
-                  "street": "Wrocławska 5",
-                  "postalCode": "15-644",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-                }
-              },
-              "address": {
-                  "street": "Szkolna 17",
-                  "postalCode": "15-640",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-              },
-              "status": "DISABLED"
-            }
-        """.trimIndent()
-    }
+            // then
+            response.statusCode shouldBe BAD_REQUEST
+        }
 
-    should("fail updating organization with HTTP 400 if new admin does not exist") {
-        // given
-        val organizationDirector = stubOrganizationDirector()
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationRegisterRequest(
-            name = "Changed Name",
-            adminId = "42",
-            directorId = organizationDirector.id!!.value,
-            address = DummyAddress(),
-        )
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/42",
-            method = PUT,
-            requestEntity = HttpEntity(body, headers)
-        )
-
-        // then
-        response.statusCode shouldBe BAD_REQUEST
-    }
-
-    should("fail updating organization with HTTP 400 if new director does not exist") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationRegisterRequest(
-            name = "Changed Name",
-            adminId = organizationAdmin.id!!.value,
-            directorId = "42",
-            address = DummyAddress(),
-        )
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/42",
-            method = PUT,
-            requestEntity = HttpEntity(body, headers)
-        )
-
-        // then
-        response.statusCode shouldBe BAD_REQUEST
-    }
-
-    should("fail updating organization with HTTP 400 if user is not authenticated") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
-        val body = OrganizationRegisterRequest(
-            name = "Changed Name",
-            adminId = organizationAdmin.id!!.value,
-            directorId = organizationDirector.id!!.value,
-            address = DummyAddress(),
-        )
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/42",
-            method = PUT,
-            requestEntity = HttpEntity(body, null)
-        )
-
-        // then
-        response.statusCode shouldBe UNAUTHORIZED
-    }
-
-    forAll(
-        row(ORGANIZATION_ADMIN),
-        row(PARENT),
-        row(STUDENT),
-        row(TEACHER),
-    ) { role ->
-        should("fail updating organization with HTTP 403 if user is unauthorized ($role)") {
+        should("fail updating organization with HTTP 400 if user is not authenticated") {
             // given
             val organizationAdmin = stubOrganizationAdmin()
             val organizationDirector = stubOrganizationDirector()
-            val headers = securityStubbing.authorizationHeaderFor(role)
+            val body = OrganizationRegisterRequest(
+                name = "Changed Name",
+                adminId = organizationAdmin.id!!.value,
+                directorId = organizationDirector.id!!.value,
+                address = DummyAddress(),
+            )
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization/42",
+                method = PUT,
+                requestEntity = HttpEntity(body, null)
+            )
+
+            // then
+            response.statusCode shouldBe UNAUTHORIZED
+        }
+
+        should("fail updating organization with HTTP 403 if user is unauthorized") {
+            forAll(
+                row(ORGANIZATION_ADMIN),
+                row(PARENT),
+                row(STUDENT),
+                row(TEACHER),
+            ) { role ->
+                // given
+                val organizationAdmin = stubOrganizationAdmin()
+                val organizationDirector = stubOrganizationDirector()
+                val headers = securityStubbing.authorizationHeaderFor(role)
+                val body = OrganizationRegisterRequest(
+                    name = "Changed Name",
+                    adminId = organizationAdmin.id!!.value,
+                    directorId = organizationDirector.id!!.value,
+                    address = DummyAddress(),
+                )
+
+                // when
+                val response = restTemplate.exchange<String>(
+                    url = "/api/organization/42",
+                    method = PUT,
+                    requestEntity = HttpEntity(body, headers)
+                )
+
+                // then
+                response.statusCode shouldBe FORBIDDEN
+            }
+        }
+
+        should("fail updating organization with HTTP 404 if organization with provided id does not exist") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationRegisterRequest(
                 name = "Changed Name",
                 adminId = organizationAdmin.id!!.value,
@@ -709,106 +743,83 @@ internal class OrganizationControllerSpec(
             )
 
             // then
-            response.statusCode shouldBe FORBIDDEN
+            response.statusCode shouldBe NOT_FOUND
         }
-    }
 
-    should("fail updating organization with HTTP 404 if organization with provided id does not exist") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationRegisterRequest(
-            name = "Changed Name",
-            adminId = organizationAdmin.id!!.value,
-            directorId = organizationDirector.id!!.value,
-            address = DummyAddress(),
-        )
+        should("successfully update organization") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
+            val organization = organizationStubbing.organizationExists(
+                name = "SP7",
+                admin = organizationAdmin,
+                director = organizationDirector,
+            )
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val body = OrganizationRegisterRequest(
+                name = "Changed Name",
+                adminId = organizationAdmin.id!!.value,
+                directorId = organizationAdmin.id!!.value,
+                address = DummyAddress(),
+            )
 
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/42",
-            method = PUT,
-            requestEntity = HttpEntity(body, headers)
-        )
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization/${organization.id!!.value}",
+                method = PUT,
+                requestEntity = HttpEntity(body, headers)
+            )
 
-        // then
-        response.statusCode shouldBe NOT_FOUND
-    }
-
-    should("update organization") {
-        // given
-        val organizationAdmin = stubOrganizationAdmin()
-        val organizationDirector = stubOrganizationDirector()
-        val organization = organizationStubbing.organizationExists(
-            name = "SP7",
-            admin = organizationAdmin,
-            director = organizationDirector,
-        )
-        val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-        val body = OrganizationRegisterRequest(
-            name = "Changed Name",
-            adminId = organizationAdmin.id!!.value,
-            directorId = organizationAdmin.id!!.value,
-            address = DummyAddress(),
-        )
-
-        // when
-        val response = restTemplate.exchange<String>(
-            url = "/api/organization/${organization.id!!.value}",
-            method = PUT,
-            requestEntity = HttpEntity(body, headers)
-        )
-
-        // then
-        response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-        //language=JSON
-        response.body!! shouldEqualSpecifiedJson """
-            {
-              "name": "Changed Name",
-              "admin": {
-                "id": "${organizationAdmin.id!!.value}",
-                "firstName": "Adrianna",
-                "lastName": "Nowak",
-                "role": "ORGANIZATION_ADMIN",
-                "username": "sp7_admin",
-                "pesel": "58030515441",
-                "sex": "FEMALE",
-                "email": "a.nowak@gmail.com",
-                "phoneNumber": "+48987654321",
-                "address": {
-                  "street": "Świętego Andrzeja Boboli 10",
-                  "postalCode": "15-649",
-                  "city": "Białystok",
-                  "countryCode": "PL"
+            // then
+            response.statusCode shouldBe OK
+            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
+            //language=JSON
+            response.body!! shouldEqualSpecifiedJson """
+                {
+                  "name": "Changed Name",
+                  "admin": {
+                    "id": "${organizationAdmin.id!!.value}",
+                    "firstName": "Adrianna",
+                    "lastName": "Nowak",
+                    "role": "ORGANIZATION_ADMIN",
+                    "username": "sp7_admin",
+                    "pesel": "58030515441",
+                    "sex": "FEMALE",
+                    "email": "a.nowak@gmail.com",
+                    "phoneNumber": "+48987654321",
+                    "address": {
+                      "street": "Świętego Andrzeja Boboli 10",
+                      "postalCode": "15-649",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                    }
+                  },
+                  "director": {
+                    "id": "${organizationAdmin.id!!.value}",
+                    "firstName": "Adrianna",
+                    "lastName": "Nowak",
+                    "role": "ORGANIZATION_ADMIN",
+                    "username": "sp7_admin",
+                    "pesel": "58030515441",
+                    "sex": "FEMALE",
+                    "email": "a.nowak@gmail.com",
+                    "phoneNumber": "+48987654321",
+                    "address": {
+                      "street": "Świętego Andrzeja Boboli 10",
+                      "postalCode": "15-649",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                    }
+                  },
+                  "address": {
+                      "street": "Szkolna 17",
+                      "postalCode": "15-640",
+                      "city": "Białystok",
+                      "countryCode": "PL"
+                  },
+                  "status": "ENABLED"              
                 }
-              },
-              "director": {
-                "id": "${organizationAdmin.id!!.value}",
-                "firstName": "Adrianna",
-                "lastName": "Nowak",
-                "role": "ORGANIZATION_ADMIN",
-                "username": "sp7_admin",
-                "pesel": "58030515441",
-                "sex": "FEMALE",
-                "email": "a.nowak@gmail.com",
-                "phoneNumber": "+48987654321",
-                "address": {
-                  "street": "Świętego Andrzeja Boboli 10",
-                  "postalCode": "15-649",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-                }
-              },
-              "address": {
-                  "street": "Szkolna 17",
-                  "postalCode": "15-640",
-                  "city": "Białystok",
-                  "countryCode": "PL"
-              },
-              "status": "ENABLED"              
-            }
-        """.trimIndent()
+            """.trimIndent()
+        }
     }
 })

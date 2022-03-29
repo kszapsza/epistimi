@@ -1,4 +1,5 @@
 import { Address } from './address';
+import { Location } from './location';
 import { UserResponse } from './user';
 
 export interface OrganizationResponse {
@@ -8,6 +9,7 @@ export interface OrganizationResponse {
   status: OrganizationStatus;
   director: UserResponse;
   address: Address;
+  location?: Location;
 }
 
 export interface OrganizationsResponse {

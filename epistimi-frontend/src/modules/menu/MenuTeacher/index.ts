@@ -1,1 +1,0 @@
-export { MenuTeacher } from './MenuTeacher';

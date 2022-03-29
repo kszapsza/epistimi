@@ -16,6 +16,7 @@ import pl.edu.wat.wcy.epistimi.user.UserRepository
 class OrganizationService(
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository,
+    private val locationClient: OrganizationLocationClient,
 ) {
     fun getOrganization(organizationId: String): Organization {
         return organizationRepository.findById(organizationId)
@@ -26,14 +27,19 @@ class OrganizationService(
     }
 
     fun registerOrganization(registerRequest: OrganizationRegisterRequest): Organization {
+        val admin = tryRetrieveAdmin(registerRequest.adminId)
+        val director = tryRetrieveDirector(registerRequest.directorId)
+        val location = locationClient.getLocation(registerRequest.address)
+
         return organizationRepository.save(
             Organization(
                 id = null,
                 name = registerRequest.name,
-                admin = tryRetrieveAdmin(registerRequest.adminId),
+                admin = admin,
                 status = ENABLED,
-                director = tryRetrieveDirector(registerRequest.directorId),
+                director = director,
                 address = registerRequest.address,
+                location = location,
             )
         )
     }
@@ -74,14 +80,19 @@ class OrganizationService(
         organizationId: String,
         updateRequest: OrganizationRegisterRequest,
     ): Organization {
+        val admin = tryRetrieveAdmin(updateRequest.adminId)
+        val director = tryRetrieveDirector(updateRequest.directorId)
+        val location = locationClient.getLocation(updateRequest.address)
+
         return organizationRepository.update(
             Organization(
                 id = OrganizationId(organizationId),
                 name = updateRequest.name,
-                admin = tryRetrieveAdmin(updateRequest.adminId),
+                admin = admin,
                 status = ENABLED,
-                director = tryRetrieveDirector(updateRequest.directorId),
+                director = director,
                 address = updateRequest.address,
+                location = location,
             )
         )
     }

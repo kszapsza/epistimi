@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.organization
 
 import pl.edu.wat.wcy.epistimi.shared.Address
+import pl.edu.wat.wcy.epistimi.shared.Location
 import pl.edu.wat.wcy.epistimi.user.User
 
 data class Organization(
@@ -10,6 +11,7 @@ data class Organization(
     val status: Status,
     val director: User,
     val address: Address,
+    val location: Location?,
 ) {
     enum class Status {
         ENABLED,

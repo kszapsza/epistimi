@@ -1,0 +1,50 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.header {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+
+  .header-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .header-logo-box {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    .header-logo {
+      font: {
+        size: 24px;
+        weight: 600;
+      }
+    }
+
+    .header-role {
+      font: {
+        size: 24px;
+        weight: 300;
+      }
+    }
+  }
+
+  .header-user {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    justify-content: flex-end;
+
+    .header-login {
+      @media (screen and min-width: $mobile-breakpoint) {
+        display: none;
+      }
+    }
+  }
+}

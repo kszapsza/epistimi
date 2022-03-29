@@ -22,7 +22,9 @@ import pl.edu.wat.wcy.epistimi.user.UserRepository
 internal class OrganizationServiceTest : ShouldSpec({
     val organizationRepository = mockk<OrganizationRepository>()
     val userRepository = mockk<UserRepository>()
-    val organizationService = OrganizationService(organizationRepository, userRepository)
+    val locationClient = mockk<OrganizationLocationClient>()
+
+    val organizationService = OrganizationService(organizationRepository, userRepository, locationClient)
 
     val userStub = { role: User.Role ->
         User(
@@ -70,6 +72,7 @@ internal class OrganizationServiceTest : ShouldSpec({
             every { userRepository.findById("admin_id") } returns userStub(role)
             every { userRepository.findById("director_id") } returns userStub(TEACHER)
             every { organizationRepository.save(any()) } returnsArgument 0
+            every { locationClient.getLocation(any()) } returns null
 
             // when & then
             shouldNotThrow<AdministratorInsufficientPermissionsException> {
@@ -120,6 +123,7 @@ internal class OrganizationServiceTest : ShouldSpec({
             // given
             every { userRepository.findById("admin_id") } returns userStub(ORGANIZATION_ADMIN)
             every { userRepository.findById("director_id") } returns userStub(role)
+            every { locationClient.getLocation(any()) } returns null
 
             // when & then
             shouldNotThrow<DirectorInsufficientPermissionsException> {

@@ -1,0 +1,42 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.article-thumbnail {
+  border: 1px solid $gray;
+  border-radius: $subtle-radius;
+  cursor: pointer;
+  flex: 1;
+  min-width: 350px;
+  overflow: hidden;
+}
+
+.article-thumbnail-image {
+  max-height: 200px;
+  overflow: hidden;
+  width: 100%;
+
+  img {
+    transition-duration: 500ms;
+    width: 100%;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+.article-thumbnail-title {
+  font: {
+    size: 18px;
+    weight: bold;
+  }
+  line-height: 25px;
+}
+
+.article-thumbnail-description {
+  font: {
+    size: 13px;
+    weight: normal;
+  }
+  line-height: 18px;
+}
