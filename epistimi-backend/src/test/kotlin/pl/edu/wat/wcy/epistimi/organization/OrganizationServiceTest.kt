@@ -59,12 +59,14 @@ internal class OrganizationServiceTest : ShouldSpec({
             every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
             every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
 
-            // when & then
+            // when
             val exception = shouldThrow<AdminInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
             }
+
+            // then
             exception.message shouldBe "User requested for admin role has insufficient permissions"
         }
     }
@@ -81,7 +83,7 @@ internal class OrganizationServiceTest : ShouldSpec({
             every { organizationRepository.save(any()) } returnsArgument 0
             every { locationClient.getLocation(any()) } returns null
 
-            // when & then
+            // expect
             shouldNotThrow<AdminInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
@@ -96,12 +98,14 @@ internal class OrganizationServiceTest : ShouldSpec({
         every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
         every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
 
-        // when & then
+        // when
         val exception = shouldThrow<AdminNotFoundException> {
             organizationService.registerOrganization(
                 OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
             )
         }
+
+        // then
         exception.message shouldBe "Admin with id admin_id does not exist"
     }
 
@@ -115,12 +119,14 @@ internal class OrganizationServiceTest : ShouldSpec({
             every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", role)
             every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
 
-            // when & then
+            // when
             val exception = shouldThrow<DirectorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
             }
+
+            // then
             exception.message shouldBe "User requested for director role has insufficient permissions"
         }
     }
@@ -137,7 +143,7 @@ internal class OrganizationServiceTest : ShouldSpec({
             every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
             every { locationClient.getLocation(any()) } returns null
 
-            // when & then
+            // expect
             shouldNotThrow<DirectorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
@@ -152,12 +158,14 @@ internal class OrganizationServiceTest : ShouldSpec({
         every { userRepository.findById(UserId("director_id")) } throws UserNotFoundException()
         every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
 
-        // when & then
+        // when
         val exception = shouldThrow<DirectorNotFoundException> {
             organizationService.registerOrganization(
                 OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
             )
         }
+
+        // then
         exception.message shouldBe "Director with id director_id does not exist"
     }
 
@@ -177,12 +185,14 @@ internal class OrganizationServiceTest : ShouldSpec({
             )
         )
 
-        // when & then
+        // when
         val exception = shouldThrow<AdminManagingOtherOrganizationException> {
             organizationService.registerOrganization(
                 OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
             )
         }
+
+        // then
         exception.message shouldBe "Provided admin is already managing other organization"
     }
 
@@ -204,7 +214,7 @@ internal class OrganizationServiceTest : ShouldSpec({
         )
         every { locationClient.getLocation(any()) } returns null
 
-        // when & then
+        // expect
         shouldNotThrow<AdminManagingOtherOrganizationException> {
             organizationService.updateOrganization(
                 OrganizationId("123"),
@@ -221,7 +231,7 @@ internal class OrganizationServiceTest : ShouldSpec({
         every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
         every { locationClient.getLocation(any()) } returns null
 
-        // when & then
+        // expect
         shouldNotThrow<AdminManagingOtherOrganizationException> {
             organizationService.updateOrganization(
                 OrganizationId("123"),
@@ -248,13 +258,15 @@ internal class OrganizationServiceTest : ShouldSpec({
         )
         every { locationClient.getLocation(any()) } returns null
 
-        // when & then
+        // when
         val exception = shouldThrow<AdminManagingOtherOrganizationException> {
             organizationService.updateOrganization(
                 OrganizationId("some_id"),
                 OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
             )
         }
+
+        // then
         exception.message shouldBe "Provided admin is already managing other organization"
     }
 })

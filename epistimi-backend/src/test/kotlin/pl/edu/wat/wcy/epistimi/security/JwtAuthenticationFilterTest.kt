@@ -31,5 +31,4 @@ internal class JwtAuthenticationFilterTest : ShouldSpec({
             objectMapper.readValue(responseMock.contentAsString, Map::class.java)["message"] shouldBe errorMessage
         }
     }
-
 })
