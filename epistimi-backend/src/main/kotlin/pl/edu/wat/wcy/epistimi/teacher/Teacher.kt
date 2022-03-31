@@ -12,7 +12,7 @@ data class Teacher(
     val id: TeacherId? = null,
     val user: User,
     val organization: Organization,
-    val academicTitle: String,
+    val academicTitle: String?,
 )
 
 @JvmInline

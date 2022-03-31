@@ -32,7 +32,7 @@ class UserController(
     fun getCurrentUser(
         authentication: Authentication,
     ): ResponseEntity<UserResponse> = ResponseEntity.ok(
-        userService.getUserByUsername(authentication.principal as String).toUserResponse()
+        userService.getUserById(UserId(authentication.principal as String)).toUserResponse()
     )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")

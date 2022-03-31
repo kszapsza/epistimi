@@ -8,7 +8,7 @@ import pl.edu.wat.wcy.epistimi.user.dto.toUserResponse
 data class TeacherResponse(
     val id: TeacherId? = null,
     val user: UserResponse,
-    val academicTitle: String,
+    val academicTitle: String?,
 )
 
 fun Teacher.toTeacherResponse() = TeacherResponse(
