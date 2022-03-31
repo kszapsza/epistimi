@@ -52,7 +52,7 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
   const { data: admins, loading: adminsLoading } = useFetch<UsersResponse>('/api/user?role=ORGANIZATION_ADMIN');
   const { data: directors, loading: directorsLoading } = useFetch<UsersResponse>('/api/user?role=ORGANIZATION_ADMIN&role=TEACHER');
 
-  const [submitFailed, setSubmitFailed] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   if (adminsLoading || directorsLoading) {
     return <Loader/>;
@@ -97,21 +97,25 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
         },
       }).then((response) => {
       props.submitCallback(response.data);
-    }).catch(() => {
-      setSubmitFailed(true);
+    }).catch(({ response }) => {
+      setSubmitError(
+        response?.data?.message == 'Provided admin is already managing other organization'
+          ? 'Wybrany administrator zarządza już inną placówką'
+          : 'Wystąpił nieoczekiwany błąd serwera',
+      );
     });
   };
 
   return (
     <div className={'organization-create'}>
       {hasErrors() &&
-        <Alert icon={<AlertCircle size={16}/>} color="red">
+        <Alert icon={<AlertCircle size={16}/>} color={'red'}>
           Wszystkie pola są wymagane
         </Alert>
       }
-      {submitFailed &&
-        <Alert icon={<AlertCircle size={16}/>} color="red">
-          Błąd serwera
+      {submitError &&
+        <Alert icon={<AlertCircle size={16}/>} title={'Błąd'} color={'red'}>
+          {submitError}
         </Alert>
       }
 
@@ -134,7 +138,7 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
             placeholder={'Wybierz administratora placówki'}
             data={
               admins.users.map((admin) =>
-                  ({ value: admin.id, label: `${admin.lastName} ${admin.firstName} (${admin.username})` }))
+                ({ value: admin.id, label: `${admin.lastName} ${admin.firstName} (${admin.username})` }))
             }
             {...form.getInputProps('adminId')}
           />
@@ -144,8 +148,8 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
             label={'Dyrektor'}
             placeholder={'Wybierz dyrektora placówki'}
             data={
-                directors.users.map((director) =>
-                  ({ value: director.id, label: `${director.lastName} ${director.firstName} (${director.username})` }))
+              directors.users.map((director) =>
+                ({ value: director.id, label: `${director.lastName} ${director.firstName} (${director.username})` }))
             }
             {...form.getInputProps('directorId')}
           />

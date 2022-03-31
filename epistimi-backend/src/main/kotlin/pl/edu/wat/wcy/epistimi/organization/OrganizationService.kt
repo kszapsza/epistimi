@@ -1,14 +1,10 @@
 package pl.edu.wat.wcy.epistimi.organization
 
 import org.springframework.stereotype.Service
-import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
@@ -28,74 +24,75 @@ class OrganizationService(
     }
 
     fun registerOrganization(registerRequest: OrganizationRegisterRequest): Organization {
-        val admin = tryRetrieveAdmin(registerRequest.adminId)
-        val director = tryRetrieveDirector(registerRequest.directorId)
-        val location = locationClient.getLocation(registerRequest.address)
-
         return organizationRepository.save(
             Organization(
                 id = null,
                 name = registerRequest.name,
-                admin = admin,
+                admin = registerRequest.adminId
+                    .let { userId -> getUserOrThrow(userId) { AdminNotFoundException(userId) } }
+                    .also { user -> if (!user.isEligibleToBeAdmin()) throw AdminInsufficientPermissionsException() }
+                    .also { user -> if (user.managesOtherOrganization()) throw AdminManagingOtherOrganizationException() },
                 status = ENABLED,
-                director = director,
+                director = registerRequest.directorId
+                    .let { userId -> getUserOrThrow(userId) { DirectorNotFoundException(userId) } }
+                    .also { user -> if (!user.isEligibleToBeDirector()) throw DirectorInsufficientPermissionsException() },
                 address = registerRequest.address,
-                location = location,
+                location = locationClient.getLocation(registerRequest.address),
             )
         )
     }
 
-    private fun tryRetrieveAdmin(adminId: UserId): User {
+    private fun getUserOrThrow(
+        userId: UserId,
+        exceptionSupplier: () -> Exception
+    ): User {
         return try {
-            userRepository.findById(adminId)
-                .also { validateOrganizationAdminRole(it) }
+            userRepository.findById(userId)
         } catch (e: UserNotFoundException) {
-            throw AdministratorNotFoundException(adminId)
+            throw exceptionSupplier()
         }
     }
 
-    private fun validateOrganizationAdminRole(admin: User) {
-        if (admin.role !in ALLOWED_ADMIN_ROLES) {
-            logger.warn("Attempted to register an organization with user ineligible to be an organization admin")
-            throw AdministratorInsufficientPermissionsException()
-        }
-    }
+    private fun User.isEligibleToBeAdmin() = role in ALLOWED_ADMIN_ROLES
+    private fun User.isEligibleToBeDirector() = role in ALLOWED_DIRECTOR_ROLES
 
-    private fun tryRetrieveDirector(directorId: UserId): User {
-        return try {
-            userRepository.findById(directorId)
-                .also { validateOrganizationDirectorRole(it) }
-        } catch (e: UserNotFoundException) {
-            throw DirectorNotFoundException(directorId)
-        }
-    }
-
-    private fun validateOrganizationDirectorRole(director: User) {
-        if (director.role !in ALLOWED_DIRECTOR_ROLES) {
-            logger.warn("Attempted to register an organization with user ineligible to be an organization director")
-            throw DirectorInsufficientPermissionsException()
-        }
+    private fun User.managesOtherOrganization(): Boolean {
+        return organizationRepository.findAllByAdminId(id!!).isNotEmpty()
     }
 
     fun updateOrganization(
-        organizationId: String,
+        organizationId: OrganizationId,
         updateRequest: OrganizationRegisterRequest,
     ): Organization {
-        val admin = tryRetrieveAdmin(updateRequest.adminId)
-        val director = tryRetrieveDirector(updateRequest.directorId)
-        val location = locationClient.getLocation(updateRequest.address)
-
         return organizationRepository.update(
             Organization(
-                id = OrganizationId(organizationId),
+                id = organizationId,
                 name = updateRequest.name,
-                admin = admin,
+                admin = updateRequest.adminId
+                    .let { userId -> getUserOrThrow(userId) { AdminNotFoundException(userId) } }
+                    .also { user -> if (!user.isEligibleToBeAdmin()) throw AdminInsufficientPermissionsException() }
+                    .also { user -> if (user.managesOrganizationOtherThanUpdated(organizationId)) throw AdminManagingOtherOrganizationException() },
                 status = ENABLED,
-                director = director,
+                director = updateRequest.directorId
+                    .let { userId -> getUserOrThrow(userId) { DirectorNotFoundException(userId) } }
+                    .also { user -> if (!user.isEligibleToBeDirector()) throw DirectorInsufficientPermissionsException() },
                 address = updateRequest.address,
-                location = location,
+                location = locationClient.getLocation(updateRequest.address),
             )
         )
+    }
+
+    private fun User.managesOrganizationOtherThanUpdated(
+        updatedOrganizationId: OrganizationId
+    ): Boolean {
+        return organizationRepository.findAllByAdminId(id!!)
+            .let { organizations ->
+                when (organizations.size) {
+                    0 -> false
+                    1 -> organizations[0].id != updatedOrganizationId
+                    else -> true
+                }
+            }
     }
 
     fun changeOrganizationStatus(
@@ -109,8 +106,7 @@ class OrganizationService(
     }
 
     companion object {
-        private val logger by logger()
-        private val ALLOWED_ADMIN_ROLES = arrayOf(ORGANIZATION_ADMIN, EPISTIMI_ADMIN)
-        private val ALLOWED_DIRECTOR_ROLES = arrayOf(TEACHER, ORGANIZATION_ADMIN, EPISTIMI_ADMIN)
+        private val ALLOWED_ADMIN_ROLES = arrayOf(User.Role.ORGANIZATION_ADMIN, User.Role.EPISTIMI_ADMIN)
+        private val ALLOWED_DIRECTOR_ROLES = arrayOf(User.Role.TEACHER, User.Role.ORGANIZATION_ADMIN, User.Role.EPISTIMI_ADMIN)
     }
 }

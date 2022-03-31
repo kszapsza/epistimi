@@ -56,9 +56,9 @@ class UserController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun getUserById(
-        @PathVariable userId: UserId,
+        @PathVariable userId: String,
     ): ResponseEntity<UserResponse> = ResponseEntity.ok(
-        userService.getUserById(userId).toUserResponse()
+        userService.getUserById(UserId(userId)).toUserResponse()
     )
 
     @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN')")

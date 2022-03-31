@@ -5,8 +5,10 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.data.blocking.forAll
 import io.kotest.data.row
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.user.User
@@ -27,8 +29,9 @@ internal class OrganizationServiceTest : ShouldSpec({
 
     val organizationService = OrganizationService(organizationRepository, userRepository, locationClient)
 
-    val userStub = { role: User.Role ->
+    val userStub = { id: String, role: User.Role ->
         User(
+            id = UserId(id),
             firstName = "Jan",
             lastName = "Kowalski",
             role = role,
@@ -52,15 +55,17 @@ internal class OrganizationServiceTest : ShouldSpec({
     ) { role ->
         should("fail to register a new organization if provided admin has $role role") {
             // given
-            every { userRepository.findById(UserId("admin_id")) } returns userStub(role)
-            every { userRepository.findById(UserId("director_id")) } returns userStub(TEACHER)
+            every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", role)
+            every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
+            every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
 
             // when & then
-            shouldThrow<AdministratorInsufficientPermissionsException> {
+            val exception = shouldThrow<AdminInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
             }
+            exception.message shouldBe "User requested for admin role has insufficient permissions"
         }
     }
 
@@ -70,13 +75,14 @@ internal class OrganizationServiceTest : ShouldSpec({
     ) { role ->
         should("successfully register a new organization if provided admin has $role role") {
             // given
-            every { userRepository.findById(UserId("admin_id")) } returns userStub(role)
-            every { userRepository.findById(UserId("director_id")) } returns userStub(TEACHER)
+            every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", role)
+            every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
+            every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
             every { organizationRepository.save(any()) } returnsArgument 0
             every { locationClient.getLocation(any()) } returns null
 
             // when & then
-            shouldNotThrow<AdministratorInsufficientPermissionsException> {
+            shouldNotThrow<AdminInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
@@ -87,14 +93,16 @@ internal class OrganizationServiceTest : ShouldSpec({
     should("fail to register a new organization if admin with provided id does not exist") {
         // given
         every { userRepository.findById(UserId("admin_id")) } throws UserNotFoundException()
-        every { userRepository.findById(UserId("director_id")) } returns userStub(TEACHER)
+        every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
+        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
 
         // when & then
-        shouldThrow<AdministratorNotFoundException> {
+        val exception = shouldThrow<AdminNotFoundException> {
             organizationService.registerOrganization(
                 OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
             )
         }
+        exception.message shouldBe "Admin with id admin_id does not exist"
     }
 
     forAll(
@@ -103,15 +111,17 @@ internal class OrganizationServiceTest : ShouldSpec({
     ) { role ->
         should("fail to register a new organization if provided director has $role role") {
             // given
-            every { userRepository.findById(UserId("admin_id")) } returns userStub(ORGANIZATION_ADMIN)
-            every { userRepository.findById(UserId("director_id")) } returns userStub(role)
+            every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
+            every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", role)
+            every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
 
             // when & then
-            shouldThrow<DirectorInsufficientPermissionsException> {
+            val exception = shouldThrow<DirectorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
                 )
             }
+            exception.message shouldBe "User requested for director role has insufficient permissions"
         }
     }
 
@@ -122,8 +132,9 @@ internal class OrganizationServiceTest : ShouldSpec({
     ) { role ->
         should("successfully register a new organization if provided director has $role role") {
             // given
-            every { userRepository.findById(UserId("admin_id")) } returns userStub(ORGANIZATION_ADMIN)
-            every { userRepository.findById(UserId("director_id")) } returns userStub(role)
+            every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
+            every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", role)
+            every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
             every { locationClient.getLocation(any()) } returns null
 
             // when & then
@@ -135,17 +146,115 @@ internal class OrganizationServiceTest : ShouldSpec({
         }
     }
 
-
     should("fail to register a new organization if provided director with provided id does not exist") {
         // given
-        every { userRepository.findById(UserId("admin_id")) } returns userStub(ORGANIZATION_ADMIN)
+        every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
         every { userRepository.findById(UserId("director_id")) } throws UserNotFoundException()
+        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
 
         // when & then
-        shouldThrow<DirectorNotFoundException> {
+        val exception = shouldThrow<DirectorNotFoundException> {
             organizationService.registerOrganization(
                 OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
             )
         }
+        exception.message shouldBe "Director with id director_id does not exist"
+    }
+
+    should("fail to register a new organization if provided admin already manages other organization") {
+        // given
+        every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
+        every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
+        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf(
+            Organization(
+                id = OrganizationId("123"),
+                name = "SP7",
+                admin = userStub("admin_id", ORGANIZATION_ADMIN),
+                status = ENABLED,
+                director = userStub("director_id", TEACHER),
+                address = addressStub,
+                location = null,
+            )
+        )
+
+        // when & then
+        val exception = shouldThrow<AdminManagingOtherOrganizationException> {
+            organizationService.registerOrganization(
+                OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
+            )
+        }
+        exception.message shouldBe "Provided admin is already managing other organization"
+    }
+
+    should("successfully update existing organization if admin was not changed") {
+        // given
+        every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
+        every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
+        every { organizationRepository.update(any()) } returnsArgument 0
+        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf(
+            Organization(
+                id = OrganizationId("123"),
+                name = "SP7",
+                admin = userStub("admin_id", ORGANIZATION_ADMIN),
+                status = ENABLED,
+                director = userStub("director_id", TEACHER),
+                address = addressStub,
+                location = null,
+            )
+        )
+        every { locationClient.getLocation(any()) } returns null
+
+        // when & then
+        shouldNotThrow<AdminManagingOtherOrganizationException> {
+            organizationService.updateOrganization(
+                OrganizationId("123"),
+                OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
+            )
+        }
+    }
+
+    should("successfully update existing organization if provided admin does not manage any organization yet") {
+        // given
+        every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
+        every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
+        every { organizationRepository.update(any()) } returnsArgument 0
+        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
+        every { locationClient.getLocation(any()) } returns null
+
+        // when & then
+        shouldNotThrow<AdminManagingOtherOrganizationException> {
+            organizationService.updateOrganization(
+                OrganizationId("123"),
+                OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
+            )
+        }
+    }
+
+    should("fail updating existing organization, if provided new admin already manages other organization") {
+        // given
+        every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
+        every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
+        every { organizationRepository.update(any()) } returnsArgument 0
+        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf(
+            Organization(
+                id = OrganizationId("some_different_id"),
+                name = "G2",
+                admin = userStub("admin_id", ORGANIZATION_ADMIN),
+                status = ENABLED,
+                director = userStub("director_id", TEACHER),
+                address = addressStub,
+                location = null,
+            )
+        )
+        every { locationClient.getLocation(any()) } returns null
+
+        // when & then
+        val exception = shouldThrow<AdminManagingOtherOrganizationException> {
+            organizationService.updateOrganization(
+                OrganizationId("some_id"),
+                OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), addressStub)
+            )
+        }
+        exception.message shouldBe "Provided admin is already managing other organization"
     }
 })

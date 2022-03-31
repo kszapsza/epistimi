@@ -18,9 +18,15 @@ class OrganizationDbRepository(
         return organizationMongoDbRepository.existsById(id.value)
     }
 
-    override fun findAll(): List<Organization> =
-        organizationMongoDbRepository.findAll()
+    override fun findAll(): List<Organization> {
+        return organizationMongoDbRepository.findAll()
             .map { it.toDomain() }
+    }
+
+    override fun findAllByAdminId(adminId: UserId): List<Organization> {
+        return organizationMongoDbRepository.findAllByAdminId(adminId.value)
+            .map { it.toDomain() }
+    }
 
     private fun OrganizationMongoDbDocument.toDomain() = Organization(
         id = OrganizationId(id!!),
@@ -37,21 +43,21 @@ class OrganizationDbRepository(
             .map { it.toDomain() }
             .orElseThrow { throw OrganizationNotFoundException(organizationId) }
 
-    override fun save(organization: Organization): Organization =
-        organization.toMongoDbDocument()
+    override fun save(organization: Organization): Organization {
+        return organization.toMongoDbDocument()
             .let { organizationMongoDbRepository.save(it) }
             .toDomain()
+    }
 
-    private fun Organization.toMongoDbDocument() =
-        OrganizationMongoDbDocument(
-            id = this.id?.value,
-            name = this.name,
-            adminId = this.admin.id!!.value,
-            status = this.status.toString(),
-            directorId = this.director.id!!.value,
-            address = this.address,
-            location = this.location,
-        )
+    private fun Organization.toMongoDbDocument() = OrganizationMongoDbDocument(
+        id = this.id?.value,
+        name = this.name,
+        adminId = this.admin.id!!.value,
+        status = this.status.toString(),
+        directorId = this.director.id!!.value,
+        address = this.address,
+        location = this.location,
+    )
 
     override fun update(organization: Organization): Organization {
         val existingOrganization = organizationMongoDbRepository

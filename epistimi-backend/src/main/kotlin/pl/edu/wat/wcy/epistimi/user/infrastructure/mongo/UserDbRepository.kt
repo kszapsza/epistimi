@@ -27,7 +27,7 @@ class UserDbRepository(
     override fun findById(userId: UserId): User {
         return userMongoDbRepository.findById(userId.value)
             .map { it.toDomain() }
-            .orElseThrow { throw UserNotFoundException() }
+            .orElseThrow { UserNotFoundException() }
     }
 
     override fun findByUsername(username: String): User {

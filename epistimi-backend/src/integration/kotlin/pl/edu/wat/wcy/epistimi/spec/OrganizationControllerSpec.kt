@@ -358,7 +358,7 @@ internal class OrganizationControllerSpec(
             }
         }
 
-        should("sucessfully register new organization") {
+        should("successfully register new organization") {
             // given
             val organizationAdmin = stubOrganizationAdmin()
             val organizationDirector = stubOrganizationDirector()
@@ -466,6 +466,41 @@ internal class OrganizationControllerSpec(
                 name = "Gimnazjum nr 2",
                 adminId = organizationAdmin.id!!,
                 directorId = UserId("42"),
+                address = Address(
+                    street = "Szkolna 17",
+                    postalCode = "15-640",
+                    city = "Białystok",
+                    countryCode = "PL",
+                )
+            )
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization",
+                method = POST,
+                requestEntity = HttpEntity(body, headers),
+            )
+
+            // then
+            response.statusCode shouldBe BAD_REQUEST
+        }
+
+        should("fail registering organization if provided admin already manages other organization") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
+
+            organizationStubbing.organizationExists(
+                name = "SP7",
+                admin = organizationAdmin,
+                director = organizationDirector
+            )
+
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val body = OrganizationRegisterRequest(
+                name = "Gimnazjum nr 2",
+                adminId = organizationAdmin.id!!,
+                directorId = organizationDirector.id!!,
                 address = Address(
                     street = "Szkolna 17",
                     postalCode = "15-640",

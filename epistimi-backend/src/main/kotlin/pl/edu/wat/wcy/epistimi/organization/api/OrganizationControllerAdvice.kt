@@ -4,8 +4,9 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
-import pl.edu.wat.wcy.epistimi.organization.AdministratorInsufficientPermissionsException
-import pl.edu.wat.wcy.epistimi.organization.AdministratorNotFoundException
+import pl.edu.wat.wcy.epistimi.organization.AdminManagingOtherOrganizationException
+import pl.edu.wat.wcy.epistimi.organization.AdminInsufficientPermissionsException
+import pl.edu.wat.wcy.epistimi.organization.AdminNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.DirectorInsufficientPermissionsException
 import pl.edu.wat.wcy.epistimi.organization.DirectorNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
@@ -15,8 +16,9 @@ import pl.edu.wat.wcy.epistimi.shared.api.ErrorMessage
 class OrganizationControllerAdvice {
 
     @ExceptionHandler(
-        AdministratorInsufficientPermissionsException::class,
-        AdministratorNotFoundException::class,
+        AdminManagingOtherOrganizationException::class,
+        AdminNotFoundException::class,
+        AdminInsufficientPermissionsException::class,
         DirectorInsufficientPermissionsException::class,
         DirectorNotFoundException::class,
     )

@@ -4,4 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrganizationMongoDbRepository : MongoRepository<OrganizationMongoDbDocument, String>
+interface OrganizationMongoDbRepository : MongoRepository<OrganizationMongoDbDocument, String> {
+    fun findAllByAdminId(adminId: String): List<OrganizationMongoDbDocument>
+}

@@ -19,7 +19,7 @@ data class ErrorMessage(
         status = httpStatus.value(),
         error = httpStatus.reasonPhrase,
         message = exception.message,
-        path = (request as ServletWebRequest).request.requestURI
+        path = (request as ServletWebRequest).request.requestURI,
     )
 
     constructor(exception: Exception, httpStatus: HttpStatus, request: HttpServletRequest) : this(
@@ -27,7 +27,7 @@ data class ErrorMessage(
         status = httpStatus.value(),
         error = httpStatus.reasonPhrase,
         message = exception.message,
-        path = request.requestURI
+        path = request.requestURI,
     )
 
     fun toResponseEntity() = ResponseEntity(this, HttpStatus.valueOf(this.status))

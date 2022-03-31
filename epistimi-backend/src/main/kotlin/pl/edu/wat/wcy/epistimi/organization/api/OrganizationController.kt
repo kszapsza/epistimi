@@ -91,7 +91,7 @@ class OrganizationController(
         @RequestBody organizationUpdateRequest: OrganizationRegisterRequest,
     ): ResponseEntity<OrganizationResponse> =
         ResponseEntity.ok(
-            organizationService.updateOrganization(organizationId, organizationUpdateRequest)
+            organizationService.updateOrganization(OrganizationId(organizationId), organizationUpdateRequest)
                 .toOrganizationResponse()
         )
 }
