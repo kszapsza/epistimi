@@ -28,18 +28,26 @@ class OrganizationService(
             Organization(
                 id = null,
                 name = registerRequest.name,
-                admin = registerRequest.adminId
-                    .let { userId -> getUserOrThrow(userId) { AdminNotFoundException(userId) } }
-                    .also { user -> if (!user.isEligibleToBeAdmin()) throw AdminInsufficientPermissionsException() }
-                    .also { user -> if (user.managesOtherOrganization()) throw AdminManagingOtherOrganizationException() },
+                admin = getAdmin(registerRequest.adminId),
                 status = ENABLED,
-                director = registerRequest.directorId
-                    .let { userId -> getUserOrThrow(userId) { DirectorNotFoundException(userId) } }
-                    .also { user -> if (!user.isEligibleToBeDirector()) throw DirectorInsufficientPermissionsException() },
+                director = getDirector(registerRequest.directorId),
                 address = registerRequest.address,
                 location = locationClient.getLocation(registerRequest.address),
             )
         )
+    }
+
+    private fun getAdmin(adminId: UserId): User {
+        return adminId
+            .let { userId -> getUserOrThrow(userId) { AdminNotFoundException(userId) } }
+            .also { user -> if (!user.isEligibleToBeAdmin()) throw AdminInsufficientPermissionsException() }
+            .also { user -> if (user.managesOtherOrganization()) throw AdminManagingOtherOrganizationException() }
+    }
+
+    private fun getDirector(directorId: UserId): User {
+        return directorId
+            .let { userId -> getUserOrThrow(userId) { DirectorNotFoundException(userId) } }
+            .also { user -> if (!user.isEligibleToBeDirector()) throw DirectorInsufficientPermissionsException() }
     }
 
     private fun getUserOrThrow(
@@ -68,18 +76,20 @@ class OrganizationService(
             Organization(
                 id = organizationId,
                 name = updateRequest.name,
-                admin = updateRequest.adminId
-                    .let { userId -> getUserOrThrow(userId) { AdminNotFoundException(userId) } }
-                    .also { user -> if (!user.isEligibleToBeAdmin()) throw AdminInsufficientPermissionsException() }
-                    .also { user -> if (user.managesOrganizationOtherThanUpdated(organizationId)) throw AdminManagingOtherOrganizationException() },
+                admin = getAdminForUpdate(updateRequest.adminId, organizationId),
                 status = ENABLED,
-                director = updateRequest.directorId
-                    .let { userId -> getUserOrThrow(userId) { DirectorNotFoundException(userId) } }
-                    .also { user -> if (!user.isEligibleToBeDirector()) throw DirectorInsufficientPermissionsException() },
+                director = getDirector(updateRequest.directorId),
                 address = updateRequest.address,
                 location = locationClient.getLocation(updateRequest.address),
             )
         )
+    }
+
+    private fun getAdminForUpdate(adminId: UserId, organizationId: OrganizationId): User {
+        return adminId
+            .let { userId -> getUserOrThrow(userId) { AdminNotFoundException(userId) } }
+            .also { user -> if (!user.isEligibleToBeAdmin()) throw AdminInsufficientPermissionsException() }
+            .also { user -> if (user.managesOrganizationOtherThanUpdated(organizationId)) throw AdminManagingOtherOrganizationException() }
     }
 
     private fun User.managesOrganizationOtherThanUpdated(

@@ -1,0 +1,1 @@
+export { CoursesListingTile } from './CoursesListingTile';
