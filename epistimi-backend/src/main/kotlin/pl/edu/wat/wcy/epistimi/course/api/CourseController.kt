@@ -33,4 +33,6 @@ class CourseController(
             )
         )
     }
+
+    // TODO: single GET endpoint should return HTTP 403 if course is in other organization!
 }

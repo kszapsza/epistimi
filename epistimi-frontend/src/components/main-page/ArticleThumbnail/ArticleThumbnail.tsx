@@ -15,7 +15,7 @@ export const ArticleThumbnail = (props: ArticleThumbnailProps): JSX.Element => {
 
   return (
     <Card component={Link} to={`/article/${props.slug}`}
-          shadow={'sm'} p={'lg'} className={'article-thumbnail'}>
+          p={'lg'} className={'article-thumbnail'}>
       <Card.Section>
         <Image src={`${process.env.PUBLIC_URL}/images/${image}`} height={160} alt={props.title}/>
       </Card.Section>

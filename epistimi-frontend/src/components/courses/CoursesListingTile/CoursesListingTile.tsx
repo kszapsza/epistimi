@@ -1,10 +1,12 @@
 import './CoursesListingTile.scss';
+import { Box, ThemeIcon } from '@mantine/core';
 import { Code } from '../../../dto/course';
+import { Link } from 'react-router-dom';
 import { TeacherResponse } from '../../../dto/teacher';
-import { ThemeIcon } from '@mantine/core';
 import { Users } from 'tabler-icons-react';
 
 interface CoursesListingTileProps {
+  id: string;
   code: Code;
   classTeacher: TeacherResponse;
   studentsCount: number;
@@ -20,7 +22,7 @@ export const CoursesListingTile = (props: CoursesListingTileProps): JSX.Element 
   };
 
   return (
-    <div className={'course-tile'}>
+    <Box className={'course-tile'} component={Link} to={`/courses/${props.id}`} role={'link'}>
       <div className={'course-tile-icon'}>
         <ThemeIcon variant={'light'} color={'blue'} size={'lg'}>
           <Users/>
@@ -35,6 +37,6 @@ export const CoursesListingTile = (props: CoursesListingTileProps): JSX.Element 
       <div className={'course-tile-students-count'}>
         {getStudentsPluralForm(props.studentsCount)}
       </div>
-    </div>
+    </Box>
   );
 };

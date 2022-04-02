@@ -5,12 +5,17 @@
   background-color: $white;
   border: 1px solid $dark-gray;
   border-radius: $subtle-radius;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 1rem;
   text-align: center;
-  width: 250px;
+  width: 200px;
+
+  &:hover {
+    background-color: $gray;
+  }
 
   .course-tile-icon {
     margin: 0 auto .5rem;

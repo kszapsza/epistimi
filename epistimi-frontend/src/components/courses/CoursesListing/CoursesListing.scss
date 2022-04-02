@@ -4,12 +4,9 @@
   gap: .75rem;
   width: 100%;
 
-  .courses-listing {
+  .courses-actions {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: .5rem;
-    justify-content: center;
-    width: 100%;
+    justify-content: space-between;
   }
 }
