@@ -19,7 +19,7 @@ export const CoursesListingGroup = ({ courses }: CoursesListingGroupProps): JSX.
             id={course.id}
             code={course.code}
             classTeacher={course.classTeacher}
-            studentsCount={course.students.length}
+            students={course.students}
           />,
         )}
     </div>

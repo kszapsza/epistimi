@@ -24,13 +24,25 @@ describe('CoursesListingTile component', () => {
   ) => {
     const props = {
       ...testProps,
-      studentsCount: count,
+      students: Array(count),
     };
 
     const { queryByText } = render(<CoursesListingTile {...props}/>);
 
     expect(queryByText(formattedCount)).toBeInTheDocument();
   });
+
+  const testStudent = {
+    id: 'student_id',
+    user: {
+      id: 'student_user_id',
+      firstName: 'Adam',
+      lastName: 'Kowalski',
+      role: UserRole.STUDENT,
+      username: 'a.kowalski',
+    },
+    parents: [],
+  };
 
   const testProps = {
     id: 'course_id',
@@ -48,6 +60,6 @@ describe('CoursesListingTile component', () => {
         username: 'm.nowak',
       },
     },
-    studentsCount: 10,
+    students: Array(10).fill(testStudent),
   };
 });

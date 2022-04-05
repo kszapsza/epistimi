@@ -1,15 +1,16 @@
 import './CoursesListingTile.scss';
-import { Box, ThemeIcon } from '@mantine/core';
+import { Box } from '@mantine/core';
 import { Code } from '../../../dto/course';
+import { CoursesListingTileAvatars } from '../CoursesListingTileAvatars';
 import { Link } from 'react-router-dom';
+import { StudentResponse } from '../../../dto/student';
 import { TeacherResponse } from '../../../dto/teacher';
-import { Users } from 'tabler-icons-react';
 
 interface CoursesListingTileProps {
   id: string;
   code: Code;
   classTeacher: TeacherResponse;
-  studentsCount: number;
+  students: StudentResponse[];
 }
 
 export const CoursesListingTile = (props: CoursesListingTileProps): JSX.Element => {
@@ -24,9 +25,7 @@ export const CoursesListingTile = (props: CoursesListingTileProps): JSX.Element 
   return (
     <Box className={'course-tile'} component={Link} to={`/app/courses/${props.id}`} role={'link'}>
       <div className={'course-tile-icon'}>
-        <ThemeIcon variant={'light'} color={'blue'} size={'lg'}>
-          <Users/>
-        </ThemeIcon>
+        <CoursesListingTileAvatars students={props.students}/>
       </div>
       <div className={'course-tile-name'}>
         {props.code.number}{props.code.letter}
@@ -35,7 +34,7 @@ export const CoursesListingTile = (props: CoursesListingTileProps): JSX.Element 
         {props.classTeacher.user.firstName} {props.classTeacher.user.lastName}
       </div>
       <div className={'course-tile-students-count'}>
-        {getStudentsPluralForm(props.studentsCount)}
+        {getStudentsPluralForm(props.students.length)}
       </div>
     </Box>
   );

@@ -8,7 +8,7 @@ import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.User
 
 @Component
-class TeacherStubbing(
+internal class TeacherStubbing(
     private val teacherRepository: TeacherRepository,
 ) {
     fun teacherExists(
