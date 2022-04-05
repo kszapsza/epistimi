@@ -26,6 +26,8 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
+import java.util.Locale
+import java.util.TimeZone
 
 internal class CourseControllerSpec(
     private val restTemplate: TestRestTemplate,
@@ -150,46 +152,46 @@ internal class CourseControllerSpec(
                       },
                       "students": [
                         {
-                        "id": "${student.id!!.value}",
-                        "user": {
-                          "id": "${studentUser.id!!.value}",
-                          "firstName": "Adam",
-                          "lastName": "Borowski",
-                          "role": "STUDENT",
-                          "username": "a.borowski",
-                          "pesel": "10210155874",
-                          "sex": "MALE",
-                          "email": "j.kowalski@gmail.com",
-                          "phoneNumber": "+48123456789",
-                          "address": {
-                            "street": "Szkolna 17",
-                            "postalCode": "15-640",
-                            "city": "Białystok",
-                            "countryCode": "PL"
-                          }
-                        },
-                        "parents": [
-                          {
-                            "id": "${parent.id!!.value}",
-                            "user": {
-                              "id": "${parentUser.id!!.value}",
-                              "firstName": "Grzegorz",
-                              "lastName": "Borowski",
-                              "role": "PARENT",
-                              "username": "g.borowski",
-                              "pesel": "10210155874",
-                              "sex": "MALE",
-                              "email": "j.kowalski@gmail.com",
-                              "phoneNumber": "+48123456789",
-                              "address": {
-                                "street": "Szkolna 17",
-                                "postalCode": "15-640",
-                                "city": "Białystok",
-                                "countryCode": "PL"
+                          "id": "${student.id!!.value}",
+                          "user": {
+                            "id": "${studentUser.id!!.value}",
+                            "firstName": "Adam",
+                            "lastName": "Borowski",
+                            "role": "STUDENT",
+                            "username": "a.borowski",
+                            "pesel": "10210155874",
+                            "sex": "MALE",
+                            "email": "j.kowalski@gmail.com",
+                            "phoneNumber": "+48123456789",
+                            "address": {
+                              "street": "Szkolna 17",
+                              "postalCode": "15-640",
+                              "city": "Białystok",
+                              "countryCode": "PL"
+                            }
+                          },
+                          "parents": [
+                            {
+                              "id": "${parent.id!!.value}",
+                              "user": {
+                                "id": "${parentUser.id!!.value}",
+                                "firstName": "Grzegorz",
+                                "lastName": "Borowski",
+                                "role": "PARENT",
+                                "username": "g.borowski",
+                                "pesel": "10210155874",
+                                "sex": "MALE",
+                                "email": "j.kowalski@gmail.com",
+                                "phoneNumber": "+48123456789",
+                                "address": {
+                                  "street": "Szkolna 17",
+                                  "postalCode": "15-640",
+                                  "city": "Białystok",
+                                  "countryCode": "PL"
+                                }
                               }
                             }
-                          }
-                        ]
+                          ]
                         }
                       ],
                       "schoolYearBegin": "2012-09-02T22:00:00.000+00:00",
@@ -296,46 +298,46 @@ internal class CourseControllerSpec(
                   },
                   "students": [
                     {
-                    "id": "${student.id!!.value}",
-                    "user": {
-                      "id": "${studentUser.id!!.value}",
-                      "firstName": "Adam",
-                      "lastName": "Borowski",
-                      "role": "STUDENT",
-                      "username": "a.borowski",
-                      "pesel": "10210155874",
-                      "sex": "MALE",
-                      "email": "j.kowalski@gmail.com",
-                      "phoneNumber": "+48123456789",
-                      "address": {
-                        "street": "Szkolna 17",
-                        "postalCode": "15-640",
-                        "city": "Białystok",
-                        "countryCode": "PL"
-                      }
-                    },
-                    "parents": [
-                      {
-                        "id": "${parent.id!!.value}",
-                        "user": {
-                          "id": "${parentUser.id!!.value}",
-                          "firstName": "Grzegorz",
-                          "lastName": "Borowski",
-                          "role": "PARENT",
-                          "username": "g.borowski",
-                          "pesel": "10210155874",
-                          "sex": "MALE",
-                          "email": "j.kowalski@gmail.com",
-                          "phoneNumber": "+48123456789",
-                          "address": {
-                            "street": "Szkolna 17",
-                            "postalCode": "15-640",
-                            "city": "Białystok",
-                            "countryCode": "PL"
+                      "id": "${student.id!!.value}",
+                      "user": {
+                        "id": "${studentUser.id!!.value}",
+                        "firstName": "Adam",
+                        "lastName": "Borowski",
+                        "role": "STUDENT",
+                        "username": "a.borowski",
+                        "pesel": "10210155874",
+                        "sex": "MALE",
+                        "email": "j.kowalski@gmail.com",
+                        "phoneNumber": "+48123456789",
+                        "address": {
+                          "street": "Szkolna 17",
+                          "postalCode": "15-640",
+                          "city": "Białystok",
+                          "countryCode": "PL"
+                        }
+                      },
+                      "parents": [
+                        {
+                          "id": "${parent.id!!.value}",
+                          "user": {
+                            "id": "${parentUser.id!!.value}",
+                            "firstName": "Grzegorz",
+                            "lastName": "Borowski",
+                            "role": "PARENT",
+                            "username": "g.borowski",
+                            "pesel": "10210155874",
+                            "sex": "MALE",
+                            "email": "j.kowalski@gmail.com",
+                            "phoneNumber": "+48123456789",
+                            "address": {
+                              "street": "Szkolna 17",
+                              "postalCode": "15-640",
+                              "city": "Białystok",
+                              "countryCode": "PL"
+                            }
                           }
                         }
-                      }
-                    ]
+                      ]
                     }
                   ],
                   "schoolYearBegin": "2012-09-02T22:00:00.000+00:00",
