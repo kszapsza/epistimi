@@ -55,7 +55,7 @@ describe('CoursesListing component', () => {
       {
         id: '2',
         code: {
-          number: 5,
+          number: '5',
           letter: 'a',
         },
         schoolYear: '2011/2012',
@@ -70,11 +70,14 @@ describe('CoursesListing component', () => {
           },
         },
         students: [],
+        schoolYearBegin: new Date('2011-09-01'),
+        schoolYearSemesterEnd: new Date('2012-01-22'),
+        schoolYearEnd: new Date('2013-06-29'),
       },
       {
         id: '1',
         code: {
-          number: 6,
+          number: '6',
           letter: 'a',
         },
         schoolYear: '2012/2013',
@@ -89,6 +92,9 @@ describe('CoursesListing component', () => {
           },
         },
         students: [],
+        schoolYearBegin: new Date('2012-09-03'),
+        schoolYearSemesterEnd: new Date('2013-01-18'),
+        schoolYearEnd: new Date('2013-06-28'),
       },
     ],
   };

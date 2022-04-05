@@ -41,7 +41,7 @@ class OrganizationDbRepository(
     override fun findById(organizationId: OrganizationId): Organization =
         organizationMongoDbRepository.findById(organizationId.value)
             .map { it.toDomain() }
-            .orElseThrow { throw OrganizationNotFoundException(organizationId) }
+            .orElseThrow { OrganizationNotFoundException(organizationId) }
 
     override fun save(organization: Organization): Organization {
         return organization.toMongoDbDocument()
@@ -62,7 +62,7 @@ class OrganizationDbRepository(
     override fun update(organization: Organization): Organization {
         val existingOrganization = organizationMongoDbRepository
             .findById(organization.id!!.value)
-            .orElseThrow { throw OrganizationNotFoundException(organization.id) }
+            .orElseThrow { OrganizationNotFoundException(organization.id) }
         return organization.toMongoDbDocument().let {
             organizationMongoDbRepository.save(
                 it.copy(status = existingOrganization.status)

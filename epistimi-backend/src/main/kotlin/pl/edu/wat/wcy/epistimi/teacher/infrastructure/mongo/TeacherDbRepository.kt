@@ -29,4 +29,15 @@ class TeacherDbRepository(
         organization = organizationRepository.findById(OrganizationId(organizationId)),
         academicTitle = academicTitle,
     )
+
+    override fun save(teacher: Teacher): Teacher {
+        return teacherMongoDbRepository.save(
+            TeacherMongoDbDocument(
+                id = null,
+                userId = teacher.user.id!!.value,
+                organizationId = teacher.organization.id!!.value,
+                academicTitle = teacher.academicTitle,
+            )
+        ).toDomain()
+    }
 }

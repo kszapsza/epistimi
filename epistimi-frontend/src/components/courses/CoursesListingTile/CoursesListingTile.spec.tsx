@@ -35,7 +35,7 @@ describe('CoursesListingTile component', () => {
   const testProps = {
     id: 'course_id',
     code: {
-      number: 7,
+      number: '7',
       letter: 'b',
     },
     classTeacher: {

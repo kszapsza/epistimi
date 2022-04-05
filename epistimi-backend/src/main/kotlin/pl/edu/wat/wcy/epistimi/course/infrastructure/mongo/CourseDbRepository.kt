@@ -3,6 +3,7 @@ package pl.edu.wat.wcy.epistimi.course.infrastructure.mongo
 import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.course.CourseId
+import pl.edu.wat.wcy.epistimi.course.CourseNotFoundException
 import pl.edu.wat.wcy.epistimi.course.CourseRepository
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
@@ -20,6 +21,12 @@ class CourseDbRepository(
     private val teacherRepository: TeacherRepository,
 ) : CourseRepository {
 
+    override fun findById(courseId: CourseId): Course {
+        return courseMongoDbRepository.findById(courseId.value)
+            .map { it.toDomain() }
+            .orElseThrow { CourseNotFoundException(courseId) }
+    }
+
     override fun findAll(organizationId: OrganizationId): List<Course> {
         if (!organizationRepository.exists(organizationId)) {
             throw OrganizationNotFoundException(organizationId)
@@ -34,7 +41,13 @@ class CourseDbRepository(
         code = Course.Code(number = code.number, letter = code.letter),
         schoolYear = schoolYear,
         classTeacher = teacherRepository.findById(TeacherId(classTeacherId)),
-        students = studentRepository.findByIds(studentIds.map { StudentId(it) })
+        students = studentRepository.findByIds(studentIds.map { StudentId(it) }),
+        schoolYearBegin = schoolYearBegin,
+        schoolYearSemesterEnd = schoolYearSemesterEnd,
+        schoolYearEnd = schoolYearEnd,
+        profile = profile,
+        profession = profession,
+        specialization = specialization,
     )
 
     override fun save(course: Course): Course {
@@ -50,5 +63,11 @@ class CourseDbRepository(
         schoolYear = schoolYear,
         classTeacherId = classTeacher.id!!.value,
         studentIds = students.map { it.id!!.value },
+        schoolYearBegin = schoolYearBegin,
+        schoolYearSemesterEnd = schoolYearSemesterEnd,
+        schoolYearEnd = schoolYearEnd,
+        profile = profile,
+        profession = profession,
+        specialization = specialization,
     )
 }

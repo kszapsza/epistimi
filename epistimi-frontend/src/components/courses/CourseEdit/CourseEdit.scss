@@ -1,0 +1,26 @@
+@import 'src/styles/dimensions';
+
+.course-edit {
+  display: flex;
+  flex-direction: column;
+
+  .course-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+
+    .course-edit-code {
+      display: flex;
+      flex-direction: row;
+      gap: .75rem;
+
+      @media screen and (max-width: $mobile-breakpoint) {
+        flex-direction: column;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  }
+}

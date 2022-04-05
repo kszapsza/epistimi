@@ -1,6 +1,7 @@
 import './CoursesListing.scss';
-import { Accordion, Alert, Button, Modal, Title } from '@mantine/core';
-import { AlertCircle, InfoCircle, Loader, Pencil } from 'tabler-icons-react';
+import { Accordion, Alert, Button, Loader, Modal, Title } from '@mantine/core';
+import { AlertCircle, InfoCircle, Pencil } from 'tabler-icons-react';
+import { CourseEdit } from '../CourseEdit';
 import { CourseResponse, CoursesResponse } from '../../../dto/course';
 import { CoursesListingGroup } from '../CoursesListingGroup';
 import { useDisclosure } from '@mantine/hooks';
@@ -30,7 +31,7 @@ export const CoursesListing = (): JSX.Element => {
         size={'lg'}
         title={'Utwórz nową klasę'}
       >
-        cosik!
+        <CourseEdit/>
       </Modal>
       <div className={'courses'}>
         <div className={'courses-actions'}>

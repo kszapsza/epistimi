@@ -31,4 +31,17 @@ class StudentDbRepository(
         organization = organizationRepository.findById(OrganizationId(organizationId)),
         parents = parentRepository.findByIds(parentIds.map { ParentId(it) })
     )
+
+    override fun save(student: Student): Student {
+        return student.run {
+            studentMongoDbRepository.save(
+                StudentMongoDbDocument(
+                    id = null,
+                    userId = user.id!!.value,
+                    organizationId = organization.id!!.value,
+                    parentIds = parents.map { it.id!!.value },
+                )
+            )
+        }.toDomain()
+    }
 }

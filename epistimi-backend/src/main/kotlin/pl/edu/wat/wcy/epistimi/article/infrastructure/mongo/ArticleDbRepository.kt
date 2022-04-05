@@ -26,7 +26,7 @@ class ArticleDbRepository(
     override fun findById(articleId: String): Article =
         articleMongoDbRepository.findById(articleId)
             .map { it.toDomain() }
-            .orElseThrow { throw ArticleNotFoundException() }
+            .orElseThrow { ArticleNotFoundException() }
 
     override fun findBySlug(slug: String): Article =
         try {

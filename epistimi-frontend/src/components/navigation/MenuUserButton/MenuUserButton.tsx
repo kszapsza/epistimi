@@ -4,7 +4,7 @@ import { ChevronRight } from 'tabler-icons-react';
 import { forwardRef } from 'react';
 import { useAppSelector } from '../../../store/hooks';
 
-type MenuUserButtonProps = UnstyledButtonProps;
+type MenuUserButtonProps = UnstyledButtonProps<'button'>;
 
 export const MenuUserButton = forwardRef<HTMLButtonElement, MenuUserButtonProps>((props, ref) => {
   const { user } = useAppSelector((state) => state.auth);

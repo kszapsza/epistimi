@@ -1,9 +1,11 @@
 package pl.edu.wat.wcy.epistimi.course
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.organization.Organization
@@ -18,14 +20,14 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
 import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 internal class CourseServiceTest : ShouldSpec({
     val courseRepository = mockk<CourseRepository>()
-    val userRepository = mockk<UserRepository>()
     val organizationRepository = mockk<OrganizationRepository>()
 
-    val courseService = CourseService(courseRepository, userRepository, organizationRepository)
+    val courseService = CourseService(courseRepository, organizationRepository)
 
     val userStub = User(
         id = UserId("admin_user_id"),
@@ -67,23 +69,27 @@ internal class CourseServiceTest : ShouldSpec({
         academicTitle = "dr",
     )
 
+    val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+
     val courseStub = Course(
         id = CourseId("course1"),
         organization = organizationStub,
         code = Course.Code(
-            number = 6,
+            number = "6",
             letter = "a"
         ),
         schoolYear = "2012/2013",
         classTeacher = teacherStub,
         students = listOf(),
+        schoolYearBegin = formatter.parse("2012-09-03"),
+        schoolYearSemesterEnd = formatter.parse("2013-01-18"),
+        schoolYearEnd = formatter.parse("2013-06-28"),
     )
 
     should("return list of courses for organization administered by admin with provided id") {
         // given
-        every { userRepository.findById(UserId("admin_user_id")) } returns userStub
-        every { organizationRepository.findAllByAdminId(UserId("admin_user_id")) } returns listOf(organizationStub)
         every { courseRepository.findAll(OrganizationId("organization_id")) } returns listOf(courseStub)
+        every { organizationRepository.findAllByAdminId(UserId("admin_user_id")) } returns listOf(organizationStub)
 
         // when
         val courses = courseService.getCourses(UserId("admin_user_id"))
@@ -95,7 +101,6 @@ internal class CourseServiceTest : ShouldSpec({
 
     should("return empty list of courses if admin with provided id does not administer any organization") {
         // given
-        every { userRepository.findById(UserId("admin_user_id")) } returns userStub
         every { organizationRepository.findAllByAdminId(UserId("admin_user_id")) } returns listOf()
 
         // when
@@ -103,5 +108,28 @@ internal class CourseServiceTest : ShouldSpec({
 
         // then
         courses.shouldBeEmpty()
+    }
+
+    should("return a single course by id") {
+        // given
+        every { courseRepository.findById(CourseId("course_id")) } returns courseStub
+        every { organizationRepository.findAllByAdminId(UserId("admin_user_id")) } returns listOf(organizationStub)
+
+        // when
+        val course = courseService.getCourse(CourseId("course_id"), UserId("admin_user_id"))
+
+        // then
+        course shouldBe courseStub
+    }
+
+    should("throw an exception if course with provided exists in organization not managed by current user") {
+        // given
+        every { courseRepository.findById(CourseId("course_id")) } returns courseStub
+        every { organizationRepository.findAllByAdminId(UserId("other_admin_id")) } returns listOf()
+
+        // expect
+        shouldThrow<CourseNotFoundException> {
+            courseService.getCourse(CourseId("course_id"), UserId("other_admin_id"))
+        }
     }
 })

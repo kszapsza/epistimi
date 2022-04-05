@@ -7,13 +7,31 @@ export interface CourseResponse {
   schoolYear: string;
   classTeacher: TeacherResponse;
   students: StudentResponse[];
+  schoolYearBegin: Date;
+  schoolYearSemesterEnd: Date;
+  schoolYearEnd: Date;
+  profile?: string;
+  profession?: string;
+  specialization?: string;
 }
 
 export interface Code {
-  number: number;
+  number: string;
   letter: string;
 }
 
 export interface CoursesResponse {
   courses: CourseResponse[];
+}
+
+export interface CourseCreateRequest {
+  codeNumber?: number;
+  codeLetter: string;
+  schoolYearBegin?: Date;
+  schoolYearSemesterEnd?: Date;
+  schoolYearEnd?: Date;
+  classTeacherId: string;
+  profile?: string;
+  profession?: string;
+  specialization?: string;
 }

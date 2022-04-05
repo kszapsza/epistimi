@@ -1,4 +1,5 @@
 import { ArticleListing, ArticlePage, MainPage } from './components/main-page';
+import { CourseDetails } from './components/courses/CourseDetails';
 import { CoursesListing } from './components/courses';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { NotFound, Shell } from './components/navigation';
@@ -64,6 +65,16 @@ const App = (): JSX.Element => {
           element: (
             <RequireAuth
               element={<CoursesListing/>}
+              auth={auth}
+              allowedRoles={[UserRole.ORGANIZATION_ADMIN]}
+            />
+          ),
+        },
+        {
+          path: 'courses/:id',
+          element: (
+            <RequireAuth
+              element={<CourseDetails/>}
               auth={auth}
               allowedRoles={[UserRole.ORGANIZATION_ADMIN]}
             />

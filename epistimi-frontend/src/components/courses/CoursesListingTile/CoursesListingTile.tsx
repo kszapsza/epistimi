@@ -22,7 +22,7 @@ export const CoursesListingTile = (props: CoursesListingTileProps): JSX.Element 
   };
 
   return (
-    <Box className={'course-tile'} component={Link} to={`/courses/${props.id}`} role={'link'}>
+    <Box className={'course-tile'} component={Link} to={`/app/courses/${props.id}`} role={'link'}>
       <div className={'course-tile-icon'}>
         <ThemeIcon variant={'light'} color={'blue'} size={'lg'}>
           <Users/>
