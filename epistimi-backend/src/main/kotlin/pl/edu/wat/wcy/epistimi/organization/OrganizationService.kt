@@ -65,7 +65,7 @@ class OrganizationService(
     private fun User.isEligibleToBeDirector() = role in ALLOWED_DIRECTOR_ROLES
 
     private fun User.managesOtherOrganization(): Boolean {
-        return organizationRepository.findAllByAdminId(id!!).isNotEmpty()
+        return organizationRepository.findFirstByAdminId(id!!) != null
     }
 
     fun updateOrganization(
@@ -95,14 +95,9 @@ class OrganizationService(
     private fun User.managesOrganizationOtherThanUpdated(
         updatedOrganizationId: OrganizationId
     ): Boolean {
-        return organizationRepository.findAllByAdminId(id!!)
-            .let { organizations ->
-                when (organizations.size) {
-                    0 -> false
-                    1 -> organizations[0].id != updatedOrganizationId
-                    else -> true
-                }
-            }
+        return organizationRepository.findFirstByAdminId(id!!)
+            ?.let { organization -> organization.id != updatedOrganizationId }
+            ?: false
     }
 
     fun changeOrganizationStatus(

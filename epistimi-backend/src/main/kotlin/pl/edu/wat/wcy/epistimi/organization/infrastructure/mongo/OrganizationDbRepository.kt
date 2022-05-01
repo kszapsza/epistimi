@@ -23,9 +23,8 @@ class OrganizationDbRepository(
             .map { it.toDomain() }
     }
 
-    override fun findAllByAdminId(adminId: UserId): List<Organization> {
-        return organizationMongoDbRepository.findAllByAdminId(adminId.value)
-            .map { it.toDomain() }
+    override fun findFirstByAdminId(adminId: UserId): Organization? {
+        return organizationMongoDbRepository.findFirstByAdminId(adminId.value)?.toDomain()
     }
 
     private fun OrganizationMongoDbDocument.toDomain() = Organization(

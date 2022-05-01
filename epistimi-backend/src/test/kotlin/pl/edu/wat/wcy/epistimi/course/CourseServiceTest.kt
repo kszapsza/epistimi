@@ -89,19 +89,21 @@ internal class CourseServiceTest : ShouldSpec({
     should("return list of courses for organization administered by admin with provided id") {
         // given
         every { courseRepository.findAll(OrganizationId("organization_id")) } returns listOf(courseStub)
-        every { organizationRepository.findAllByAdminId(UserId("admin_user_id")) } returns listOf(organizationStub)
+        every { organizationRepository.findFirstByAdminId(UserId("admin_user_id")) } returns organizationStub
 
         // when
         val courses = courseService.getCourses(UserId("admin_user_id"))
 
         // then
-        courses shouldHaveSize 1
-        courses shouldContain courseStub
+        with(courses) {
+            shouldHaveSize(1)
+            shouldContain(courseStub)
+        }
     }
 
     should("return empty list of courses if admin with provided id does not administer any organization") {
         // given
-        every { organizationRepository.findAllByAdminId(UserId("admin_user_id")) } returns listOf()
+        every { organizationRepository.findFirstByAdminId(UserId("admin_user_id")) } returns null
 
         // when
         val courses = courseService.getCourses(UserId("admin_user_id"))
@@ -113,7 +115,7 @@ internal class CourseServiceTest : ShouldSpec({
     should("return a single course by id") {
         // given
         every { courseRepository.findById(CourseId("course_id")) } returns courseStub
-        every { organizationRepository.findAllByAdminId(UserId("admin_user_id")) } returns listOf(organizationStub)
+        every { organizationRepository.findFirstByAdminId(UserId("admin_user_id")) } returns organizationStub
 
         // when
         val course = courseService.getCourse(CourseId("course_id"), UserId("admin_user_id"))
@@ -125,7 +127,7 @@ internal class CourseServiceTest : ShouldSpec({
     should("throw an exception if course with provided exists in organization not managed by current user") {
         // given
         every { courseRepository.findById(CourseId("course_id")) } returns courseStub
-        every { organizationRepository.findAllByAdminId(UserId("other_admin_id")) } returns listOf()
+        every { organizationRepository.findFirstByAdminId(UserId("other_admin_id")) } returns null
 
         // expect
         shouldThrow<CourseNotFoundException> {

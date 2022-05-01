@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface OrganizationMongoDbRepository : MongoRepository<OrganizationMongoDbDocument, String> {
-    fun findAllByAdminId(adminId: String): List<OrganizationMongoDbDocument>
+    fun findFirstByAdminId(adminId: String): OrganizationMongoDbDocument?
 }

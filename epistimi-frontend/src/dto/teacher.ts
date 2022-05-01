@@ -5,3 +5,7 @@ export interface TeacherResponse {
   user: UserResponse;
   academicTitle?: string;
 }
+
+export interface TeachersResponse {
+  teachers: TeacherResponse[];
+}

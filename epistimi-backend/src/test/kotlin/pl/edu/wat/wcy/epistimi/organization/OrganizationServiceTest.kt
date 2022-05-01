@@ -57,7 +57,7 @@ internal class OrganizationServiceTest : ShouldSpec({
             // given
             every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", role)
             every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
-            every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
+            every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
 
             // when
             val exception = shouldThrow<AdminInsufficientPermissionsException> {
@@ -79,7 +79,7 @@ internal class OrganizationServiceTest : ShouldSpec({
             // given
             every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", role)
             every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
-            every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
+            every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
             every { organizationRepository.save(any()) } returnsArgument 0
             every { locationClient.getLocation(any()) } returns null
 
@@ -96,7 +96,7 @@ internal class OrganizationServiceTest : ShouldSpec({
         // given
         every { userRepository.findById(UserId("admin_id")) } throws UserNotFoundException()
         every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
-        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
+        every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
 
         // when
         val exception = shouldThrow<AdminNotFoundException> {
@@ -117,7 +117,7 @@ internal class OrganizationServiceTest : ShouldSpec({
             // given
             every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
             every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", role)
-            every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
+            every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
 
             // when
             val exception = shouldThrow<DirectorInsufficientPermissionsException> {
@@ -140,7 +140,7 @@ internal class OrganizationServiceTest : ShouldSpec({
             // given
             every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
             every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", role)
-            every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
+            every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
             every { locationClient.getLocation(any()) } returns null
 
             // expect
@@ -156,7 +156,7 @@ internal class OrganizationServiceTest : ShouldSpec({
         // given
         every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
         every { userRepository.findById(UserId("director_id")) } throws UserNotFoundException()
-        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
+        every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
 
         // when
         val exception = shouldThrow<DirectorNotFoundException> {
@@ -173,17 +173,16 @@ internal class OrganizationServiceTest : ShouldSpec({
         // given
         every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
         every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
-        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf(
-            Organization(
-                id = OrganizationId("123"),
-                name = "SP7",
-                admin = userStub("admin_id", ORGANIZATION_ADMIN),
-                status = ENABLED,
-                director = userStub("director_id", TEACHER),
-                address = addressStub,
-                location = null,
-            )
-        )
+        every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns
+                Organization(
+                    id = OrganizationId("123"),
+                    name = "SP7",
+                    admin = userStub("admin_id", ORGANIZATION_ADMIN),
+                    status = ENABLED,
+                    director = userStub("director_id", TEACHER),
+                    address = addressStub,
+                    location = null,
+                )
 
         // when
         val exception = shouldThrow<AdminManagingOtherOrganizationException> {
@@ -201,16 +200,14 @@ internal class OrganizationServiceTest : ShouldSpec({
         every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
         every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
         every { organizationRepository.update(any()) } returnsArgument 0
-        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf(
-            Organization(
-                id = OrganizationId("123"),
-                name = "SP7",
-                admin = userStub("admin_id", ORGANIZATION_ADMIN),
-                status = ENABLED,
-                director = userStub("director_id", TEACHER),
-                address = addressStub,
-                location = null,
-            )
+        every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns Organization(
+            id = OrganizationId("123"),
+            name = "SP7",
+            admin = userStub("admin_id", ORGANIZATION_ADMIN),
+            status = ENABLED,
+            director = userStub("director_id", TEACHER),
+            address = addressStub,
+            location = null,
         )
         every { locationClient.getLocation(any()) } returns null
 
@@ -228,7 +225,7 @@ internal class OrganizationServiceTest : ShouldSpec({
         every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
         every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
         every { organizationRepository.update(any()) } returnsArgument 0
-        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf()
+        every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
         every { locationClient.getLocation(any()) } returns null
 
         // expect
@@ -245,16 +242,14 @@ internal class OrganizationServiceTest : ShouldSpec({
         every { userRepository.findById(UserId("admin_id")) } returns userStub("admin_id", ORGANIZATION_ADMIN)
         every { userRepository.findById(UserId("director_id")) } returns userStub("director_id", TEACHER)
         every { organizationRepository.update(any()) } returnsArgument 0
-        every { organizationRepository.findAllByAdminId(UserId("admin_id")) } returns listOf(
-            Organization(
-                id = OrganizationId("some_different_id"),
-                name = "G2",
-                admin = userStub("admin_id", ORGANIZATION_ADMIN),
-                status = ENABLED,
-                director = userStub("director_id", TEACHER),
-                address = addressStub,
-                location = null,
-            )
+        every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns Organization(
+            id = OrganizationId("some_different_id"),
+            name = "G2",
+            admin = userStub("admin_id", ORGANIZATION_ADMIN),
+            status = ENABLED,
+            director = userStub("director_id", TEACHER),
+            address = addressStub,
+            location = null,
         )
         every { locationClient.getLocation(any()) } returns null
 

@@ -16,3 +16,7 @@ fun Teacher.toTeacherResponse() = TeacherResponse(
     user = user.toUserResponse(),
     academicTitle = academicTitle,
 )
+
+data class TeachersResponse(
+    val teachers: List<Teacher>
+)

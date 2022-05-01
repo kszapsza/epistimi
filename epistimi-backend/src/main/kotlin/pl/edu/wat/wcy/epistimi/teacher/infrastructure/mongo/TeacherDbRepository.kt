@@ -30,6 +30,11 @@ class TeacherDbRepository(
         academicTitle = academicTitle,
     )
 
+    override fun findAll(organizationId: OrganizationId): List<Teacher> {
+        return teacherMongoDbRepository.findAllByOrganizationId(organizationId.value)
+            .map { it.toDomain() }
+    }
+
     override fun save(teacher: Teacher): Teacher {
         return teacherMongoDbRepository.save(
             TeacherMongoDbDocument(

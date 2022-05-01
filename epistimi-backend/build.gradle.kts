@@ -25,6 +25,10 @@ group = "pl.edu.wat.wcy"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
+springBoot {
+    mainClass.set("pl.edu.wat.wcy.epistimi.EpistimiApplication")
+}
+
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
