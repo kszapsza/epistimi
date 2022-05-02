@@ -1,5 +1,8 @@
 package pl.edu.wat.wcy.epistimi
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
+import com.fasterxml.jackson.databind.json.JsonMapper
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -16,6 +19,12 @@ class EpistimiApplication {
 
     @Bean
     fun restTemplate() = RestTemplate()
+
+    @Bean
+    fun objectMapper(): ObjectMapper = JsonMapper.builder()
+        .findAndAddModules()
+        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        .build()
 }
 
 fun main(args: Array<String>) {

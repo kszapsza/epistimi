@@ -6,7 +6,7 @@ import pl.edu.wat.wcy.epistimi.student.dto.StudentResponse
 import pl.edu.wat.wcy.epistimi.student.dto.toStudentResponse
 import pl.edu.wat.wcy.epistimi.teacher.dto.TeacherResponse
 import pl.edu.wat.wcy.epistimi.teacher.dto.toTeacherResponse
-import java.util.Date
+import java.time.LocalDate
 
 data class CourseResponse(
     val id: CourseId? = null,
@@ -14,9 +14,9 @@ data class CourseResponse(
     val schoolYear: String,
     val classTeacher: TeacherResponse,
     val students: List<StudentResponse>,
-    val schoolYearBegin: Date,
-    val schoolYearSemesterEnd: Date,
-    val schoolYearEnd: Date,
+    val schoolYearBegin: LocalDate,
+    val schoolYearSemesterEnd: LocalDate,
+    val schoolYearEnd: LocalDate,
     val profile: String?,
     val profession: String?,
     val specialization: String?,

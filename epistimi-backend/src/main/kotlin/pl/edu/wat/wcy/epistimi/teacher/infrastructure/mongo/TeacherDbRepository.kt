@@ -30,6 +30,12 @@ class TeacherDbRepository(
         academicTitle = academicTitle,
     )
 
+    override fun findByUserId(id: UserId): Teacher {
+        return teacherMongoDbRepository.findFirstByUserId(id.value)
+            ?.toDomain()
+            ?: throw TeacherNotFoundException()
+    }
+
     override fun findAll(organizationId: OrganizationId): List<Teacher> {
         return teacherMongoDbRepository.findAllByOrganizationId(organizationId.value)
             .map { it.toDomain() }

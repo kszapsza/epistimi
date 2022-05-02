@@ -5,5 +5,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface TeacherMongoDbRepository : MongoRepository<TeacherMongoDbDocument, String> {
+    fun findFirstByUserId(userId: String): TeacherMongoDbDocument?
     fun findAllByOrganizationId(organizationId: String): List<TeacherMongoDbDocument>
 }

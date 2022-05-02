@@ -7,8 +7,8 @@ import pl.edu.wat.wcy.epistimi.course.CourseRepository
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Component
@@ -22,9 +22,9 @@ internal class CourseStubbing(
         schoolYear: String = "2012/2013",
         classTeacher: Teacher,
         students: List<Student> = listOf(),
-        schoolYearBegin: Date = DATE_FORMAT.parse("2012-09-03"),
-        schoolYearSemesterEnd: Date = DATE_FORMAT.parse("2013-01-18"),
-        schoolYearEnd: Date = DATE_FORMAT.parse("2013-06-28"),
+        schoolYearBegin: LocalDate = LocalDate.parse("2012-09-03", DATE_FORMAT),
+        schoolYearSemesterEnd: LocalDate = LocalDate.parse("2013-01-18"),
+        schoolYearEnd: LocalDate = LocalDate.parse("2013-06-28"),
         profile: String? = "matematyczno-fizyczny",
         profession: String? = "technik informatyk",
         specialization: String? = "zarządzanie projektami w IT",
@@ -48,6 +48,6 @@ internal class CourseStubbing(
     }
 
     companion object {
-        private val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        private val DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
     }
 }

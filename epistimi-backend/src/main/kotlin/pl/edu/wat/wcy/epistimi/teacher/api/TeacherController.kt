@@ -17,7 +17,7 @@ class TeacherController(
     private val teacherService: TeacherService,
 ) {
 
-    @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN')") // TODO: TEACHER
+    @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN')")
     @RequestMapping(
         path = [""],
         method = [RequestMethod.GET],
@@ -29,7 +29,7 @@ class TeacherController(
         return ResponseEntity.ok(
             TeachersResponse(
                 teachers = teacherService.getTeachers(
-                    adminId = UserId(authentication.principal as String)
+                    userId = UserId(authentication.principal as String)
                 )
             )
         )

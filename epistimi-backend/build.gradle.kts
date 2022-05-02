@@ -46,6 +46,7 @@ repositories {
 dependencies {
     implementation("ch.qos.logback", "logback-classic", Versions.LOGBACK)
     implementation("ch.qos.logback", "logback-core", Versions.LOGBACK)
+    implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module", "jackson-module-kotlin")
     implementation("io.jsonwebtoken", "jjwt", Versions.JJWT)
     implementation("javax.xml.bind", "jaxb-api", Versions.JAXB)
@@ -55,6 +56,7 @@ dependencies {
     implementation("org.slf4j", "slf4j-api", Versions.SLF4J)
     implementation("org.springframework.boot", "spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot", "spring-boot-starter-security")
+    implementation("org.springframework.boot", "spring-boot-starter-validation")
     implementation("org.springframework.boot", "spring-boot-starter-web")
 
     testImplementation("io.kotest", "kotest-assertions-core", Versions.KOTEST)
@@ -98,4 +100,8 @@ tasks {
     check {
         dependsOn("integration")
     }
+}
+
+project.tasks.named("processIntegrationResources", Copy::class.java) {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }

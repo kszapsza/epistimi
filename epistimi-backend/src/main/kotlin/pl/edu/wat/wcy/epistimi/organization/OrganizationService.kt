@@ -5,6 +5,9 @@ import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
+import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
@@ -111,7 +114,7 @@ class OrganizationService(
     }
 
     companion object {
-        private val ALLOWED_ADMIN_ROLES = arrayOf(User.Role.ORGANIZATION_ADMIN, User.Role.EPISTIMI_ADMIN)
-        private val ALLOWED_DIRECTOR_ROLES = arrayOf(User.Role.TEACHER, User.Role.ORGANIZATION_ADMIN, User.Role.EPISTIMI_ADMIN)
+        private val ALLOWED_ADMIN_ROLES = arrayOf(ORGANIZATION_ADMIN, EPISTIMI_ADMIN)
+        private val ALLOWED_DIRECTOR_ROLES = arrayOf(TEACHER, ORGANIZATION_ADMIN, EPISTIMI_ADMIN)
     }
 }

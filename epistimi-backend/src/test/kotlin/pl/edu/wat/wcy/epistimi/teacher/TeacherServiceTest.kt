@@ -7,6 +7,7 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.organization.Organization
+import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.shared.Address
@@ -16,9 +17,9 @@ import pl.edu.wat.wcy.epistimi.user.UserId
 internal class TeacherServiceTest : ShouldSpec({
 
     val teacherRepository = mockk<TeacherRepository>()
-    val organizationRepository = mockk<OrganizationRepository>()
+    val organizationContextProvider = mockk<OrganizationContextProvider>()
 
-    val teacherService = TeacherService(teacherRepository, organizationRepository)
+    val teacherService = TeacherService(teacherRepository, organizationContextProvider)
 
     val userStub = User(
         id = UserId("admin_user_id"),
@@ -54,7 +55,7 @@ internal class TeacherServiceTest : ShouldSpec({
 
     should("return empty list of teachers if there are no teachers in school administered by provided admin") {
         // given
-        every { organizationRepository.findFirstByAdminId(UserId("admin_user_id")) } returns organizationStub
+        every { organizationContextProvider.provide(UserId("admin_user_id")) } returns organizationStub
         every { teacherRepository.findAll(OrganizationId("organization_id")) } returns listOf()
 
         // when
@@ -66,7 +67,7 @@ internal class TeacherServiceTest : ShouldSpec({
 
     should("return list of teachers in school administered by provided admin") {
         // given
-        every { organizationRepository.findFirstByAdminId(UserId("admin_user_id")) } returns organizationStub
+        every { organizationContextProvider.provide(UserId("admin_user_id")) } returns organizationStub
         every { teacherRepository.findAll(OrganizationId("organization_id")) } returns listOf(teacherStub)
 
         // when
