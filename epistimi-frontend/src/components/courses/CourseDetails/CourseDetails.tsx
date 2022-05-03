@@ -1,11 +1,13 @@
 import './CourseDetails.scss';
-import { ActionIcon, Alert, Avatar, Button, Loader, Title } from '@mantine/core';
+import { ActionIcon, Alert, Avatar, Button, Loader, Modal, Title } from '@mantine/core';
 import { AlertCircle, ArrowBack, ArrowBigUpLines, School } from 'tabler-icons-react';
 import { AxiosError } from 'axios';
+import { CourseAddStudents } from '../CourseAddStudents';
 import { CourseDetailsKeyValue } from '../CourseDetailsKeyValue';
 import { CourseDetailsStudents } from '../CourseDetailsStudents';
 import { CourseResponse } from '../../../dto/course';
 import { Link, useParams } from 'react-router-dom';
+import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
 import dayjs from 'dayjs';
@@ -20,6 +22,8 @@ export const CourseDetails = (): JSX.Element => {
     loading,
     error,
   } = useFetch<CourseResponse>(`/api/course/${id}`);
+
+  const [addStudentModalOpened, addStudentModalHandlers] = useDisclosure(false);
 
   useEffect(() => {
     course && (document.title = `${course.code.number}${course.code.letter} (${course.schoolYear}) – Epistimi`);
@@ -39,6 +43,17 @@ export const CourseDetails = (): JSX.Element => {
           {getErrorMessage(error)}
         </Alert>}
 
+      {course && <Modal
+        onClose={addStudentModalHandlers.close}
+        opened={addStudentModalOpened}
+        size={'xl'}
+        title={'Dodawanie uczniów do klasy'}
+      >
+        <CourseAddStudents
+          course={course}
+        />
+      </Modal>}
+
       {course &&
         <div className={'course-details'}>
           <div className={'course-actions'}>
@@ -49,7 +64,7 @@ export const CourseDetails = (): JSX.Element => {
             <div className={'course-action-group'}>
               <Button
                 leftIcon={<School size={16}/>}
-                // onClick={editModalHandlers.open}
+                onClick={addStudentModalHandlers.open}
                 variant={'default'}>
                 Dodaj uczniów
               </Button>
@@ -109,6 +124,10 @@ export const CourseDetails = (): JSX.Element => {
           <div className={'course-details-box'}>
             <Title order={4}>Uczniowie</Title>
             <CourseDetailsStudents students={course.students}/>
+          </div>
+
+          <div className={'course-details-box'}>
+            <Title order={4}>Statystyki</Title>
           </div>
         </div>
       }

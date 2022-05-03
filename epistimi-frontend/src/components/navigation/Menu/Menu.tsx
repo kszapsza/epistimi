@@ -6,6 +6,7 @@ import {
   Clock,
   DeviceDesktopAnalytics,
   FileText,
+  HandTwoFingers,
   Home,
   MessageDots,
   Messages,
@@ -76,6 +77,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<Home/>} label={'Strona główna'} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<School/>} label={'Przedmioty'} href={'/app/subjects'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<Star/>} label={'Oceny'} href={'/app/grades'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<HandTwoFingers/>} label={'Absencja'} href={'/app/absence'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<Writing/>} label={'Zadania domowe'} href={'/app/assignments'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<ZoomQuestion/>} label={'Sprawdziany'} href={'/app/exams'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<Messages/>} label={'Wiadomości'} href={'/app/chat'}/>
@@ -88,6 +90,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<Home/>} label={'Strona główna'} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<Star/>} label={'Oceny'} href={'/app/grades'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<HandTwoFingers/>} label={'Absencja'} href={'/app/absence'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<Writing/>} label={'Zadania domowe'} href={'/app/assignments'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<Messages/>} label={'Wiadomości'} href={'/app/chat'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<Calendar/>} label={'Kalendarz'} href={'/app/calendar'}/>

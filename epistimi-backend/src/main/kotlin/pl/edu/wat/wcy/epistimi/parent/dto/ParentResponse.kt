@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.parent.api
+package pl.edu.wat.wcy.epistimi.parent.dto
 
 import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.parent.ParentId

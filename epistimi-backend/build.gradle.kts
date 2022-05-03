@@ -10,6 +10,7 @@ object Versions {
     const val KOTEST_WIREMOCK = "1.0.3"
     const val LOGBACK = "1.2.0"
     const val MOCKK = "1.12.3"
+    const val PASSAY = "1.6.1"
     const val SLF4J = "1.7.36"
     const val TC_MONGO = "1.16.3"
 }
@@ -53,6 +54,7 @@ dependencies {
     implementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
     implementation("org.jetbrains.kotlin", "kotlin-reflect")
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8")
+    implementation("org.passay", "passay",Versions.PASSAY)
     implementation("org.slf4j", "slf4j-api", Versions.SLF4J)
     implementation("org.springframework.boot", "spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot", "spring-boot-starter-security")

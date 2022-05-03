@@ -2,7 +2,9 @@ package pl.edu.wat.wcy.epistimi.course
 
 import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
+import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
+import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherNotFoundException
@@ -45,7 +47,10 @@ class CourseService(
                 && schoolYearBegin.year == schoolYearEnd.year - 1
     }
 
-    private fun saveCourse(userId: UserId, createRequest: CourseCreateRequest): Course {
+    private fun saveCourse(
+        userId: UserId,
+        createRequest: CourseCreateRequest,
+    ): Course {
         val organization = organizationContextProvider.provide(userId)
         val classTeacher = tryGetClassTeacher(createRequest.classTeacherId)
 
@@ -56,6 +61,22 @@ class CourseService(
             throw CourseBadRequestException("Provided class teacher is not associated with your organization")
         }
 
+        return saveCourse(organization, createRequest, classTeacher)
+    }
+
+    private fun tryGetClassTeacher(classTeacherId: TeacherId): Teacher {
+        return try {
+            teacherRepository.findById(classTeacherId)
+        } catch (e: TeacherNotFoundException) {
+            throw CourseBadRequestException("Teacher with id ${classTeacherId.value} was not found")
+        }
+    }
+
+    private fun saveCourse(
+        organization: Organization,
+        createRequest: CourseCreateRequest,
+        classTeacher: Teacher,
+    ): Course {
         return courseRepository.save(
             Course(
                 id = null,
@@ -64,7 +85,7 @@ class CourseService(
                     number = createRequest.codeNumber.toString(),
                     letter = createRequest.codeLetter
                 ),
-                schoolYear = "${createRequest.schoolYearBegin.year}/${createRequest.schoolYearEnd.year}",
+                schoolYear = createRequest.formatSchoolYear,
                 classTeacher = classTeacher,
                 students = emptyList(),
                 schoolYearBegin = createRequest.schoolYearBegin,
@@ -77,11 +98,12 @@ class CourseService(
         )
     }
 
-    private fun tryGetClassTeacher(classTeacherId: TeacherId): Teacher {
-        return try {
-            teacherRepository.findById(classTeacherId)
-        } catch (e: TeacherNotFoundException) {
-            throw CourseBadRequestException("Teacher with id ${classTeacherId.value} was not found")
-        }
+    private val CourseCreateRequest.formatSchoolYear
+        get() = "${schoolYearBegin.year}/${schoolYearEnd.year}"
+
+    fun addStudent(courseId: CourseId, student: Student): Course {
+        return courseRepository.findById(courseId)
+            .let { it.copy(students = it.students + student) }
+            .let { courseRepository.save(it) }
     }
 }

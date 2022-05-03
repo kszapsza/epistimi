@@ -74,7 +74,7 @@ class CourseController(
             createRequest = createRequest,
         ).let {
             ResponseEntity
-                .created(URI("/api/course/${it.id!!.value}"))
+                .created(URI.create("/api/course/${it.id!!.value}"))
                 .body(it.toCourseResponse())
         }
     }

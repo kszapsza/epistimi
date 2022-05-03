@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 interface UserMongoDbRepository : MongoRepository<UserMongoDbDocument, String> {
     fun findAllByRoleIn(role: Collection<String>): List<UserMongoDbDocument>
     fun findFirstByUsername(username: String): UserMongoDbDocument
+    fun findByUsernameStartingWith(usernamePrefix: String): List<UserMongoDbDocument>
 }

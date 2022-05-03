@@ -38,6 +38,11 @@ class UserDbRepository(
         }
     }
 
+    override fun findByUsernameStartingWith(usernamePrefix: String): List<User> {
+        return userMongoDbRepository.findByUsernameStartingWith(usernamePrefix)
+            .map { it.toDomain() }
+    }
+
     override fun save(user: User): User {
         return try {
             userMongoDbRepository.save(

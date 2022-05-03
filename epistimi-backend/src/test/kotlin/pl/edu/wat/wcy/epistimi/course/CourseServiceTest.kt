@@ -15,11 +15,14 @@ import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.shared.Address
+import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.student.StudentId
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
@@ -86,10 +89,25 @@ internal class CourseServiceTest : ShouldSpec({
         ),
         schoolYear = "2012/2013",
         classTeacher = teacherStub,
-        students = listOf(),
+        students = emptyList(),
         schoolYearBegin = LocalDate.parse("2012-09-03", formatter),
         schoolYearSemesterEnd = LocalDate.parse("2013-01-18", formatter),
         schoolYearEnd = LocalDate.parse("2013-06-28", formatter),
+    )
+
+    val studentStub = Student(
+        id = StudentId("student_id"),
+        user = User(
+            id = UserId("student_user_id"),
+            firstName = "Adrian",
+            lastName = "Kowalski",
+            role = STUDENT,
+            username = "a.kowalski",
+            passwordHash = "123",
+            sex = MALE,
+        ),
+        organization = organizationStub,
+        parents = emptyList(),
     )
 
     should("return list of courses for organization administered by admin with provided id") {
@@ -301,6 +319,21 @@ internal class CourseServiceTest : ShouldSpec({
                     specialization = null,
                 )
             )
+        }
+    }
+
+    should("add new student to existing course") {
+        // given
+        every { courseRepository.findById(CourseId("course_id")) } returns courseStub
+        every { courseRepository.save(any()) } returnsArgument 0
+
+        // when
+        val updatedCourse = courseService.addStudent(CourseId("course_id"), studentStub)
+
+        // then
+        with(updatedCourse.students) {
+            shouldHaveSize(1)
+            shouldContain(studentStub)
         }
     }
 })

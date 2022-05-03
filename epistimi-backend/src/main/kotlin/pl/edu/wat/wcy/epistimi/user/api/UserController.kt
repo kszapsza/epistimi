@@ -11,18 +11,22 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.UserAggregator
 import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserService
+import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterResponse
 import pl.edu.wat.wcy.epistimi.user.dto.UserResponse
 import pl.edu.wat.wcy.epistimi.user.dto.UsersResponse
 import pl.edu.wat.wcy.epistimi.user.dto.toUserResponse
 import java.net.URI
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/user")
 class UserController(
-    private val userService: UserService,
+    private val userAggregator: UserAggregator,
+    private val userRegistrar: UserRegistrar,
 ) {
     @RequestMapping(
         path = ["/current"],
@@ -32,7 +36,7 @@ class UserController(
     fun getCurrentUser(
         authentication: Authentication,
     ): ResponseEntity<UserResponse> = ResponseEntity.ok(
-        userService.getUserById(UserId(authentication.principal as String)).toUserResponse()
+        userAggregator.getUserById(UserId(authentication.principal as String)).toUserResponse()
     )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
@@ -42,10 +46,10 @@ class UserController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun getUsers(
-        @RequestParam(required = false) role: List<User.Role>?
+        @RequestParam(required = false) role: List<User.Role>?,
     ): ResponseEntity<UsersResponse> = ResponseEntity.ok(
         UsersResponse(
-            users = userService.getUsers(role).map { it.toUserResponse() }
+            users = userAggregator.getUsers(role).map { it.toUserResponse() }
         )
     )
 
@@ -58,7 +62,7 @@ class UserController(
     fun getUserById(
         @PathVariable userId: String,
     ): ResponseEntity<UserResponse> = ResponseEntity.ok(
-        userService.getUserById(UserId(userId)).toUserResponse()
+        userAggregator.getUserById(UserId(userId)).toUserResponse()
     )
 
     @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN')")
@@ -68,11 +72,10 @@ class UserController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun registerUser(
-        @RequestBody registerRequest: UserRegisterRequest
-    ): ResponseEntity<UserResponse> =
-        userService.registerUser(registerRequest).let {
-            ResponseEntity
-                .created(URI("/api/user/${it.id!!.value}"))
-                .body(it.toUserResponse())
-        }
+        @Valid @RequestBody registerRequest: UserRegisterRequest,
+    ): ResponseEntity<UserRegisterResponse> {
+        return userRegistrar.registerUser(registerRequest)
+            .let { (newUser, password) -> UserRegisterResponse(newUser, password) }
+            .let { ResponseEntity.created(URI("/api/user/${it.id}")).body(it) }
+    }
 }
