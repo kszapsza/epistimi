@@ -1,17 +1,25 @@
 import './CourseEdit.scss';
 import 'dayjs/locale/pl';
-import { Button, Loader, NativeSelect, NumberInput, TextInput } from '@mantine/core';
-import { CourseCreateRequest } from '../../../dto/course';
+import { Alert, Button, Loader, NativeSelect, NumberInput, TextInput } from '@mantine/core';
+import { AlertCircle } from 'tabler-icons-react';
+import { CourseCreateRequest, CourseResponse } from '../../../dto/course';
 import { DatePicker } from '@mantine/dates';
 import { TeachersResponse } from '../../../dto/teacher';
+import { useDisclosure } from '@mantine/hooks';
 import { useFetch } from '../../../hooks/useFetch';
 import { useForm } from '@mantine/form';
+import axios, { AxiosResponse } from 'axios';
 
-export const CourseEdit = (): JSX.Element => {
+interface CourseEditProps {
+  submitCallback: (course: CourseResponse) => void;
+}
+
+export const CourseEdit = (props: CourseEditProps): JSX.Element => {
   const CODE_LETTERS_REGEXP = /^[a-z]+$/;
   const DATE_FORMAT = 'D MMMM YYYY';
 
   const { data, loading } = useFetch<TeachersResponse>('api/teacher');
+  const [errorMessageOpened, errorMessageHandlers] = useDisclosure(false);
 
   const form = useForm<CourseCreateRequest>({
     initialValues: {
@@ -35,6 +43,9 @@ export const CourseEdit = (): JSX.Element => {
     if (!schoolYearBegin) {
       return 'Wymagane pole';
     }
+    if (schoolYearBegin <= new Date()) {
+      return 'Data rozpoczęcia roku musi następować w przyszłości';
+    }
     if (schoolYearSemesterEnd && schoolYearBegin >= schoolYearSemesterEnd) {
       return 'Rozpoczęcie roku musi następować przed końcem pierwszego semestru';
     }
@@ -49,6 +60,9 @@ export const CourseEdit = (): JSX.Element => {
   ): string | null => {
     if (!schoolYearSemesterEnd) {
       return 'Wymagane pole';
+    }
+    if (schoolYearSemesterEnd <= new Date()) {
+      return 'Data końca semestru musi następować w przyszłości';
     }
     if (schoolYearBegin && schoolYearSemesterEnd <= schoolYearBegin) {
       return 'Koniec pierwszego semestru musi następować po rozpoczęciu roku';
@@ -65,21 +79,43 @@ export const CourseEdit = (): JSX.Element => {
     if (!schoolYearEnd) {
       return 'Wymagane pole';
     }
+    if (schoolYearEnd <= new Date()) {
+      return 'Data końca roku musi następować w przyszłości';
+    }
     if (schoolYearBegin && schoolYearEnd <= schoolYearBegin) {
       return 'Koniec roku musi następować po rozpoczęciu roku';
     }
     if (schoolYearSemesterEnd && schoolYearEnd <= schoolYearSemesterEnd) {
       return 'Koniec roku musi następować po końcu pierwszego semestru';
     }
+    if (schoolYearBegin && schoolYearBegin.getFullYear() != (schoolYearEnd.getFullYear() - 1)) {
+      return 'Koniec roku musi następować w kolejnym po rozpoczęciu roku kalendarzowym';
+    }
     return null;
+  };
+
+  const submitHandler = (formData: CourseCreateRequest): void => {
+    axios.post<CourseResponse, AxiosResponse<CourseResponse>, CourseCreateRequest>(
+      '/api/course', formData,
+    ).then((response) => {
+      errorMessageHandlers.close();
+      props.submitCallback(response.data);
+    }).catch(() => {
+      errorMessageHandlers.open();
+    });
   };
 
   return (
     <div className={'course-edit'}>
       {loading && <Loader/>}
+      {errorMessageOpened &&
+        <Alert icon={<AlertCircle size={16}/>} title={'Błąd'} color={'red'}>
+          Nie udało się utworzyć klasy!
+        </Alert>
+      }
       {data && <form
         className={'course-edit-form'}
-        onSubmit={form.onSubmit((formData) => console.log(formData))}
+        onSubmit={form.onSubmit(submitHandler)}
         noValidate
       >
         <div className={'course-edit-code'}>

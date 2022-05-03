@@ -74,7 +74,7 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
       || !!form.errors.address;
   };
 
-  const onSubmit = (formData: OrganizationEditForm): void => {
+  const submitHandler = (formData: OrganizationEditForm): void => {
     const action =
       props.variant == OrganizationEditVariant.UPDATE
         ? axios.put
@@ -123,7 +123,7 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
         <form
           noValidate
           className={'organization-create-form'}
-          onSubmit={form.onSubmit((formData) => onSubmit(formData))}
+          onSubmit={form.onSubmit(submitHandler)}
         >
           <TextInput
             required

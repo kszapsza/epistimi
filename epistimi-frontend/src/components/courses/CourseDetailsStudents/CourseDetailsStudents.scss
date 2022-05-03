@@ -1,0 +1,29 @@
+@import 'src/styles/themes';
+
+.course-no-students {
+  color: rgba($black, .5);
+  font: {
+    style: italic;
+  };
+  padding: .25rem 0;
+}
+
+.course-students {
+  display: flex;
+  flex-direction: column;
+
+  .course-student {
+    border-bottom: 1px solid $gray;
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+
+    div {
+      padding: .75rem 0;
+    }
+
+    &:last-child {
+      border: 0;
+    }
+  }
+}

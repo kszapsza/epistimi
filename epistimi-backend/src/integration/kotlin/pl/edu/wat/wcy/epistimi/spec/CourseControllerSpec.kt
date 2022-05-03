@@ -573,9 +573,9 @@ internal class CourseControllerSpec(
         val baseCreateRequest = CourseCreateRequest(
             codeNumber = 1,
             codeLetter = "b",
-            schoolYearBegin = LocalDate.now().plusMonths(1),
-            schoolYearSemesterEnd = LocalDate.now().plusMonths(2),
-            schoolYearEnd = LocalDate.now().plusMonths(3),
+            schoolYearBegin = LocalDate.of(2099, 9, 1),
+            schoolYearSemesterEnd = LocalDate.of(2100, 2, 10),
+            schoolYearEnd = LocalDate.of(2100, 6, 30),
             classTeacherId = TeacherId("teacher_id"),
             profile = null,
             profession = null,
@@ -724,9 +724,6 @@ internal class CourseControllerSpec(
             // when
             val requestBody = baseCreateRequest.copy(
                 classTeacherId = teacher.id!!,
-                schoolYearBegin = LocalDate.of(2099, 9, 1),
-                schoolYearSemesterEnd = LocalDate.of(2100, 2, 10),
-                schoolYearEnd = LocalDate.of(2100, 6, 30),
             )
             val response = restTemplate.exchange<String>(
                 url = "/api/course",

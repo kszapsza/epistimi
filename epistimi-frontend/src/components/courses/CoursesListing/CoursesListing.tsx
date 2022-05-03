@@ -1,15 +1,21 @@
 import './CoursesListing.scss';
 import { Accordion, Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { AlertCircle, InfoCircle, Pencil } from 'tabler-icons-react';
+import { AlertCircle, Check, InfoCircle, Pencil } from 'tabler-icons-react';
 import { CourseEdit } from '../CourseEdit';
 import { CourseResponse, CoursesResponse } from '../../../dto/course';
 import { CoursesListingGroup } from '../CoursesListingGroup';
 import { useDisclosure } from '@mantine/hooks';
+import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
 
 export const CoursesListing = (): JSX.Element => {
   const { data, loading, error } = useFetch<CoursesResponse>('api/course');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
+  const [createdMessageOpened, createdMessageHandlers] = useDisclosure(false);
+
+  useEffect(() => {
+    document.title = 'Klasy – Epistimi';
+  }, []);
 
   const coursesBySchoolYear = data && Object.entries(
     data.courses
@@ -23,6 +29,12 @@ export const CoursesListing = (): JSX.Element => {
       }, {} as { [schoolYear: string]: CourseResponse[] }),
   );
 
+  const onCourseCreate = (course: CourseResponse): void => {
+    data?.courses.push(course);
+    createModalHandlers.close();
+    createdMessageHandlers.open();
+  };
+
   return (
     <>
       <Modal
@@ -31,7 +43,7 @@ export const CoursesListing = (): JSX.Element => {
         size={'lg'}
         title={'Utwórz nową klasę'}
       >
-        <CourseEdit/>
+        <CourseEdit submitCallback={onCourseCreate}/>
       </Modal>
       <div className={'courses'}>
         <div className={'courses-actions'}>
@@ -46,6 +58,10 @@ export const CoursesListing = (): JSX.Element => {
         </div>
 
         {loading && <Loader/>}
+        {createdMessageOpened &&
+          <Alert icon={<Check size={16}/>} color={'green'}>
+            Pomyślnie utworzono nową klasę
+          </Alert>}
         {error &&
           <Alert icon={<AlertCircle size={16}/>} color="red">
             Nie udało się załadować listy klas!
@@ -53,8 +69,7 @@ export const CoursesListing = (): JSX.Element => {
         {coursesBySchoolYear?.length === 0 &&
           <Alert icon={<InfoCircle size={16}/>} color="blue">
             W placówce nie zarejestrowano jeszcze żadnych klas!
-          </Alert>
-        }
+          </Alert>}
 
         {coursesBySchoolYear && coursesBySchoolYear?.length > 0 &&
           <Accordion initialItem={0}>

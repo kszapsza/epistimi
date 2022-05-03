@@ -23,7 +23,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
   return (
     <header className={'header'}>
       <div className={'header-wrapper'}>
-        {props.navbarOpened && props.onBurgerClick &&
+        {props.navbarOpened != undefined && props.onBurgerClick &&
           <MediaQuery largerThan={'sm'} styles={{ display: 'none' }}>
             <Burger
               color={'white'}

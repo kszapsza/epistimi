@@ -13,8 +13,7 @@ import javax.validation.Validation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
 
-class CourseCreateRequestValidationTest : ShouldSpec({
-
+internal class CourseCreateRequestValidationTest : ShouldSpec({
     val validatorFactory: ValidatorFactory = Validation.buildDefaultValidatorFactory()
     val validator: Validator = validatorFactory.validator
 

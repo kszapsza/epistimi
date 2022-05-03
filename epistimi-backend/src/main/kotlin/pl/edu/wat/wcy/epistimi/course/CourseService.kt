@@ -32,16 +32,17 @@ class CourseService(
     }
 
     fun createCourse(userId: UserId, createRequest: CourseCreateRequest): Course {
-        if (!createRequest.isDateOrderValid()) {
-            throw CourseBadRequestException("Invalid school year dates order")
+        if (!createRequest.isSchoolYearTimeFrameValid()) {
+            throw CourseBadRequestException("Invalid school year time frame")
         }
         return saveCourse(userId, createRequest)
     }
 
-    private fun CourseCreateRequest.isDateOrderValid(): Boolean {
+    private fun CourseCreateRequest.isSchoolYearTimeFrameValid(): Boolean {
         return schoolYearBegin.isBefore(schoolYearEnd)
                 && schoolYearBegin.isBefore(schoolYearSemesterEnd)
                 && schoolYearSemesterEnd.isBefore(schoolYearEnd)
+                && schoolYearBegin.year == schoolYearEnd.year - 1
     }
 
     private fun saveCourse(userId: UserId, createRequest: CourseCreateRequest): Course {

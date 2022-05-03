@@ -167,7 +167,7 @@ internal class CourseServiceTest : ShouldSpec({
         }
 
         // then
-        exception.message shouldBe "Invalid school year dates order"
+        exception.message shouldBe "Invalid school year time frame"
     }
 
     should("throw an exception when registering new course if school year end date is before school year begin date") {
@@ -184,9 +184,8 @@ internal class CourseServiceTest : ShouldSpec({
         }
 
         // then
-        exception.message shouldBe "Invalid school year dates order"
+        exception.message shouldBe "Invalid school year time frame"
     }
-
 
     should("throw an exception when registering new course if school year end date is before semester end date") {
         // when
@@ -202,7 +201,24 @@ internal class CourseServiceTest : ShouldSpec({
         }
 
         // then
-        exception.message shouldBe "Invalid school year dates order"
+        exception.message shouldBe "Invalid school year time frame"
+    }
+
+    should("throw an exception when registering new course if school year doesn't end in next calendar year after the beginning") {
+        // when
+        val exception = shouldThrow<CourseBadRequestException> {
+            courseService.createCourse(
+                userId = UserId("user_id"),
+                createRequest = validCourseCreateRequest.copy(
+                    schoolYearBegin = LocalDate.of(2010, 9, 1),
+                    schoolYearSemesterEnd = LocalDate.of(2010, 10, 1),
+                    schoolYearEnd = LocalDate.of(2010, 11, 1),
+                )
+            )
+        }
+
+        // then
+        exception.message shouldBe "Invalid school year time frame"
     }
 
     should("throw an exception when registering new course if provided teacher is connected with other organization") {
@@ -265,24 +281,26 @@ internal class CourseServiceTest : ShouldSpec({
         }
 
         // and
-        verify { courseRepository.save(
-            Course(
-                id = null,
-                organization = organizationStub,
-                code = Course.Code(
-                    number = "1",
-                    letter = "b"
-                ),
-                schoolYear = "2010/2011",
-                classTeacher = teacherStub,
-                students = emptyList(),
-                schoolYearBegin = LocalDate.of(2010, 9, 1),
-                schoolYearSemesterEnd = LocalDate.of(2011, 2, 1),
-                schoolYearEnd = LocalDate.of(2011, 6, 30),
-                profile = null,
-                profession = null,
-                specialization = null,
+        verify {
+            courseRepository.save(
+                Course(
+                    id = null,
+                    organization = organizationStub,
+                    code = Course.Code(
+                        number = "1",
+                        letter = "b"
+                    ),
+                    schoolYear = "2010/2011",
+                    classTeacher = teacherStub,
+                    students = emptyList(),
+                    schoolYearBegin = LocalDate.of(2010, 9, 1),
+                    schoolYearSemesterEnd = LocalDate.of(2011, 2, 1),
+                    schoolYearEnd = LocalDate.of(2011, 6, 30),
+                    profile = null,
+                    profession = null,
+                    specialization = null,
+                )
             )
-        ) }
+        }
     }
 })
