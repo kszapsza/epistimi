@@ -25,8 +25,11 @@ class EpistimiApplication {
         .findAndAddModules()
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .build()
-}
 
-fun main(args: Array<String>) {
-    runApplication<EpistimiApplication>(*args)
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            runApplication<EpistimiApplication>(*args)
+        }
+    }
 }
