@@ -6,11 +6,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
-import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
 import pl.edu.wat.wcy.epistimi.user.UserRepository
 
@@ -20,16 +17,6 @@ internal class AuthenticationServiceTest : ShouldSpec({
     val passwordEncoder = BCryptPasswordEncoder()
 
     val authenticationService = AuthenticationService(userRepository, passwordEncoder, "jwt_secret")
-
-    val userStub = User(
-        id = UserId("user_id"),
-        firstName = "Jan",
-        lastName = "Kowalski",
-        role = STUDENT,
-        username = "username",
-        passwordHash = passwordEncoder.encode("123456"),
-        sex = MALE,
-    )
 
     should("throw an exception if user with provided username does not exist") {
         // given
@@ -59,7 +46,12 @@ internal class AuthenticationServiceTest : ShouldSpec({
 
     should("return a JWT token if username and password are correct") {
         // given
-        every { userRepository.findByUsername("username") } returns userStub
+        every {
+            userRepository.findByUsername("username")
+        } returns TestData.Users.student.copy(
+            username = "username",
+            passwordHash = passwordEncoder.encode("123456"),
+        )
 
         // when
         val loginResponse = authenticationService.login(LoginRequest(username = "username", password = "123456"))

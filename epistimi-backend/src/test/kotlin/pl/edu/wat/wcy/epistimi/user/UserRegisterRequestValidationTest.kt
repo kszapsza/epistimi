@@ -6,7 +6,7 @@ import io.kotest.data.row
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import pl.edu.wat.wcy.epistimi.shared.Address
+import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
@@ -15,6 +15,7 @@ import javax.validation.Validator
 import javax.validation.ValidatorFactory
 
 internal class UserRegisterRequestValidationTest : ShouldSpec({
+
     val validatorFactory: ValidatorFactory = Validation.buildDefaultValidatorFactory()
     val validator: Validator = validatorFactory.validator
 
@@ -32,12 +33,7 @@ internal class UserRegisterRequestValidationTest : ShouldSpec({
         sex = MALE,
         email = "j.kowalski@op.pl",
         phoneNumber = "+48514498100",
-        address = Address(
-            street = "Szkolna 17",
-            postalCode = "15-640",
-            city = "Białystok",
-            countryCode = "PL",
-        ),
+        address = TestData.address,
     )
 
     should("have no violations for valid course create request") {

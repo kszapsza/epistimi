@@ -1,7 +1,6 @@
 package pl.edu.wat.wcy.epistimi.parent
 
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
@@ -19,7 +18,6 @@ class ParentRegistrar(
         val password: String,
     )
 
-    @Transactional
     fun registerParent(
         requesterUserId: UserId,
         userRegisterRequest: UserRegisterRequest,

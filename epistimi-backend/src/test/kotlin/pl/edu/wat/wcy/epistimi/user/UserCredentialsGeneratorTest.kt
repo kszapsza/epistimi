@@ -2,24 +2,18 @@ package pl.edu.wat.wcy.epistimi.user
 
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.string.shouldContainADigit
+import io.kotest.matchers.string.shouldHaveLength
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
+import pl.edu.wat.wcy.epistimi.TestData
 
 internal class UserCredentialsGeneratorTest : ShouldSpec({
 
     val userRepository = mockk<UserRepository>()
     val userCredentialsGenerator = UserCredentialsGenerator(userRepository)
-
-    val userStub = User(
-        id = UserId("1"),
-        firstName = "Jan",
-        lastName = "Kowalski",
-        role = STUDENT,
-        username = "jan.kowalski",
-        passwordHash = "123",
-    )
 
     should("generate a username without number suffix") {
         // given
@@ -40,9 +34,9 @@ internal class UserCredentialsGeneratorTest : ShouldSpec({
     should("generate a username with number suffix if needed") {
         // given
         every { userRepository.findByUsernameStartingWith("jan.kowalski") } returns listOf(
-            userStub.copy(username = "jan.kowalski"),
-            userStub.copy(username = "jan.kowalski.1"),
-            userStub.copy(username = "jan.kowalski.2"),
+            TestData.Users.student.copy(username = "jan.kowalski"),
+            TestData.Users.student.copy(username = "jan.kowalski.1"),
+            TestData.Users.student.copy(username = "jan.kowalski.2"),
         )
 
         // when
@@ -54,6 +48,20 @@ internal class UserCredentialsGeneratorTest : ShouldSpec({
         // and
         verify {
             userRepository.findByUsernameStartingWith("jan.kowalski")
+        }
+    }
+
+    should("generate random password in accordance with provided rules") {
+        // when
+        val generatedPassword = userCredentialsGenerator.generatePassword()
+
+        // then
+        with(generatedPassword) {
+            shouldHaveLength(10)
+            shouldContainADigit()
+            shouldContain(Regex("[a-z]"))
+            shouldContain(Regex("[A-Z]"))
+            shouldContain(Regex("[!@#$%^&*()_+]"))
         }
     }
 

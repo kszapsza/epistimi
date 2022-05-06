@@ -132,6 +132,8 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
             autoFocus={true}
             {...form.getInputProps('name')}/>
 
+          {/* TODO: admin/director user create form instead of dropdown select?
+               (or prepare users EPISTIMI_ADMIN create form) */}
           <NativeSelect
             required
             label={'Administrator'}
@@ -142,7 +144,6 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
             }
             {...form.getInputProps('adminId')}
           />
-
           <NativeSelect
             required
             label={'Dyrektor'}

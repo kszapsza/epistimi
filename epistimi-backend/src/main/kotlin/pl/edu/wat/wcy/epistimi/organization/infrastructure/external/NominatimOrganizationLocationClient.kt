@@ -60,6 +60,6 @@ class NominatimOrganizationLocationClient(
     )
 
     companion object {
-        private const val NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/search"
+        private const val NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/search" // TODO: move to application.yml, use @Value
     }
 }

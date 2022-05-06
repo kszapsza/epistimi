@@ -1,7 +1,6 @@
 package pl.edu.wat.wcy.epistimi.student
 
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import pl.edu.wat.wcy.epistimi.course.CourseService
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
@@ -28,7 +27,6 @@ class StudentRegistrar(
         val parents: List<NewParent>,
     )
 
-    @Transactional
     fun registerStudent(
         requesterUserId: UserId,
         request: StudentRegisterRequest,
@@ -52,6 +50,20 @@ class StudentRegistrar(
         )
     }
 
+    private fun registerStudentUser(userData: UserRegisterRequest): NewUser {
+        return userRegistrar.registerUser(
+            userData.copy(role = User.Role.STUDENT)
+        )
+    }
+
+    private fun registerParents(
+        requesterUserId: UserId,
+        parentsUserData: List<UserRegisterRequest>,
+    ): List<NewParent> {
+        return parentsUserData
+            .map { userData -> parentRegistrar.registerParent(requesterUserId, userData) }
+    }
+
     private fun registerStudent(
         studentUser: NewUser,
         organization: Organization,
@@ -65,20 +77,6 @@ class StudentRegistrar(
                 parents = newParents.map { it.parent }
             )
         )
-    }
-
-    private fun registerStudentUser(userData: UserRegisterRequest): NewUser {
-        return userRegistrar.registerUser(
-            userData.copy(role = User.Role.STUDENT)
-        )
-    }
-
-    private fun registerParents(
-        requesterUserId: UserId,
-        parentsUserData: List<UserRegisterRequest>,
-    ): List<NewParent> {
-        return parentsUserData
-            .map { userData -> parentRegistrar.registerParent(requesterUserId, userData) }
     }
 
 }

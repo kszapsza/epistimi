@@ -14,6 +14,7 @@ import javax.validation.Validator
 import javax.validation.ValidatorFactory
 
 internal class CourseCreateRequestValidationTest : ShouldSpec({
+
     val validatorFactory: ValidatorFactory = Validation.buildDefaultValidatorFactory()
     val validator: Validator = validatorFactory.validator
 
