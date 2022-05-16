@@ -48,7 +48,7 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
     should("return null if Nominatim API returned empty array") {
         // given
         every { restTemplateMock.exchange<NominatimResponse>(url = ofType(URI::class), method = GET) }
-            .returns(ResponseEntity.ok(listOf()))
+            .returns(ResponseEntity.ok(emptyList()))
 
         // when
         val location = locationClient.getLocation(TestData.address)

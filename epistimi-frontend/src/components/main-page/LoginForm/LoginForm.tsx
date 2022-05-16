@@ -1,7 +1,7 @@
 import './LoginForm.scss';
 import { Alert, Button, LoadingOverlay, PasswordInput, TextInput } from '@mantine/core';
-import { AlertCircle } from 'tabler-icons-react';
 import { fetchCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
+import { IconAlertCircle } from '@tabler/icons';
 import { LoginFormData, LoginResponse } from '../../../dto/login';
 import { useDispatch } from 'react-redux';
 import { useForm } from '@mantine/form';
@@ -56,11 +56,11 @@ export const LoginForm = (): JSX.Element => {
       >
         <LoadingOverlay visible={loadingOverlay} />
         {hasErrors() &&
-          <Alert icon={<AlertCircle size={16}/>} color="red">
+          <Alert icon={<IconAlertCircle size={16}/>} color="red">
             Niepoprawne dane logowania
           </Alert>}
         {serverFailed &&
-          <Alert icon={<AlertCircle size={16}/>} color="red">
+          <Alert icon={<IconAlertCircle size={16}/>} color="red">
             Nie udało się połączyć z&nbsp;serwerem
           </Alert>}
 

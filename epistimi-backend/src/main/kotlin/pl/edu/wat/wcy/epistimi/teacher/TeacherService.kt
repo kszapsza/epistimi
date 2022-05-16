@@ -13,7 +13,7 @@ class TeacherService(
     fun getTeachers(userId: UserId): List<Teacher> {
         return organizationContextProvider.provide(userId)
             ?.let { organization -> teacherRepository.findAll(organization.id!!) }
-            ?: listOf()
+            ?: emptyList()
     }
 
 }

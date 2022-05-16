@@ -46,7 +46,7 @@ class StudentController(
 
     private fun NewStudent.toResponse() = StudentRegisterResponse(
         id = id,
-        user = user.let {
+        student = user.let {
             NewUserResponse(
                 user = it.user.toUserResponse(),
                 password = it.password

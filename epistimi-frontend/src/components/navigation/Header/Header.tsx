@@ -1,7 +1,7 @@
 import './Header.scss';
 import { Burger, MediaQuery } from '@mantine/core';
+import { IconLogout } from '@tabler/icons';
 import { Link } from 'react-router-dom';
-import { Logout } from 'tabler-icons-react';
 import { removeCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { UserRole } from '../../../dto/user';
@@ -48,7 +48,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
             <>
               <Link onClick={handleLogout} to={'/'}>
                 <div role={'button'} aria-label={'Log out'}>
-                  <Logout/>
+                  <IconLogout/>
                 </div>
               </Link>
             </>

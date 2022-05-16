@@ -21,7 +21,7 @@ internal class TeacherServiceTest : ShouldSpec({
     should("return empty list of teachers if there are no teachers in school administered by provided admin") {
         // given
         every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
-        every { teacherRepository.findAll(OrganizationId("organization_id")) } returns listOf()
+        every { teacherRepository.findAll(OrganizationId("organization_id")) } returns emptyList()
 
         // when
         val teachers = teacherService.getTeachers(UserId("admin_user_id"))

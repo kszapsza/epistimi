@@ -21,7 +21,7 @@ internal class CourseStubbing(
         code: Course.Code = Course.Code(number = "6", letter = "a"),
         schoolYear: String = "2012/2013",
         classTeacher: Teacher,
-        students: List<Student> = listOf(),
+        students: List<Student> = emptyList(),
         schoolYearBegin: LocalDate = LocalDate.parse("2012-09-03", DATE_FORMAT),
         schoolYearSemesterEnd: LocalDate = LocalDate.parse("2013-01-18"),
         schoolYearEnd: LocalDate = LocalDate.parse("2013-06-28"),

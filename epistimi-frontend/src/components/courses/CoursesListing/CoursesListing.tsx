@@ -1,9 +1,9 @@
 import './CoursesListing.scss';
 import { Accordion, Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { AlertCircle, Check, InfoCircle, Pencil } from 'tabler-icons-react';
 import { CourseEdit } from '../CourseEdit';
 import { CourseResponse, CoursesResponse } from '../../../dto/course';
 import { CoursesListingGroup } from '../CoursesListingGroup';
+import { IconAlertCircle, IconCheck, IconInfoCircle, IconPencil } from '@tabler/icons';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
@@ -49,7 +49,7 @@ export const CoursesListing = (): JSX.Element => {
         <div className={'courses-actions'}>
           <Title order={2}>Klasy</Title>
           <Button
-            leftIcon={<Pencil size={16}/>}
+            leftIcon={<IconPencil size={16}/>}
             onClick={createModalHandlers.open}
             variant={'default'}
           >
@@ -59,15 +59,15 @@ export const CoursesListing = (): JSX.Element => {
 
         {loading && <Loader/>}
         {createdMessageOpened &&
-          <Alert icon={<Check size={16}/>} color={'green'}>
+          <Alert icon={<IconCheck size={16}/>} color={'green'}>
             Pomyślnie utworzono nową klasę
           </Alert>}
         {error &&
-          <Alert icon={<AlertCircle size={16}/>} color="red">
+          <Alert icon={<IconAlertCircle size={16}/>} color="red">
             Nie udało się załadować listy klas!
           </Alert>}
         {coursesBySchoolYear?.length === 0 &&
-          <Alert icon={<InfoCircle size={16}/>} color="blue">
+          <Alert icon={<IconInfoCircle size={16}/>} color="blue">
             W placówce nie zarejestrowano jeszcze żadnych klas!
           </Alert>}
 

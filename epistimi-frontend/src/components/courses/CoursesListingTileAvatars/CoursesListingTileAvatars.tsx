@@ -1,6 +1,6 @@
 import { Avatar, AvatarsGroup, ThemeIcon } from '@mantine/core';
+import { IconUsers } from '@tabler/icons';
 import { StudentResponse } from '../../../dto/student';
-import { Users } from 'tabler-icons-react';
 
 interface CourseListingTileAvatarsProps {
   students: StudentResponse[];
@@ -13,7 +13,7 @@ export const CoursesListingTileAvatars = (
   if (students.length === 0) {
     return (
       <ThemeIcon variant={'light'} color={'blue'} size={'lg'}>
-        <Users/>
+        <IconUsers/>
       </ThemeIcon>
     );
   }

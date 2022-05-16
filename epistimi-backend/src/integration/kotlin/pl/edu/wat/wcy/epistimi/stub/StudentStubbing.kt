@@ -16,7 +16,7 @@ internal class StudentStubbing(
         id: StudentId? = null,
         user: User,
         organization: Organization,
-        parents: List<Parent> = listOf(),
+        parents: List<Parent> = emptyList(),
     ): Student {
         return studentRepository.save(
             Student(

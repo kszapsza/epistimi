@@ -21,7 +21,7 @@ fun Student.toStudentResponse() = StudentResponse(
 
 data class StudentRegisterResponse(
     val id: StudentId? = null,
-    val user: NewUserResponse,
+    val student: NewUserResponse,
     val parents: List<NewParentResponse>,
 ) {
     data class NewUserResponse(

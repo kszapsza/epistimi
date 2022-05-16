@@ -1,11 +1,11 @@
 import './CourseDetails.scss';
 import { ActionIcon, Alert, Avatar, Button, Loader, Modal, Title } from '@mantine/core';
-import { AlertCircle, ArrowBack, ArrowBigUpLines, School } from 'tabler-icons-react';
 import { AxiosError } from 'axios';
-import { CourseAddStudents } from '../CourseAddStudents';
+import { CourseAddStudent } from '../CourseAddStudent';
 import { CourseDetailsKeyValue } from '../CourseDetailsKeyValue';
 import { CourseDetailsStudents } from '../CourseDetailsStudents';
 import { CourseResponse } from '../../../dto/course';
+import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconSchool } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
@@ -39,7 +39,7 @@ export const CourseDetails = (): JSX.Element => {
   return (<>
       {loading && <Loader/>}
       {error &&
-        <Alert icon={<AlertCircle size={16}/>} color="red">
+        <Alert icon={<IconAlertCircle size={16}/>} color="red">
           {getErrorMessage(error)}
         </Alert>}
 
@@ -47,9 +47,9 @@ export const CourseDetails = (): JSX.Element => {
         onClose={addStudentModalHandlers.close}
         opened={addStudentModalOpened}
         size={'xl'}
-        title={'Dodawanie uczniów do klasy'}
+        title={'Dodawanie ucznia do klasy'}
       >
-        <CourseAddStudents
+        <CourseAddStudent
           course={course}
         />
       </Modal>}
@@ -58,18 +58,18 @@ export const CourseDetails = (): JSX.Element => {
         <div className={'course-details'}>
           <div className={'course-actions'}>
             <ActionIcon variant={'transparent'} component={Link} to={'./..'}>
-              <ArrowBack size={18}/>
+              <IconArrowBack size={18}/>
             </ActionIcon>
 
             <div className={'course-action-group'}>
               <Button
-                leftIcon={<School size={16}/>}
+                leftIcon={<IconSchool size={16}/>}
                 onClick={addStudentModalHandlers.open}
                 variant={'default'}>
-                Dodaj uczniów
+                Dodaj ucznia
               </Button>
               <Button
-                leftIcon={<ArrowBigUpLines size={16}/>}
+                leftIcon={<IconArrowBigUpLines size={16}/>}
                 // onClick={editModalHandlers.open}
                 variant={'default'}>
                 Promocja klasy

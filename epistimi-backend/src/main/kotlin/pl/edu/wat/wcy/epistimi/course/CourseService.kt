@@ -20,7 +20,7 @@ class CourseService(
     fun getCourses(userId: UserId): List<Course> {
         return organizationContextProvider.provide(userId)
             ?.let { organization -> courseRepository.findAll(organization.id!!) }
-            ?: listOf()
+            ?: emptyList()
     }
 
     fun getCourse(courseId: CourseId, userId: UserId): Course {

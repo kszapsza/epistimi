@@ -1,9 +1,9 @@
 import './CourseEdit.scss';
 import 'dayjs/locale/pl';
 import { Alert, Button, Loader, NativeSelect, NumberInput, TextInput } from '@mantine/core';
-import { AlertCircle } from 'tabler-icons-react';
 import { CourseCreateRequest, CourseResponse } from '../../../dto/course';
 import { DatePicker } from '@mantine/dates';
+import { IconAlertCircle } from '@tabler/icons';
 import { TeachersResponse } from '../../../dto/teacher';
 import { useDisclosure } from '@mantine/hooks';
 import { useFetch } from '../../../hooks/useFetch';
@@ -109,7 +109,7 @@ export const CourseEdit = (props: CourseEditProps): JSX.Element => {
     <div className={'course-edit'}>
       {loading && <Loader/>}
       {errorMessageOpened &&
-        <Alert icon={<AlertCircle size={16}/>} title={'Błąd'} color={'red'}>
+        <Alert icon={<IconAlertCircle size={16}/>} title={'Błąd'} color={'red'}>
           Nie udało się utworzyć klasy!
         </Alert>
       }
