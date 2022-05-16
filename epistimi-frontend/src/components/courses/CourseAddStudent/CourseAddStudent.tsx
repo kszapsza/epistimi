@@ -1,18 +1,18 @@
 import './CourseAddStudent.scss';
 import { Address } from '../../../dto/address';
-import { Button, Stepper, TextInput } from '@mantine/core';
+import { Button } from '@mantine/core';
+import { CourseAddStudentParentsList } from '../CourseAddStudentParentsList';
+import { CourseAddStudentStepper } from '../CourseAddStudentStepper';
+import { CourseAddStudentSummary } from '../CourseAddStudentSummary';
+import { CourseAddStudentUserForm } from '../CourseAddStudentUserForm';
 import { CourseResponse } from '../../../dto/course';
-import { IconArrowLeft, IconArrowRight, IconCheck, IconPlus, IconX } from '@tabler/icons';
+import { IconArrowLeft, IconArrowRight, IconCheck, IconPlus } from '@tabler/icons';
 import { StudentRegisterRequest, StudentRegisterResponse } from '../../../dto/student';
 import { useForm } from '@mantine/form';
 import { UserRegisterRequest, UserRole, UserSex } from '../../../dto/user';
 import { useState } from 'react';
 import { validatePesel } from '../../../validators/pesel';
-import axios, { AxiosResponse } from 'axios';
-
-interface CourseAddStudentProps {
-  course: CourseResponse;
-}
+import axios from 'axios';
 
 enum CourseAddStudentState {
   EDIT_STUDENT,
@@ -20,7 +20,7 @@ enum CourseAddStudentState {
   SUMMARY,
 }
 
-type UserRegisterFormData = {
+export type UserRegisterFormData = {
   firstName: string;
   lastName: string;
   pesel?: string;
@@ -28,6 +28,10 @@ type UserRegisterFormData = {
   email?: string;
   phoneNumber?: string;
 } & Address;
+
+interface CourseAddStudentProps {
+  course: CourseResponse;
+}
 
 export const CourseAddStudent = (
   { course: { id: courseId } }: CourseAddStudentProps,
@@ -49,6 +53,8 @@ export const CourseAddStudent = (
   const [studentFormData, setStudentFormData] = useState<UserRegisterFormData>(userInitialValues);
   const [parentFormData, setParentFormData] = useState<UserRegisterFormData>(userInitialValues);
   const [parentList, setParentList] = useState<UserRegisterFormData[]>([]);
+  const [sendingRequest, setSendingRequest] = useState<boolean>(false);
+  const [registerResponse, setRegisterResponse] = useState<StudentRegisterResponse>();
 
   const form = useForm<UserRegisterFormData>({
     initialValues: {
@@ -108,13 +114,17 @@ export const CourseAddStudent = (
         buildUserRegisterRequest(parentFormData, UserRole.PARENT)),
     };
 
-    axios.post<StudentRegisterResponse, AxiosResponse<StudentRegisterResponse>, StudentRegisterRequest>(
+    setSendingRequest(true);
+
+    axios.post(
       '/api/student', registerRequest,
     ).then((response) => {
-      // errorMessageHandlers.close();
       setModalState(CourseAddStudentState.SUMMARY);
+      setSendingRequest(false);
+      setRegisterResponse(response.data);
     }).catch(() => {
-      // errorMessageHandlers.open();
+      setSendingRequest(false);
+      // TODO: handle failures
     });
   };
 
@@ -141,63 +151,25 @@ export const CourseAddStudent = (
 
   return (
     <div className={'add-student'}>
-      <Stepper active={modalState.valueOf()} breakpoint={'sm'} className={'add-student-stepper'}>
-        <Stepper.Step label={'Uczeń'} description={'Edytuj dane ucznia'}/>
-        <Stepper.Step label={'Rodzice'} description={'Edytuj dane rodziców'}/>
-        <Stepper.Step label={'Podsumowanie'} description={'Wygenerowane loginy i hasła'}/>
-      </Stepper>
+      <CourseAddStudentStepper step={modalState.valueOf()}/>
 
-      {modalState === CourseAddStudentState.EDIT_PARENTS && parentList.length > 0 && (
-        <div className={'add-student-parent-list'}>
-          {parentList.map((parent, idx) => (
-            <div className={'add-student-parent-entry'} key={idx}>
-              <div className={'add-student-parent-name'}>
-                {parent.firstName} {parent.lastName}
-              </div>
-              <div className={'add-student-parent-actions'}>
-                <IconX size={18} onClick={() => removeFromParentsList(idx)}/>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      {/* TODO: edit already added parent */}
+      {modalState === CourseAddStudentState.EDIT_PARENTS
+        && parentList.length > 0 && (
+          <CourseAddStudentParentsList
+            parents={parentList}
+            removeCallback={removeFromParentsList}
+          />
+        )}
 
-      <form className={'add-student-form'}>
-        <TextInput
-          label={'Imię'}
-          required={true}
+      {modalState !== CourseAddStudentState.SUMMARY && (
+        <CourseAddStudentUserForm
+          formData={form}
           disabled={isUserFormDisabled()}
-          {...form.getInputProps('firstName')}/>
-        <TextInput
-          label={'Nazwisko'}
-          required={true}
-          disabled={isUserFormDisabled()}
-          {...form.getInputProps('lastName')}/>
-        <TextInput
-          label={'PESEL'}
-          disabled={isUserFormDisabled()}
-          {...form.getInputProps('pesel')}/>
-        <TextInput
-          label={'E-mail'}
-          disabled={isUserFormDisabled()}
-          {...form.getInputProps('email')}/>
-        <TextInput
-          label={'Numer telefonu'}
-          disabled={isUserFormDisabled()}
-          {...form.getInputProps('phoneNumber')}/>
-        <TextInput
-          label={'Ulica'}
-          disabled={isUserFormDisabled()}
-          {...form.getInputProps('street')}/>
-        <TextInput
-          label={'Kod pocztowy'}
-          disabled={isUserFormDisabled()}
-          {...form.getInputProps('postalCode')}/>
-        <TextInput
-          label={'Miasto'}
-          disabled={isUserFormDisabled()}
-          {...form.getInputProps('city')}/>
-      </form>
+        />)}
+
+      {modalState === CourseAddStudentState.SUMMARY &&
+        <CourseAddStudentSummary registerResponse={registerResponse}/>}
 
       <div className={'add-student-actions'}>
         {modalState === CourseAddStudentState.EDIT_STUDENT && (
@@ -209,28 +181,31 @@ export const CourseAddStudent = (
             Dane rodziców
           </Button>)}
         {modalState === CourseAddStudentState.EDIT_PARENTS && (
-          <Button
-            leftIcon={<IconArrowLeft size={18}/>}
-            variant={'outline'}
-            onClick={openEditStudentView}
-          >
-            Dane ucznia
-          </Button>)}
-        {modalState === CourseAddStudentState.EDIT_PARENTS && parentList.length < 2 && (
-          <Button
-            leftIcon={<IconPlus size={18}/>}
-            variant={'outline'}
-            onClick={addToParentsList}
-          >
-            Dodaj rodzica
-          </Button>)}
-        {modalState === CourseAddStudentState.EDIT_PARENTS && parentList.length >= 1 && (
-          <Button
-            leftIcon={<IconCheck size={18}/>}
-            onClick={sendRegisterRequest}
-          >
-            Dodaj ucznia do klasy
-          </Button>)}
+          <>
+            <Button
+              leftIcon={<IconArrowLeft size={18}/>}
+              variant={'outline'}
+              onClick={openEditStudentView}
+            >
+              Dane ucznia
+            </Button>
+            {parentList.length < 2 && (
+              <Button
+                leftIcon={<IconPlus size={18}/>}
+                variant={'outline'}
+                onClick={addToParentsList}
+              >
+                Dodaj rodzica
+              </Button>)}
+            {parentList.length >= 1 && (
+              <Button
+                leftIcon={<IconCheck size={18}/>}
+                onClick={sendRegisterRequest}
+                loading={sendingRequest}
+              >
+                Dodaj ucznia do klasy
+              </Button>)}
+          </>)}
       </div>
     </div>
   );

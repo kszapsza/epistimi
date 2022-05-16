@@ -1,0 +1,31 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.add-student-parent-list {
+  background-color: $gray;
+  border-radius: $subtle-radius;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1rem;
+
+  .add-student-parent-entry {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    .add-student-parent-name {
+    }
+
+    .add-student-parent-actions {
+      display: flex;
+      flex-direction: row;
+      gap: .5rem;
+
+      svg {
+        cursor: pointer;
+      }
+    }
+  }
+}

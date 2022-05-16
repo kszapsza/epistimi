@@ -12,7 +12,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 axios.defaults.baseURL = 'http://localhost:8080/';
-axios.defaults.timeout = 1000;
+// axios.defaults.timeout = 1000; TODO
 
 axios.interceptors.request.use(
   async (config) => {

@@ -31,7 +31,7 @@ class WebSecurityConfiguration(
             }?.authorizeRequests {
                 it.antMatchers(HttpMethod.GET, "/api/article")?.permitAll()
                 it.antMatchers(HttpMethod.GET, "/api/article/**")?.permitAll()
-//                it.antMatchers(HttpMethod.POST,"/api/user")?.permitAll() // TODO: testing!!!
+                it.antMatchers(HttpMethod.POST,"/api/student")?.permitAll()
                 it.antMatchers(HttpMethod.POST, "/auth/login")?.permitAll()
                 it.anyRequest()?.authenticated()
             }?.exceptionHandling {

@@ -19,7 +19,7 @@ export const CourseDetailsStudents = (
   return (
     <div className={'course-students'}>
       {students.map((student, idx) => (
-        <div className={'course-student'}>
+        <div className={'course-student'} key={idx}>
           <div>{idx + 1}</div>
           <div>{student.user.firstName} {student.user.lastName}</div>
         </div>

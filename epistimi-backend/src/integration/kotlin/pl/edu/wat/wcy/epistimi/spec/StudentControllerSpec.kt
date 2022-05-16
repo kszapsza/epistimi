@@ -4,6 +4,6 @@ import io.kotest.core.spec.style.ShouldSpec
 
 internal class StudentControllerSpec : ShouldSpec({
 
-    TODO()
+    // TODO
 
 })
