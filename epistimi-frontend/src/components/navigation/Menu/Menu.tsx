@@ -1,5 +1,6 @@
 import './Menu.scss';
 import {
+  IconBook,
   IconBriefcase,
   IconBuilding,
   IconCalendar,
@@ -49,7 +50,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
       menu = (
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={'Strona główna'} href={'/app/summary'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconSchool/>} label={'Moje przedmioty'} href={'/app/subjects'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconBook/>} label={'Przedmioty'} href={'/app/subjects'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconClock/>} label={'Planer zajęć'} href={'/app/timetable'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSchool/>} label={'Uczniowie'} href={'/app/students'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconUsers/>} label={'Klasy'} href={'/app/courses'}/>
@@ -64,7 +65,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
       menu =
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={'Strona główna'} href={'/app/summary'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconSchool/>} label={'Przedmioty'} href={'/app/subjects'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconBook/>} label={'Przedmioty'} href={'/app/subjects'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconWriting/>} label={'Zadania domowe'} href={'/app/assignments'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconZoomQuestion/>} label={'Sprawdziany'} href={'/app/exams'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconMessages/>} label={'Wiadomości'} href={'/app/chat'}/>
@@ -75,7 +76,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
       menu = (
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={'Strona główna'} href={'/app/summary'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconSchool/>} label={'Przedmioty'} href={'/app/subjects'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconBook/>} label={'Przedmioty'} href={'/app/subjects'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconStar/>} label={'Oceny'} href={'/app/grades'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHandTwoFingers/>} label={'Absencja'} href={'/app/absence'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconWriting/>} label={'Zadania domowe'} href={'/app/assignments'}/>

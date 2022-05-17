@@ -10,6 +10,7 @@ import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherNotFoundException
 import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.UserId
+import java.time.LocalDate
 
 @Service
 class CourseService(
@@ -106,6 +107,7 @@ class CourseService(
 
     fun addStudent(courseId: CourseId, studentId: StudentId): Course {
         return courseRepository.findById(courseId)
+            .also { course -> if (course.schoolYearEnd.isBefore(LocalDate.now())) throw CourseUnmodifiableException() }
             .let { it.copy(studentIds = it.studentIds + studentId) }
             .let { courseRepository.save(it) }
     }

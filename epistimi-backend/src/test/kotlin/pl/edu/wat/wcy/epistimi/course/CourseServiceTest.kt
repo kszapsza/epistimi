@@ -294,7 +294,8 @@ internal class CourseServiceTest : ShouldSpec({
 
     should("add new student to existing course") {
         // given
-        every { courseRepository.findById(CourseId("course_id")) } returns courseStub
+        every { courseRepository.findById(CourseId("course_id")) } returns
+                courseStub.copy(schoolYearEnd = LocalDate.now().plusMonths(1))
         every { courseRepository.save(any()) } returnsArgument 0
 
         // when
@@ -304,6 +305,17 @@ internal class CourseServiceTest : ShouldSpec({
         with(updatedCourse.studentIds) {
             shouldHaveSize(1)
             shouldContain(studentStub.id!!)
+        }
+    }
+
+    should("fail adding new student to existing course if it has already ended") {
+        // given
+        every { courseRepository.findById(CourseId("course_id")) } returns
+                courseStub.copy(schoolYearEnd = LocalDate.now().minusMonths(3))
+
+        // expect
+        shouldThrow<CourseUnmodifiableException> {
+            courseService.addStudent(CourseId("course_id"), studentStub.id!!)
         }
     }
 })

@@ -5,7 +5,7 @@ import { CourseAddStudent } from '../CourseAddStudent';
 import { CourseDetailsKeyValue } from '../CourseDetailsKeyValue';
 import { CourseDetailsStudents } from '../CourseDetailsStudents';
 import { CourseResponse } from '../../../dto/course';
-import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconSchool } from '@tabler/icons';
+import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconBook, IconSchool } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
@@ -18,7 +18,7 @@ export const CourseDetails = (): JSX.Element => {
   const { id } = useParams();
   const {
     data: course,
-    // setData: setCourse,
+    setData: setCourse,
     loading,
     error,
   } = useFetch<CourseResponse>(`/api/course/${id}`);
@@ -33,7 +33,7 @@ export const CourseDetails = (): JSX.Element => {
     if (error.response?.status === 404) {
       return 'Nie znaleziono klasy';
     }
-    return 'Nie udało się połączyć z&nbsp;serwerem';
+    return 'Nie udało się połączyć z serwerem';
   };
 
   return (<>
@@ -51,6 +51,16 @@ export const CourseDetails = (): JSX.Element => {
       >
         <CourseAddStudent
           course={course}
+          onStudentRegistered={(response) => {
+            course && setCourse({
+              ...course,
+              students: [...course.students, {
+                id: response.id,
+                user: response.student.user,
+                parents: response.parents.map((parentResponse) => parentResponse.parent),
+              }],
+            });
+          }}
         />
       </Modal>}
 
@@ -65,13 +75,24 @@ export const CourseDetails = (): JSX.Element => {
               <Button
                 leftIcon={<IconSchool size={16}/>}
                 onClick={addStudentModalHandlers.open}
-                variant={'default'}>
+                variant={'default'}
+              >
                 Dodaj ucznia
+              </Button>
+              <Button
+                leftIcon={<IconBook size={16}/>}
+                // onClick={editModalHandlers.open}
+                variant={'default'}
+                disabled={true} // TODO
+              >
+                Dodaj przedmiot
               </Button>
               <Button
                 leftIcon={<IconArrowBigUpLines size={16}/>}
                 // onClick={editModalHandlers.open}
-                variant={'default'}>
+                variant={'default'}
+                disabled={true} // TODO
+              >
                 Promocja klasy
               </Button>
             </div>
@@ -122,12 +143,14 @@ export const CourseDetails = (): JSX.Element => {
           </div>
 
           <div className={'course-details-box'}>
-            <Title order={4}>Uczniowie</Title>
+            <Title order={4}>Uczniowie</Title> ({course.students.length})
             <CourseDetailsStudents students={course.students}/>
           </div>
 
           <div className={'course-details-box'}>
-            <Title order={4}>Statystyki</Title>
+            <div>
+              <Title order={4}>Przedmioty</Title> (0)
+            </div>
           </div>
         </div>
       }

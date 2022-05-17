@@ -31,10 +31,11 @@ export type UserRegisterFormData = {
 
 interface CourseAddStudentProps {
   course: CourseResponse;
+  onStudentRegistered: (response: StudentRegisterResponse) => void;
 }
 
 export const CourseAddStudent = (
-  { course: { id: courseId } }: CourseAddStudentProps,
+  { course: { id: courseId }, onStudentRegistered }: CourseAddStudentProps,
 ): JSX.Element => {
 
   const userInitialValues = {
@@ -122,9 +123,10 @@ export const CourseAddStudent = (
       setModalState(CourseAddStudentState.SUMMARY);
       setSendingRequest(false);
       setRegisterResponse(response.data);
+      onStudentRegistered(response.data);
     }).catch(() => {
       setSendingRequest(false);
-      // TODO: handle failures
+      // TODO: handle failures!
     });
   };
 

@@ -24,7 +24,7 @@ export const CoursesListingTileAvatars = (
         .map((student) => student.user)
         .map((user) => `${user.firstName[0]}${user.lastName[0]}`)
         .map((initials) => initials.toLocaleUpperCase('pl-PL'))
-        .map((initials, idx) => <Avatar key={idx} color={'orange'}>{initials}</Avatar>)}
+        .map((initials, idx) => <Avatar key={idx} color={'green'}>{initials}</Avatar>)}
     </AvatarsGroup>
   );
 };
