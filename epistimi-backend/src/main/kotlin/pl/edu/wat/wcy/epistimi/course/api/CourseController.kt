@@ -3,10 +3,11 @@ package pl.edu.wat.wcy.epistimi.course.api
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.course.CourseService
@@ -25,13 +26,12 @@ class CourseController(
     private val courseService: CourseService,
 ) {
     @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER')")
-    @RequestMapping(
+    @GetMapping(
         path = [""],
-        method = [RequestMethod.GET],
-        produces = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getCourses(
-        authentication: Authentication
+        authentication: Authentication,
     ): ResponseEntity<CoursesResponse> {
         return ResponseEntity.ok(
             CoursesResponse(
@@ -42,10 +42,9 @@ class CourseController(
     }
 
     @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER')")
-    @RequestMapping(
+    @GetMapping(
         path = ["{courseId}"],
-        method = [RequestMethod.GET],
-        produces = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getCourse(
         @PathVariable courseId: CourseId,
@@ -60,9 +59,8 @@ class CourseController(
     }
 
     @PreAuthorize("hasRole('ORGANIZATION_ADMIN')")
-    @RequestMapping(
+    @PostMapping(
         path = [""],
-        method = [RequestMethod.POST],
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun createCourse(

@@ -20,7 +20,7 @@ internal class UserCredentialsGeneratorTest : ShouldSpec({
         every { userRepository.findByUsernameStartingWith("jan.kowalski") } returns emptyList()
 
         // when
-        val generatedUsername = userCredentialsGenerator.generateUsername("Jan", "Kowalski")
+        val (generatedUsername) = userCredentialsGenerator.generate("Jan", "Kowalski")
 
         // then
         generatedUsername shouldBe "jan.kowalski"
@@ -40,7 +40,7 @@ internal class UserCredentialsGeneratorTest : ShouldSpec({
         )
 
         // when
-        val generatedUsername = userCredentialsGenerator.generateUsername("Jan", "Kowalski")
+        val (generatedUsername) = userCredentialsGenerator.generate("Jan", "Kowalski")
 
         // then
         generatedUsername shouldBe "jan.kowalski.3"
@@ -53,7 +53,7 @@ internal class UserCredentialsGeneratorTest : ShouldSpec({
 
     should("generate random password in accordance with provided rules") {
         // when
-        val generatedPassword = userCredentialsGenerator.generatePassword()
+        val (_, generatedPassword) = userCredentialsGenerator.generate("Jan", "Kowalski")
 
         // then
         with(generatedPassword) {

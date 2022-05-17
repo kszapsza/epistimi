@@ -31,8 +31,6 @@ internal class StudentRegisterRequestValidationTest : ShouldSpec({
         firstName = "Jan",
         lastName = "Kowalski",
         role = STUDENT,
-        username = null,
-        password = null,
         address = TestData.address,
     )
 

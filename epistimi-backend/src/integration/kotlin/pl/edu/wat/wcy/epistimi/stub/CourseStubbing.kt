@@ -32,11 +32,11 @@ internal class CourseStubbing(
         return courseRepository.save(
             Course(
                 id = id,
-                organization = organization,
+                organizationId = organization.id!!,
                 code = code,
                 schoolYear = schoolYear,
-                classTeacher = classTeacher,
-                students = students,
+                classTeacherId = classTeacher.id!!,
+                studentIds = students.map { it.id!! },
                 schoolYearBegin = schoolYearBegin,
                 schoolYearSemesterEnd = schoolYearSemesterEnd,
                 schoolYearEnd = schoolYearEnd,

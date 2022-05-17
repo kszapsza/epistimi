@@ -9,16 +9,12 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.student.StudentRepository
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
 
 @Repository
 class CourseDbRepository(
     private val courseMongoDbRepository: CourseMongoDbRepository,
     private val organizationRepository: OrganizationRepository,
-    private val studentRepository: StudentRepository,
-    private val teacherRepository: TeacherRepository,
 ) : CourseRepository {
 
     override fun findById(courseId: CourseId): Course {
@@ -37,11 +33,11 @@ class CourseDbRepository(
 
     private fun CourseMongoDbDocument.toDomain() = Course(
         id = CourseId(id!!),
-        organization = organizationRepository.findById(OrganizationId(organizationId)),
+        organizationId = OrganizationId(organizationId),
         code = Course.Code(number = code.number, letter = code.letter),
         schoolYear = schoolYear,
-        classTeacher = teacherRepository.findById(TeacherId(classTeacherId)),
-        students = studentRepository.findByIds(studentIds.map { StudentId(it) }),
+        classTeacherId = TeacherId(classTeacherId),
+        studentIds = studentIds.map { StudentId(it) },
         schoolYearBegin = schoolYearBegin,
         schoolYearSemesterEnd = schoolYearSemesterEnd,
         schoolYearEnd = schoolYearEnd,
@@ -58,11 +54,11 @@ class CourseDbRepository(
 
     private fun Course.toMongoDbDocument() = CourseMongoDbDocument(
         id = id?.value,
-        organizationId = organization.id!!.value,
+        organizationId = organizationId.value,
         code = CourseMongoDbDocument.Code(number = code.number, letter = code.letter),
         schoolYear = schoolYear,
-        classTeacherId = classTeacher.id!!.value,
-        studentIds = students.map { it.id!!.value },
+        classTeacherId = classTeacherId.value,
+        studentIds = studentIds.map { it.value },
         schoolYearBegin = schoolYearBegin,
         schoolYearSemesterEnd = schoolYearSemesterEnd,
         schoolYearEnd = schoolYearEnd,

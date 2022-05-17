@@ -7,4 +7,5 @@ interface UserRepository {
     fun findByUsername(username: String): User
     fun findByUsernameStartingWith(usernamePrefix: String): List<User>
     fun save(user: User): User
+    fun saveAll(users: List<User>): List<User>
 }

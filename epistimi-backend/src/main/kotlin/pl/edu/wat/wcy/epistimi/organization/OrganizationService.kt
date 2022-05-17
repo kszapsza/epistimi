@@ -17,45 +17,53 @@ class OrganizationService(
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository,
     private val locationClient: OrganizationLocationClient,
+    private val detailsDecorator: OrganizationDetailsDecorator,
 ) {
-    fun getOrganization(organizationId: OrganizationId): Organization {
+    fun getOrganization(organizationId: OrganizationId): OrganizationDetails {
         return organizationRepository.findById(organizationId)
+            .let { detailsDecorator.decorate(it) }
     }
 
-    fun getOrganizations(): List<Organization> {
+    fun getOrganizations(): List<OrganizationDetails> {
         return organizationRepository.findAll()
+            .map { detailsDecorator.decorate(it) }
     }
 
-    fun registerOrganization(registerRequest: OrganizationRegisterRequest): Organization {
+    fun registerOrganization(registerRequest: OrganizationRegisterRequest): OrganizationDetails {
+        validateAdmin(registerRequest.adminId)
+        validateDirector(registerRequest.directorId)
+
         return organizationRepository.save(
             Organization(
                 id = null,
                 name = registerRequest.name,
-                admin = getAdmin(registerRequest.adminId),
+                adminId = registerRequest.adminId,
                 status = ENABLED,
-                director = getDirector(registerRequest.directorId),
+                directorId = registerRequest.directorId,
                 address = registerRequest.address,
                 location = locationClient.getLocation(registerRequest.address),
             )
-        )
+        ).let {
+            detailsDecorator.decorate(it)
+        }
     }
 
-    private fun getAdmin(adminId: UserId): User {
-        return adminId
+    private fun validateAdmin(adminId: UserId) {
+        adminId
             .let { userId -> getUserOrThrow(userId) { AdminNotFoundException(userId) } }
             .also { user -> if (!user.isEligibleToBeAdmin()) throw AdminInsufficientPermissionsException() }
             .also { user -> if (user.managesOtherOrganization()) throw AdminManagingOtherOrganizationException() }
     }
 
-    private fun getDirector(directorId: UserId): User {
-        return directorId
+    private fun validateDirector(directorId: UserId) {
+        directorId
             .let { userId -> getUserOrThrow(userId) { DirectorNotFoundException(userId) } }
             .also { user -> if (!user.isEligibleToBeDirector()) throw DirectorInsufficientPermissionsException() }
     }
 
     private fun getUserOrThrow(
         userId: UserId,
-        exceptionSupplier: () -> Exception
+        exceptionSupplier: () -> Exception,
     ): User {
         return try {
             userRepository.findById(userId)
@@ -74,21 +82,26 @@ class OrganizationService(
     fun updateOrganization(
         organizationId: OrganizationId,
         updateRequest: OrganizationRegisterRequest,
-    ): Organization {
+    ): OrganizationDetails {
+        validateAdminForUpdate(updateRequest.adminId, organizationId)
+        validateDirector(updateRequest.directorId)
+
         return organizationRepository.update(
             Organization(
                 id = organizationId,
                 name = updateRequest.name,
-                admin = getAdminForUpdate(updateRequest.adminId, organizationId),
+                adminId = updateRequest.adminId,
                 status = ENABLED,
-                director = getDirector(updateRequest.directorId),
+                directorId = updateRequest.directorId,
                 address = updateRequest.address,
                 location = locationClient.getLocation(updateRequest.address),
             )
-        )
+        ).let {
+            detailsDecorator.decorate(it)
+        }
     }
 
-    private fun getAdminForUpdate(adminId: UserId, organizationId: OrganizationId): User {
+    private fun validateAdminForUpdate(adminId: UserId, organizationId: OrganizationId): User {
         return adminId
             .let { userId -> getUserOrThrow(userId) { AdminNotFoundException(userId) } }
             .also { user -> if (!user.isEligibleToBeAdmin()) throw AdminInsufficientPermissionsException() }
@@ -96,7 +109,7 @@ class OrganizationService(
     }
 
     private fun User.managesOrganizationOtherThanUpdated(
-        updatedOrganizationId: OrganizationId
+        updatedOrganizationId: OrganizationId,
     ): Boolean {
         return organizationRepository.findFirstByAdminId(id!!)
             ?.let { organization -> organization.id != updatedOrganizationId }
@@ -106,11 +119,13 @@ class OrganizationService(
     fun changeOrganizationStatus(
         organizationId: OrganizationId,
         changeStatusRequest: OrganizationChangeStatusRequest,
-    ): Organization {
+    ): OrganizationDetails {
         return organizationRepository.save(
             organizationRepository.findById(organizationId)
                 .copy(status = changeStatusRequest.status)
-        )
+        ).let {
+            detailsDecorator.decorate(it)
+        }
     }
 
     companion object {

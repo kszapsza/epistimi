@@ -64,5 +64,26 @@ class UserDbRepository(
             throw UsernameAlreadyInUseException(user.username) // TODO: should be tested
         }
     }
+    
+    private fun User.toMongoDbDocument() = UserMongoDbDocument(
+        id = id?.value,
+        firstName = firstName,
+        lastName = lastName,
+        role = role.toString(),
+        username = username,
+        passwordHash = passwordHash,
+        pesel = pesel,
+        sex = sex?.toString(),
+        email = email,
+        phoneNumber = phoneNumber,
+        address = address,
+    )
+
+    override fun saveAll(users: List<User>): List<User> {
+        return users
+                .map { it.toMongoDbDocument() }
+                .let { userMongoDbRepository.saveAll(it) }
+                .map { it.toDomain() }
+    }
 
 }

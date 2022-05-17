@@ -13,19 +13,14 @@ import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.TestUtils
 import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
-import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.student.StudentId
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.TeacherDetails
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
-import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
-import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.time.LocalDate
 
@@ -33,25 +28,41 @@ internal class CourseServiceTest : ShouldSpec({
     val courseRepository = mockk<CourseRepository>()
     val teacherRepository = mockk<TeacherRepository>()
     val organizationContextProvider = mockk<OrganizationContextProvider>()
+    val courseDetailsDecorator = mockk<CourseDetailsDecorator>()
 
-    val courseService = CourseService(courseRepository, teacherRepository, organizationContextProvider)
+    val courseService = CourseService(
+        courseRepository,
+        teacherRepository,
+        organizationContextProvider,
+        courseDetailsDecorator
+    )
 
     val teacherStub = Teacher(
         id = TeacherId("teacher_id"),
-        user = User(
-            id = UserId("teacher_user_id"),
-            firstName = "Józefa",
-            lastName = "Nowak",
-            role = TEACHER,
-            username = "j.nowak",
-            passwordHash = "123",
-            sex = FEMALE,
-        ),
-        organization = TestData.organization,
+        userId = TestData.Users.teacher.id!!,
+        organizationId = TestData.organization.id!!,
         academicTitle = "dr",
     )
 
     val courseStub = Course(
+        id = CourseId("course1"),
+        organizationId = TestData.organization.id!!,
+        code = Course.Code(
+            number = "6",
+            letter = "a"
+        ),
+        schoolYear = "2012/2013",
+        classTeacherId = teacherStub.id!!,
+        studentIds = emptyList(),
+        schoolYearBegin = TestUtils.parseDate("2012-09-03"),
+        schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
+        schoolYearEnd = TestUtils.parseDate("2013-06-28"),
+        profession = null,
+        profile = null,
+        specialization = null,
+    )
+
+    val courseDetailsStub = CourseDetails(
         id = CourseId("course1"),
         organization = TestData.organization,
         code = Course.Code(
@@ -59,32 +70,33 @@ internal class CourseServiceTest : ShouldSpec({
             letter = "a"
         ),
         schoolYear = "2012/2013",
-        classTeacher = teacherStub,
+        classTeacher = TeacherDetails(
+            id = TeacherId("teacher_id"),
+            user = TestData.Users.teacher,
+            organization = TestData.organization,
+            academicTitle = "dr",
+        ),
         students = emptyList(),
         schoolYearBegin = TestUtils.parseDate("2012-09-03"),
         schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
         schoolYearEnd = TestUtils.parseDate("2013-06-28"),
+        profession = null,
+        profile = null,
+        specialization = null,
     )
 
     val studentStub = Student(
         id = StudentId("student_id"),
-        user = User(
-            id = UserId("student_user_id"),
-            firstName = "Adrian",
-            lastName = "Kowalski",
-            role = STUDENT,
-            username = "a.kowalski",
-            passwordHash = "123",
-            sex = MALE,
-        ),
-        organization = TestData.organization,
-        parents = emptyList(),
+        userId = UserId("student_user_id"),
+        organizationId = TestData.organization.id!!,
+        parentsIds = emptyList(),
     )
 
     should("return list of courses for organization administered by admin with provided id") {
         // given
         every { courseRepository.findAll(OrganizationId("organization_id")) } returns listOf(courseStub)
         every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
+        every { courseDetailsDecorator.decorate(courseStub) } returns courseDetailsStub
 
         // when
         val courses = courseService.getCourses(UserId("admin_user_id"))
@@ -92,8 +104,11 @@ internal class CourseServiceTest : ShouldSpec({
         // then
         with(courses) {
             shouldHaveSize(1)
-            shouldContain(courseStub)
+            shouldContain(courseDetailsStub)
         }
+
+        // and
+        verify { courseDetailsDecorator.decorate(courseStub) }
     }
 
     should("return empty list of courses if admin with provided id does not administer any organization") {
@@ -111,12 +126,16 @@ internal class CourseServiceTest : ShouldSpec({
         // given
         every { courseRepository.findById(CourseId("course_id")) } returns courseStub
         every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
+        every { courseDetailsDecorator.decorate(courseStub) } returns courseDetailsStub
 
         // when
         val course = courseService.getCourse(CourseId("course_id"), UserId("admin_user_id"))
 
         // then
-        course shouldBe courseStub
+        course shouldBe courseDetailsStub
+
+        // and
+        verify { courseDetailsDecorator.decorate(courseStub) }
     }
 
     should("throw an exception if course with provided exists in organization not managed by current user") {
@@ -215,24 +234,8 @@ internal class CourseServiceTest : ShouldSpec({
         every { organizationContextProvider.provide(UserId("user_id")) } returns TestData.organization
         every { teacherRepository.findById(TeacherId("other_teacher_id")) } returns Teacher(
             id = TeacherId("other_teacher_id"),
-            user = User(
-                id = UserId("other_teacher_user_id"),
-                firstName = "Zdzisława",
-                lastName = "Ciok",
-                role = TEACHER,
-                username = "z.ciok",
-                passwordHash = "123",
-                sex = FEMALE,
-            ),
-            organization = Organization(
-                id = OrganizationId("other_organization_id"),
-                name = "Other Organization",
-                admin = TestData.Users.organizationAdmin,
-                status = Organization.Status.ENABLED,
-                director = TestData.Users.organizationAdmin,
-                address = TestData.address,
-                location = null,
-            ),
+            userId = UserId("other_teacher_user_id"),
+            organizationId = OrganizationId("other_organization_id"),
             academicTitle = null,
         )
 
@@ -255,6 +258,7 @@ internal class CourseServiceTest : ShouldSpec({
         every { organizationContextProvider.provide(UserId("user_id")) } returns TestData.organization
         every { teacherRepository.findById(TeacherId("teacher_id")) } returns teacherStub
         every { courseRepository.save(any()) } returnsArgument 0
+        every { courseDetailsDecorator.decorate(ofType(Course::class)) } returns courseDetailsStub
 
         // expect
         shouldNotThrow<CourseBadRequestException> {
@@ -269,14 +273,14 @@ internal class CourseServiceTest : ShouldSpec({
             courseRepository.save(
                 Course(
                     id = null,
-                    organization = TestData.organization,
+                    organizationId = TestData.organization.id!!,
                     code = Course.Code(
                         number = "1",
                         letter = "b"
                     ),
                     schoolYear = "2010/2011",
-                    classTeacher = teacherStub,
-                    students = emptyList(),
+                    classTeacherId = teacherStub.id!!,
+                    studentIds = emptyList(),
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2011, 2, 1),
                     schoolYearEnd = LocalDate.of(2011, 6, 30),
@@ -294,12 +298,12 @@ internal class CourseServiceTest : ShouldSpec({
         every { courseRepository.save(any()) } returnsArgument 0
 
         // when
-        val updatedCourse = courseService.addStudent(CourseId("course_id"), studentStub)
+        val updatedCourse = courseService.addStudent(CourseId("course_id"), studentStub.id!!)
 
         // then
-        with(updatedCourse.students) {
+        with(updatedCourse.studentIds) {
             shouldHaveSize(1)
-            shouldContain(studentStub)
+            shouldContain(studentStub.id!!)
         }
     }
 })

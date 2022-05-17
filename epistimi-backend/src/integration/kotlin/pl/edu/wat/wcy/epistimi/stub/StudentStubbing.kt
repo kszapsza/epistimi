@@ -21,9 +21,9 @@ internal class StudentStubbing(
         return studentRepository.save(
             Student(
                 id = id,
-                user = user,
-                organization = organization,
-                parents = parents,
+                userId = user.id!!,
+                organizationId = organization.id!!,
+                parentsIds = parents.map { it.id!! },
             )
         )
     }

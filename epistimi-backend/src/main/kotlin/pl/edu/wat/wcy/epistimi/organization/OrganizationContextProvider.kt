@@ -33,8 +33,7 @@ class OrganizationContextProvider(
     }
 
     private fun provideForTeacher(userId: UserId): Organization {
-        return teacherRepository.findByUserId(userId)
-            .let { teacher -> teacher.organization.id!! }
+        return teacherRepository.findByUserId(userId).organizationId
             .let { organizationId -> organizationRepository.findById(organizationId) }
     }
 

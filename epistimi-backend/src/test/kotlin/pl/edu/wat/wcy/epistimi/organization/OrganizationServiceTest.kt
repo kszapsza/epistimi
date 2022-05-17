@@ -8,6 +8,7 @@ import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
@@ -24,8 +25,14 @@ internal class OrganizationServiceTest : ShouldSpec({
     val organizationRepository = mockk<OrganizationRepository>()
     val userRepository = mockk<UserRepository>()
     val locationClient = mockk<OrganizationLocationClient>()
+    val organizationDetailsDecorator = mockk<OrganizationDetailsDecorator>()
 
-    val organizationService = OrganizationService(organizationRepository, userRepository, locationClient)
+    val organizationService = OrganizationService(
+        organizationRepository,
+        userRepository,
+        locationClient,
+        organizationDetailsDecorator,
+    )
 
     forAll(
         row(STUDENT),
@@ -61,11 +68,27 @@ internal class OrganizationServiceTest : ShouldSpec({
             every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
             every { organizationRepository.save(any()) } returnsArgument 0
             every { locationClient.getLocation(any()) } returns null
+            every { organizationDetailsDecorator.decorate(ofType(Organization::class)) } returns TestData.organizationDetails
 
             // expect
             shouldNotThrow<AdminInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), TestData.address)
+                )
+            }
+
+            // and
+            verify {
+                organizationRepository.save(
+                    Organization(
+                        id = null,
+                        name = "ABC",
+                        adminId = UserId("admin_id"),
+                        status = ENABLED,
+                        directorId = UserId("director_id"),
+                        address = TestData.address,
+                        location = null,
+                    )
                 )
             }
         }
@@ -121,11 +144,27 @@ internal class OrganizationServiceTest : ShouldSpec({
             every { userRepository.findById(UserId("director_id")) } returns TestData.Users.withRole(role, "director_id")
             every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns null
             every { locationClient.getLocation(any()) } returns null
+            every { organizationDetailsDecorator.decorate(ofType(Organization::class)) } returns TestData.organizationDetails
 
             // expect
             shouldNotThrow<DirectorInsufficientPermissionsException> {
                 organizationService.registerOrganization(
                     OrganizationRegisterRequest("ABC", UserId("admin_id"), UserId("director_id"), TestData.address)
+                )
+            }
+
+            // and
+            verify {
+                organizationRepository.save(
+                    Organization(
+                        id = null,
+                        name = "ABC",
+                        adminId = UserId("admin_id"),
+                        status = ENABLED,
+                        directorId = UserId("director_id"),
+                        address = TestData.address,
+                        location = null,
+                    )
                 )
             }
         }
@@ -156,9 +195,9 @@ internal class OrganizationServiceTest : ShouldSpec({
                 Organization(
                     id = OrganizationId("123"),
                     name = "SP7",
-                    admin = TestData.Users.withRole(ORGANIZATION_ADMIN, "admin_id"),
+                    adminId = UserId("admin_id"),
                     status = ENABLED,
-                    director = TestData.Users.withRole(TEACHER, "director_id"),
+                    directorId = UserId("director_id"),
                     address = TestData.address,
                     location = null,
                 )
@@ -182,13 +221,14 @@ internal class OrganizationServiceTest : ShouldSpec({
         every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns Organization(
             id = OrganizationId("123"),
             name = "SP7",
-            admin = TestData.Users.withRole(ORGANIZATION_ADMIN, "admin_id"),
+            adminId = UserId("admin_id"),
             status = ENABLED,
-            director = TestData.Users.withRole(TEACHER, "director_id"),
+            directorId = UserId("director_id"),
             address = TestData.address,
             location = null,
         )
         every { locationClient.getLocation(any()) } returns null
+        every { organizationDetailsDecorator.decorate(ofType(Organization::class)) } returns TestData.organizationDetails
 
         // expect
         shouldNotThrow<AdminManagingOtherOrganizationException> {
@@ -224,9 +264,9 @@ internal class OrganizationServiceTest : ShouldSpec({
         every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns Organization(
             id = OrganizationId("some_different_id"),
             name = "G2",
-            admin = TestData.Users.withRole(ORGANIZATION_ADMIN, "admin_id"),
+            adminId = UserId("admin_id"),
             status = ENABLED,
-            director = TestData.Users.withRole(TEACHER, "director_id"),
+            directorId = UserId("director_id"),
             address = TestData.address,
             location = null,
         )

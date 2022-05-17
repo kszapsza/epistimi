@@ -6,12 +6,10 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.infrastructure.mongo.UserDbRepository
 
 @Repository
 class OrganizationDbRepository(
     private val organizationMongoDbRepository: OrganizationMongoDbRepository,
-    private val userDbRepository: UserDbRepository,
 ) : OrganizationRepository {
 
     override fun exists(id: OrganizationId): Boolean {
@@ -30,9 +28,9 @@ class OrganizationDbRepository(
     private fun OrganizationMongoDbDocument.toDomain() = Organization(
         id = OrganizationId(id!!),
         name = name,
-        admin = userDbRepository.findById(UserId(adminId)),
+        adminId = UserId(adminId),
         status = Organization.Status.valueOf(status),
-        director = userDbRepository.findById(UserId(directorId)),
+        directorId = UserId(directorId),
         address = address,
         location = location,
     )
@@ -49,13 +47,13 @@ class OrganizationDbRepository(
     }
 
     private fun Organization.toMongoDbDocument() = OrganizationMongoDbDocument(
-        id = this.id?.value,
-        name = this.name,
-        adminId = this.admin.id!!.value,
-        status = this.status.toString(),
-        directorId = this.director.id!!.value,
-        address = this.address,
-        location = this.location,
+        id = id?.value,
+        name = name,
+        adminId = adminId.value,
+        status = status.toString(),
+        directorId = directorId.value,
+        address = address,
+        location = location,
     )
 
     override fun update(organization: Organization): Organization {

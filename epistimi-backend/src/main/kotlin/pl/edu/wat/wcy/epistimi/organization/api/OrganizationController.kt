@@ -2,10 +2,12 @@ package pl.edu.wat.wcy.epistimi.organization.api
 
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationService
@@ -22,10 +24,9 @@ import java.net.URI
 class OrganizationController(
     private val organizationService: OrganizationService,
 ) {
-    @RequestMapping(
+    @GetMapping(
         path = ["{organizationId}"],
-        method = [RequestMethod.GET],
-        produces = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getOrganization(
         @PathVariable organizationId: String,
@@ -34,10 +35,9 @@ class OrganizationController(
     )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
-    @RequestMapping(
+    @GetMapping(
         path = [""],
-        method = [RequestMethod.GET],
-        produces = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getOrganizations(): ResponseEntity<OrganizationsResponse> =
         ResponseEntity.ok(
@@ -48,10 +48,9 @@ class OrganizationController(
         )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
-    @RequestMapping(
+    @PostMapping(
         path = [""],
-        method = [RequestMethod.POST],
-        produces = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun registerOrganization(
         @RequestBody organizationRegisterRequest: OrganizationRegisterRequest,
@@ -64,10 +63,9 @@ class OrganizationController(
             }
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
-    @RequestMapping(
+    @PutMapping(
         path = ["/{organizationId}/status"],
-        method = [RequestMethod.PUT],
-        produces = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun changeOrganizationStatus(
         @PathVariable organizationId: String,
@@ -81,10 +79,9 @@ class OrganizationController(
         )
 
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
-    @RequestMapping(
+    @PutMapping(
         path = ["/{organizationId}"],
-        method = [RequestMethod.PUT],
-        produces = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun updateOrganization(
         @PathVariable organizationId: String,

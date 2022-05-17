@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.course.dto
 
-import pl.edu.wat.wcy.epistimi.course.Course
+import pl.edu.wat.wcy.epistimi.course.CourseDetails
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.student.dto.StudentResponse
 import pl.edu.wat.wcy.epistimi.student.dto.toStudentResponse
@@ -27,7 +27,7 @@ data class CourseResponse(
     )
 }
 
-fun Course.toCourseResponse() = CourseResponse(
+fun CourseDetails.toCourseResponse() = CourseResponse(
     id = id,
     code = CourseResponse.Code(number = code.number, letter = code.letter),
     schoolYear = schoolYear,

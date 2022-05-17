@@ -2,9 +2,11 @@ package pl.edu.wat.wcy.epistimi
 
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
+import pl.edu.wat.wcy.epistimi.organization.OrganizationDetails
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.TeacherDetails
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
@@ -24,6 +26,16 @@ internal object TestData {
     )
 
     val organization = Organization(
+        id = OrganizationId("organization_id"),
+        name = "SP7",
+        adminId = Users.organizationAdmin.id!!,
+        status = ENABLED,
+        directorId = Users.organizationAdmin.id!!,
+        address = address,
+        location = null,
+    )
+
+    val organizationDetails = OrganizationDetails(
         id = OrganizationId("organization_id"),
         name = "SP7",
         admin = Users.organizationAdmin,
@@ -89,6 +101,13 @@ internal object TestData {
     }
 
     val teacher = Teacher(
+        id = TeacherId("teacher_id"),
+        userId = Users.teacher.id!!,
+        organizationId = organization.id!!,
+        academicTitle = null,
+    )
+
+    val teacherDetails = TeacherDetails(
         id = TeacherId("teacher_id"),
         user = Users.teacher,
         organization = organization,

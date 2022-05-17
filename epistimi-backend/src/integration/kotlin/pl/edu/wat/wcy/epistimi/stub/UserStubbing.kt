@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.epistimi.stub
 
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import pl.edu.wat.wcy.epistimi.data.DummyAddress
 import pl.edu.wat.wcy.epistimi.shared.Address
@@ -13,7 +12,6 @@ import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
 @Component
 internal class UserStubbing(
     private val userRegistrar: UserRegistrar,
-    private val passwordEncoder: PasswordEncoder,
 ) {
     fun userExists(
         firstName: String = "Jan",

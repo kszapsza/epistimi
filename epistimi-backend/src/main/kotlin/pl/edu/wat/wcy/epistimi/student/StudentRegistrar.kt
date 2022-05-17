@@ -34,20 +34,13 @@ class StudentRegistrar(
         val organization = organizationContextProvider.provide(requesterUserId)
             ?: throw StudentBadRequestException("User not managing any organization")
 
-        // TODO: very poor performance, response times even over 1500 ms (for student+2 parents = 6 DB insertions)
-        //  we have to consider bulking inserts:
-        //      (1) 3x users
-        //      (2) 2x parents
-        //      (3) 1x student
-        //  TOTAL: 3 instead of 6 inserts
-
         val studentUser = registerStudentUser(request.user)
         val newParents = registerParents(requesterUserId, request.parents)
         val newStudent = registerStudent(studentUser, organization, newParents)
 
         courseService.addStudent(
             courseId = request.courseId,
-            student = newStudent,
+            studentId = newStudent.id!!,
         )
 
         return NewStudent(
@@ -67,8 +60,7 @@ class StudentRegistrar(
         requesterUserId: UserId,
         parentsUserData: List<UserRegisterRequest>,
     ): List<NewParent> {
-        return parentsUserData
-            .map { userData -> parentRegistrar.registerParent(requesterUserId, userData) }
+        return parentRegistrar.registerParents(requesterUserId, parentsUserData)
     }
 
     private fun registerStudent(
@@ -79,9 +71,9 @@ class StudentRegistrar(
         return studentRepository.save(
             Student(
                 id = null,
-                user = studentUser.user,
-                organization = organization,
-                parents = newParents.map { it.parent }
+                userId = studentUser.user.id!!,
+                organizationId = organization.id!!,
+                parentsIds = newParents.map { it.parent.id!! }
             )
         )
     }

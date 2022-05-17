@@ -16,34 +16,49 @@ class UserRegistrar(
     )
 
     fun registerUser(request: UserRegisterRequest): NewUser {
-        val username = request.username ?: credentialsGenerator.generateUsername(request.firstName, request.lastName)
-        val password = request.password ?: credentialsGenerator.generatePassword()
+        val credentials = getCredentials(request)
+        val user = userRepository.save(request.toUser(credentials))
 
-        return NewUser(
-            user = registerUser(request, username, password),
-            password = password,
+        return NewUser(user = user, password = credentials.password)
+    }
+
+    private fun getCredentials(request: UserRegisterRequest): Credentials {
+        return if (request.username == null || request.password == null) {
+            credentialsGenerator.generate(request.firstName, request.lastName)
+        } else {
+            Credentials(
+                username = request.username,
+                password = request.password,
+            )
+        }
+    }
+
+    private fun UserRegisterRequest.toUser(credentials: Credentials): User {
+        return User(
+            id = null,
+            firstName = firstName,
+            lastName = lastName,
+            role = role,
+            username = credentials.username,
+            passwordHash = passwordEncoder.encode(credentials.password),
+            pesel = pesel,
+            sex = sex,
+            email = email,
+            phoneNumber = phoneNumber,
+            address = address,
         )
     }
 
-    private fun registerUser(
-        registerRequest: UserRegisterRequest,
-        username: String,
-        password: String,
-    ): User {
-        return userRepository.save(
-            User(
-                id = null,
-                firstName = registerRequest.firstName,
-                lastName = registerRequest.lastName,
-                role = registerRequest.role,
-                username = username,
-                passwordHash = passwordEncoder.encode(password),
-                pesel = registerRequest.pesel,
-                sex = registerRequest.sex,
-                email = registerRequest.email,
-                phoneNumber = registerRequest.phoneNumber,
-                address = registerRequest.address,
-            )
-        )
+    fun registerUsers(requests: List<UserRegisterRequest>): List<NewUser> {
+        val credentials = requests.map { credentialsGenerator.generate(it.firstName, it.lastName) }
+        val usersToRegister = requests.zip(credentials).map { (request, credentials) -> request.toUser(credentials) }
+
+        return userRepository.saveAll(usersToRegister)
+            .mapIndexed { index, user ->
+                NewUser(
+                    user = user,
+                    password = credentials[index].password,
+                )
+            }
     }
 }

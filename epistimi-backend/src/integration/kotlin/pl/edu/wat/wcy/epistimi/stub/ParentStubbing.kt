@@ -19,8 +19,8 @@ internal class ParentStubbing(
         return parentRepository.save(
             Parent(
                 id = id,
-                user = user,
-                organization = organization,
+                userId = user.id!!,
+                organizationId = organization.id!!,
             )
         )
     }

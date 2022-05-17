@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.student.StudentId
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherNotFoundException
@@ -16,28 +16,31 @@ class CourseService(
     private val courseRepository: CourseRepository,
     private val teacherRepository: TeacherRepository,
     private val organizationContextProvider: OrganizationContextProvider,
+    private val detailsDecorator: CourseDetailsDecorator,
 ) {
-    fun getCourses(userId: UserId): List<Course> {
+    fun getCourses(userId: UserId): List<CourseDetails> {
         return organizationContextProvider.provide(userId)
             ?.let { organization -> courseRepository.findAll(organization.id!!) }
+            ?.map { course -> detailsDecorator.decorate(course) }
             ?: emptyList()
     }
 
-    fun getCourse(courseId: CourseId, userId: UserId): Course {
+    fun getCourse(courseId: CourseId, userId: UserId): CourseDetails {
         val organizationContext = organizationContextProvider.provide(userId)
         val course = courseRepository.findById(courseId)
 
-        if (organizationContext == null || course.organization.id != organizationContext.id) {
+        if (organizationContext == null || course.organizationId != organizationContext.id) {
             throw CourseNotFoundException(courseId)
         }
-        return course
+        return detailsDecorator.decorate(course)
     }
 
-    fun createCourse(userId: UserId, createRequest: CourseCreateRequest): Course {
+    fun createCourse(userId: UserId, createRequest: CourseCreateRequest): CourseDetails {
         if (!createRequest.isSchoolYearTimeFrameValid()) {
             throw CourseBadRequestException("Invalid school year time frame")
         }
         return saveCourse(userId, createRequest)
+            .let { course -> detailsDecorator.decorate(course) }
     }
 
     private fun CourseCreateRequest.isSchoolYearTimeFrameValid(): Boolean {
@@ -57,7 +60,7 @@ class CourseService(
         if (organization == null) {
             throw CourseBadRequestException("User not managing any organization")
         }
-        if (classTeacher.organization.id != organization.id) {
+        if (classTeacher.organizationId != organization.id) {
             throw CourseBadRequestException("Provided class teacher is not associated with your organization")
         }
 
@@ -80,14 +83,14 @@ class CourseService(
         return courseRepository.save(
             Course(
                 id = null,
-                organization = organization,
+                organizationId = organization.id!!,
                 code = Course.Code(
                     number = createRequest.codeNumber.toString(),
-                    letter = createRequest.codeLetter
+                    letter = createRequest.codeLetter,
                 ),
                 schoolYear = createRequest.formatSchoolYear,
-                classTeacher = classTeacher,
-                students = emptyList(),
+                classTeacherId = classTeacher.id!!,
+                studentIds = emptyList(),
                 schoolYearBegin = createRequest.schoolYearBegin,
                 schoolYearSemesterEnd = createRequest.schoolYearSemesterEnd,
                 schoolYearEnd = createRequest.schoolYearEnd,
@@ -101,9 +104,9 @@ class CourseService(
     private val CourseCreateRequest.formatSchoolYear
         get() = "${schoolYearBegin.year}/${schoolYearEnd.year}"
 
-    fun addStudent(courseId: CourseId, student: Student): Course {
+    fun addStudent(courseId: CourseId, studentId: StudentId): Course {
         return courseRepository.findById(courseId)
-            .let { it.copy(students = it.students + student) }
+            .let { it.copy(studentIds = it.studentIds + studentId) }
             .let { courseRepository.save(it) }
     }
 }

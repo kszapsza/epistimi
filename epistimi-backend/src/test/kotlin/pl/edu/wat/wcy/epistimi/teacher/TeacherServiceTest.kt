@@ -15,8 +15,13 @@ internal class TeacherServiceTest : ShouldSpec({
 
     val teacherRepository = mockk<TeacherRepository>()
     val organizationContextProvider = mockk<OrganizationContextProvider>()
+    val teacherDetailsDecorator = mockk<TeacherDetailsDecorator>()
 
-    val teacherService = TeacherService(teacherRepository, organizationContextProvider)
+    val teacherService = TeacherService(
+        teacherRepository,
+        organizationContextProvider,
+        teacherDetailsDecorator,
+    )
 
     should("return empty list of teachers if there are no teachers in school administered by provided admin") {
         // given
@@ -34,6 +39,7 @@ internal class TeacherServiceTest : ShouldSpec({
         // given
         every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
         every { teacherRepository.findAll(OrganizationId("organization_id")) } returns listOf(TestData.teacher)
+        every { teacherDetailsDecorator.decorate(TestData.teacher) } returns TestData.teacherDetails
 
         // when
         val teachers = teacherService.getTeachers(UserId("admin_user_id"))
@@ -41,7 +47,7 @@ internal class TeacherServiceTest : ShouldSpec({
         // then
         with(teachers) {
             shouldHaveSize(1)
-            shouldContain(TestData.teacher)
+            shouldContain(TestData.teacherDetails)
         }
     }
 

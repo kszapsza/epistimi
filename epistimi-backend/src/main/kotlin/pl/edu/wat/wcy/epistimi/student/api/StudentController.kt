@@ -3,9 +3,9 @@ package pl.edu.wat.wcy.epistimi.student.api
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.parent.dto.toParentResponse
 import pl.edu.wat.wcy.epistimi.shared.api.MediaType
@@ -26,10 +26,9 @@ class StudentController(
     private val studentRegistrar: StudentRegistrar,
 ) {
     @PreAuthorize("hasRole('ORGANIZATION_ADMIN')")
-    @RequestMapping(
+    @PostMapping(
         path = [""],
-        method = [RequestMethod.POST],
-        produces = [MediaType.APPLICATION_JSON_V1],
+        produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun registerStudent(
         authentication: Authentication,

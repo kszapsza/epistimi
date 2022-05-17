@@ -27,8 +27,6 @@ internal class UserRegisterRequestValidationTest : ShouldSpec({
         firstName = "Jan",
         lastName = "Kowalski",
         role = STUDENT,
-        username = "j.kowalski",
-        password = "123456",
         pesel = "01211684935",
         sex = MALE,
         email = "j.kowalski@op.pl",

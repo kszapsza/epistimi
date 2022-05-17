@@ -27,9 +27,9 @@ internal class OrganizationStubbing(
             Organization(
                 id = id,
                 name = name,
-                admin = admin,
+                adminId = admin.id!!,
                 status = status,
-                director = director,
+                directorId = director.id!!,
                 address = address,
                 location = location,
             )

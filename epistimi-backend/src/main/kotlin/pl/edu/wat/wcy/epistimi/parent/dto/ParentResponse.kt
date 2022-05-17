@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.parent.dto
 
-import pl.edu.wat.wcy.epistimi.parent.Parent
+import pl.edu.wat.wcy.epistimi.parent.ParentDetails
 import pl.edu.wat.wcy.epistimi.parent.ParentId
 import pl.edu.wat.wcy.epistimi.user.dto.UserResponse
 import pl.edu.wat.wcy.epistimi.user.dto.toUserResponse
@@ -10,7 +10,7 @@ data class ParentResponse(
     val user: UserResponse,
 )
 
-fun Parent.toParentResponse() = ParentResponse(
+fun ParentDetails.toParentResponse() = ParentResponse(
     id = id,
     user = user.toUserResponse(),
 )
