@@ -8,6 +8,7 @@ import io.mockk.verify
 import org.springframework.security.crypto.password.PasswordEncoder
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
 internal class UserRegistrarTest : ShouldSpec({
 

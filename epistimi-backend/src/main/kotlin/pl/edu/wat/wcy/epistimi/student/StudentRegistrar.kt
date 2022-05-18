@@ -1,24 +1,23 @@
 package pl.edu.wat.wcy.epistimi.student
 
-import org.springframework.stereotype.Service
-import pl.edu.wat.wcy.epistimi.course.CourseService
+import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar.NewParent
 import pl.edu.wat.wcy.epistimi.student.dto.StudentRegisterRequest
+import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
 
-@Service
 class StudentRegistrar(
     private val studentRepository: StudentRepository,
     private val userRegistrar: UserRegistrar,
     private val parentRegistrar: ParentRegistrar,
-    private val courseService: CourseService,
+    private val courseFacade: CourseFacade,
     private val organizationContextProvider: OrganizationContextProvider,
 ) {
     data class NewStudent(
@@ -38,7 +37,7 @@ class StudentRegistrar(
         val newParents = registerParents(requesterUserId, request.parents)
         val newStudent = registerStudent(studentUser, organization, newParents)
 
-        courseService.addStudent(
+        courseFacade.addStudent(
             courseId = request.courseId,
             studentId = newStudent.id!!,
         )

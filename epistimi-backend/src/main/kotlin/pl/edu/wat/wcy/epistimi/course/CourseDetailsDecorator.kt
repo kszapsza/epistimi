@@ -1,19 +1,17 @@
 package pl.edu.wat.wcy.epistimi.course
 
-import org.springframework.stereotype.Component
-import pl.edu.wat.wcy.epistimi.organization.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.parent.ParentDetails
 import pl.edu.wat.wcy.epistimi.parent.ParentId
-import pl.edu.wat.wcy.epistimi.parent.ParentRepository
+import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.student.StudentDetails
 import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.student.StudentRepository
+import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.teacher.TeacherDetails
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
-@Component
 class CourseDetailsDecorator(
     private val teacherRepository: TeacherRepository,
     private val organizationRepository: OrganizationRepository,

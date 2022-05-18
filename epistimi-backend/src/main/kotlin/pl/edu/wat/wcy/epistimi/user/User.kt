@@ -32,5 +32,5 @@ data class User(
 
 @JvmInline
 value class UserId(
-    val value: String
+    val value: String,
 )

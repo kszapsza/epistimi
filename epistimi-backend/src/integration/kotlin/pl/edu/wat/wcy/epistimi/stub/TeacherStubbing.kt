@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
+import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.User
 
 @Component

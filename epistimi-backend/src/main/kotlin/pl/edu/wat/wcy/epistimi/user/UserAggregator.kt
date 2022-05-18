@@ -1,8 +1,7 @@
 package pl.edu.wat.wcy.epistimi.user
 
-import org.springframework.stereotype.Service
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
-@Service
 class UserAggregator(
     private val userRepository: UserRepository,
 ) {

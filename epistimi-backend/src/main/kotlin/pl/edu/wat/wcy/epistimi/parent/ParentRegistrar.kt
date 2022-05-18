@@ -1,14 +1,13 @@
 package pl.edu.wat.wcy.epistimi.parent
 
-import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
+import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
 
-@Service
 class ParentRegistrar(
     private val parentRepository: ParentRepository,
     private val userRegistrar: UserRegistrar,

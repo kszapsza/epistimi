@@ -1,10 +1,9 @@
 package pl.edu.wat.wcy.epistimi.user
 
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Service
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
-@Service
 class UserRegistrar(
     private val userRepository: UserRepository,
     private val credentialsGenerator: UserCredentialsGenerator,

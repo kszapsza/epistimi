@@ -10,6 +10,7 @@ import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
+import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.UserId

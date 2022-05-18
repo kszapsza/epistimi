@@ -5,7 +5,7 @@ import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.student.StudentRepository
+import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 
 @Component

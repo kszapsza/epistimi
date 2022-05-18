@@ -20,8 +20,8 @@ import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.data.DummyAddress
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.DISABLED
-import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
-import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
+import pl.edu.wat.wcy.epistimi.organization.OrganizationChangeStatusRequest
+import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.shared.api.MediaType
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing

@@ -5,9 +5,10 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
+import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
 internal class OrganizationContextProviderTest : ShouldSpec({
 

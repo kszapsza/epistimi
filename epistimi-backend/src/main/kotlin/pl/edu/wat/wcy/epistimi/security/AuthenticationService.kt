@@ -9,7 +9,7 @@ import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
 import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 import java.util.Date
 
 @Service

@@ -1,16 +1,15 @@
 package pl.edu.wat.wcy.epistimi.organization
 
-import org.springframework.stereotype.Component
-import pl.edu.wat.wcy.epistimi.teacher.TeacherRepository
+import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
-@Component
 class OrganizationContextProvider(
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository,

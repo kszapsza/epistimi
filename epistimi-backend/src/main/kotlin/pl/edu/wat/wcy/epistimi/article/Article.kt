@@ -11,5 +11,5 @@ data class Article(
 
 @JvmInline
 value class ArticleId(
-    val value: String
+    val value: String,
 )

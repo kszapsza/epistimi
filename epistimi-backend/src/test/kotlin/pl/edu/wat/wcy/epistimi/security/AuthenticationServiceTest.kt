@@ -9,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
 internal class AuthenticationServiceTest : ShouldSpec({
 

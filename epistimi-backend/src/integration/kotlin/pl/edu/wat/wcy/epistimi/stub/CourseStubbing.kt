@@ -3,7 +3,7 @@ package pl.edu.wat.wcy.epistimi.stub
 import org.springframework.stereotype.Component
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.course.CourseId
-import pl.edu.wat.wcy.epistimi.course.CourseRepository
+import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.teacher.Teacher

@@ -6,6 +6,7 @@ import org.passay.CharacterRule
 import org.passay.EnglishCharacterData
 import org.passay.PasswordGenerator
 import org.springframework.stereotype.Component
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 import java.util.Locale
 
 data class Credentials(

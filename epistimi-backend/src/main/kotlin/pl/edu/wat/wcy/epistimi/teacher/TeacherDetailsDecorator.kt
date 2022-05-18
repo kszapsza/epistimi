@@ -1,10 +1,8 @@
 package pl.edu.wat.wcy.epistimi.teacher
 
-import org.springframework.stereotype.Component
-import pl.edu.wat.wcy.epistimi.organization.OrganizationRepository
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
-@Component
 class TeacherDetailsDecorator(
     private val userRepository: UserRepository,
     private val organizationRepository: OrganizationRepository,
