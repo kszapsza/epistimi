@@ -1,6 +1,6 @@
 import './OrganizationDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { AlertCircle, ArrowBack, Ban, Check, Pencil } from 'tabler-icons-react';
+import { IconAlertCircle, IconArrowBack, IconBan, IconCheck, IconPencil } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
@@ -53,11 +53,11 @@ export const OrganizationDetails = (): JSX.Element => {
       {(error || updatedMessageOpened) &&
         <div className={'organization-mbox-dock'}>
           {error &&
-            <Alert icon={<AlertCircle size={16}/>} color="red">
+            <Alert icon={<IconAlertCircle size={16}/>} color="red">
               Nie udało się załadować szczegółów organizacji
             </Alert>}
           {updatedMessageOpened &&
-            <Alert icon={<Check size={16}/>} color="green">
+            <Alert icon={<IconCheck size={16}/>} color="green">
               Zaktualizowano dane placówki
             </Alert>}
         </div>}
@@ -89,26 +89,26 @@ export const OrganizationDetails = (): JSX.Element => {
         <div className={'organization-header'}>
           <div className={'organization-header-group'}>
             <ActionIcon variant={'transparent'} component={Link} to={'./..'}>
-              <ArrowBack size={18}/>
+              <IconArrowBack size={18}/>
             </ActionIcon>
           </div>
           <div className={'organization-header-group'}>
             {organization.status === OrganizationStatus.ENABLED &&
               <Button
-                leftIcon={<Ban size={16}/>}
+                leftIcon={<IconBan size={16}/>}
                 onClick={statusChangeModalHandlers.open}
                 variant={'default'}>
                 Dezaktywuj placówkę
               </Button>}
             {organization.status === OrganizationStatus.DISABLED &&
               <Button
-                leftIcon={<Check size={16}/>}
+                leftIcon={<IconCheck size={16}/>}
                 onClick={statusChangeModalHandlers.open}
                 variant={'default'}>
                 Aktywuj placówkę
               </Button>}
             <Button
-              leftIcon={<Pencil size={16}/>}
+              leftIcon={<IconPencil size={16}/>}
               onClick={editModalHandlers.open}
               variant={'default'}>
               Edytuj dane

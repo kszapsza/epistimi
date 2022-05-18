@@ -1,7 +1,7 @@
 import './OrganizationEdit.scss';
 import { Address } from '../../../dto/address';
 import { Alert, Button, Loader, NativeSelect, TextInput } from '@mantine/core';
-import { AlertCircle } from 'tabler-icons-react';
+import { IconAlertCircle } from '@tabler/icons';
 import { OrganizationRegisterRequest, OrganizationResponse } from '../../../dto/organization';
 import { useFetch } from '../../../hooks/useFetch';
 import { useForm } from '@mantine/form';
@@ -52,7 +52,7 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
   const { data: admins, loading: adminsLoading } = useFetch<UsersResponse>('/api/user?role=ORGANIZATION_ADMIN');
   const { data: directors, loading: directorsLoading } = useFetch<UsersResponse>('/api/user?role=ORGANIZATION_ADMIN&role=TEACHER');
 
-  const [submitFailed, setSubmitFailed] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   if (adminsLoading || directorsLoading) {
     return <Loader/>;
@@ -74,7 +74,7 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
       || !!form.errors.address;
   };
 
-  const onSubmit = (formData: OrganizationEditForm): void => {
+  const submitHandler = (formData: OrganizationEditForm): void => {
     const action =
       props.variant == OrganizationEditVariant.UPDATE
         ? axios.put
@@ -97,21 +97,25 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
         },
       }).then((response) => {
       props.submitCallback(response.data);
-    }).catch(() => {
-      setSubmitFailed(true);
+    }).catch(({ response }) => {
+      setSubmitError(
+        response?.data?.message == 'Provided admin is already managing other organization'
+          ? 'Wybrany administrator zarządza już inną placówką'
+          : 'Wystąpił nieoczekiwany błąd serwera',
+      );
     });
   };
 
   return (
     <div className={'organization-create'}>
       {hasErrors() &&
-        <Alert icon={<AlertCircle size={16}/>} color="red">
+        <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
           Wszystkie pola są wymagane
         </Alert>
       }
-      {submitFailed &&
-        <Alert icon={<AlertCircle size={16}/>} color="red">
-          Błąd serwera
+      {submitError &&
+        <Alert icon={<IconAlertCircle size={16}/>} title={'Błąd'} color={'red'}>
+          {submitError}
         </Alert>
       }
 
@@ -119,7 +123,7 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
         <form
           noValidate
           className={'organization-create-form'}
-          onSubmit={form.onSubmit((formData) => onSubmit(formData))}
+          onSubmit={form.onSubmit(submitHandler)}
         >
           <TextInput
             required
@@ -128,24 +132,25 @@ export const OrganizationEdit = (props: OrganizationEditProps): JSX.Element => {
             autoFocus={true}
             {...form.getInputProps('name')}/>
 
+          {/* TODO: admin/director user create form instead of dropdown select?
+               (or prepare users EPISTIMI_ADMIN create form) */}
           <NativeSelect
             required
             label={'Administrator'}
             placeholder={'Wybierz administratora placówki'}
             data={
               admins.users.map((admin) =>
-                  ({ value: admin.id, label: `${admin.lastName} ${admin.firstName} (${admin.username})` }))
+                ({ value: admin.id, label: `${admin.lastName} ${admin.firstName} (${admin.username})` }))
             }
             {...form.getInputProps('adminId')}
           />
-
           <NativeSelect
             required
             label={'Dyrektor'}
             placeholder={'Wybierz dyrektora placówki'}
             data={
-                directors.users.map((director) =>
-                  ({ value: director.id, label: `${director.lastName} ${director.firstName} (${director.username})` }))
+              directors.users.map((director) =>
+                ({ value: director.id, label: `${director.lastName} ${director.firstName} (${director.username})` }))
             }
             {...form.getInputProps('directorId')}
           />

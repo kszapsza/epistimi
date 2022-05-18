@@ -30,3 +30,16 @@ export enum UserSex {
 export interface UsersResponse {
   users: UserResponse[];
 }
+
+export interface UserRegisterRequest {
+  firstName: string;
+  lastName: string;
+  role: UserRole;
+  username?: string;
+  password?: string;
+  pesel?: string;
+  sex?: UserSex;
+  email?: string;
+  phoneNumber?: string;
+  address?: Address;
+}

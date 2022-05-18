@@ -1,7 +1,7 @@
 import './ArticlePage.scss';
 import { Alert, Loader } from '@mantine/core';
-import { AlertCircle } from 'tabler-icons-react';
 import { Article } from '../../../dto/article';
+import { IconAlertCircle } from '@tabler/icons';
 import { useFetch } from '../../../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ export const ArticlePage = (): JSX.Element => {
     <>
       {loading && <Loader/>}
       {!article && !loading &&
-        <Alert icon={<AlertCircle size={16}/>} color="red">
+        <Alert icon={<IconAlertCircle size={16}/>} color="red">
           Nie udało się załadować artykułu!
         </Alert>
       }

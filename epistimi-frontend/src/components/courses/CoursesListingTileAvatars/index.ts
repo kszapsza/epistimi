@@ -1,0 +1,1 @@
+export { CoursesListingTileAvatars } from './CoursesListingTileAvatars';

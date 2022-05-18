@@ -34,6 +34,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
+import pl.edu.wat.wcy.epistimi.user.UserId
 
 internal class OrganizationControllerSpec(
     private val restTemplate: TestRestTemplate,
@@ -300,8 +301,8 @@ internal class OrganizationControllerSpec(
 
             val body = OrganizationRegisterRequest(
                 name = "Gimnazjum nr 2",
-                adminId = organizationAdmin.id!!.value,
-                directorId = organizationDirector.id!!.value,
+                adminId = organizationAdmin.id!!,
+                directorId = organizationDirector.id!!,
                 address = Address(
                     street = "Szkolna 17",
                     postalCode = "15-640",
@@ -335,8 +336,8 @@ internal class OrganizationControllerSpec(
 
                 val body = OrganizationRegisterRequest(
                     name = "Gimnazjum nr 2",
-                    adminId = organizationAdmin.id!!.value,
-                    directorId = organizationDirector.id!!.value,
+                    adminId = organizationAdmin.id!!,
+                    directorId = organizationDirector.id!!,
                     address = Address(
                         street = "Szkolna 17",
                         postalCode = "15-640",
@@ -357,7 +358,7 @@ internal class OrganizationControllerSpec(
             }
         }
 
-        should("sucessfully register new organization") {
+        should("successfully register new organization") {
             // given
             val organizationAdmin = stubOrganizationAdmin()
             val organizationDirector = stubOrganizationDirector()
@@ -365,8 +366,8 @@ internal class OrganizationControllerSpec(
 
             val body = OrganizationRegisterRequest(
                 name = "Gimnazjum nr 2",
-                adminId = organizationAdmin.id!!.value,
-                directorId = organizationDirector.id!!.value,
+                adminId = organizationAdmin.id!!,
+                directorId = organizationDirector.id!!,
                 address = DummyAddress(),
             )
 
@@ -436,8 +437,8 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationRegisterRequest(
                 name = "Gimnazjum nr 2",
-                adminId = "42",
-                directorId = organizationDirector.id!!.value,
+                adminId = UserId("42"),
+                directorId = organizationDirector.id!!,
                 address = Address(
                     street = "Szkolna 17",
                     postalCode = "15-640",
@@ -463,8 +464,43 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationRegisterRequest(
                 name = "Gimnazjum nr 2",
-                adminId = organizationAdmin.id!!.value,
-                directorId = "42",
+                adminId = organizationAdmin.id!!,
+                directorId = UserId("42"),
+                address = Address(
+                    street = "Szkolna 17",
+                    postalCode = "15-640",
+                    city = "Białystok",
+                    countryCode = "PL",
+                )
+            )
+
+            // when
+            val response = restTemplate.exchange<String>(
+                url = "/api/organization",
+                method = POST,
+                requestEntity = HttpEntity(body, headers),
+            )
+
+            // then
+            response.statusCode shouldBe BAD_REQUEST
+        }
+
+        should("fail registering organization if provided admin already manages other organization") {
+            // given
+            val organizationAdmin = stubOrganizationAdmin()
+            val organizationDirector = stubOrganizationDirector()
+
+            organizationStubbing.organizationExists(
+                name = "SP7",
+                admin = organizationAdmin,
+                director = organizationDirector
+            )
+
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val body = OrganizationRegisterRequest(
+                name = "Gimnazjum nr 2",
+                adminId = organizationAdmin.id!!,
+                directorId = organizationDirector.id!!,
                 address = Address(
                     street = "Szkolna 17",
                     postalCode = "15-640",
@@ -633,8 +669,8 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationRegisterRequest(
                 name = "Changed Name",
-                adminId = "42",
-                directorId = organizationDirector.id!!.value,
+                adminId = UserId("42"),
+                directorId = organizationDirector.id!!,
                 address = DummyAddress(),
             )
 
@@ -655,8 +691,8 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationRegisterRequest(
                 name = "Changed Name",
-                adminId = organizationAdmin.id!!.value,
-                directorId = "42",
+                adminId = organizationAdmin.id!!,
+                directorId = UserId("42"),
                 address = DummyAddress(),
             )
 
@@ -677,8 +713,8 @@ internal class OrganizationControllerSpec(
             val organizationDirector = stubOrganizationDirector()
             val body = OrganizationRegisterRequest(
                 name = "Changed Name",
-                adminId = organizationAdmin.id!!.value,
-                directorId = organizationDirector.id!!.value,
+                adminId = organizationAdmin.id!!,
+                directorId = organizationDirector.id!!,
                 address = DummyAddress(),
             )
 
@@ -706,8 +742,8 @@ internal class OrganizationControllerSpec(
                 val headers = securityStubbing.authorizationHeaderFor(role)
                 val body = OrganizationRegisterRequest(
                     name = "Changed Name",
-                    adminId = organizationAdmin.id!!.value,
-                    directorId = organizationDirector.id!!.value,
+                    adminId = organizationAdmin.id!!,
+                    directorId = organizationDirector.id!!,
                     address = DummyAddress(),
                 )
 
@@ -730,8 +766,8 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationRegisterRequest(
                 name = "Changed Name",
-                adminId = organizationAdmin.id!!.value,
-                directorId = organizationDirector.id!!.value,
+                adminId = organizationAdmin.id!!,
+                directorId = organizationDirector.id!!,
                 address = DummyAddress(),
             )
 
@@ -758,8 +794,8 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationRegisterRequest(
                 name = "Changed Name",
-                adminId = organizationAdmin.id!!.value,
-                directorId = organizationAdmin.id!!.value,
+                adminId = organizationAdmin.id!!,
+                directorId = organizationAdmin.id!!,
                 address = DummyAddress(),
             )
 

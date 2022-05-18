@@ -16,4 +16,4 @@ A platform combining electronic school diary and e-learning features.
 * ⚛️ TypeScript & React
 * 📦 Redux
 * 🧪 Jest & React Testing Library
-* 🎨 SCSS
+* 🎨 SCSS, Mantine UI

@@ -10,11 +10,13 @@ object Versions {
     const val KOTEST_WIREMOCK = "1.0.3"
     const val LOGBACK = "1.2.0"
     const val MOCKK = "1.12.3"
+    const val PASSAY = "1.6.1"
     const val SLF4J = "1.7.36"
     const val TC_MONGO = "1.16.3"
 }
 
 plugins {
+    application
     id("org.springframework.boot") version "2.5.9"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.6.10"
@@ -24,6 +26,10 @@ plugins {
 group = "pl.edu.wat.wcy"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
+
+application {
+    mainClass.set("pl.edu.wat.wcy.epistimi.EpistimiApplication")
+}
 
 configurations {
     compileOnly {
@@ -42,15 +48,18 @@ repositories {
 dependencies {
     implementation("ch.qos.logback", "logback-classic", Versions.LOGBACK)
     implementation("ch.qos.logback", "logback-core", Versions.LOGBACK)
+    implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module", "jackson-module-kotlin")
     implementation("io.jsonwebtoken", "jjwt", Versions.JJWT)
     implementation("javax.xml.bind", "jaxb-api", Versions.JAXB)
     implementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
     implementation("org.jetbrains.kotlin", "kotlin-reflect")
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8")
+    implementation("org.passay", "passay",Versions.PASSAY)
     implementation("org.slf4j", "slf4j-api", Versions.SLF4J)
     implementation("org.springframework.boot", "spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot", "spring-boot-starter-security")
+    implementation("org.springframework.boot", "spring-boot-starter-validation")
     implementation("org.springframework.boot", "spring-boot-starter-web")
 
     testImplementation("io.kotest", "kotest-assertions-core", Versions.KOTEST)
@@ -94,4 +103,8 @@ tasks {
     check {
         dependsOn("integration")
     }
+}
+
+project.tasks.named("processIntegrationResources", Copy::class.java) {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }

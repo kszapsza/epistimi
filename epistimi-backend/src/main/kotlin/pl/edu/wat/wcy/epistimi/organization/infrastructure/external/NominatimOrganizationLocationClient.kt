@@ -30,9 +30,9 @@ class NominatimOrganizationLocationClient(
 
     private fun buildNominatimUrl(address: Address): URI {
         return URIBuilder(NOMINATIM_ENDPOINT)
-            .apply { path = "search" }
-            .apply { addParameter("format", "json") }
-            .apply { addParameter("q", "${address.street}, ${address.postalCode} ${address.city}, ${address.countryCode}") }
+            .setPath("search")
+            .addParameter("format", "json")
+            .addParameter("q", "${address.street}, ${address.postalCode} ${address.city}, ${address.countryCode}")
             .build()
     }
 
@@ -60,6 +60,6 @@ class NominatimOrganizationLocationClient(
     )
 
     companion object {
-        private const val NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/search"
+        private const val NOMINATIM_ENDPOINT = "https://nominatim.openstreetmap.org/search" // TODO: move to application.yml, use @Value
     }
 }

@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
+import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimOrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimResponse
 import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimResponseEntry
-import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.shared.Location
 import java.net.URI
 
@@ -26,15 +26,8 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
         every { restTemplateMock.exchange<NominatimResponse>(url = ofType(URI::class), method = GET) }
             .throws(RestClientException(""))
 
-        val address = Address(
-            street = "Szkolna 17",
-            postalCode = "15-640",
-            city = "Białystok",
-            countryCode = "PL",
-        )
-
         // when
-        val location = locationClient.getLocation(address)
+        val location = locationClient.getLocation(TestData.address)
 
         // then
         location.shouldBeNull()
@@ -46,15 +39,7 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
             .returns(ResponseEntity.ok(null))
 
         // when
-        val address = Address(
-            street = "Szkolna 17",
-            postalCode = "15-640",
-            city = "Białystok",
-            countryCode = "PL",
-        )
-
-        // when
-        val location = locationClient.getLocation(address)
+        val location = locationClient.getLocation(TestData.address)
 
         // then
         location.shouldBeNull()
@@ -63,18 +48,10 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
     should("return null if Nominatim API returned empty array") {
         // given
         every { restTemplateMock.exchange<NominatimResponse>(url = ofType(URI::class), method = GET) }
-            .returns(ResponseEntity.ok(listOf()))
+            .returns(ResponseEntity.ok(emptyList()))
 
         // when
-        val address = Address(
-            street = "Szkolna 17",
-            postalCode = "15-640",
-            city = "Białystok",
-            countryCode = "PL",
-        )
-
-        // when
-        val location = locationClient.getLocation(address)
+        val location = locationClient.getLocation(TestData.address)
 
         // then
         location.shouldBeNull()
@@ -108,15 +85,7 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
             .returns(ResponseEntity.ok(nominatimResponse))
 
         // when
-        val address = Address(
-            street = "Szkolna 17",
-            postalCode = "15-640",
-            city = "Białystok",
-            countryCode = "PL",
-        )
-
-        // when
-        val location = locationClient.getLocation(address)
+        val location = locationClient.getLocation(TestData.address)
 
         // then
         location shouldBe Location(

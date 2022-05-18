@@ -1,7 +1,6 @@
 package pl.edu.wat.wcy.epistimi.user
 
 import pl.edu.wat.wcy.epistimi.shared.Address
-import pl.edu.wat.wcy.epistimi.user.dto.UserResponse
 
 data class User(
     val id: UserId? = null,
@@ -16,19 +15,6 @@ data class User(
     val phoneNumber: String? = null,
     val address: Address? = null,
 ) {
-    fun toResponse() = UserResponse(
-        id = this.id!!.value,
-        firstName = this.firstName,
-        lastName = this.lastName,
-        role = this.role,
-        username = this.username,
-        pesel = this.pesel,
-        sex = this.sex,
-        email = this.email,
-        phoneNumber = this.phoneNumber,
-        address = this.address,
-    )
-
     enum class Role {
         EPISTIMI_ADMIN,
         ORGANIZATION_ADMIN,

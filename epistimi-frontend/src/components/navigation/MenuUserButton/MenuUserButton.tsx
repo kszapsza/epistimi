@@ -1,10 +1,10 @@
 import './MenuUserButton.scss';
 import { Avatar, Box, Group, Text, UnstyledButton, UnstyledButtonProps } from '@mantine/core';
-import { ChevronRight } from 'tabler-icons-react';
 import { forwardRef } from 'react';
+import { IconChevronRight } from '@tabler/icons';
 import { useAppSelector } from '../../../store/hooks';
 
-type MenuUserButtonProps = UnstyledButtonProps;
+type MenuUserButtonProps = UnstyledButtonProps<'button'>;
 
 export const MenuUserButton = forwardRef<HTMLButtonElement, MenuUserButtonProps>((props, ref) => {
   const { user } = useAppSelector((state) => state.auth);
@@ -31,7 +31,7 @@ export const MenuUserButton = forwardRef<HTMLButtonElement, MenuUserButtonProps>
               {user.username}
             </Text>
           </Box>
-          <ChevronRight size={18}/>
+          <IconChevronRight size={18}/>
         </Group>
       </UnstyledButton>
     </div>

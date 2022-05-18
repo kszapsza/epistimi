@@ -1,0 +1,21 @@
+@import 'src/styles/themes';
+
+.course-entry {
+  display: flex;
+  flex-direction: row;
+  font: {
+    size: 14px;
+  };
+  margin-bottom: .15rem;
+  width: 100%;
+  max-width: 500px;
+
+  .course-key {
+    color: rgba($black, .5);
+    flex: 1;
+  }
+
+  .course-value {
+    flex: 1;
+  }
+}

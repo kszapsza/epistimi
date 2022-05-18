@@ -1,0 +1,1 @@
+export { CourseDetailsKeyValue } from './CourseDetailsKeyValue';

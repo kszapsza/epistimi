@@ -17,7 +17,7 @@ class AuthenticationService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
     @Value("\${epistimi.security.jwt-secret}") private val jwtSecret: String,
-    @Value("\${epistimi.security.jwt-expiry-millis}") private val jwtExpiryMillis: Long,
+//    @Value("\${epistimi.security.jwt-expiry-millis}") private val jwtExpiryMillis: Long,
 ) {
     fun login(loginRequest: LoginRequest): LoginResponse {
         return retrieveUser(loginRequest.username)
@@ -42,7 +42,7 @@ class AuthenticationService(
     private fun issueToken(user: User): String {
         return user.run {
             Jwts.builder()
-                .setSubject(username)
+                .setSubject(id!!.value)
                 .claim(JwtClaims.ROLE, role)
                 .setIssuedAt(Date(System.currentTimeMillis()))
                 //.setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis)) // TODO: no expiration for now

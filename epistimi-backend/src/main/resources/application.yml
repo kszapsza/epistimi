@@ -9,3 +9,10 @@ spring:
       auto-index-creation: true
       database: epistimi
       uri: mongodb://admin:123456@localhost:27017/epistimi?retryWrites=true&w=majority
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            DEBUG

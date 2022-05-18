@@ -1,0 +1,21 @@
+@import 'src/styles/themes';
+
+.add-student-summary {
+  display: flex;
+  flex-direction: column;
+
+  .add-student-summary-head {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    width: 100%;
+  }
+
+  .add-student-summary-credentials {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 1rem 0 2rem;
+  }
+}

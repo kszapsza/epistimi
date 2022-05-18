@@ -112,7 +112,7 @@ describe('OrganizationEdit component', () => {
       fillOutWholeForm(getByLabelText);
       fireEvent.click(getByRole('button'));
 
-      expect(getByText(/błąd serwera/i)).toBeInTheDocument();
+      expect(getByText(/wystąpił nieoczekiwany błąd serwera/i)).toBeInTheDocument();
       expect(onCreatedMock).not.toBeCalled();
     });
   });

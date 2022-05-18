@@ -1,0 +1,1 @@
+export { CourseAddStudentParentsList } from './CourseAddStudentParentsList';

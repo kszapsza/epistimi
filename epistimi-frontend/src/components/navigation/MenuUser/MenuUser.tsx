@@ -1,6 +1,6 @@
 import './MenuUser.scss';
-import { Check, Logout, Settings } from 'tabler-icons-react';
 import { Divider, Menu } from '@mantine/core';
+import { IconCheck, IconLogout, IconSettings } from '@tabler/icons';
 import { MenuUserButton } from '../MenuUserButton';
 import { removeCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
@@ -20,14 +20,14 @@ export const MenuUser = (): JSX.Element => {
       {user?.role === UserRole.PARENT &&
         <>
           <Menu.Label>Wybierz ucznia</Menu.Label>
-          <Menu.Item rightSection={<Check size={16}/>}>Jan Kowalski</Menu.Item>
+          <Menu.Item rightSection={<IconCheck size={16}/>}>Jan Kowalski</Menu.Item>
           <Menu.Item>Malwina Kowalska</Menu.Item>
           <Divider/>
         </>}
 
       <Menu.Label>Konto</Menu.Label>
-      <Menu.Item icon={<Settings size={14}/>}>Ustawienia</Menu.Item>
-      <Menu.Item icon={<Logout size={14}/>} onClick={handleLogout}>Wyloguj się</Menu.Item>
+      <Menu.Item icon={<IconSettings size={14}/>}>Ustawienia</Menu.Item>
+      <Menu.Item icon={<IconLogout size={14}/>} onClick={handleLogout}>Wyloguj się</Menu.Item>
     </Menu>
   );
 };

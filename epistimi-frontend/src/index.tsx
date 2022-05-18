@@ -7,11 +7,12 @@ import { persistor, store } from './store/config';
 import { Provider } from 'react-redux';
 import { TOKEN_KEY } from './store/slices/authSlice';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 axios.defaults.baseURL = 'http://localhost:8080/';
-axios.defaults.timeout = 1000;
+axios.defaults.timeout = 1500;
 
 axios.interceptors.request.use(
   async (config) => {
@@ -24,6 +25,8 @@ axios.interceptors.request.use(
   },
 );
 
+dayjs.locale('pl');
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
@@ -34,7 +37,7 @@ ReactDOM.render(
       </PersistGate>
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

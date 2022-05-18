@@ -1,0 +1,57 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.course-details {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+
+  .course-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .course-action-group {
+      display: flex;
+      flex-direction: row;
+      gap: .25rem;
+      justify-content: center;
+
+      @media screen and (max-width: $mobile-breakpoint) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .course-details-box {
+    background-color: $white;
+    border: 1px solid $gray;
+    border-radius: $subtle-radius;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    justify-content: center;
+    padding: .75rem;
+
+    .course-school-year {
+      color: rgba($black, .5);
+      font: {
+        size: 14px
+      };
+    }
+
+    .course-code {
+      font: {
+        size: 30px;
+        weight: 600;
+      };
+    }
+
+    .course-class-teacher {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: .3rem;
+    }
+  }
+}
