@@ -6,6 +6,7 @@ import { NotFound, Shell } from './components/navigation';
 import { OrganizationDetails, OrganizationsListing } from './components/organizations';
 import { RequireAuth } from './router/RequireAuth';
 import { Summary } from './components/summary';
+import { TeachersListing } from './components/teachers/TeachersListing';
 import { useAppSelector } from './store/hooks';
 import { UserRole } from './dto/user';
 
@@ -75,6 +76,16 @@ const App = (): JSX.Element => {
           element: (
             <RequireAuth
               element={<CourseDetails/>}
+              auth={auth}
+              allowedRoles={[UserRole.ORGANIZATION_ADMIN]}
+            />
+          ),
+        },
+        {
+          path: 'teachers',
+          element: (
+            <RequireAuth
+              element={<TeachersListing/>}
               auth={auth}
               allowedRoles={[UserRole.ORGANIZATION_ADMIN]}
             />

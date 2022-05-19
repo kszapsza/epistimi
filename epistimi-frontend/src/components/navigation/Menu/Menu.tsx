@@ -54,7 +54,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconClock/>} label={'Planer zajęć'} href={'/app/timetable'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSchool/>} label={'Uczniowie'} href={'/app/students'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconUsers/>} label={'Klasy'} href={'/app/courses'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconBriefcase/>} label={'Personel'} href={'/app/staff'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconBriefcase/>} label={'Nauczyciele'} href={'/app/teachers'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconMessageDots/>} label={'Wiadomości'} href={'/app/chat'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={'Kalendarz'} href={'/app/calendar'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSettings/>} label={'Konfiguracja'} href={'/app/organization-config'}/>

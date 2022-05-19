@@ -2,7 +2,7 @@ package pl.edu.wat.wcy.epistimi.organization.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.organization.OrganizationDetails
-import pl.edu.wat.wcy.epistimi.user.adapter.rest.toUserResponse
+import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponseMapper
 
 object OrganizationResponseMapper : FromDomainMapper<OrganizationDetails, OrganizationResponse> {
     override fun fromDomain(domainObject: OrganizationDetails) = domainObject.toOrganizationResponse()
@@ -11,9 +11,9 @@ object OrganizationResponseMapper : FromDomainMapper<OrganizationDetails, Organi
 private fun OrganizationDetails.toOrganizationResponse() = OrganizationResponse(
     id = id!!,
     name = name,
-    admin = admin.toUserResponse(),
+    admin = UserResponseMapper.fromDomain(admin),
     status = status.toString(),
-    director = director.toUserResponse(),
+    director = UserResponseMapper.fromDomain(director),
     address = address,
     location = location,
 )

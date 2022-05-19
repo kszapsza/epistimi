@@ -1,0 +1,14 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.teachers-entry {
+  background-color: $white;
+  border: 1px solid $gray;
+  border-radius: $subtle-radius;
+  cursor: pointer;
+  padding: .5rem;
+
+  &:hover {
+    background-color: $light-gray;
+  }
+}
