@@ -12,5 +12,5 @@ data class Subject(
 
 @JvmInline
 value class SubjectId(
-    val value: String
+    val value: String,
 )

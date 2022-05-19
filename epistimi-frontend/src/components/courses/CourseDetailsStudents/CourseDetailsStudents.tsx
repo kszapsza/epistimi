@@ -1,6 +1,6 @@
 import './CourseDetailsStudents.scss';
+import { Avatar, Card } from '@mantine/core';
 import { StudentResponse } from '../../../dto/student';
-import { Avatar, Card, Text } from '@mantine/core';
 
 interface CourseDetailsStudentsProps {
   students: StudentResponse[];

@@ -8,6 +8,7 @@ import io.mockk.verify
 import org.springframework.security.crypto.password.PasswordEncoder
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
 internal class UserRegistrarTest : ShouldSpec({
 
@@ -43,7 +44,7 @@ internal class UserRegistrarTest : ShouldSpec({
         every { userRepository.save(ofType(User::class)) } answers { firstArg<User>().copy(id = UserId("user_id")) }
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
         every { credentialsGenerator.generate("Jan", "Kowalski") } returns
-                Credentials("jan.kowalski", "123")
+            Credentials("jan.kowalski", "123")
 
         // when
         val registeredUser = userRegistrar.registerUser(
@@ -63,5 +64,4 @@ internal class UserRegistrarTest : ShouldSpec({
         // and
         verify { credentialsGenerator.generate("Jan", "Kowalski") }
     }
-
 })

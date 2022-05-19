@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus.OK
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.article.Article
 import pl.edu.wat.wcy.epistimi.article.ArticleId
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.stub.ArticleStubbing
 
 internal class ArticleControllerSpec(
@@ -30,7 +30,7 @@ internal class ArticleControllerSpec(
             {
                 "articles": []
             }
-        """.trimIndent()
+            """.trimIndent()
         }
 
         should("return list of articles") {
@@ -64,7 +64,7 @@ internal class ArticleControllerSpec(
                     }
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
         }
     }
 
@@ -89,7 +89,7 @@ internal class ArticleControllerSpec(
                 "title": "Foo",
                 "description": "foobar"
             }
-        """.trimIndent()
+            """.trimIndent()
         }
 
         should("return HTTP 404 if article with provided slug doesn't exist") {

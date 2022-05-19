@@ -18,12 +18,12 @@ import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
+import pl.edu.wat.wcy.epistimi.common.Address
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.data.DummyAddress
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.DISABLED
-import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationChangeStatusRequest
-import pl.edu.wat.wcy.epistimi.organization.dto.OrganizationRegisterRequest
-import pl.edu.wat.wcy.epistimi.shared.Address
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.organization.OrganizationChangeStatusRequest
+import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
@@ -83,7 +83,7 @@ internal class OrganizationControllerSpec(
                 admin = organizationAdmin,
                 director = organizationDirector
             )
-            val headers = securityStubbing.authorizationHeaderFor(STUDENT)
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -147,7 +147,7 @@ internal class OrganizationControllerSpec(
 
         should("return HTTP 404 if organization with provided id does not exist") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(STUDENT)
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
 
             // when
             val response = restTemplate.exchange<String>(

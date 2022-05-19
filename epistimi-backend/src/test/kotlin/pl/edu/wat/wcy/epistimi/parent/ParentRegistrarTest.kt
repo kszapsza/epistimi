@@ -10,6 +10,7 @@ import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
+import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.UserId
@@ -44,19 +45,19 @@ internal class ParentRegistrarTest : ShouldSpec({
         every { organizationContextProvider.provide(UserId("organization_admin_user_id")) } returns organizationStub
         every { userRegistrar.registerUsers(any()) } answers {
             with(firstArg<List<UserRegisterRequest>>()[0]) {
-                    listOf(
-                        NewUser(
-                            user = User(
-                                id = UserId("user_id"),
-                                firstName = firstName,
-                                lastName = lastName,
-                                role = PARENT,
-                                username = "$firstName.$lastName".lowercase(),
-                                passwordHash = "654321",
-                            ),
-                            password = "123456",
-                        )
+                listOf(
+                    NewUser(
+                        user = User(
+                            id = UserId("user_id"),
+                            firstName = firstName,
+                            lastName = lastName,
+                            role = PARENT,
+                            username = "$firstName.$lastName".lowercase(),
+                            passwordHash = "654321",
+                        ),
+                        password = "123456",
                     )
+                )
             }
         }
         every { parentRepository.saveAll(any()) } answers {
@@ -106,5 +107,4 @@ internal class ParentRegistrarTest : ShouldSpec({
             )
         }
     }
-
 })

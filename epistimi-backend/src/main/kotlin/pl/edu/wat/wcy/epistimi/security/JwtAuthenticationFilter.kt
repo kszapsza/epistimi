@@ -15,8 +15,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import pl.edu.wat.wcy.epistimi.shared.api.ErrorMessage
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.api.ErrorMessage
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import java.util.regex.Pattern
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest

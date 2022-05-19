@@ -11,10 +11,10 @@ import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimOrganizationLocationClient
-import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimResponse
-import pl.edu.wat.wcy.epistimi.organization.infrastructure.external.NominatimResponseEntry
-import pl.edu.wat.wcy.epistimi.shared.Location
+import pl.edu.wat.wcy.epistimi.common.Location
+import pl.edu.wat.wcy.epistimi.organization.adapter.external.NominatimOrganizationLocationClient
+import pl.edu.wat.wcy.epistimi.organization.adapter.external.NominatimResponse
+import pl.edu.wat.wcy.epistimi.organization.adapter.external.NominatimResponseEntry
 import java.net.URI
 
 internal class NominatimOrganizationLocationClientTest : ShouldSpec({

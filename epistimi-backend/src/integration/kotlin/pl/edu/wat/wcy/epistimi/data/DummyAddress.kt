@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.data
 
-import pl.edu.wat.wcy.epistimi.shared.Address
+import pl.edu.wat.wcy.epistimi.common.Address
 
 internal object DummyAddress {
     operator fun invoke(): Address {

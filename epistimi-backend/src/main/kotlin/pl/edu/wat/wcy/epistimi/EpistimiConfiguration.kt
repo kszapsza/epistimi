@@ -13,8 +13,10 @@ class EpistimiConfiguration {
     fun restTemplate() = RestTemplate()
 
     @Bean
-    fun objectMapper(): ObjectMapper = JsonMapper.builder()
-        .findAndAddModules()
-        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .build()
+    fun objectMapper(): ObjectMapper {
+        return JsonMapper.builder()
+            .findAndAddModules()
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .build()
+    }
 }

@@ -9,7 +9,7 @@ import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
 import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 import java.util.Date
 
 @Service
@@ -45,7 +45,7 @@ class AuthenticationService(
                 .setSubject(id!!.value)
                 .claim(JwtClaims.ROLE, role)
                 .setIssuedAt(Date(System.currentTimeMillis()))
-                //.setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis)) // TODO: no expiration for now
+                // .setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis)) // TODO: no expiration for now
                 .signWith(SignatureAlgorithm.HS256, jwtSecret.toByteArray())
                 .compact()
         }

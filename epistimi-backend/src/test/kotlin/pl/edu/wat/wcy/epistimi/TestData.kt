@@ -1,10 +1,10 @@
 package pl.edu.wat.wcy.epistimi
 
+import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.OrganizationDetails
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.shared.Address
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherDetails
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId

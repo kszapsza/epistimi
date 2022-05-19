@@ -9,8 +9,8 @@ import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.TestUtils
 import pl.edu.wat.wcy.epistimi.course.Course
+import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseId
-import pl.edu.wat.wcy.epistimi.course.CourseService
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.parent.ParentDetails
@@ -18,6 +18,7 @@ import pl.edu.wat.wcy.epistimi.parent.ParentId
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar.NewParent
 import pl.edu.wat.wcy.epistimi.student.dto.StudentRegisterRequest
+import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
@@ -33,14 +34,14 @@ internal class StudentRegistrarTest : ShouldSpec({
     val studentRepository = mockk<StudentRepository>()
     val userRegistrar = mockk<UserRegistrar>()
     val parentRegistrar = mockk<ParentRegistrar>()
-    val courseService = mockk<CourseService>()
+    val courseFacade = mockk<CourseFacade>()
     val organizationContextProvider = mockk<OrganizationContextProvider>()
 
     val studentRegistrar = StudentRegistrar(
         studentRepository,
         userRegistrar,
         parentRegistrar,
-        courseService,
+        courseFacade,
         organizationContextProvider,
     )
 
@@ -131,7 +132,7 @@ internal class StudentRegistrarTest : ShouldSpec({
 
     fun stubCourseService() {
         every {
-            courseService.addStudent(
+            courseFacade.addStudent(
                 courseId = CourseId("course_id"),
                 studentId = StudentId("student_id"),
             )
@@ -201,6 +202,6 @@ internal class StudentRegistrarTest : ShouldSpec({
             )
         }
         verify { studentRepository.save(ofType(Student::class)) }
-        verify { courseService.addStudent(CourseId("course_id"), StudentId("student_id")) }
+        verify { courseFacade.addStudent(CourseId("course_id"), StudentId("student_id")) }
     }
 })

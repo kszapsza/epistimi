@@ -1,9 +1,7 @@
 package pl.edu.wat.wcy.epistimi.organization
 
-import org.springframework.stereotype.Component
-import pl.edu.wat.wcy.epistimi.user.UserRepository
+import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
-@Component
 class OrganizationDetailsDecorator(
     private val userRepository: UserRepository,
 ) {
