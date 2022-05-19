@@ -1,9 +1,9 @@
 package pl.edu.wat.wcy.epistimi.parent.adapter.mongo
 
+import pl.edu.wat.wcy.epistimi.common.mapper.BiMapper
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.parent.ParentId
-import pl.edu.wat.wcy.epistimi.common.mapper.BiMapper
 import pl.edu.wat.wcy.epistimi.user.UserId
 
 object ParentDbBiMapper : BiMapper<Parent, ParentMongoDbDocument> {
@@ -22,5 +22,4 @@ object ParentDbBiMapper : BiMapper<Parent, ParentMongoDbDocument> {
             organizationId = organizationId.value,
         )
     }
-
 }

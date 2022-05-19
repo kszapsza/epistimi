@@ -16,5 +16,4 @@ class TeacherDetailsDecorator(
             academicTitle = academicTitle,
         )
     }
-
 }

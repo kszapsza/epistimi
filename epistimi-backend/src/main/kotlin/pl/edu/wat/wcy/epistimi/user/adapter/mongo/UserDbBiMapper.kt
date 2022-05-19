@@ -19,7 +19,6 @@ object UserDbBiMapper : BiMapper<User, UserMongoDbDocument> {
             phoneNumber = phoneNumber,
             address = address,
         )
-
     }
 
     override fun fromDomain(domainObject: User): UserMongoDbDocument = with(domainObject) {

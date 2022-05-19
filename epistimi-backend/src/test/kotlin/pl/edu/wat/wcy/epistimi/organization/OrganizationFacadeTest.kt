@@ -193,15 +193,15 @@ internal class OrganizationFacadeTest : ShouldSpec({
         every { userRepository.findById(UserId("admin_id")) } returns TestData.Users.withRole(ORGANIZATION_ADMIN, "admin_id")
         every { userRepository.findById(UserId("director_id")) } returns TestData.Users.withRole(TEACHER, "director_id")
         every { organizationRepository.findFirstByAdminId(UserId("admin_id")) } returns
-                Organization(
-                    id = OrganizationId("123"),
-                    name = "SP7",
-                    adminId = UserId("admin_id"),
-                    status = ENABLED,
-                    directorId = UserId("director_id"),
-                    address = TestData.address,
-                    location = null,
-                )
+            Organization(
+                id = OrganizationId("123"),
+                name = "SP7",
+                adminId = UserId("admin_id"),
+                status = ENABLED,
+                directorId = UserId("director_id"),
+                address = TestData.address,
+                location = null,
+            )
 
         // when
         val exception = shouldThrow<AdminManagingOtherOrganizationException> {

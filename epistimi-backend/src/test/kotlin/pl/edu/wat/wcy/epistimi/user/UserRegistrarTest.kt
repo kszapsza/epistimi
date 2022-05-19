@@ -44,7 +44,7 @@ internal class UserRegistrarTest : ShouldSpec({
         every { userRepository.save(ofType(User::class)) } answers { firstArg<User>().copy(id = UserId("user_id")) }
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
         every { credentialsGenerator.generate("Jan", "Kowalski") } returns
-                Credentials("jan.kowalski", "123")
+            Credentials("jan.kowalski", "123")
 
         // when
         val registeredUser = userRegistrar.registerUser(
@@ -64,5 +64,4 @@ internal class UserRegistrarTest : ShouldSpec({
         // and
         verify { credentialsGenerator.generate("Jan", "Kowalski") }
     }
-
 })

@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.course.adapter.mongo
 
 import org.springframework.stereotype.Repository
+import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.course.CourseNotFoundException
@@ -8,7 +9,6 @@ import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
-import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 
 @Repository
 class CourseDbRepository(

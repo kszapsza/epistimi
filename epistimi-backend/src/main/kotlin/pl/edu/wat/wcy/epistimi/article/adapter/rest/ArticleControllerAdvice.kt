@@ -13,5 +13,4 @@ class ArticleControllerAdvice {
     @ExceptionHandler(ArticleNotFoundException::class)
     fun handleArticleNotFoundExceptions(exception: Exception, request: WebRequest) =
         ErrorMessage(exception, HttpStatus.NOT_FOUND, request).toResponseEntity()
-
 }

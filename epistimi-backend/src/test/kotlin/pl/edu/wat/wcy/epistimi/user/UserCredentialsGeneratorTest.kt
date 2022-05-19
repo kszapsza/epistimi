@@ -65,5 +65,4 @@ internal class UserCredentialsGeneratorTest : ShouldSpec({
             shouldContain(Regex("[!@#$%^&*()_+]"))
         }
     }
-
 })

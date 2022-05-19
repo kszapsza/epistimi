@@ -30,7 +30,7 @@ internal class ArticleControllerSpec(
             {
                 "articles": []
             }
-        """.trimIndent()
+            """.trimIndent()
         }
 
         should("return list of articles") {
@@ -64,7 +64,7 @@ internal class ArticleControllerSpec(
                     }
                 ]
             }
-        """.trimIndent()
+            """.trimIndent()
         }
     }
 
@@ -89,7 +89,7 @@ internal class ArticleControllerSpec(
                 "title": "Foo",
                 "description": "foobar"
             }
-        """.trimIndent()
+            """.trimIndent()
         }
 
         should("return HTTP 404 if article with provided slug doesn't exist") {

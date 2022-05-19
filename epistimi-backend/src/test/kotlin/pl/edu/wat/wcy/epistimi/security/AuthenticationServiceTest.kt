@@ -59,5 +59,4 @@ internal class AuthenticationServiceTest : ShouldSpec({
         // then
         loginResponse.token.isNotBlank()
     }
-
 })

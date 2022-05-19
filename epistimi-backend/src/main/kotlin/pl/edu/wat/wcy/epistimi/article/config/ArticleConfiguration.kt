@@ -12,5 +12,4 @@ class ArticleConfiguration {
     fun articleService(articleRepository: ArticleRepository): ArticleFacade {
         return ArticleFacade(articleRepository)
     }
-
 }

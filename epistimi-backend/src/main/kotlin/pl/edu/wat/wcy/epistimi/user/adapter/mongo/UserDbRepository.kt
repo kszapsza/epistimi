@@ -67,5 +67,4 @@ class UserDbRepository(
             dbCall = userMongoDbRepository::saveAll
         )
     }
-
 }

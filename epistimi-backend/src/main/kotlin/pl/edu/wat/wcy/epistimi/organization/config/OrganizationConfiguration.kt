@@ -45,5 +45,4 @@ class OrganizationConfiguration {
             teacherRepository,
         )
     }
-
 }

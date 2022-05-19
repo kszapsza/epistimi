@@ -18,8 +18,9 @@ object Versions {
 
 plugins {
     application
-    id("org.springframework.boot") version "2.5.9"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
+    id("org.springframework.boot") version "2.5.9"
     kotlin("jvm") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
 }
@@ -57,7 +58,7 @@ dependencies {
     implementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
     implementation("org.jetbrains.kotlin", "kotlin-reflect")
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8")
-    implementation("org.passay", "passay",Versions.PASSAY)
+    implementation("org.passay", "passay", Versions.PASSAY)
     implementation("org.slf4j", "slf4j-api", Versions.SLF4J)
     implementation("org.springframework.boot", "spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot", "spring-boot-starter-security")

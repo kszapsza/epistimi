@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.organization.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
-import pl.edu.wat.wcy.epistimi.common.api.MediaType
-import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import java.net.URI
 
 @RestController

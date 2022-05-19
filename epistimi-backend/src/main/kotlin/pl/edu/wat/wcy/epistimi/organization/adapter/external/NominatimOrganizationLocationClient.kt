@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.Location
+import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
 import java.net.URI
 
 @Component
@@ -44,9 +44,9 @@ class NominatimOrganizationLocationClient(
     }
 
     private fun getLocation(response: ResponseEntity<NominatimResponse>): Location? {
-        return if (response.statusCode != HttpStatus.OK
-            || response.body == null
-            || response.body!!.isEmpty()
+        return if (response.statusCode != HttpStatus.OK ||
+            response.body == null ||
+            response.body!!.isEmpty()
         ) {
             null
         } else {

@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.student.adapter.rest
 
-import pl.edu.wat.wcy.epistimi.parent.adapter.rest.toParentResponse
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
+import pl.edu.wat.wcy.epistimi.parent.adapter.rest.toParentResponse
 import pl.edu.wat.wcy.epistimi.student.StudentRegistrar.NewStudent
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.toUserResponse
 

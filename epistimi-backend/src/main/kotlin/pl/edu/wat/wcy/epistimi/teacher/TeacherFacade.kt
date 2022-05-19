@@ -16,5 +16,4 @@ class TeacherFacade(
             ?.map { teacher -> detailsDecorator.decorate(teacher) }
             ?: emptyList()
     }
-
 }

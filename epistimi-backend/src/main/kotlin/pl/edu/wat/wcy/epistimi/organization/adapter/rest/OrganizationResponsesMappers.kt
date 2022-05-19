@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.organization.adapter.rest
 
-import pl.edu.wat.wcy.epistimi.organization.OrganizationDetails
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
+import pl.edu.wat.wcy.epistimi.organization.OrganizationDetails
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.toUserResponse
 
 object OrganizationResponseMapper : FromDomainMapper<OrganizationDetails, OrganizationResponse> {

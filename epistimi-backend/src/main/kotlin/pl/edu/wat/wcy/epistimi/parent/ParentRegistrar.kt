@@ -60,6 +60,7 @@ class ParentRegistrar(
                     userId = user.id!!,
                     organizationId = organization.id!!,
                 )
-            })
+            }
+        )
     }
 }

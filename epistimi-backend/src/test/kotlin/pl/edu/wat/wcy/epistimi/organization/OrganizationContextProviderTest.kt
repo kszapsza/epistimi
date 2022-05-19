@@ -46,5 +46,4 @@ internal class OrganizationContextProviderTest : ShouldSpec({
         // then
         organization shouldBe TestData.organization
     }
-
 })

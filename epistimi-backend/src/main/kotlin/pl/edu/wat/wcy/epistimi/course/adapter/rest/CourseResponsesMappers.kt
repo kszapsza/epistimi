@@ -1,8 +1,8 @@
 package pl.edu.wat.wcy.epistimi.course.adapter.rest
 
+import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.course.CourseDetails
 import pl.edu.wat.wcy.epistimi.parent.adapter.rest.toParentResponse
-import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.student.adapter.rest.StudentResponse
 import pl.edu.wat.wcy.epistimi.teacher.adapter.rest.toTeacherResponse
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponse

@@ -51,5 +51,4 @@ internal class TeacherFacadeTest : ShouldSpec({
             shouldContain(TestData.teacherDetails)
         }
     }
-
 })

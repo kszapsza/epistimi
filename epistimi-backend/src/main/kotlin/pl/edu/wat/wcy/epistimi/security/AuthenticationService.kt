@@ -45,7 +45,7 @@ class AuthenticationService(
                 .setSubject(id!!.value)
                 .claim(JwtClaims.ROLE, role)
                 .setIssuedAt(Date(System.currentTimeMillis()))
-                //.setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis)) // TODO: no expiration for now
+                // .setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis)) // TODO: no expiration for now
                 .signWith(SignatureAlgorithm.HS256, jwtSecret.toByteArray())
                 .compact()
         }

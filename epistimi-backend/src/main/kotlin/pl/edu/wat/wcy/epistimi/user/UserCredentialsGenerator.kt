@@ -26,7 +26,7 @@ class UserCredentialsGenerator(
     }
 
     private fun generateUsername(firstName: String, lastName: String): String {
-        val baseGeneratedUsername = "${firstName}.${lastName}".lowercase(Locale.getDefault())
+        val baseGeneratedUsername = "$firstName.$lastName".lowercase(Locale.getDefault())
         val usernamesStartingWithBase = userRepository.findByUsernameStartingWith(baseGeneratedUsername)
 
         // TODO: remove non-ASCII characters (e.g. polish ogonki)
@@ -34,7 +34,7 @@ class UserCredentialsGenerator(
         return if (usernamesStartingWithBase.isEmpty()) {
             baseGeneratedUsername
         } else {
-            "${baseGeneratedUsername}.${usernamesStartingWithBase.size}"
+            "$baseGeneratedUsername.${usernamesStartingWithBase.size}"
         }
     }
 
