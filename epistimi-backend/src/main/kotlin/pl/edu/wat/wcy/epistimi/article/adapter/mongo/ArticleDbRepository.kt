@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.article.Article
 import pl.edu.wat.wcy.epistimi.article.ArticleNotFoundException
 import pl.edu.wat.wcy.epistimi.article.port.ArticleRepository
-import pl.edu.wat.wcy.epistimi.shared.mapper.DbHandlers
+import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 
 @Repository
 class ArticleDbRepository(

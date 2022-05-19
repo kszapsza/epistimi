@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.student.adapter.mongo
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.shared.mapper.DbHandlers
+import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.student.StudentId
 import pl.edu.wat.wcy.epistimi.student.port.StudentRepository

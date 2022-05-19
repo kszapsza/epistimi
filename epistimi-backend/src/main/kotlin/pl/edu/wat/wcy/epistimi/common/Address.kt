@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.shared
+package pl.edu.wat.wcy.epistimi.common
 
 data class Address(
     val street: String,

@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.organization
 
-import pl.edu.wat.wcy.epistimi.shared.Address
-import pl.edu.wat.wcy.epistimi.shared.Location
+import pl.edu.wat.wcy.epistimi.common.Address
+import pl.edu.wat.wcy.epistimi.common.Location
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
 

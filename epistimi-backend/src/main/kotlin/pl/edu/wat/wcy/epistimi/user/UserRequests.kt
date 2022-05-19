@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.user.dto
 
 import org.hibernate.validator.constraints.pl.PESEL
-import pl.edu.wat.wcy.epistimi.shared.Address
+import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.user.User
 import javax.validation.constraints.Email
 

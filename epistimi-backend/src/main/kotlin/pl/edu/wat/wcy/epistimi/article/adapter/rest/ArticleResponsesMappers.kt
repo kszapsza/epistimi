@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.article.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.article.Article
-import pl.edu.wat.wcy.epistimi.shared.mapper.FromDomainMapper
+import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 
 object ArticleResponseMapper : FromDomainMapper<Article, ArticleResponse> {
     override fun fromDomain(domainObject: Article) = domainObject.toResponse()

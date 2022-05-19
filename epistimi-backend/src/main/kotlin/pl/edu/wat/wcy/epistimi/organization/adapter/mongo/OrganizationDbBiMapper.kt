@@ -2,7 +2,7 @@ package pl.edu.wat.wcy.epistimi.organization.adapter.mongo
 
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.shared.mapper.BiMapper
+import pl.edu.wat.wcy.epistimi.common.mapper.BiMapper
 import pl.edu.wat.wcy.epistimi.user.UserId
 
 object OrganizationDbBiMapper : BiMapper<Organization, OrganizationMongoDbDocument> {

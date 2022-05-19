@@ -3,7 +3,7 @@ package pl.edu.wat.wcy.epistimi.user.adapter.mongo
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.shared.mapper.DbHandlers
+import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException

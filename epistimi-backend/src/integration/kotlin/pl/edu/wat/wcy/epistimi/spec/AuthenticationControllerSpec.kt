@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
 import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
 
 internal class AuthenticationControllerSpec(

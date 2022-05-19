@@ -3,7 +3,7 @@ package pl.edu.wat.wcy.epistimi.course.adapter.mongo
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.shared.mapper.BiMapper
+import pl.edu.wat.wcy.epistimi.common.mapper.BiMapper
 import pl.edu.wat.wcy.epistimi.student.StudentId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 

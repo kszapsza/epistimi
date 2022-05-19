@@ -1,5 +1,7 @@
 package pl.edu.wat.wcy.epistimi.organization.adapter.rest
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,15 +15,22 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
-import pl.edu.wat.wcy.epistimi.shared.mapper.RestHandlers
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import java.net.URI
 
 @RestController
 @RequestMapping("/api/organization")
+@Tag(name = "organization", description = "API for managing organizations in Epistimi system")
 class OrganizationController(
     private val organizationFacade: OrganizationFacade,
 ) {
+    @Operation(
+        summary = "Get organization by id",
+        tags = ["organization"],
+        description = "Retrieves an organization with provided id",
+    )
+    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @GetMapping(
         path = ["{organizationId}"],
         produces = [MediaType.APPLICATION_JSON_V1]
@@ -36,6 +45,11 @@ class OrganizationController(
         )
     }
 
+    @Operation(
+        summary = "Get all organizations",
+        tags = ["organization"],
+        description = "Retrieves all registered organizations",
+    )
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @GetMapping(
         path = [""],
@@ -49,6 +63,11 @@ class OrganizationController(
         )
     }
 
+    @Operation(
+        summary = "Register organization",
+        tags = ["organization"],
+        description = "Registers new organization with provided administrator id",
+    )
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @PostMapping(
         path = [""],
@@ -66,6 +85,11 @@ class OrganizationController(
         }
     }
 
+    @Operation(
+        summary = "Change organization status",
+        tags = ["organization"],
+        description = "Enables/disables organization with provided id",
+    )
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @PutMapping(
         path = ["/{organizationId}/status"],
@@ -85,6 +109,11 @@ class OrganizationController(
         )
     }
 
+    @Operation(
+        summary = "Update organization",
+        tags = ["organization"],
+        description = "Updates organization with provided id",
+    )
     @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
     @PutMapping(
         path = ["/{organizationId}"],

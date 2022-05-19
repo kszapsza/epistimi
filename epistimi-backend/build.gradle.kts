@@ -12,6 +12,7 @@ object Versions {
     const val MOCKK = "1.12.3"
     const val PASSAY = "1.6.1"
     const val SLF4J = "1.7.36"
+    const val SPRINGFOX = "3.0.0"
     const val TC_MONGO = "1.16.3"
 }
 
@@ -51,6 +52,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module", "jackson-module-kotlin")
     implementation("io.jsonwebtoken", "jjwt", Versions.JJWT)
+    implementation("io.springfox", "springfox-boot-starter", Versions.SPRINGFOX)
     implementation("javax.xml.bind", "jaxb-api", Versions.JAXB)
     implementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
     implementation("org.jetbrains.kotlin", "kotlin-reflect")

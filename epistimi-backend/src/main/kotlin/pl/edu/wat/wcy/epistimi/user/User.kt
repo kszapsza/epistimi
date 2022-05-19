@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.user
 
-import pl.edu.wat.wcy.epistimi.shared.Address
+import pl.edu.wat.wcy.epistimi.common.Address
 
 data class User(
     val id: UserId? = null,

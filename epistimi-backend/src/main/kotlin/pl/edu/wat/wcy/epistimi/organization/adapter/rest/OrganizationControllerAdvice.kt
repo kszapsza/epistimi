@@ -10,7 +10,7 @@ import pl.edu.wat.wcy.epistimi.organization.AdminNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.DirectorInsufficientPermissionsException
 import pl.edu.wat.wcy.epistimi.organization.DirectorNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
-import pl.edu.wat.wcy.epistimi.shared.api.ErrorMessage
+import pl.edu.wat.wcy.epistimi.common.api.ErrorMessage
 
 @RestControllerAdvice
 class OrganizationControllerAdvice {

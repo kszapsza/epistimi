@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus.OK
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.article.Article
 import pl.edu.wat.wcy.epistimi.article.ArticleId
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.stub.ArticleStubbing
 
 internal class ArticleControllerSpec(

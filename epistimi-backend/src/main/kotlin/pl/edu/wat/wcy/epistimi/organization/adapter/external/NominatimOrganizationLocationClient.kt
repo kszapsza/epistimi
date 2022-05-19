@@ -9,8 +9,8 @@ import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
-import pl.edu.wat.wcy.epistimi.shared.Address
-import pl.edu.wat.wcy.epistimi.shared.Location
+import pl.edu.wat.wcy.epistimi.common.Address
+import pl.edu.wat.wcy.epistimi.common.Location
 import java.net.URI
 
 @Component

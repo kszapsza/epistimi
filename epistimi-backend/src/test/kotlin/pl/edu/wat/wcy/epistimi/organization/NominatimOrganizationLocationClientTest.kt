@@ -14,7 +14,7 @@ import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.organization.adapter.external.NominatimOrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.adapter.external.NominatimResponse
 import pl.edu.wat.wcy.epistimi.organization.adapter.external.NominatimResponseEntry
-import pl.edu.wat.wcy.epistimi.shared.Location
+import pl.edu.wat.wcy.epistimi.common.Location
 import java.net.URI
 
 internal class NominatimOrganizationLocationClientTest : ShouldSpec({

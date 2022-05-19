@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.FORBIDDEN
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.TeacherStubbing

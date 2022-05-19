@@ -1,5 +1,7 @@
 package pl.edu.wat.wcy.epistimi.course.adapter.rest
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
@@ -12,17 +14,23 @@ import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
-import pl.edu.wat.wcy.epistimi.shared.api.MediaType
-import pl.edu.wat.wcy.epistimi.shared.mapper.RestHandlers
+import pl.edu.wat.wcy.epistimi.common.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.net.URI
 import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/course")
+@Tag(name = "course", description = "API for retrieving and managing courses (school classes)")
 class CourseController(
     private val courseFacade: CourseFacade,
 ) {
+    @Operation(
+        summary = "Get all courses",
+        tags = ["course"],
+        description = "Retrieves a list of all courses (within authenticated user organization)",
+    )
     @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER')")
     @GetMapping(
         path = [""],
@@ -38,6 +46,11 @@ class CourseController(
         )
     }
 
+    @Operation(
+        summary = "Get course by id",
+        tags = ["course"],
+        description = "Returns course with provided id (if it exists in authenticated user organization)",
+    )
     @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER')")
     @GetMapping(
         path = ["{courseId}"],
@@ -57,6 +70,11 @@ class CourseController(
         )
     }
 
+    @Operation(
+        summary = "Create course",
+        tags = ["course"],
+        description = "Creates a new course in authenticated user organization",
+    )
     @PreAuthorize("hasRole('ORGANIZATION_ADMIN')")
     @PostMapping(
         path = [""],

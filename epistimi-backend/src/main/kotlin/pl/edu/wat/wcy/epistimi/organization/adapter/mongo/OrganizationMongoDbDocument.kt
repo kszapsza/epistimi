@@ -3,8 +3,8 @@ package pl.edu.wat.wcy.epistimi.organization.adapter.mongo
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
-import pl.edu.wat.wcy.epistimi.shared.Address
-import pl.edu.wat.wcy.epistimi.shared.Location
+import pl.edu.wat.wcy.epistimi.common.Address
+import pl.edu.wat.wcy.epistimi.common.Location
 
 @Document(collection = "organizations")
 data class OrganizationMongoDbDocument(

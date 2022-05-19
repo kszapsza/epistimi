@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.parent.ParentId
 import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
-import pl.edu.wat.wcy.epistimi.shared.mapper.DbHandlers
+import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 
 @Repository
 class ParentDbRepository(

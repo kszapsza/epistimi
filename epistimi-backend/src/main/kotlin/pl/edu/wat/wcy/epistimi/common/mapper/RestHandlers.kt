@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.shared.mapper
+package pl.edu.wat.wcy.epistimi.common.mapper
 
 object RestHandlers {
 

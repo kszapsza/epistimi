@@ -32,8 +32,10 @@ class WebSecurityConfiguration(
             }?.authorizeRequests {
                 it.antMatchers(HttpMethod.GET, "/api/article")?.permitAll()
                 it.antMatchers(HttpMethod.GET, "/api/article/**")?.permitAll()
-                it.antMatchers(HttpMethod.POST, "/api/student")?.permitAll()
                 it.antMatchers(HttpMethod.POST, "/auth/login")?.permitAll()
+                it.antMatchers("/swagger-ui/**")?.permitAll()
+                it.antMatchers("/swagger-resources/**")?.permitAll()
+                it.antMatchers("/v3/api-docs")?.permitAll()
                 it.anyRequest()?.authenticated()
             }?.exceptionHandling {
                 it.authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))

@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.user.adapter.rest
 
-import pl.edu.wat.wcy.epistimi.shared.mapper.FromDomainMapper
+import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.user.User
 
 object UserResponseMapper : FromDomainMapper<User, UserResponse> {
