@@ -57,7 +57,7 @@ export const CoursesListing = (): JSX.Element => {
           </Button>
         </div>
 
-        {loading && <Loader/>}
+        {loading && <Loader style={{ width: '100%' }}/>}
         {createdMessageOpened &&
           <Alert icon={<IconCheck size={16}/>} color={'green'}>
             Pomyślnie utworzono nową klasę

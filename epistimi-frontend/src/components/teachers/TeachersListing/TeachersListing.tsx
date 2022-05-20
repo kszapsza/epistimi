@@ -46,7 +46,7 @@ export const TeachersListing = (): JSX.Element => {
           </Button>
         </div>
 
-        {loading && <Loader/>}
+        {loading && <Loader style={{ width: '100%' }}/>}
 
         {error &&
           <Alert icon={<IconAlertCircle size={16}/>} color="red">
