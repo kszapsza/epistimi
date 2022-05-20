@@ -6,7 +6,7 @@ import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
-import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 
 class ParentRegistrar(
     private val parentRepository: ParentRepository,

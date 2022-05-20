@@ -1,6 +1,7 @@
 import './TeachersListing.scss';
 import { Button, Loader, Modal, Title } from '@mantine/core';
 import { IconPlus } from '@tabler/icons';
+import { TeacherCreate } from '../TeacherCreate';
 import { TeachersListingTile } from '../TeachersListingTile';
 import { TeachersResponse } from '../../../dto/teacher';
 import { useDisclosure } from '@mantine/hooks';
@@ -18,7 +19,7 @@ export const TeachersListing = (): JSX.Element => {
         size={'lg'}
         title={'Dodaj nowego nauczyciela'}
       >
-        nothing here just yet!!! to be done.
+        <TeacherCreate/>
       </Modal>
       <div className={'teachers'}>
         <div className={'teachers-actions'}>
@@ -34,11 +35,8 @@ export const TeachersListing = (): JSX.Element => {
 
         {data &&
           <div className={'teachers-entries'}>
-            {data.teachers.map((teacher) => (<>
+            {data.teachers.map((teacher) => (
                 <TeachersListingTile teacher={teacher}/>
-                <TeachersListingTile teacher={teacher}/>
-                <TeachersListingTile teacher={teacher}/>
-              </>
             ))}
           </div>
         }

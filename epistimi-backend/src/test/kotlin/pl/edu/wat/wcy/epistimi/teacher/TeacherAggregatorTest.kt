@@ -12,16 +12,14 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.UserId
 
-internal class TeacherFacadeTest : ShouldSpec({
+internal class TeacherAggregatorTest : ShouldSpec({
 
     val teacherRepository = mockk<TeacherRepository>()
     val organizationContextProvider = mockk<OrganizationContextProvider>()
-    val teacherDetailsDecorator = mockk<TeacherDetailsDecorator>()
 
-    val teacherFacade = TeacherFacade(
-        teacherRepository,
+    val teacherAggregator = TeacherAggregator(
         organizationContextProvider,
-        teacherDetailsDecorator,
+        teacherRepository,
     )
 
     should("return empty list of teachers if there are no teachers in school administered by provided admin") {
@@ -30,7 +28,7 @@ internal class TeacherFacadeTest : ShouldSpec({
         every { teacherRepository.findAll(OrganizationId("organization_id")) } returns emptyList()
 
         // when
-        val teachers = teacherFacade.getTeachers(UserId("admin_user_id"))
+        val teachers = teacherAggregator.getTeachers(UserId("admin_user_id"))
 
         // then
         teachers.shouldBeEmpty()
@@ -40,15 +38,14 @@ internal class TeacherFacadeTest : ShouldSpec({
         // given
         every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
         every { teacherRepository.findAll(OrganizationId("organization_id")) } returns listOf(TestData.teacher)
-        every { teacherDetailsDecorator.decorate(TestData.teacher) } returns TestData.teacherDetails
 
         // when
-        val teachers = teacherFacade.getTeachers(UserId("admin_user_id"))
+        val teachers = teacherAggregator.getTeachers(UserId("admin_user_id"))
 
         // then
         with(teachers) {
             shouldHaveSize(1)
-            shouldContain(TestData.teacherDetails)
+            shouldContain(TestData.teacher)
         }
     }
 })

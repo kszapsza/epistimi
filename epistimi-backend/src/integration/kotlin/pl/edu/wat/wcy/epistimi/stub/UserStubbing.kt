@@ -7,7 +7,7 @@ import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
-import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 
 @Component
 internal class UserStubbing(

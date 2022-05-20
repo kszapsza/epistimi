@@ -1,19 +1,22 @@
 package pl.edu.wat.wcy.epistimi.teacher
 
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.teacher.TeacherRegistrar.NewTeacher
 import pl.edu.wat.wcy.epistimi.user.UserId
 
 class TeacherFacade(
-    private val teacherRepository: TeacherRepository,
-    private val organizationContextProvider: OrganizationContextProvider,
-    private val detailsDecorator: TeacherDetailsDecorator,
+    private val teacherAggregator: TeacherAggregator,
+    private val teacherRegistrar: TeacherRegistrar,
+    private val teacherDetailsDecorator: TeacherDetailsDecorator,
 ) {
-
     fun getTeachers(userId: UserId): List<TeacherDetails> {
-        return organizationContextProvider.provide(userId)
-            ?.let { organization -> teacherRepository.findAll(organization.id!!) }
-            ?.map { teacher -> detailsDecorator.decorate(teacher) }
-            ?: emptyList()
+        return teacherAggregator.getTeachers(userId)
+            .map { teacher -> teacherDetailsDecorator.decorate(teacher) }
+    }
+
+    fun registerTeacher(
+        requesterUserId: UserId,
+        registerRequest: TeacherRegisterRequest
+    ): NewTeacher {
+        return teacherRegistrar.registerTeacher(requesterUserId, registerRequest)
     }
 }

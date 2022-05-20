@@ -1,4 +1,5 @@
 import './TeachersListingTile.scss';
+import { Avatar } from '@mantine/core';
 import { TeacherResponse } from '../../../dto/teacher';
 
 interface TeachersListingTileProps {
@@ -10,7 +11,12 @@ export const TeachersListingTile = (
 ): JSX.Element => {
   return (
     <div className={'teachers-entry'}>
-      {teacher.user.firstName} {teacher.user.lastName}
+      <Avatar size={'sm'} radius={'xl'} color={'blue'}>
+        {teacher.user.firstName[0]}{teacher.user.lastName[0]}
+      </Avatar>
+      <div>
+        {teacher.user.firstName} {teacher.user.lastName}
+      </div>
     </div>
   );
 };

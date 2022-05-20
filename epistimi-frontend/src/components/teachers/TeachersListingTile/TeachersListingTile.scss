@@ -2,10 +2,14 @@
 @import 'src/styles/themes';
 
 .teachers-entry {
+  align-items: center;
   background-color: $white;
   border: 1px solid $gray;
   border-radius: $subtle-radius;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
   padding: .5rem;
 
   &:hover {

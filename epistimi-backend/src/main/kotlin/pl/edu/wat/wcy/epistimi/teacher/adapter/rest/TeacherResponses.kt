@@ -12,3 +12,14 @@ data class TeacherResponse(
 data class TeachersResponse(
     val teachers: List<TeacherResponse>,
 )
+
+data class TeacherRegisterResponse(
+    val id: TeacherId? = null,
+    val newUser: NewUserResponse,
+    val academicTitle: String?,
+) {
+    data class NewUserResponse(
+        val user: UserResponse,
+        val password: String,
+    )
+}
