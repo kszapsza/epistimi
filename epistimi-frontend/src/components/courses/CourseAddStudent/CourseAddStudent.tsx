@@ -14,13 +14,13 @@ import { useState } from 'react';
 import { validatePesel } from '../../../validators/pesel';
 import axios from 'axios';
 
-enum CourseAddStudentState {
+const enum CourseAddStudentState {
   EDIT_STUDENT,
   EDIT_PARENTS,
   SUMMARY,
 }
 
-export type UserRegisterFormData = {
+export type StudentRegisterFormData = {
   firstName: string;
   lastName: string;
   pesel?: string;
@@ -51,13 +51,13 @@ export const CourseAddStudent = (
   };
 
   const [modalState, setModalState] = useState<CourseAddStudentState>(CourseAddStudentState.EDIT_STUDENT);
-  const [studentFormData, setStudentFormData] = useState<UserRegisterFormData>(userInitialValues);
-  const [parentFormData, setParentFormData] = useState<UserRegisterFormData>(userInitialValues);
-  const [parentList, setParentList] = useState<UserRegisterFormData[]>([]);
+  const [studentFormData, setStudentFormData] = useState<StudentRegisterFormData>(userInitialValues);
+  const [parentFormData, setParentFormData] = useState<StudentRegisterFormData>(userInitialValues);
+  const [parentList, setParentList] = useState<StudentRegisterFormData[]>([]);
   const [sendingRequest, setSendingRequest] = useState<boolean>(false);
   const [registerResponse, setRegisterResponse] = useState<StudentRegisterResponse>();
 
-  const form = useForm<UserRegisterFormData>({
+  const form = useForm<StudentRegisterFormData>({
     initialValues: {
       ...userInitialValues,
     },
@@ -131,7 +131,7 @@ export const CourseAddStudent = (
   };
 
   const buildUserRegisterRequest = (
-    formData: UserRegisterFormData,
+    formData: StudentRegisterFormData,
     role: UserRole,
   ): UserRegisterRequest => {
     return {

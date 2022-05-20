@@ -1,8 +1,8 @@
-.add-student-summary {
+.teacher-create-summary {
   display: flex;
   flex-direction: column;
 
-  .add-student-summary-head {
+  .teacher-create-summary-head {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -10,7 +10,7 @@
     width: 100%;
   }
 
-  .add-student-summary-credentials {
+  .teacher-create-summary-credentials {
     display: flex;
     flex-direction: column;
     gap: .5rem;

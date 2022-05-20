@@ -1,4 +1,4 @@
-import { UserResponse } from './user';
+import { UserRegisterRequest, UserResponse } from './user';
 
 export interface TeacherResponse {
   id: string;
@@ -8,4 +8,18 @@ export interface TeacherResponse {
 
 export interface TeachersResponse {
   teachers: TeacherResponse[];
+}
+
+export interface TeacherRegisterRequest {
+  user: UserRegisterRequest,
+  academicTitle?: string,
+}
+
+export interface TeacherRegisterResponse {
+  id: string,
+  newUser: {
+    user: UserResponse,
+    password: string,
+  },
+  academicTitle?: string,
 }
