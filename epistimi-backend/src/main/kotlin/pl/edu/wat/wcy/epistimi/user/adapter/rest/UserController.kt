@@ -17,8 +17,8 @@ import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserAggregator
 import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import java.net.URI
 import javax.validation.Valid
 

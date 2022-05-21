@@ -8,9 +8,9 @@ import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar.NewParent
 import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
-import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 
 class StudentRegistrar(
     private val studentRepository: StudentRepository,

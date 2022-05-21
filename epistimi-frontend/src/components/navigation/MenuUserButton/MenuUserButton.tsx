@@ -1,8 +1,9 @@
 import './MenuUserButton.scss';
-import { Avatar, Box, Group, Text, UnstyledButton, UnstyledButtonProps } from '@mantine/core';
+import { Box, Group, Text, UnstyledButton, UnstyledButtonProps } from '@mantine/core';
 import { forwardRef } from 'react';
 import { IconChevronRight } from '@tabler/icons';
 import { useAppSelector } from '../../../store/hooks';
+import { UserAvatar } from '../../common';
 
 type MenuUserButtonProps = UnstyledButtonProps<'button'>;
 
@@ -13,16 +14,11 @@ export const MenuUserButton = forwardRef<HTMLButtonElement, MenuUserButtonProps>
     return <></>;
   }
 
-  const initials = `${user.firstName[0]}${user.lastName[0]}`
-    .toLocaleUpperCase('pl-PL');
-
   return (
     <div className={'menu-user-box'}>
       <UnstyledButton className={'menu-user-btn'} ref={ref} {...props}>
         <Group>
-          <Avatar radius={'xl'} color={'orange'}>
-            {initials}
-          </Avatar>
+          <UserAvatar radius={'xl'} user={user}/>
           <Box sx={{ flex: 1 }}>
             <Text size="sm" weight={500}>
               {user.firstName} {user.lastName}

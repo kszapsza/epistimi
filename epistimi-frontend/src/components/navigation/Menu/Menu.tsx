@@ -13,6 +13,7 @@ import {
   IconMessages,
   IconSchool,
   IconSettings,
+  IconSpeakerphone,
   IconStar,
   IconUsers,
   IconWriting,
@@ -57,6 +58,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBriefcase/>} label={'Nauczyciele'} href={'/app/teachers'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconMessageDots/>} label={'Wiadomości'} href={'/app/chat'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={'Kalendarz'} href={'/app/calendar'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={'Tablica ogłoszeń'} href={'/app/noticeboard'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSettings/>} label={'Konfiguracja'} href={'/app/organization-config'}/>
         </div>
       );
@@ -70,6 +72,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconZoomQuestion/>} label={'Sprawdziany'} href={'/app/exams'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconMessages/>} label={'Wiadomości'} href={'/app/chat'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={'Kalendarz'} href={'/app/calendar'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={'Tablica ogłoszeń'} href={'/app/noticeboard'}/>
         </div>;
       break;
     case UserRole.STUDENT:
@@ -83,6 +86,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconZoomQuestion/>} label={'Sprawdziany'} href={'/app/exams'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconMessages/>} label={'Wiadomości'} href={'/app/chat'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={'Kalendarz'} href={'/app/calendar'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={'Tablica ogłoszeń'} href={'/app/noticeboard'}/>
         </div>
       );
       break;
@@ -95,6 +99,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconWriting/>} label={'Zadania domowe'} href={'/app/assignments'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconMessages/>} label={'Wiadomości'} href={'/app/chat'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={'Kalendarz'} href={'/app/calendar'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={'Tablica ogłoszeń'} href={'/app/noticeboard'}/>
         </div>
       );
       break;

@@ -1,5 +1,5 @@
 import './CourseDetails.scss';
-import { ActionIcon, Alert, Avatar, Button, Loader, Modal, Title } from '@mantine/core';
+import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { AxiosError } from 'axios';
 import { CourseAddStudent } from '../CourseAddStudent';
 import { CourseDetailsKeyValue } from '../CourseDetailsKeyValue';
@@ -10,6 +10,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
+import { UserAvatar } from '../../common';
 import dayjs from 'dayjs';
 
 export const CourseDetails = (): JSX.Element => {
@@ -37,7 +38,7 @@ export const CourseDetails = (): JSX.Element => {
   };
 
   return (<>
-      {loading && <Loader/>}
+      {loading && <Loader style={{ width: '100%' }}/>}
       {error &&
         <Alert icon={<IconAlertCircle size={16}/>} color="red">
           {getErrorMessage(error)}
@@ -114,10 +115,10 @@ export const CourseDetails = (): JSX.Element => {
               label={'Wychowawca klasy'}
               value={
                 <div className={'course-class-teacher'}>
-                  <Avatar size={'xs'} radius={'xl'} color={'orange'}>
-                    {course.classTeacher.user.firstName[0]}{course.classTeacher.user.lastName[0]}
-                  </Avatar>
-                  {course.classTeacher.user.firstName} {course.classTeacher.user.lastName}
+                  <UserAvatar user={course.classTeacher.user} size={'xs'} radius={'xl'}/>
+                  <a href={`/app/teachers/${course.classTeacher.id}`}>
+                    {course.classTeacher.user.firstName} {course.classTeacher.user.lastName}
+                  </a>
                 </div>
               }/>
 

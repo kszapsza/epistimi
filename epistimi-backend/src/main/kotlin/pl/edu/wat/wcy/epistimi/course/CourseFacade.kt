@@ -2,6 +2,7 @@ package pl.edu.wat.wcy.epistimi.course
 
 import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.student.StudentId
@@ -35,6 +36,10 @@ class CourseFacade(
         return detailsDecorator.decorate(course)
     }
 
+    fun getCoursesLedByTeacher(classTeacherId: TeacherId): CourseDetails {
+        TODO()
+    }
+
     fun createCourse(userId: UserId, createRequest: CourseCreateRequest): CourseDetails {
         if (!createRequest.isSchoolYearTimeFrameValid()) {
             throw CourseBadRequestException("Invalid school year time frame")
@@ -61,6 +66,7 @@ class CourseFacade(
             throw CourseBadRequestException("User not managing any organization")
         }
         if (classTeacher.organizationId != organization.id) {
+            logger.warn("Attempted to register course with class teacher from other organization")
             throw CourseBadRequestException("Provided class teacher is not associated with your organization")
         }
 
@@ -109,5 +115,9 @@ class CourseFacade(
             .also { course -> if (course.schoolYearEnd.isBefore(LocalDate.now())) throw CourseUnmodifiableException() }
             .let { it.copy(studentIds = it.studentIds + studentId) }
             .let { courseRepository.save(it) }
+    }
+
+    companion object {
+        private val logger by logger()
     }
 }

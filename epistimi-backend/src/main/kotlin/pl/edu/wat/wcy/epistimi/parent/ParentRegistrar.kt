@@ -5,8 +5,8 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 
 class ParentRegistrar(
     private val parentRepository: ParentRepository,

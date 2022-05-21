@@ -1,5 +1,7 @@
 package pl.edu.wat.wcy.epistimi.course
 
+import pl.edu.wat.wcy.epistimi.organization.Organization
+import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.parent.ParentDetails
 import pl.edu.wat.wcy.epistimi.parent.ParentId
@@ -22,7 +24,7 @@ class CourseDetailsDecorator(
     fun decorate(course: Course) = with(course) {
         CourseDetails(
             id = id,
-            organization = organizationRepository.findById(organizationId),
+            organization = retrieveOrganization(organizationId),
             code = Course.Code(number = code.number, letter = code.letter),
             schoolYear = schoolYear,
             classTeacher = retrieveClassTeacher(classTeacherId),
@@ -34,6 +36,10 @@ class CourseDetailsDecorator(
             profession = profession,
             specialization = specialization,
         )
+    }
+
+    private fun retrieveOrganization(organizationId: OrganizationId): Organization {
+        return organizationRepository.findById(organizationId)
     }
 
     private fun retrieveClassTeacher(classTeacherId: TeacherId): TeacherDetails {

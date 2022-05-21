@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
+import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.net.URI
@@ -40,7 +42,31 @@ class TeacherController(
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = TeachersResponseMapper) {
                 teacherFacade.getTeachers(
-                    userId = UserId(authentication.principal as String)
+                    requesterUserId = UserId(authentication.principal as String)
+                )
+            }
+        )
+    }
+
+    @Operation(
+        summary = "Get teacher by id",
+        tags = ["teacher"],
+        description = "Returns a teacher with provided id (if it exists in authenticated user organization)",
+    )
+    @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN')")
+    @GetMapping(
+        path = ["/{teacherId}"],
+        produces = [MediaType.APPLICATION_JSON_V1],
+    )
+    fun getTeacherById(
+        authentication: Authentication,
+        @PathVariable teacherId: String,
+    ): ResponseEntity<TeacherResponse> {
+        return ResponseEntity.ok(
+            RestHandlers.handleRequest(mapper = TeacherResponseMapper) {
+                teacherFacade.getTeacherById(
+                    requesterUserId = UserId(authentication.principal as String),
+                    teacherId = TeacherId(teacherId),
                 )
             }
         )

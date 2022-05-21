@@ -8,9 +8,14 @@ class TeacherFacade(
     private val teacherRegistrar: TeacherRegistrar,
     private val teacherDetailsDecorator: TeacherDetailsDecorator,
 ) {
-    fun getTeachers(userId: UserId): List<TeacherDetails> {
-        return teacherAggregator.getTeachers(userId)
+    fun getTeachers(requesterUserId: UserId): List<TeacherDetails> {
+        return teacherAggregator.getTeachers(requesterUserId)
             .map { teacher -> teacherDetailsDecorator.decorate(teacher) }
+    }
+
+    fun getTeacherById(requesterUserId: UserId, teacherId: TeacherId): TeacherDetails {
+        return teacherAggregator.getTeacherById(requesterUserId, teacherId)
+            .let { teacher -> teacherDetailsDecorator.decorate(teacher) }
     }
 
     fun registerTeacher(

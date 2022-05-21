@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
-import pl.edu.wat.wcy.epistimi.student.StudentRegistrar
 import pl.edu.wat.wcy.epistimi.student.StudentRegisterRequest
+import pl.edu.wat.wcy.epistimi.student.StudentRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.net.URI
 import javax.validation.Valid

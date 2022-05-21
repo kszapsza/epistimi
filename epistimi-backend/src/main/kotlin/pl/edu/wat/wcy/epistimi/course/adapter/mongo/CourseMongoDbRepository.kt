@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface CourseMongoDbRepository : MongoRepository<CourseMongoDbDocument, String> {
     fun findAllByOrganizationId(organizationId: String): List<CourseMongoDbDocument>
+    fun findAllByClassTeacherId(classTeacherId: String): List<CourseMongoDbDocument>
 }

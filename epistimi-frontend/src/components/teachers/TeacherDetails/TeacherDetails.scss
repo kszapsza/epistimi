@@ -1,0 +1,15 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.teacher-details {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+
+  .teacher-details-section {
+    background-color: $white;
+    border: 1px solid $gray;
+    border-radius: $subtle-radius;
+    padding: 1rem;
+  }
+}
