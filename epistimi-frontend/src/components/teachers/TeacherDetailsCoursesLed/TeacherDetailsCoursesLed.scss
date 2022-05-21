@@ -1,31 +1,22 @@
 @import 'src/styles/dimensions';
 @import 'src/styles/themes';
 
-.course-no-students {
-  color: rgba($black, .5);
-  font: {
-    style: italic;
-  };
-  padding: .25rem 0;
-}
-
-.course-students {
+.teacher-details-courses {
   display: flex;
   flex: {
     direction: row;
     wrap: wrap;
   }
-  gap: .25rem;
+  gap: .5rem;
 
-  .course-student {
-    align-items: center;
+  .teacher-details-course {
     border: 1px solid $gray;
     cursor: pointer;
     display: flex;
-    flex-direction: row;
-    gap: .5rem;
+    flex-direction: column;
+    gap: .125rem;
     min-width: 250px;
-    padding: .5rem;
+    padding: .75rem;
 
     @media screen and (max-width: $mobile-breakpoint) {
       flex: 1;
@@ -35,10 +26,17 @@
       background-color: $light-gray;
     }
 
-    .course-student-name {
+    .teacher-details-course-code {
       font: {
-        size: 16px;
-        weight: 400;
+        size: 18px;
+        weight: bold;
+      }
+    }
+
+    .teacher-details-course-school-year {
+      color: rgba($black, .5);
+      font: {
+        size: 13px;
       }
     }
   }

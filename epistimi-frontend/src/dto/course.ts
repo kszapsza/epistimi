@@ -3,7 +3,7 @@ import { TeacherResponse } from './teacher';
 
 export interface CourseResponse {
   id: string;
-  code: Code;
+  code: CourseCode;
   schoolYear: string;
   classTeacher: TeacherResponse;
   students: StudentResponse[];
@@ -15,7 +15,7 @@ export interface CourseResponse {
   specialization?: string;
 }
 
-export interface Code {
+export interface CourseCode {
   number: string;
   letter: string;
 }

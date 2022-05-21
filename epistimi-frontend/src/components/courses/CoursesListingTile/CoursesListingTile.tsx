@@ -1,6 +1,6 @@
 import './CoursesListingTile.scss';
 import { Box } from '@mantine/core';
-import { Code } from '../../../dto/course';
+import { CourseCode } from '../../../dto/course';
 import { CoursesListingTileAvatars } from '../CoursesListingTileAvatars';
 import { Link } from 'react-router-dom';
 import { StudentResponse } from '../../../dto/student';
@@ -8,7 +8,7 @@ import { TeacherResponse } from '../../../dto/teacher';
 
 interface CoursesListingTileProps {
   id: string;
-  code: Code;
+  code: CourseCode;
   classTeacher: TeacherResponse;
   students: StudentResponse[];
 }

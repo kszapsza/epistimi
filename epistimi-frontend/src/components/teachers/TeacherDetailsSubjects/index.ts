@@ -1,0 +1,1 @@
+export { TeacherDetailsSubjects } from './TeacherDetailsSubjects';

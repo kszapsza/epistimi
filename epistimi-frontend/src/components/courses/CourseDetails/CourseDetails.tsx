@@ -2,7 +2,7 @@ import './CourseDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { AxiosError } from 'axios';
 import { CourseAddStudent } from '../CourseAddStudent';
-import { CourseDetailsKeyValue } from '../CourseDetailsKeyValue';
+import { CourseDetailsData } from '../CourseDetailsData';
 import { CourseDetailsStudents } from '../CourseDetailsStudents';
 import { CourseResponse } from '../../../dto/course';
 import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconBook, IconSchool } from '@tabler/icons';
@@ -10,12 +10,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
-import { UserAvatar } from '../../common';
-import dayjs from 'dayjs';
 
 export const CourseDetails = (): JSX.Element => {
-  const DATE_FORMAT = 'D MMMM YYYY';
-
   const { id } = useParams();
   const {
     data: course,
@@ -111,36 +107,7 @@ export const CourseDetails = (): JSX.Element => {
 
           <div className={'course-details-box'}>
             <Title order={4}>Dane</Title>
-            <CourseDetailsKeyValue
-              label={'Wychowawca klasy'}
-              value={
-                <div className={'course-class-teacher'}>
-                  <UserAvatar user={course.classTeacher.user} size={'xs'} radius={'xl'}/>
-                  <a href={`/app/teachers/${course.classTeacher.id}`}>
-                    {course.classTeacher.user.firstName} {course.classTeacher.user.lastName}
-                  </a>
-                </div>
-              }/>
-
-            {course.profile && <CourseDetailsKeyValue
-              label={'Profil'}
-              value={course.profile}/>}
-            {course.profession && <CourseDetailsKeyValue
-              label={'Zawód'}
-              value={course.profession}/>}
-            {course.specialization && <CourseDetailsKeyValue
-              label={'Specjalizacja'}
-              value={course.specialization}/>}
-
-            <CourseDetailsKeyValue
-              label={'Rozpoczęcie roku'}
-              value={dayjs(course.schoolYearBegin).format(DATE_FORMAT)}/>
-            <CourseDetailsKeyValue
-              label={'Koniec pierwszego semestru'}
-              value={dayjs(course.schoolYearSemesterEnd).format(DATE_FORMAT)}/>
-            <CourseDetailsKeyValue
-              label={'Koniec roku'}
-              value={dayjs(course.schoolYearEnd).format(DATE_FORMAT)}/>
+            <CourseDetailsData course={course}/>
           </div>
 
           <div className={'course-details-box'}>
@@ -150,7 +117,7 @@ export const CourseDetails = (): JSX.Element => {
 
           <div className={'course-details-box'}>
             <div>
-              <Title order={4}>Przedmioty</Title> (0)
+              <Title order={4}>Przedmioty</Title>
             </div>
           </div>
         </div>

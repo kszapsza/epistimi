@@ -1,13 +1,15 @@
 import './TeacherDetails.scss';
 import { Alert, Loader, Title } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons';
+import { TeacherDetailsCoursesLed } from '../TeacherDetailsCoursesLed';
+import { TeacherDetailsSubjects } from '../TeacherDetailsSubjects';
 import { TeacherResponse } from '../../../dto/teacher';
 import { useFetch } from '../../../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 
 export const TeacherDetails = (): JSX.Element => {
   const { id } = useParams();
-  const { data, loading, error } = useFetch<TeacherResponse>(`/api/teacher/${id}`);
+  const { data: teacher, loading, error } = useFetch<TeacherResponse>(`/api/teacher/${id}`);
 
   return (
     <div className={'teacher-details'}>
@@ -16,22 +18,24 @@ export const TeacherDetails = (): JSX.Element => {
         Nie udało się załadować danych nauczyciela
       </Alert>}
 
-      {data &&
+      {teacher &&
         <>
           <div className={'teacher-details-section'}>
             <Title order={2}>
-              {`${data.academicTitle ?? ''} ${data.user.firstName} ${data.user.lastName}`.trim()}
+              {`${teacher.academicTitle ?? ''} ${teacher.user.firstName} ${teacher.user.lastName}`.trim()}
             </Title>
           </div>
           <div className={'teacher-details-section'}>
             <Title order={3}>
               Prowadzone przedmioty
             </Title>
+            <TeacherDetailsSubjects/>
           </div>
           <div className={'teacher-details-section'}>
             <Title order={3}>
               Wychowawstwa
             </Title>
+            <TeacherDetailsCoursesLed teacherId={teacher.id}/>
           </div>
         </>}
     </div>

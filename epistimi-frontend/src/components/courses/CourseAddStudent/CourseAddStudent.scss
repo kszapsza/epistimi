@@ -8,8 +8,10 @@
 
   .add-student-actions {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex: {
+      direction: row;
+      wrap: wrap;
+    }
     gap: .5rem 1rem;
     justify-content: flex-end;
     width: 100%;
