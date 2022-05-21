@@ -9,6 +9,11 @@
   }
   gap: .5rem;
 
+  .teacher-details-no-courses {
+    color: rgba($black, .5);
+    font-style: italic;
+  }
+
   .teacher-details-course {
     border: 1px solid $gray;
     cursor: pointer;

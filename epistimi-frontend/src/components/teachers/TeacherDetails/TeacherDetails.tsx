@@ -4,12 +4,22 @@ import { IconAlertCircle } from '@tabler/icons';
 import { TeacherDetailsCoursesLed } from '../TeacherDetailsCoursesLed';
 import { TeacherDetailsSubjects } from '../TeacherDetailsSubjects';
 import { TeacherResponse } from '../../../dto/teacher';
+import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 
 export const TeacherDetails = (): JSX.Element => {
   const { id } = useParams();
   const { data: teacher, loading, error } = useFetch<TeacherResponse>(`/api/teacher/${id}`);
+
+  useEffect(() => {
+    fullNameWithTitle() && (document.title = `${fullNameWithTitle()} – Epistimi`);
+  }, [teacher]);
+
+  const fullNameWithTitle = (): string | null => {
+    if (!teacher) return null;
+    return `${teacher.academicTitle ?? ''} ${teacher.user.firstName} ${teacher.user.lastName}`.trim();
+  };
 
   return (
     <div className={'teacher-details'}>

@@ -21,7 +21,13 @@ export const TeacherDetailsCoursesLed = (
           Nie udało się załadować listy klas, w których nauczyciel jest wychowawcą
         </Alert>}
 
-      {data?.courses.map((course) =>
+      {data && data.courses.length === 0 &&
+        <div className={'teacher-details-no-courses'}>
+          Nauczyciel nie jest wychowawcą żadnej klasy
+        </div>
+      }
+
+      {data && data.courses.length > 0 && data.courses.map((course) =>
         <Card className={'teacher-details-course'} component={'a'} href={`/app/courses/${course.id}`}>
           <div className={'teacher-details-course-code'}>
             {course.code.number}{course.code.letter}
