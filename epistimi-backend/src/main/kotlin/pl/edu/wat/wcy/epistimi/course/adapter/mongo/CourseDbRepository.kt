@@ -24,18 +24,15 @@ class CourseDbRepository(
         }
     }
 
-    override fun findByClassTeacherId(classTeacherId: TeacherId): List<Course> {
-        return DbHandlers.handleDbMultiGet(mapper = CourseDbBiMapper) {
-            courseMongoDbRepository.findAllByClassTeacherId(classTeacherId.value)
-        }
-    }
-
-    override fun findAll(organizationId: OrganizationId): List<Course> {
+    override fun findAllWithFiltering(
+        organizationId: OrganizationId,
+        classTeacherId: TeacherId?,
+    ): List<Course> {
         return DbHandlers.handleDbMultiGet(mapper = CourseDbBiMapper) {
             if (!organizationRepository.exists(organizationId)) {
                 throw OrganizationNotFoundException(organizationId)
             }
-            courseMongoDbRepository.findAllByOrganizationId(organizationId.value)
+            courseMongoDbRepository.findAllWithFiltering(organizationId, classTeacherId)
         }
     }
 
