@@ -7,7 +7,7 @@ object UserResponseMapper : FromDomainMapper<User, UserResponse> {
     override fun fromDomain(domainObject: User) = domainObject.toUserResponse()
 }
 
-fun User.toUserResponse() = UserResponse(
+private fun User.toUserResponse() = UserResponse(
     id = id!!.value,
     firstName = firstName,
     lastName = lastName,

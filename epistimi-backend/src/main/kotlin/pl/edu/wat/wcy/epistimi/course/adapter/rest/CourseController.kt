@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
+import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.net.URI
 import javax.validation.Valid
@@ -37,11 +39,15 @@ class CourseController(
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getCourses(
+        @RequestParam(required = false) classTeacherId: TeacherId?,
         authentication: Authentication,
     ): ResponseEntity<CoursesResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = CoursesResponseMapper) {
-                courseFacade.getCourses(UserId(authentication.principal as String))
+                courseFacade.getCourses(
+                    requesterUserId = UserId(authentication.principal as String),
+                    classTeacherId = classTeacherId,
+                )
             }
         )
     }

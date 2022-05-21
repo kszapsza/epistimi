@@ -1,0 +1,48 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.teacher-details-courses {
+  display: flex;
+  flex: {
+    direction: row;
+    wrap: wrap;
+  }
+  gap: .5rem;
+
+  .teacher-details-no-courses {
+    color: rgba($black, .5);
+    font-style: italic;
+  }
+
+  .teacher-details-course {
+    border: 1px solid $gray;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: .125rem;
+    min-width: 250px;
+    padding: .75rem;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      flex: 1;
+    }
+
+    &:hover {
+      background-color: $light-gray;
+    }
+
+    .teacher-details-course-code {
+      font: {
+        size: 18px;
+        weight: bold;
+      }
+    }
+
+    .teacher-details-course-school-year {
+      color: rgba($black, .5);
+      font: {
+        size: 13px;
+      }
+    }
+  }
+}

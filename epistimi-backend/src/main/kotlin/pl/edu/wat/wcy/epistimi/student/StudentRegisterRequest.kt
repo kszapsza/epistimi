@@ -1,7 +1,7 @@
-package pl.edu.wat.wcy.epistimi.student.dto
+package pl.edu.wat.wcy.epistimi.student
 
 import pl.edu.wat.wcy.epistimi.course.CourseId
-import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import javax.validation.constraints.Size
 
 data class StudentRegisterRequest(

@@ -1,8 +1,9 @@
 export { OrganizationColorStatus } from './OrganizationColorStatus';
-export { OrganizationEdit } from './OrganizationEdit';
 export { OrganizationDetails } from './OrganizationDetails';
 export { OrganizationDetailsKeyValue } from './OrganizationDetailsKeyValue';
+export { OrganizationDetailsLocation } from './OrganizationDetailsLocation';
 export { OrganizationDetailsStatsTile } from './OrganizationDetailsStatsTile';
-export { OrganizationStatusChange } from './OrganizationStatusChange';
+export { OrganizationEdit } from './OrganizationEdit';
 export { OrganizationsListing } from './OrganizationsListing';
 export { OrganizationsListingTile } from './OrganizationsListingTile';
+export { OrganizationStatusChange } from './OrganizationStatusChange';

@@ -1,10 +1,10 @@
 import './CourseAddStudentUserForm.scss';
+import { StudentRegisterFormData } from '../CourseAddStudent';
 import { TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
-import { UserRegisterFormData } from '../CourseAddStudent';
 
 interface CourseAddStudentUserFormProps {
-  formData: UseFormReturnType<UserRegisterFormData>;
+  formData: UseFormReturnType<StudentRegisterFormData>;
   disabled: boolean;
 }
 
@@ -25,6 +25,7 @@ export const CourseAddStudentUserForm = (
         {...formData.getInputProps('lastName')}/>
       <TextInput
         label={'PESEL'}
+        required={true}
         disabled={disabled}
         {...formData.getInputProps('pesel')}/>
       <TextInput

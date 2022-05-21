@@ -9,7 +9,6 @@ import io.kotest.matchers.shouldBe
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
-import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
 import javax.validation.Validation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory

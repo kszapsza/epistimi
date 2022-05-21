@@ -11,8 +11,10 @@
 
 .course-students {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex: {
+    direction: row;
+    wrap: wrap;
+  }
   gap: .25rem;
 
   .course-student {

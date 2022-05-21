@@ -1,0 +1,20 @@
+.teacher-create-summary {
+  display: flex;
+  flex-direction: column;
+
+  .teacher-create-summary-head {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .teacher-create-summary-credentials {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: 1rem 0 2rem;
+  }
+}

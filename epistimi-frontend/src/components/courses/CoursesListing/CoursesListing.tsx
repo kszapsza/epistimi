@@ -3,7 +3,7 @@ import { Accordion, Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { CourseEdit } from '../CourseEdit';
 import { CourseResponse, CoursesResponse } from '../../../dto/course';
 import { CoursesListingGroup } from '../CoursesListingGroup';
-import { IconAlertCircle, IconCheck, IconInfoCircle, IconPencil } from '@tabler/icons';
+import { IconAlertCircle, IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
@@ -49,7 +49,7 @@ export const CoursesListing = (): JSX.Element => {
         <div className={'courses-actions'}>
           <Title order={2}>Klasy</Title>
           <Button
-            leftIcon={<IconPencil size={16}/>}
+            leftIcon={<IconPlus size={16}/>}
             onClick={createModalHandlers.open}
             variant={'default'}
           >
@@ -57,7 +57,7 @@ export const CoursesListing = (): JSX.Element => {
           </Button>
         </div>
 
-        {loading && <Loader/>}
+        {loading && <Loader style={{ width: '100%' }}/>}
         {createdMessageOpened &&
           <Alert icon={<IconCheck size={16}/>} color={'green'}>
             Pomyślnie utworzono nową klasę

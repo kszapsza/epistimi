@@ -7,7 +7,6 @@ class TeacherDetailsDecorator(
     private val userRepository: UserRepository,
     private val organizationRepository: OrganizationRepository,
 ) {
-
     fun decorate(teacher: Teacher) = with(teacher) {
         TeacherDetails(
             id = id,

@@ -1,6 +1,7 @@
 import './CourseDetailsStudents.scss';
-import { Avatar, Card } from '@mantine/core';
+import { Card } from '@mantine/core';
 import { StudentResponse } from '../../../dto/student';
+import { UserAvatar } from '../../common';
 
 interface CourseDetailsStudentsProps {
   students: StudentResponse[];
@@ -20,10 +21,8 @@ export const CourseDetailsStudents = (
   return (
     <div className={'course-students'}>
       {students.map((student, idx) => (
-        <Card key={idx} className={'course-student'}>
-          <Avatar size={'sm'} radius={'xl'} color={'green'}>
-            {`${student.user.firstName[0]}${student.user.lastName[0]}`.toUpperCase()}
-          </Avatar>
+        <Card key={idx} className={'course-student'} component={'a'} href={`/app/students/${student.id}`}>
+          <UserAvatar user={student.user} size={'sm'} radius={'xl'}/>
           <div className={'course-student-name'}>
             {student.user.firstName} {student.user.lastName}
           </div>

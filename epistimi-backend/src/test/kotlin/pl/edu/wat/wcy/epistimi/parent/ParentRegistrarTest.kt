@@ -14,9 +14,9 @@ import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
-import pl.edu.wat.wcy.epistimi.user.dto.UserRegisterRequest
 
 internal class ParentRegistrarTest : ShouldSpec({
 
@@ -68,7 +68,7 @@ internal class ParentRegistrarTest : ShouldSpec({
         val userRegisterRequest = UserRegisterRequest(
             firstName = "Jan",
             lastName = "Kowalski",
-            role = User.Role.PARENT,
+            role = PARENT,
         )
 
         // when

@@ -9,6 +9,7 @@ import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 
 @Repository
 class CourseDbRepository(
@@ -23,12 +24,15 @@ class CourseDbRepository(
         }
     }
 
-    override fun findAll(organizationId: OrganizationId): List<Course> {
+    override fun findAllWithFiltering(
+        organizationId: OrganizationId,
+        classTeacherId: TeacherId?,
+    ): List<Course> {
         return DbHandlers.handleDbMultiGet(mapper = CourseDbBiMapper) {
             if (!organizationRepository.exists(organizationId)) {
                 throw OrganizationNotFoundException(organizationId)
             }
-            courseMongoDbRepository.findAllByOrganizationId(organizationId.value)
+            courseMongoDbRepository.findAllWithFiltering(organizationId, classTeacherId)
         }
     }
 

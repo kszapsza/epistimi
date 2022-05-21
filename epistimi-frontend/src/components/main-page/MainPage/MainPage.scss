@@ -34,8 +34,10 @@
 
     align-content: flex-start;
     flex: 4;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex: {
+      direction: row;
+      wrap: wrap;
+    }
     gap: .5rem;
     justify-content: center;
     margin: 0 auto;

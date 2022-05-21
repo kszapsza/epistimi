@@ -1,0 +1,18 @@
+.teachers {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  width: 100%;
+
+  .teachers-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .teachers-entries {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+}

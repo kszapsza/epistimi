@@ -1,8 +1,7 @@
-package pl.edu.wat.wcy.epistimi.user.dto
+package pl.edu.wat.wcy.epistimi.user
 
 import org.hibernate.validator.constraints.pl.PESEL
 import pl.edu.wat.wcy.epistimi.common.Address
-import pl.edu.wat.wcy.epistimi.user.User
 import javax.validation.constraints.Email
 
 data class UserRegisterRequest(

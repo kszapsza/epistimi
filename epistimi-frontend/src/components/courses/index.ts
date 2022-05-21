@@ -1,3 +1,13 @@
+export { CourseAddStudent } from './CourseAddStudent';
+export { CourseAddStudentParentsList } from './CourseAddStudentParentsList';
+export { CourseAddStudentStepper } from './CourseAddStudentStepper';
+export { CourseAddStudentSummary } from './CourseAddStudentSummary';
+export { CourseAddStudentUserForm } from './CourseAddStudentUserForm';
+export { CourseDetails } from './CourseDetails';
+export { CourseDetailsKeyValue } from './CourseDetailsKeyValue';
+export { CourseDetailsStudents } from './CourseDetailsStudents';
+export { CourseEdit } from './CourseEdit';
 export { CoursesListing } from './CoursesListing';
 export { CoursesListingGroup } from './CoursesListingGroup';
 export { CoursesListingTile } from './CoursesListingTile';
+export { CoursesListingTileAvatars } from './CoursesListingTileAvatars';

@@ -13,7 +13,7 @@ data class CourseMongoDbDocument(
     @Indexed val organizationId: String,
     val code: Code,
     val schoolYear: String,
-    val classTeacherId: String,
+    @Indexed val classTeacherId: String,
     val studentIds: List<String>,
     @DateTimeFormat(iso = ISO.DATE_TIME) val schoolYearBegin: LocalDate,
     @DateTimeFormat(iso = ISO.DATE_TIME) val schoolYearSemesterEnd: LocalDate,

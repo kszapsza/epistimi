@@ -1,5 +1,6 @@
 import './OrganizationsListingTile.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { Card } from '@mantine/core';
+import { Link } from 'react-router-dom';
 import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationStatus } from '../../../dto/organization';
 
@@ -13,11 +14,9 @@ interface OrganizationsListingTileProps {
 export const OrganizationsListingTile = (
   props: OrganizationsListingTileProps,
 ): JSX.Element => {
-  const navigate = useNavigate();
-
   return (
-    <div className={'organizations-tile'} role={'row'}
-         onClick={() => navigate(`./${props.id}`)}>
+    <Card className={'organizations-tile'} role={'row'}
+          component={'a'} href={`/app/organizations/${props.id}`}>
       <div className={'organizations-tile-meta'}>
         <div className={'organizations-tile-title'}>
           <Link to={`./${props.id}`}>{props.name}</Link>
@@ -29,6 +28,6 @@ export const OrganizationsListingTile = (
       <div className={'organizations-tile-status'}>
         <OrganizationColorStatus status={props.status}/>
       </div>
-    </div>
+    </Card>
   );
 };
