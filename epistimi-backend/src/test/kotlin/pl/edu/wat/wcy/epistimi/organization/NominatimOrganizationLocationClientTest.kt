@@ -61,11 +61,11 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
         // given
         val nominatimResponse = listOf(
             NominatimResponseEntry(
-                place_id = 174185670,
+                placeId = 174185670,
                 licence = "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
-                osm_type = "way",
-                osm_id = 301532119,
-                boundingbox = listOf(
+                osmType = "way",
+                osmId = 301532119,
+                boundingBox = listOf(
                     "53.1233387",
                     "53.1234488",
                     "23.0863006",
@@ -73,7 +73,7 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
                 ),
                 lat = "53.123393750000005",
                 lon = "23.08639463574675",
-                display_name = "17, Szkolna, Starosielce, Białystok, województwo podlaskie, 15-640, Polska",
+                displayName = "17, Szkolna, Starosielce, Białystok, województwo podlaskie, 15-640, Polska",
                 `class` = "building",
                 type = "house",
                 importance = 0.33100000000000007,

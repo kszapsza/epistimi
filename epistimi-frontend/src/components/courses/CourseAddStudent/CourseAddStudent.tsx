@@ -146,7 +146,6 @@ export const CourseAddStudent = (
         street: formData.street,
         postalCode: formData.postalCode,
         city: formData.city,
-        countryCode: formData.countryCode,
       },
     };
   };

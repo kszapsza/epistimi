@@ -1,16 +1,30 @@
 package pl.edu.wat.wcy.epistimi.organization.adapter.external
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 typealias NominatimResponse = List<NominatimResponseEntry>
 
 data class NominatimResponseEntry(
-    val place_id: Long,
+    @get:JsonProperty("place_id")
+    val placeId: Long,
+
     val licence: String,
-    val osm_type: String,
-    val osm_id: Long,
-    val boundingbox: List<String>,
+
+    @get:JsonProperty("osm_type")
+    val osmType: String,
+
+    @get:JsonProperty("osm_id")
+    val osmId: Long,
+
+    @get:JsonProperty("boundingbox")
+    val boundingBox: List<String>,
+
     val lat: String,
     val lon: String,
-    val display_name: String,
+
+    @get:JsonProperty("display_name")
+    val displayName: String,
+
     val `class`: String,
     val type: String,
     val importance: Double,

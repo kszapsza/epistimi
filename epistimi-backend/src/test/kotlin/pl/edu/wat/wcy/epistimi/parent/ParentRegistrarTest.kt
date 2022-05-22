@@ -35,7 +35,6 @@ internal class ParentRegistrarTest : ShouldSpec({
         name = "SP7",
         adminId = UserId("admin_user_id"),
         status = ENABLED,
-        directorId = UserId("admin_user_id"),
         address = TestData.address,
         location = null,
     )

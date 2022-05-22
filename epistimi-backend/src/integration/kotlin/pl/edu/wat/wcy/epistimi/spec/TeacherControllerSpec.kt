@@ -104,7 +104,6 @@ internal class TeacherControllerSpec(
             val organization = organizationStubbing.organizationExists(
                 name = "SP7",
                 admin = organizationAdminUser,
-                director = organizationAdminUser
             )
 
             val teacherUser = userStubbing.userExists(

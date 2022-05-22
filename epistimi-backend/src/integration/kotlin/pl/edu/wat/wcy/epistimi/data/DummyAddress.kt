@@ -8,7 +8,6 @@ internal object DummyAddress {
             street = "Szkolna 17",
             postalCode = "15-640",
             city = "Białystok",
-            countryCode = "PL",
         )
     }
 }

@@ -1,7 +1,7 @@
 import './OrganizationsListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { IconAlertCircle, IconCheck, IconPencil } from '@tabler/icons';
-import { OrganizationEdit, OrganizationEditVariant } from '../OrganizationEdit';
+import { OrganizationCreate } from '../OrganizationCreate';
 import { OrganizationResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationsListingTile } from '../OrganizationsListingTile';
 import { useDisclosure } from '@mantine/hooks';
@@ -35,9 +35,8 @@ export const OrganizationsListing = (): JSX.Element => {
         size={'lg'}
         title={'Tworzenie nowej placówki'}
       >
-        <OrganizationEdit
+        <OrganizationCreate
           submitCallback={onOrganizationCreate}
-          variant={OrganizationEditVariant.CREATE}
         />
       </Modal>
 

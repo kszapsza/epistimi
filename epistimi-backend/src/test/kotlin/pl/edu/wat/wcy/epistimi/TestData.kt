@@ -22,7 +22,6 @@ internal object TestData {
         street = "Szkolna 17",
         postalCode = "15-640",
         city = "Białystok",
-        countryCode = "PL",
     )
 
     val organization = Organization(
@@ -30,7 +29,6 @@ internal object TestData {
         name = "SP7",
         adminId = Users.organizationAdmin.id!!,
         status = ENABLED,
-        directorId = Users.organizationAdmin.id!!,
         address = address,
         location = null,
     )
@@ -40,7 +38,6 @@ internal object TestData {
         name = "SP7",
         admin = Users.organizationAdmin,
         status = ENABLED,
-        director = Users.organizationAdmin,
         address = address,
         location = null,
     )

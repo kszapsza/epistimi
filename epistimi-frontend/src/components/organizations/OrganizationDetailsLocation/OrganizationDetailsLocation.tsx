@@ -46,11 +46,6 @@ export const OrganizationDetailsLocation = (
     });
   }, []);
 
-  const formatCountry = (): string => {
-    return new Intl.DisplayNames('pl-PL', { type: 'region' })
-      .of(address.countryCode) ?? address.countryCode;
-  };
-
   return (
     <div className={'organization-location'}>
       {location && <div className={'organization-map'}>
@@ -74,9 +69,6 @@ export const OrganizationDetailsLocation = (
         <OrganizationDetailsKeyValue
           label={'Miasto'}
           value={address.city}/>
-        <OrganizationDetailsKeyValue
-          label={'Kraj'}
-          value={formatCountry()}/>
       </div>
     </div>
   );

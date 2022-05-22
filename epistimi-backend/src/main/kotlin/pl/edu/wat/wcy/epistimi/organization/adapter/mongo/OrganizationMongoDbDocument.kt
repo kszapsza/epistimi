@@ -12,7 +12,6 @@ data class OrganizationMongoDbDocument(
     val name: String,
     @Indexed val adminId: String,
     val status: String,
-    val directorId: String,
     val address: Address,
     val location: Location?,
 )

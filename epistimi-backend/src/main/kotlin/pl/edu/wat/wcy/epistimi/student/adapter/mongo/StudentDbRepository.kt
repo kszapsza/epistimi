@@ -4,12 +4,21 @@ import org.springframework.stereotype.Repository
 import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.student.StudentId
+import pl.edu.wat.wcy.epistimi.student.StudentNotFoundException
 import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
+import pl.edu.wat.wcy.epistimi.user.UserId
 
 @Repository
 class StudentDbRepository(
     private val studentMongoDbRepository: StudentMongoDbRepository,
 ) : StudentRepository {
+
+    override fun findByUserId(id: UserId): Student {
+        return DbHandlers.handleDbGet(mapper = StudentDbBiMapper) {
+            studentMongoDbRepository.findFirstByUserId(id)
+                ?: throw StudentNotFoundException()
+        }
+    }
 
     override fun findByIds(ids: List<StudentId>): List<Student> {
         return DbHandlers.handleDbMultiGet(mapper = StudentDbBiMapper) {

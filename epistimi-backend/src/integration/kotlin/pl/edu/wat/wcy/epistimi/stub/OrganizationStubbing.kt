@@ -19,7 +19,6 @@ internal class OrganizationStubbing(
         name: String,
         admin: User,
         status: Organization.Status = ENABLED,
-        director: User,
         address: Address = DummyAddress(),
         location: Location? = null,
     ): Organization {
@@ -29,7 +28,6 @@ internal class OrganizationStubbing(
                 name = name,
                 adminId = admin.id!!,
                 status = status,
-                directorId = director.id!!,
                 address = address,
                 location = location,
             )

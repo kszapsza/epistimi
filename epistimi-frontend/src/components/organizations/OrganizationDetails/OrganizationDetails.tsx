@@ -6,9 +6,9 @@ import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
 import { OrganizationDetailsLocation } from '../OrganizationDetailsLocation';
 import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
-import { OrganizationEdit, OrganizationEditVariant } from '../OrganizationEdit';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationStatusChange } from '../OrganizationStatusChange';
+import { OrganizationUpdate } from '../OrganizationUpdate';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
@@ -79,9 +79,8 @@ export const OrganizationDetails = (): JSX.Element => {
           size={'lg'}
           title={'Edytowanie placówki'}
         >
-          <OrganizationEdit
+          <OrganizationUpdate
             submitCallback={onOrganizationUpdate}
-            variant={OrganizationEditVariant.UPDATE}
             organizationId={organization.id}
             defaults={{ ...organization }}
           />
@@ -127,10 +126,6 @@ export const OrganizationDetails = (): JSX.Element => {
             <OrganizationDetailsKeyValue
               label={'Administrator:'}
               value={`${organization.admin.lastName} ${organization.admin.firstName} (${organization.admin.username})`}
-            />
-            <OrganizationDetailsKeyValue
-              label={'Dyrektor:'}
-              value={`${organization.director.lastName} ${organization.director.firstName} (${organization.director.username})`}
             />
             <OrganizationDetailsKeyValue
               label={'Status:'}

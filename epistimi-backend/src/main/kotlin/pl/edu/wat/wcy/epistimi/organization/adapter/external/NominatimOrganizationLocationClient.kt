@@ -32,15 +32,16 @@ class NominatimOrganizationLocationClient(
         return URIBuilder(NOMINATIM_ENDPOINT)
             .setPath("search")
             .addParameter("format", "json")
-            .addParameter("q", "${address.street}, ${address.postalCode} ${address.city}, ${address.countryCode}")
+            .addParameter("q", buildQuery(address))
             .build()
     }
 
+    private fun buildQuery(address: Address): String {
+        return "${address.street}, ${address.postalCode} ${address.city}, PL"
+    }
+
     private fun fetchFromNominatim(url: URI): ResponseEntity<NominatimResponse> {
-        return restTemplate.exchange(
-            method = HttpMethod.GET,
-            url = url,
-        )
+        return restTemplate.exchange(method = HttpMethod.GET, url = url)
     }
 
     private fun getLocation(response: ResponseEntity<NominatimResponse>): Location? {

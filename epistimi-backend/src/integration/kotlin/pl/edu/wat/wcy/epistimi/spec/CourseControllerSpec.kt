@@ -71,7 +71,7 @@ internal class CourseControllerSpec(
             // given
             val adminUser = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "admin_user")
             val teacherUser = userStubbing.userExists(role = TEACHER)
-            val organization = organizationStubbing.organizationExists(admin = adminUser, director = teacherUser, name = "SP7")
+            val organization = organizationStubbing.organizationExists(admin = adminUser, name = "SP7")
             val teacher = teacherStubbing.teacherExists(organization = organization, user = teacherUser)
 
             courseStubbing.courseExists(classTeacher = teacher, organization = organization)
@@ -100,13 +100,13 @@ internal class CourseControllerSpec(
         should("return an empty list if some course exist, but not in organization associated with logged in teacher") {
             // given
             val adminUser = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "admin_user")
-            val organization = organizationStubbing.organizationExists(admin = adminUser, director = adminUser, name = "SP7")
+            val organization = organizationStubbing.organizationExists(admin = adminUser, name = "SP7")
             val teacherUser = userStubbing.userExists(role = TEACHER, username = "teacher_user")
             val teacher = teacherStubbing.teacherExists(organization = organization, user = teacherUser)
             courseStubbing.courseExists(classTeacher = teacher, organization = organization)
 
             val otherAdminUser = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "other_admin_user")
-            val otherOrganization = organizationStubbing.organizationExists(admin = otherAdminUser, director = otherAdminUser, name = "G2")
+            val otherOrganization = organizationStubbing.organizationExists(admin = otherAdminUser, name = "G2")
             val otherTeacherUser = userStubbing.userExists(role = TEACHER, username = "other_teacher_user")
             teacherStubbing.teacherExists(organization = otherOrganization, user = otherTeacherUser)
 
@@ -137,7 +137,7 @@ internal class CourseControllerSpec(
             val studentUser = userStubbing.userExists(role = STUDENT, username = "a.borowski", firstName = "Adam", lastName = "Borowski")
             val parentUser = userStubbing.userExists(role = PARENT, username = "g.borowski", firstName = "Grzegorz", lastName = "Borowski")
 
-            val organization = organizationStubbing.organizationExists(name = "SP7", admin = adminUser, director = teacherUser)
+            val organization = organizationStubbing.organizationExists(name = "SP7", admin = adminUser)
             val teacher = teacherStubbing.teacherExists(user = teacherUser, organization = organization)
             val parent = parentStubbing.parentExists(user = parentUser, organization = organization)
             val student = studentStubbing.studentExists(user = studentUser, organization = organization, parents = listOf(parent))
@@ -250,7 +250,7 @@ internal class CourseControllerSpec(
             val studentUser = userStubbing.userExists(role = STUDENT, username = "a.borowski", firstName = "Adam", lastName = "Borowski")
             val parentUser = userStubbing.userExists(role = PARENT, username = "g.borowski", firstName = "Grzegorz", lastName = "Borowski")
 
-            val organization = organizationStubbing.organizationExists(name = "SP7", admin = adminUser, director = teacherUser)
+            val organization = organizationStubbing.organizationExists(name = "SP7", admin = adminUser)
             val teacher = teacherStubbing.teacherExists(user = teacherUser, organization = organization)
             val parent = parentStubbing.parentExists(user = parentUser, organization = organization)
             val student = studentStubbing.studentExists(user = studentUser, organization = organization, parents = listOf(parent))
@@ -397,7 +397,7 @@ internal class CourseControllerSpec(
             val studentUser = userStubbing.userExists(role = STUDENT, username = "a.borowski", firstName = "Adam", lastName = "Borowski")
             val parentUser = userStubbing.userExists(role = PARENT, username = "g.borowski", firstName = "Grzegorz", lastName = "Borowski")
 
-            val organization = organizationStubbing.organizationExists(name = "SP7", admin = adminUser, director = teacherUser)
+            val organization = organizationStubbing.organizationExists(name = "SP7", admin = adminUser)
             val teacher = teacherStubbing.teacherExists(user = teacherUser, organization = organization)
             val parent = parentStubbing.parentExists(user = parentUser, organization = organization)
             val student = studentStubbing.studentExists(user = studentUser, organization = organization, parents = listOf(parent))
@@ -518,7 +518,7 @@ internal class CourseControllerSpec(
             // given
             val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "j.kowalski")
             val director = userStubbing.userExists(role = TEACHER, username = "a.nowak")
-            val organization = organizationStubbing.organizationExists(name = "SP7", admin = admin, director = director)
+            val organization = organizationStubbing.organizationExists(name = "SP7", admin = admin)
             val teacher = teacherStubbing.teacherExists(user = director, organization = organization)
             val course = courseStubbing.courseExists(organization = organization, classTeacher = teacher)
 
@@ -585,8 +585,7 @@ internal class CourseControllerSpec(
         should("return HTTP 400 if create request is not valid (javax)") {
             // given
             val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "j.kowalski")
-            val director = userStubbing.userExists(role = TEACHER, username = "a.nowak")
-            organizationStubbing.organizationExists(name = "SP7", admin = admin, director = director)
+            organizationStubbing.organizationExists(name = "SP7", admin = admin)
 
             val headers = securityStubbing.authorizationHeaderFor(admin)
 
@@ -607,8 +606,7 @@ internal class CourseControllerSpec(
         should("return HTTP 400 if create request contains dates in wrong order") {
             // given
             val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "j.kowalski")
-            val director = userStubbing.userExists(role = TEACHER, username = "a.nowak")
-            organizationStubbing.organizationExists(name = "SP7", admin = admin, director = director)
+            organizationStubbing.organizationExists(name = "SP7", admin = admin)
 
             val headers = securityStubbing.authorizationHeaderFor(admin)
 
@@ -630,11 +628,11 @@ internal class CourseControllerSpec(
         should("return HTTP 400 if create request contains a class teacher from other organization") {
             // given
             val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "j.kowalski")
-            organizationStubbing.organizationExists(name = "SP7", admin = admin, director = admin)
+            organizationStubbing.organizationExists(name = "SP7", admin = admin)
 
             // and
             val otherAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "a.nowak")
-            val otherOrganization = organizationStubbing.organizationExists(name = "SP7", admin = otherAdmin, director = otherAdmin)
+            val otherOrganization = organizationStubbing.organizationExists(name = "SP7", admin = otherAdmin)
             val teacherUser = userStubbing.userExists(role = TEACHER, username = "a.dzik")
             val teacher = teacherStubbing.teacherExists(organization = otherOrganization, user = teacherUser)
 
@@ -658,8 +656,7 @@ internal class CourseControllerSpec(
         should("return HTTP 400 if create request contains nonexistent teacher id") {
             // given
             val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "j.kowalski")
-            val director = userStubbing.userExists(role = TEACHER, username = "a.nowak")
-            organizationStubbing.organizationExists(name = "SP7", admin = admin, director = director)
+            organizationStubbing.organizationExists(name = "SP7", admin = admin)
 
             val headers = securityStubbing.authorizationHeaderFor(admin)
 
@@ -715,7 +712,7 @@ internal class CourseControllerSpec(
         should("create new course") {
             // given
             val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "j.kowalski")
-            val organization = organizationStubbing.organizationExists(name = "SP7", admin = admin, director = admin)
+            val organization = organizationStubbing.organizationExists(name = "SP7", admin = admin)
             val teacherUser = userStubbing.userExists(role = TEACHER, username = "a.dzik")
             val teacher = teacherStubbing.teacherExists(organization = organization, user = teacherUser)
 

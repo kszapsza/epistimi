@@ -78,7 +78,6 @@ export const TeacherCreate = (
           street: form.values.street,
           postalCode: form.values.postalCode,
           city: form.values.city,
-          countryCode: 'PL',
         },
       },
       academicTitle: form.values.academicTitle,
