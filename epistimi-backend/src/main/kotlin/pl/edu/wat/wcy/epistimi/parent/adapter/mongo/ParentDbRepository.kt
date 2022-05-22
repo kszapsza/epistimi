@@ -15,7 +15,7 @@ class ParentDbRepository(
 
     override fun findByUserId(id: UserId): Parent {
         return DbHandlers.handleDbGet(mapper = ParentDbBiMapper) {
-            parentMongoDbRepository.findFirstByUserId(id)
+            parentMongoDbRepository.findFirstByUserId(id.value)
                 ?: throw ParentNotFoundException()
         }
     }

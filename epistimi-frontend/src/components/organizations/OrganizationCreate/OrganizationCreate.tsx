@@ -1,92 +1,119 @@
 import './OrganizationCreate.scss';
-import { Alert, Button, TextInput } from '@mantine/core';
+import { Alert } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons';
-import { OrganizationRegisterRequest, OrganizationResponse } from '../../../dto/organization';
+import { OrganizationAdminForm } from '../OrganizationAdminForm';
+import { OrganizationCreateStepper } from '../OrganizationCreateStepper';
+import { OrganizationCreateSummary } from '../OrganizationCreateSummary';
+import { OrganizationForm } from '../OrganizationForm';
+import { OrganizationRegisterRequest, OrganizationRegisterResponse } from '../../../dto/organization';
 import { useForm } from '@mantine/form';
 import { UserRole, UserSex } from '../../../dto/user';
 import { useState } from 'react';
+import { validatePesel } from '../../../validators/pesel';
 import axios, { AxiosResponse } from 'axios';
+import { OrganizationFormVariant } from '../OrganizationForm/OrganizationForm';
+
+export interface OrganizationFormData {
+  name: string;
+  street: string;
+  postalCode: string;
+  city: string;
+}
+
+export interface OrganizationAdminFormData {
+  firstName: string;
+  lastName: string;
+  pesel: string;
+  sex?: UserSex;
+  email?: string;
+  phoneNumber?: string;
+  street: string;
+  postalCode: string;
+  city: string;
+}
+
+const enum OrganizationCreateStep {
+  ORGANIZATION_DATA,
+  ORGANIZATION_ADMIN_DATA,
+  SUMMARY,
+}
 
 interface OrganizationEditProps {
-  submitCallback: (organization: OrganizationResponse) => void;
+  submitCallback: (organization: OrganizationRegisterResponse) => void;
   organizationId?: string;
 }
 
-type OrganizationEditForm = {
-  organizationName: string;
-  adminFirstName: string;
-  adminLastName: string;
-  adminRole: UserRole;
-  adminPesel?: string;
-  sex?: UserSex;
-  adminEmail?: string;
-  adminPhoneNumber?: string;
-  adminStreet: string;
-  adminPostalCode: string;
-  adminCity: string;
-  organizationStreet: string;
-  organizationPostalCode: string;
-  organizationCity: string;
-};
-
 export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element => {
-  const form = useForm<OrganizationEditForm>({
+  const [step, setStep] = useState<OrganizationCreateStep>(OrganizationCreateStep.ORGANIZATION_DATA);
+  const [createResponse, setCreateResponse] = useState<OrganizationRegisterResponse>();
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const organizationForm = useForm<OrganizationFormData>({
     initialValues: {
-      organizationName: '',
-      adminFirstName: '',
-      adminLastName: '',
-      adminRole: UserRole.ORGANIZATION_ADMIN,
-      adminPesel: '',
-      adminEmail: '',
-      adminPhoneNumber: '',
-      adminStreet: '',
-      adminPostalCode: '',
-      adminCity: '',
-      organizationStreet: '',
-      organizationPostalCode: '',
-      organizationCity: '',
+      name: '',
+      street: '',
+      postalCode: '',
+      city: '',
     },
     validate: (values) => ({
-      name: values.organizationName === '' ? 'Podaj nazwę placówki' : null,
-      street: !values.adminStreet ? 'Podaj ulicę' : null,
-      postalCode: !values.adminPostalCode ? 'Podaj kod pocztowy' : null,
-      city: !values.adminCity ? 'Podaj miasto' : null,
+      name: values.name.trim() === '' ? 'Wymagane pole' : null,
+      street: values.street.trim() === '' ? 'Wymagane pole' : null,
+      postalCode: values.postalCode.trim() === '' ? 'Wymagane pole' : null,
+      city: values.city.trim() === '' ? 'Wymagane pole' : null,
     }),
   });
 
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const organizationAdminForm = useForm<OrganizationAdminFormData>({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      pesel: '',
+      email: '',
+      phoneNumber: '',
+      street: '',
+      postalCode: '',
+      city: '',
+    },
+    validate: (values) => ({
+      firstName: values.firstName.trim() === '' ? 'Wymagane pole' : null,
+      lastName: values.lastName.trim() === '' ? 'Wymagane pole' : null,
+      pesel: !values.pesel ? 'Wymagane pole' : !validatePesel(values.pesel) ? 'Niepoprawny PESEL' : null,
+      street: values.street.trim() === '' ? 'Wymagane pole' : null,
+      postalCode: values.postalCode.trim() === '' ? 'Wymagane pole' : null,
+      city: values.city.trim() === '' ? 'Wymagane pole' : null,
+    }),
+  });
 
-  const hasErrors = (): boolean => {
-    return !!form.errors.name
-      || !!form.errors.adminId
-      || !!form.errors.directorId
-      || !!form.errors.address;
-  };
-
-  const submitHandler = (formData: OrganizationEditForm): void => {
-    axios.post<OrganizationResponse, AxiosResponse<OrganizationResponse>, OrganizationRegisterRequest>(
+  const submitHandler = (): void => {
+    if (organizationForm.validate().hasErrors
+      || organizationAdminForm.validate().hasErrors) {
+      return;
+    }
+    axios.post<OrganizationRegisterResponse, AxiosResponse<OrganizationRegisterResponse>, OrganizationRegisterRequest>(
       '/api/organization', {
-        name: formData.organizationName,
+        name: organizationForm.values.name,
         admin: {
-          firstName: formData.adminFirstName,
-          lastName: formData.adminLastName,
-          role: formData.adminRole,
-          pesel: formData.adminPesel,
-          sex: formData.sex,
-          email: formData.adminEmail,
-          phoneNumber: formData.adminPhoneNumber,
+          firstName: organizationAdminForm.values.firstName,
+          lastName: organizationAdminForm.values.lastName,
+          role: UserRole.ORGANIZATION_ADMIN,
+          pesel: organizationAdminForm.values.pesel,
+          sex: organizationAdminForm.values.sex,
+          email: organizationAdminForm.values.email,
+          phoneNumber: organizationAdminForm.values.phoneNumber,
           address: {
-            street: formData.adminStreet,
-            postalCode: formData.adminPostalCode,
-            city: formData.adminCity,
+            street: organizationAdminForm.values.street,
+            postalCode: organizationAdminForm.values.postalCode,
+            city: organizationAdminForm.values.city,
           },
         },
         address: {
-          street: formData.organizationStreet,
-          postalCode: formData.organizationPostalCode,
-          city: formData.organizationCity,
+          street: organizationForm.values.street,
+          postalCode: organizationForm.values.postalCode,
+          city: organizationForm.values.city,
         },
       }).then((response) => {
+      setCreateResponse(response.data);
+      setStep(OrganizationCreateStep.SUMMARY);
       props.submitCallback(response.data);
     }).catch(({ response }) => {
       setSubmitError(
@@ -99,63 +126,27 @@ export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element =>
 
   return (
     <div className={'organization-create'}>
-      {hasErrors() &&
-        <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
-          Wszystkie pola są wymagane
-        </Alert>
-      }
       {submitError &&
         <Alert icon={<IconAlertCircle size={16}/>} title={'Błąd'} color={'red'}>
           {submitError}
-        </Alert>
-      }
+        </Alert>}
 
-      <form
-        noValidate
-        className={'organization-create-form'}
-        onSubmit={form.onSubmit(submitHandler)}
-      >
-        <TextInput
-          required
-          label={'Nazwa'}
-          autoComplete={'organization'}
-          autoFocus={true}
-          {...form.getInputProps('organizationName')}/>
+      <OrganizationCreateStepper step={step.valueOf()}/>
 
-        {/*TODO: admin data form*/}
+      {step === OrganizationCreateStep.ORGANIZATION_DATA &&
+        <OrganizationForm
+          variant={OrganizationFormVariant.CREATE}
+          form={organizationForm}
+          onSubmit={() => setStep(OrganizationCreateStep.ORGANIZATION_ADMIN_DATA)}/>}
 
-        <div className={'organization-create-section-heading'}>
-          Adres
-        </div>
+      {step === OrganizationCreateStep.ORGANIZATION_ADMIN_DATA &&
+        <OrganizationAdminForm
+          form={organizationAdminForm}
+          onPrev={() => setStep(OrganizationCreateStep.ORGANIZATION_DATA)}
+          onNext={() => submitHandler()}/>}
 
-        <TextInput
-          required
-          label={'Ulica'}
-          autoComplete={'street-address'}
-          id={'street'}
-          {...form.getInputProps('adminStreet')}/>
-
-        <div className={'organization-create-city'}>
-          <TextInput
-            required
-            label={'Kod pocztowy'}
-            autoComplete={'postal-code'}
-            id={'postal-code'}
-            style={{ flex: 1 }}
-            {...form.getInputProps('adminPostalCode')}/>
-          <TextInput
-            required
-            label={'Miasto'}
-            autoComplete={'address-level2'}
-            id={'city'}
-            style={{ flex: 2 }}
-            {...form.getInputProps('adminCity')}/>
-        </div>
-
-        <Button type={'submit'}>
-          Utwórz
-        </Button>
-      </form>
+      {step === OrganizationCreateStep.SUMMARY && createResponse &&
+        <OrganizationCreateSummary newOrganization={createResponse}/>}
     </div>
   );
 };

@@ -21,8 +21,8 @@ export const LoginForm = (): JSX.Element => {
       password: '',
     },
     validate: (values) => ({
-      username: values.username === '' ? 'Podaj nazwę użytkownika' : null,
-      password: values.password === '' ? 'Podaj hasło' : null,
+      username: values.username.trim() === '' ? 'Podaj nazwę użytkownika' : null,
+      password: values.password.trim() === '' ? 'Podaj hasło' : null,
     }),
   });
 
@@ -66,10 +66,10 @@ export const LoginForm = (): JSX.Element => {
 
         <div className={'login-form-fields'}>
           <TextInput
+            autoFocus
             required
             label="Nazwa użytkownika"
             autoComplete={'username'}
-            autoFocus={true}
             {...form.getInputProps('username')}
           />
           <PasswordInput

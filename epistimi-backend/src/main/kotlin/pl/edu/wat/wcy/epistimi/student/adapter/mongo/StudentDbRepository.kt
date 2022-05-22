@@ -15,7 +15,7 @@ class StudentDbRepository(
 
     override fun findByUserId(id: UserId): Student {
         return DbHandlers.handleDbGet(mapper = StudentDbBiMapper) {
-            studentMongoDbRepository.findFirstByUserId(id)
+            studentMongoDbRepository.findFirstByUserId(id.value)
                 ?: throw StudentNotFoundException()
         }
     }

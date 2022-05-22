@@ -19,6 +19,7 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.OrganizationUpdateRequest
 import java.net.URI
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/organization")
@@ -122,7 +123,7 @@ class OrganizationController(
     )
     fun updateOrganization(
         @PathVariable organizationId: String,
-        @RequestBody organizationUpdateRequest: OrganizationUpdateRequest,
+        @Valid @RequestBody organizationUpdateRequest: OrganizationUpdateRequest,
     ): ResponseEntity<OrganizationResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = OrganizationResponseMapper) {

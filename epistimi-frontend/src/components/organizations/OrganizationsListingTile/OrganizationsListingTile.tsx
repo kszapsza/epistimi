@@ -1,6 +1,5 @@
 import './OrganizationsListingTile.scss';
 import { Card } from '@mantine/core';
-import { Link } from 'react-router-dom';
 import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationStatus } from '../../../dto/organization';
 
@@ -19,7 +18,7 @@ export const OrganizationsListingTile = (
           component={'a'} href={`/app/organizations/${props.id}`}>
       <div className={'organizations-tile-meta'}>
         <div className={'organizations-tile-title'}>
-          <Link to={`./${props.id}`}>{props.name}</Link>
+          {props.name}
         </div>
         <div className={'organizations-tile-subtitle'}>
           <samp>{props.id}</samp> ∙ {props.admin}

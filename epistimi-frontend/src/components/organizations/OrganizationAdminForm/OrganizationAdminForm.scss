@@ -1,0 +1,35 @@
+@import 'src/styles/dimensions';
+
+.organization-admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: .75rem auto 0;
+  width: 100%;
+
+  .organization-admin-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    .organization-admin-city {
+      display: flex;
+      flex-direction: row;
+      gap: .75rem;
+
+      @media screen and (max-width: $mobile-breakpoint) {
+        flex-direction: column;
+      }
+
+      div {
+        width: 100%;
+      }
+    }
+  }
+
+  .organization-create-actions {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+}

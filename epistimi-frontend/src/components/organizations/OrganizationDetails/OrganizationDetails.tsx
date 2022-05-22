@@ -48,8 +48,7 @@ export const OrganizationDetails = (): JSX.Element => {
 
   return (
     <div className={'organization-details'}>
-      {loading &&
-        <Loader/>}
+      {loading && <Loader/>}
       {(error || updatedMessageOpened) &&
         <div className={'organization-mbox-dock'}>
           {error &&
@@ -81,8 +80,7 @@ export const OrganizationDetails = (): JSX.Element => {
         >
           <OrganizationUpdate
             submitCallback={onOrganizationUpdate}
-            organizationId={organization.id}
-            defaults={{ ...organization }}
+            updatedOrganization={{ ...organization }}
           />
         </Modal>
         <div className={'organization-header'}>
