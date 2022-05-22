@@ -19,7 +19,10 @@ import java.net.URI
 
 internal class NominatimOrganizationLocationClientTest : ShouldSpec({
     val restTemplateMock = mockk<RestTemplate>()
-    val locationClient = NominatimOrganizationLocationClient(restTemplateMock)
+    val locationClient = NominatimOrganizationLocationClient(
+        restTemplate = restTemplateMock,
+        nominatimEndpoint = "https://nominatim.openstreetmap.org/search",
+    )
 
     should("return null if Nominatim API failed to respond") {
         // given

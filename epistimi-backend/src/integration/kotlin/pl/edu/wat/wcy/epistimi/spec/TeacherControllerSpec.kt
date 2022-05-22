@@ -58,10 +58,10 @@ internal class TeacherControllerSpec(
         should("return empty list of teachers if no teachers exist in school administered by admin being logged in") {
             // given
             val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "u1")
-            organizationStubbing.organizationExists(name = "SP1", admin = admin, director = admin)
+            organizationStubbing.organizationExists(name = "SP1", admin = admin)
 
             val otherAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "u2")
-            val otherOrganization = organizationStubbing.organizationExists(name = "SP2", admin = otherAdmin, director = otherAdmin)
+            val otherOrganization = organizationStubbing.organizationExists(name = "SP2", admin = otherAdmin)
 
             val teacherUser = userStubbing.userExists(
                 role = TEACHER,
@@ -150,8 +150,7 @@ internal class TeacherControllerSpec(
                           "address": {
                             "street": "Szkolna 17",
                             "postalCode": "15-640",
-                            "city": "Białystok",
-                            "countryCode": "PL"
+                            "city": "Białystok"
                           }
                         },
                       "academicTitle": "dr hab."

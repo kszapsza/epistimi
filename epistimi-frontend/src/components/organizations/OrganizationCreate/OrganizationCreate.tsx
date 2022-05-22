@@ -5,13 +5,13 @@ import { OrganizationAdminForm } from '../OrganizationAdminForm';
 import { OrganizationCreateStepper } from '../OrganizationCreateStepper';
 import { OrganizationCreateSummary } from '../OrganizationCreateSummary';
 import { OrganizationForm } from '../OrganizationForm';
+import { OrganizationFormVariant } from '../OrganizationForm/OrganizationForm';
 import { OrganizationRegisterRequest, OrganizationRegisterResponse } from '../../../dto/organization';
 import { useForm } from '@mantine/form';
 import { UserRole, UserSex } from '../../../dto/user';
 import { useState } from 'react';
 import { validatePesel } from '../../../validators/pesel';
 import axios, { AxiosResponse } from 'axios';
-import { OrganizationFormVariant } from '../OrganizationForm/OrganizationForm';
 
 export interface OrganizationFormData {
   name: string;
@@ -119,7 +119,7 @@ export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element =>
       setSubmitError(
         response?.data?.message == 'Provided admin is already managing other organization'
           ? 'Wybrany administrator zarządza już inną placówką'
-          : 'Wystąpił nieoczekiwany błąd serwera',
+          : 'Wystąpił nieoczekiwany błąd serwera', // TODO: update same as in organization update
       );
     });
   };

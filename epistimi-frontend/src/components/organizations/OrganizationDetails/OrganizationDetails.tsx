@@ -28,8 +28,8 @@ export const OrganizationDetails = (): JSX.Element => {
   const [updatedMessageOpened, updatedMessageHandlers] = useDisclosure(false);
 
   useEffect(() => {
-    document.title = 'Szczegóły placówki – Epistimi';
-  }, []);
+    organization && (document.title = `${organization.name} – Epistimi`);
+  }, [organization]);
 
   if (loading) {
     return <Loader/>;

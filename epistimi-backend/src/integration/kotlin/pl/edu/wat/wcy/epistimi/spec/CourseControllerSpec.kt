@@ -181,8 +181,7 @@ internal class CourseControllerSpec(
                           "address": {
                             "street": "Szkolna 17",
                             "postalCode": "15-640",
-                            "city": "Białystok",
-                            "countryCode": "PL"
+                            "city": "Białystok"
                           }
                         },
                         "academicTitle": "dr"
@@ -203,8 +202,7 @@ internal class CourseControllerSpec(
                             "address": {
                               "street": "Szkolna 17",
                               "postalCode": "15-640",
-                              "city": "Białystok",
-                              "countryCode": "PL"
+                              "city": "Białystok"
                             }
                           },
                           "parents": [
@@ -223,8 +221,7 @@ internal class CourseControllerSpec(
                                 "address": {
                                   "street": "Szkolna 17",
                                   "postalCode": "15-640",
-                                  "city": "Białystok",
-                                  "countryCode": "PL"
+                                  "city": "Białystok"
                                 }
                               }
                             }
@@ -294,8 +291,7 @@ internal class CourseControllerSpec(
                           "address": {
                             "street": "Szkolna 17",
                             "postalCode": "15-640",
-                            "city": "Białystok",
-                            "countryCode": "PL"
+                            "city": "Białystok"
                           }
                         },
                         "academicTitle": "dr"
@@ -316,8 +312,7 @@ internal class CourseControllerSpec(
                             "address": {
                               "street": "Szkolna 17",
                               "postalCode": "15-640",
-                              "city": "Białystok",
-                              "countryCode": "PL"
+                              "city": "Białystok"
                             }
                           },
                           "parents": [
@@ -336,8 +331,7 @@ internal class CourseControllerSpec(
                                 "address": {
                                   "street": "Szkolna 17",
                                   "postalCode": "15-640",
-                                  "city": "Białystok",
-                                  "countryCode": "PL"
+                                  "city": "Białystok"
                                 }
                               }
                             }
@@ -439,8 +433,7 @@ internal class CourseControllerSpec(
                       "address": {
                         "street": "Szkolna 17",
                         "postalCode": "15-640",
-                        "city": "Białystok",
-                        "countryCode": "PL"
+                        "city": "Białystok"
                       }
                     },
                     "academicTitle": "dr"
@@ -461,8 +454,7 @@ internal class CourseControllerSpec(
                         "address": {
                           "street": "Szkolna 17",
                           "postalCode": "15-640",
-                          "city": "Białystok",
-                          "countryCode": "PL"
+                          "city": "Białystok"
                         }
                       },
                       "parents": [
@@ -481,8 +473,7 @@ internal class CourseControllerSpec(
                             "address": {
                               "street": "Szkolna 17",
                               "postalCode": "15-640",
-                              "city": "Białystok",
-                              "countryCode": "PL"
+                              "city": "Białystok"
                             }
                           }
                         }
@@ -754,8 +745,7 @@ internal class CourseControllerSpec(
                       "address": {
                         "street": "Szkolna 17",
                         "postalCode": "15-640",
-                        "city": "Białystok",
-                        "countryCode": "PL"
+                        "city": "Białystok"
                       }
                     },
                     "academicTitle": "dr"

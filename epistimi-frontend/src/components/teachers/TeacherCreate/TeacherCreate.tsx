@@ -99,7 +99,7 @@ export const TeacherCreate = (
       <TeacherCreateStepper step={modalState.valueOf()}/>
 
       {modalState === TeacherCreateState.EDIT && <>
-        <TeacherCreateUserForm formData={form}/>
+        <TeacherCreateUserForm form={form}/>
         <Button
           leftIcon={<IconCheck size={18}/>}
           onClick={sendRegisterRequest}

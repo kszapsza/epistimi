@@ -11,7 +11,6 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod.GET
 import org.springframework.http.HttpMethod.POST
 import org.springframework.http.HttpMethod.PUT
-import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.FORBIDDEN
 import org.springframework.http.HttpStatus.NOT_FOUND
@@ -109,15 +108,13 @@ internal class OrganizationControllerSpec(
                     "address": {
                       "street": "Świętego Andrzeja Boboli 10",
                       "postalCode": "15-649",
-                      "city": "Białystok",
-                      "countryCode": "PL"
+                      "city": "Białystok"
                     }
                   },
                   "address": {
                       "street": "Szkolna 17",
                       "postalCode": "15-640",
-                      "city": "Białystok",
-                      "countryCode": "PL"
+                      "city": "Białystok"
                   },
                   "status": "ENABLED"
                 }
@@ -235,15 +232,13 @@ internal class OrganizationControllerSpec(
                         "address": {
                           "street": "Świętego Andrzeja Boboli 10",
                           "postalCode": "15-649",
-                          "city": "Białystok",
-                          "countryCode": "PL"
+                          "city": "Białystok"
                         }
                       },
                       "address": {
                           "street": "Szkolna 17",
                           "postalCode": "15-640",
-                          "city": "Białystok",
-                          "countryCode": "PL"
+                          "city": "Białystok"
                       },
                       "status": "ENABLED"
                     }
@@ -335,85 +330,30 @@ internal class OrganizationControllerSpec(
                 {                 
                   "name": "Gimnazjum nr 2",
                   "admin": {
-                    "firstName": "Adrianna",
-                    "lastName": "Nowak",
-                    "role": "ORGANIZATION_ADMIN",
-                    "username": "sp7_admin",
-                    "pesel": "58030515441",
-                    "sex": "FEMALE",
-                    "email": "a.nowak@gmail.com",
-                    "phoneNumber": "+48987654321",
-                    "address": {
-                      "street": "Świętego Andrzeja Boboli 10",
-                      "postalCode": "15-649",
-                      "city": "Białystok",
-                      "countryCode": "PL"
+                    "user": {
+                      "firstName": "Adrianna",
+                      "lastName": "Nowak",
+                      "role": "ORGANIZATION_ADMIN",
+                      "username": "adrianna.nowak",
+                      "pesel": "58030515441",
+                      "sex": "FEMALE",
+                      "email": "a.nowak@gmail.com",
+                      "phoneNumber": "+48987654321",
+                      "address": {
+                        "street": "Świętego Andrzeja Boboli 10",
+                        "postalCode": "15-649",
+                        "city": "Białystok"
+                      }  
                     }
                   },
                   "address": {
                       "street": "Szkolna 17",
                       "postalCode": "15-640",
-                      "city": "Białystok",
-                      "countryCode": "PL"
+                      "city": "Białystok"
                   },
                   "status": "ENABLED"
                 }
             """.trimIndent()
-        }
-
-        should("fail registering organization with HTTP 400 if provided admin does not exist") {
-            // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-            val body = OrganizationRegisterRequest(
-                name = "Gimnazjum nr 2",
-                admin = adminUserCreateRequest,
-                address = Address(
-                    street = "Szkolna 17",
-                    postalCode = "15-640",
-                    city = "Białystok",
-                )
-            )
-
-            // when
-            val response = restTemplate.exchange<String>(
-                url = "/api/organization",
-                method = POST,
-                requestEntity = HttpEntity(body, headers),
-            )
-
-            // then
-            response.statusCode shouldBe BAD_REQUEST
-        }
-
-        should("fail registering organization if provided admin already manages other organization") {
-            // given
-            val organizationAdmin = stubOrganizationAdmin()
-
-            organizationStubbing.organizationExists(
-                name = "SP7",
-                admin = organizationAdmin,
-            )
-
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-            val body = OrganizationRegisterRequest(
-                name = "Gimnazjum nr 2",
-                admin = adminUserCreateRequest,
-                address = Address(
-                    street = "Szkolna 17",
-                    postalCode = "15-640",
-                    city = "Białystok",
-                )
-            )
-
-            // when
-            val response = restTemplate.exchange<String>(
-                url = "/api/organization",
-                method = POST,
-                requestEntity = HttpEntity(body, headers),
-            )
-
-            // then
-            response.statusCode shouldBe BAD_REQUEST
         }
     }
 
@@ -519,15 +459,13 @@ internal class OrganizationControllerSpec(
                     "address": {
                       "street": "Świętego Andrzeja Boboli 10",
                       "postalCode": "15-649",
-                      "city": "Białystok",
-                      "countryCode": "PL"
+                      "city": "Białystok"
                     }
                   },
                   "address": {
                       "street": "Szkolna 17",
                       "postalCode": "15-640",
-                      "city": "Białystok",
-                      "countryCode": "PL"
+                      "city": "Białystok"
                   },
                   "status": "DISABLED"
                 }
@@ -536,28 +474,8 @@ internal class OrganizationControllerSpec(
     }
 
     context("update organization") {
-        should("fail updating organization with HTTP 400 if new admin does not exist") {
-            // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-            val body = OrganizationUpdateRequest(
-                name = "Changed Name",
-                address = DummyAddress(),
-            )
-
-            // when
-            val response = restTemplate.exchange<String>(
-                url = "/api/organization/42",
-                method = PUT,
-                requestEntity = HttpEntity(body, headers)
-            )
-
-            // then
-            response.statusCode shouldBe BAD_REQUEST
-        }
-
         should("fail updating organization with HTTP 400 if user is not authenticated") {
             // given
-            val organizationAdmin = stubOrganizationAdmin()
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
                 address = DummyAddress(),
@@ -660,15 +578,13 @@ internal class OrganizationControllerSpec(
                     "address": {
                       "street": "Świętego Andrzeja Boboli 10",
                       "postalCode": "15-649",
-                      "city": "Białystok",
-                      "countryCode": "PL"
+                      "city": "Białystok"
                     }
                   },
                   "address": {
                       "street": "Szkolna 17",
                       "postalCode": "15-640",
-                      "city": "Białystok",
-                      "countryCode": "PL"
+                      "city": "Białystok"
                   },
                   "status": "ENABLED"              
                 }
