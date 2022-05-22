@@ -6,9 +6,9 @@ import { OrganizationColorStatus } from '../OrganizationColorStatus';
 import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
 import { OrganizationDetailsLocation } from '../OrganizationDetailsLocation';
 import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
-import { OrganizationEdit, OrganizationEditVariant } from '../OrganizationEdit';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationStatusChange } from '../OrganizationStatusChange';
+import { OrganizationUpdate } from '../OrganizationUpdate';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
@@ -28,8 +28,8 @@ export const OrganizationDetails = (): JSX.Element => {
   const [updatedMessageOpened, updatedMessageHandlers] = useDisclosure(false);
 
   useEffect(() => {
-    document.title = 'Szczegóły placówki – Epistimi';
-  }, []);
+    organization && (document.title = `${organization.name} – Epistimi`);
+  }, [organization]);
 
   if (loading) {
     return <Loader/>;
@@ -48,8 +48,7 @@ export const OrganizationDetails = (): JSX.Element => {
 
   return (
     <div className={'organization-details'}>
-      {loading &&
-        <Loader/>}
+      {loading && <Loader/>}
       {(error || updatedMessageOpened) &&
         <div className={'organization-mbox-dock'}>
           {error &&
@@ -79,11 +78,9 @@ export const OrganizationDetails = (): JSX.Element => {
           size={'lg'}
           title={'Edytowanie placówki'}
         >
-          <OrganizationEdit
+          <OrganizationUpdate
             submitCallback={onOrganizationUpdate}
-            variant={OrganizationEditVariant.UPDATE}
-            organizationId={organization.id}
-            defaults={{ ...organization }}
+            updatedOrganization={{ ...organization }}
           />
         </Modal>
         <div className={'organization-header'}>
@@ -127,10 +124,6 @@ export const OrganizationDetails = (): JSX.Element => {
             <OrganizationDetailsKeyValue
               label={'Administrator:'}
               value={`${organization.admin.lastName} ${organization.admin.firstName} (${organization.admin.username})`}
-            />
-            <OrganizationDetailsKeyValue
-              label={'Dyrektor:'}
-              value={`${organization.director.lastName} ${organization.director.firstName} (${organization.director.username})`}
             />
             <OrganizationDetailsKeyValue
               label={'Status:'}

@@ -1,4 +1,7 @@
 epistimi:
+  external-apis:
+    nominatim:
+      url: https://nominatim.openstreetmap.org/search
   security:
     jwt-expiry-millis: 900000
     jwt-secret: ${JWT_SECRET}

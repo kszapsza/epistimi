@@ -12,7 +12,6 @@ object OrganizationDbBiMapper : BiMapper<Organization, OrganizationMongoDbDocume
             name = name,
             adminId = UserId(adminId),
             status = Organization.Status.valueOf(status),
-            directorId = UserId(directorId),
             address = address,
             location = location,
         )
@@ -24,7 +23,6 @@ object OrganizationDbBiMapper : BiMapper<Organization, OrganizationMongoDbDocume
             name = name,
             adminId = adminId.value,
             status = status.toString(),
-            directorId = directorId.value,
             address = address,
             location = location,
         )

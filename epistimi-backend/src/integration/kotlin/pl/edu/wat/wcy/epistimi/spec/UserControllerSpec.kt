@@ -74,8 +74,7 @@ internal class UserControllerSpec(
                   "address": {
                     "street": "Szkolna 17",
                     "postalCode": "15-640",
-                    "city": "Białystok",
-                    "countryCode": "PL"
+                    "city": "Białystok"
                   }
                 }
             """.trimIndent()
@@ -148,8 +147,7 @@ internal class UserControllerSpec(
                       "address": {
                         "street": "Szkolna 17",
                         "postalCode": "15-640",
-                        "city": "Białystok",
-                        "countryCode": "PL"
+                        "city": "Białystok"
                       }
                     }
                   ]
@@ -191,8 +189,7 @@ internal class UserControllerSpec(
                       "address": {
                         "street": "Szkolna 17",
                         "postalCode": "15-640",
-                        "city": "Białystok",
-                        "countryCode": "PL"
+                        "city": "Białystok"
                       }
                     }
                   ]
@@ -237,8 +234,7 @@ internal class UserControllerSpec(
                       "address": {
                         "street": "Szkolna 17",
                         "postalCode": "15-640",
-                        "city": "Białystok",
-                        "countryCode": "PL"
+                        "city": "Białystok"
                       }
                     },
                     {
@@ -254,8 +250,7 @@ internal class UserControllerSpec(
                       "address": {
                         "street": "Szkolna 17",
                         "postalCode": "15-640",
-                        "city": "Białystok",
-                        "countryCode": "PL"
+                        "city": "Białystok"
                       }
                     }
                   ]
@@ -361,8 +356,7 @@ internal class UserControllerSpec(
                   "address": {
                     "street": "Szkolna 17",
                     "postalCode": "15-640",
-                    "city": "Białystok",
-                    "countryCode": "PL"
+                    "city": "Białystok"
                   }
                 }
             """.trimIndent()
@@ -449,8 +443,7 @@ internal class UserControllerSpec(
                   "address": {
                     "street": "Szkolna 17",
                     "postalCode": "15-640",
-                    "city": "Białystok",
-                    "countryCode": "PL"
+                    "city": "Białystok"
                   }
                 }
             """.trimIndent()

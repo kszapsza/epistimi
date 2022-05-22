@@ -16,7 +16,6 @@ describe('OrganizationDetailsLocation component', () => {
           street: 'Szkolna 17',
           postalCode: '15-640',
           city: 'Białystok',
-          countryCode: 'PL',
         }}
       />);
 
@@ -24,7 +23,6 @@ describe('OrganizationDetailsLocation component', () => {
       expect(getByText(/ulica/i).parentElement).toHaveTextContent(/Szkolna 17/);
       expect(getByText(/kod pocztowy/i).parentElement).toHaveTextContent(/15-640/);
       expect(getByText(/miasto/i).parentElement).toHaveTextContent(/Białystok/);
-      expect(getByText(/kraj/i).parentElement).toHaveTextContent(/Polska/);
     });
   });
 

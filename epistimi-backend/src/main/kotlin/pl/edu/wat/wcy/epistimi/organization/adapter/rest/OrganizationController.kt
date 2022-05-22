@@ -17,7 +17,9 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
+import pl.edu.wat.wcy.epistimi.organization.OrganizationUpdateRequest
 import java.net.URI
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/organization")
@@ -75,13 +77,13 @@ class OrganizationController(
     )
     fun registerOrganization(
         @RequestBody organizationRegisterRequest: OrganizationRegisterRequest,
-    ): ResponseEntity<OrganizationResponse> {
-        return RestHandlers.handleRequest(mapper = OrganizationResponseMapper) {
+    ): ResponseEntity<OrganizationRegisterResponse> {
+        return RestHandlers.handleRequest(mapper = OrganizationRegisterResponseMapper) {
             organizationFacade.registerOrganization(organizationRegisterRequest)
-        }.let { registeredOrganization ->
+        }.let { newOrganization ->
             ResponseEntity
-                .created(URI.create("/api/organization/${registeredOrganization.id}"))
-                .body(registeredOrganization)
+                .created(URI.create("/api/organization/${newOrganization.id}"))
+                .body(newOrganization)
         }
     }
 
@@ -121,7 +123,7 @@ class OrganizationController(
     )
     fun updateOrganization(
         @PathVariable organizationId: String,
-        @RequestBody organizationUpdateRequest: OrganizationRegisterRequest,
+        @Valid @RequestBody organizationUpdateRequest: OrganizationUpdateRequest,
     ): ResponseEntity<OrganizationResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = OrganizationResponseMapper) {

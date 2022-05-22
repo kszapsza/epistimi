@@ -1,17 +1,16 @@
 import './OrganizationsListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { IconAlertCircle, IconCheck, IconPencil } from '@tabler/icons';
-import { OrganizationEdit, OrganizationEditVariant } from '../OrganizationEdit';
-import { OrganizationResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
+import { IconAlertCircle, IconPencil } from '@tabler/icons';
+import { OrganizationCreate } from '../OrganizationCreate';
+import { OrganizationRegisterResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationsListingTile } from '../OrganizationsListingTile';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { useFetch } from '../../../hooks/useFetch';
 
 export const OrganizationsListing = (): JSX.Element => {
-  const { data, loading, error } = useFetch<OrganizationsResponse>('api/organization');
+  const { data, setData, loading, error } = useFetch<OrganizationsResponse>('api/organization');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
-  const [createdMessageOpened, createdMessageHandlers] = useDisclosure(false);
 
   useEffect(() => {
     document.title = 'Placówki – Epistimi';
@@ -21,10 +20,17 @@ export const OrganizationsListing = (): JSX.Element => {
     .filter((organization) => organization.status === OrganizationStatus.ENABLED)
     .length ?? 0;
 
-  const onOrganizationCreate = (organization: OrganizationResponse) => {
-    data?.organizations.push(organization);
-    createModalHandlers.close();
-    createdMessageHandlers.open();
+  const onOrganizationCreate = (response: OrganizationRegisterResponse) => {
+    data && setData({
+      organizations: [...data.organizations, {
+        id: response.id,
+        name: response.name,
+        admin: response.admin.user,
+        status: response.status,
+        address: response.address,
+        location: response.location,
+      }],
+    });
   };
 
   return (
@@ -32,12 +38,11 @@ export const OrganizationsListing = (): JSX.Element => {
       <Modal
         onClose={createModalHandlers.close}
         opened={createModalOpened}
-        size={'lg'}
+        size={'xl'}
         title={'Tworzenie nowej placówki'}
       >
-        <OrganizationEdit
+        <OrganizationCreate
           submitCallback={onOrganizationCreate}
-          variant={OrganizationEditVariant.CREATE}
         />
       </Modal>
 
@@ -55,10 +60,6 @@ export const OrganizationsListing = (): JSX.Element => {
       {error &&
         <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
           Nie udało się załadować listy placówek!
-        </Alert>}
-      {createdMessageOpened &&
-        <Alert icon={<IconCheck size={16}/>} color={'green'}>
-          Pomyślnie utworzono nową placówkę
         </Alert>}
 
       {loading && <Loader/>}

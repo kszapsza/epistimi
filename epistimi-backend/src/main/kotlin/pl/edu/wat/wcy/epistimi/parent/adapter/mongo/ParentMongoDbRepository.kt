@@ -4,4 +4,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ParentMongoDbRepository : MongoRepository<ParentMongoDbDocument, String>
+interface ParentMongoDbRepository : MongoRepository<ParentMongoDbDocument, String> {
+    fun findFirstByUserId(userId: String): ParentMongoDbDocument?
+}

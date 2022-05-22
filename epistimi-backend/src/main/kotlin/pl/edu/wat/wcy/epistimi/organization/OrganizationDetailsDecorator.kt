@@ -11,7 +11,6 @@ class OrganizationDetailsDecorator(
             name = organization.name,
             admin = userRepository.findById(adminId),
             status = organization.status,
-            director = userRepository.findById(directorId),
             address = address,
             location = location,
         )

@@ -1,6 +1,6 @@
 # epistimi-backend
 
-Monolithic backend for Epistimi, build with Spring Boot.
+A monolithic backend for Epistimi, build with Spring Boot.
 
 ## Prerequisites
 

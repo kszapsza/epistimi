@@ -78,7 +78,6 @@ export const TeacherCreate = (
           street: form.values.street,
           postalCode: form.values.postalCode,
           city: form.values.city,
-          countryCode: 'PL',
         },
       },
       academicTitle: form.values.academicTitle,
@@ -100,7 +99,7 @@ export const TeacherCreate = (
       <TeacherCreateStepper step={modalState.valueOf()}/>
 
       {modalState === TeacherCreateState.EDIT && <>
-        <TeacherCreateUserForm formData={form}/>
+        <TeacherCreateUserForm form={form}/>
         <Button
           leftIcon={<IconCheck size={18}/>}
           onClick={sendRegisterRequest}

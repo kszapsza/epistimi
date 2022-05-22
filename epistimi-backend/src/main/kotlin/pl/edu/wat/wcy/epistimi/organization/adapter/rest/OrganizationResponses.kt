@@ -10,7 +10,6 @@ data class OrganizationResponse(
     val name: String,
     val admin: UserResponse,
     val status: String,
-    val director: UserResponse,
     val address: Address,
     val location: Location?,
 )
@@ -18,3 +17,17 @@ data class OrganizationResponse(
 data class OrganizationsResponse(
     val organizations: List<OrganizationResponse>,
 )
+
+data class OrganizationRegisterResponse(
+    val id: OrganizationId,
+    val name: String,
+    val admin: NewUserResponse,
+    val status: String,
+    val address: Address,
+    val location: Location?,
+) {
+    data class NewUserResponse(
+        val user: UserResponse,
+        val password: String,
+    )
+}

@@ -1,6 +1,8 @@
 package pl.edu.wat.wcy.epistimi.organization
 
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
+import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
@@ -14,6 +16,8 @@ class OrganizationContextProvider(
     private val organizationRepository: OrganizationRepository,
     private val userRepository: UserRepository,
     private val teacherRepository: TeacherRepository,
+    private val studentRepository: StudentRepository,
+    private val parentRepository: ParentRepository,
 ) {
     fun provide(userId: UserId): Organization? {
         return with(userRepository.findById(userId)) {
@@ -37,10 +41,12 @@ class OrganizationContextProvider(
     }
 
     private fun provideForStudent(userId: UserId): Organization {
-        TODO()
+        return studentRepository.findByUserId(userId).organizationId
+            .let { organizationId -> organizationRepository.findById(organizationId) }
     }
 
     private fun provideForParent(userId: UserId): Organization {
-        TODO()
+        return parentRepository.findByUserId(userId).organizationId
+            .let { organizationId -> organizationRepository.findById(organizationId) }
     }
 }

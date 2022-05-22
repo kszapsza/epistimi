@@ -10,7 +10,6 @@ data class Organization(
     val name: String,
     val adminId: UserId,
     val status: Status,
-    val directorId: UserId,
     val address: Address,
     val location: Location?,
 ) {
@@ -30,7 +29,6 @@ data class OrganizationDetails(
     val name: String,
     val admin: User,
     val status: Organization.Status,
-    val director: User,
     val address: Address,
     val location: Location?,
 )

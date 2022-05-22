@@ -3,44 +3,44 @@ import { TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
 
 interface TeacherCreateUserFormProps {
-  formData: UseFormReturnType<TeacherRegisterFormData>;
+  form: UseFormReturnType<TeacherRegisterFormData>;
 }
 
 export const TeacherCreateUserForm = (
-  { formData }: TeacherCreateUserFormProps,
+  { form }: TeacherCreateUserFormProps,
 ): JSX.Element => {
   return (
     <form className={'add-student-form'}>
       <TextInput
         label={'Tytuł naukowy'}
-        {...formData.getInputProps('academicTitle')}/>
+        {...form.getInputProps('academicTitle')}/>
       <TextInput
         label={'Imię'}
         required={true}
-        {...formData.getInputProps('firstName')}/>
+        {...form.getInputProps('firstName')}/>
       <TextInput
         label={'Nazwisko'}
         required={true}
-        {...formData.getInputProps('lastName')}/>
+        {...form.getInputProps('lastName')}/>
       <TextInput
         label={'PESEL'}
         required={true}
-        {...formData.getInputProps('pesel')}/>
+        {...form.getInputProps('pesel')}/>
       <TextInput
         label={'E-mail'}
-        {...formData.getInputProps('email')}/>
+        {...form.getInputProps('email')}/>
       <TextInput
         label={'Numer telefonu'}
-        {...formData.getInputProps('phoneNumber')}/>
+        {...form.getInputProps('phoneNumber')}/>
       <TextInput
         label={'Ulica'}
-        {...formData.getInputProps('street')}/>
+        {...form.getInputProps('street')}/>
       <TextInput
         label={'Kod pocztowy'}
-        {...formData.getInputProps('postalCode')}/>
+        {...form.getInputProps('postalCode')}/>
       <TextInput
         label={'Miasto'}
-        {...formData.getInputProps('city')}/>
+        {...form.getInputProps('city')}/>
     </form>
   );
 };
