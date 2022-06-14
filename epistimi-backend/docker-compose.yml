@@ -13,3 +13,18 @@ services:
     restart: always
     volumes:
         - ./data/mongo/init_db_users.js:/docker-entrypoint-initdb.d/init_db_users.js:ro
+  postgresql:
+    container_name: epistimi_postgresql
+    environment:
+      POSTGRES_DB: epistimi
+      POSTGRES_USER: epistimi
+      POSTGRES_PASSWORD: 123456
+    image: postgres:14.1-alpine
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+volumes:
+  postgresql:
+    driver: local

@@ -31,8 +31,8 @@ class TeacherRegistrar(
         val newTeacher = teacherRepository.save(
             Teacher(
                 id = null,
-                userId = teacherUser.user.id!!,
-                organizationId = organization.id!!,
+                user = teacherUser.user,
+                organization = organization,
                 academicTitle = registerRequest.academicTitle,
             )
         )

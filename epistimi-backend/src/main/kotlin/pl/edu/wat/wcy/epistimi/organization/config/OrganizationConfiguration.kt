@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.epistimi.organization.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.organization.OrganizationDetailsDecorator
 import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegistrar
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
@@ -22,13 +21,11 @@ class OrganizationConfiguration {
         organizationRegistrar: OrganizationRegistrar,
         organizationRepository: OrganizationRepository,
         locationClient: OrganizationLocationClient,
-        detailsDecorator: OrganizationDetailsDecorator,
     ): OrganizationFacade {
         return OrganizationFacade(
             organizationRegistrar,
             organizationRepository,
             locationClient,
-            detailsDecorator,
         )
     }
 
@@ -43,13 +40,6 @@ class OrganizationConfiguration {
             userRegistrar,
             locationClient,
         )
-    }
-
-    @Bean
-    fun organizationDetailsDecorator(
-        userRepository: UserRepository,
-    ): OrganizationDetailsDecorator {
-        return OrganizationDetailsDecorator(userRepository)
     }
 
     @Bean

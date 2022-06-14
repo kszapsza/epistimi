@@ -42,7 +42,7 @@ class AuthenticationService(
     private fun issueToken(user: User): String {
         return user.run {
             Jwts.builder()
-                .setSubject(id!!.value)
+                .setSubject(id!!.value.toString())
                 .claim(JwtClaims.ROLE, role)
                 .setIssuedAt(Date(System.currentTimeMillis()))
                 // .setExpiration(Date(System.currentTimeMillis() + jwtExpiryMillis)) // TODO: no expiration for now

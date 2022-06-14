@@ -2,9 +2,10 @@ package pl.edu.wat.wcy.epistimi.user.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.user.User
+import java.util.UUID
 
 data class UserResponse(
-    val id: String,
+    val id: UUID,
     val firstName: String,
     val lastName: String,
     val role: User.Role,
@@ -21,7 +22,7 @@ data class UsersResponse(
 )
 
 data class UserRegisterResponse(
-    val id: String,
+    val id: UUID,
     val firstName: String,
     val lastName: String,
     val role: User.Role,

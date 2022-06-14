@@ -20,6 +20,7 @@ import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.net.URI
+import java.util.UUID
 import javax.validation.Valid
 
 @RestController

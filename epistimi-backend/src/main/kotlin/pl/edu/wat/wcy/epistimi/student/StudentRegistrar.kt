@@ -69,9 +69,9 @@ class StudentRegistrar(
         return studentRepository.save(
             Student(
                 id = null,
-                userId = studentUser.user.id!!,
-                organizationId = organization.id!!,
-                parentsIds = newParents.map { it.parent.id!! }
+                user = studentUser.user,
+                organization = organization,
+                parents = newParents.map { it.parent },
             )
         )
     }

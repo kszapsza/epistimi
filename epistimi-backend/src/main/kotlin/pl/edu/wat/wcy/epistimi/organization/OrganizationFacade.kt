@@ -8,16 +8,13 @@ class OrganizationFacade(
     private val organizationRegistrar: OrganizationRegistrar,
     private val organizationRepository: OrganizationRepository,
     private val locationClient: OrganizationLocationClient,
-    private val detailsDecorator: OrganizationDetailsDecorator,
 ) {
-    fun getOrganization(organizationId: OrganizationId): OrganizationDetails {
+    fun getOrganization(organizationId: OrganizationId): Organization {
         return organizationRepository.findById(organizationId)
-            .let { detailsDecorator.decorate(it) }
     }
 
-    fun getOrganizations(): List<OrganizationDetails> {
+    fun getOrganizations(): List<Organization> {
         return organizationRepository.findAll()
-            .map { detailsDecorator.decorate(it) }
     }
 
     fun registerOrganization(registerRequest: OrganizationRegisterRequest): NewOrganization {
@@ -27,7 +24,7 @@ class OrganizationFacade(
     fun updateOrganization(
         organizationId: OrganizationId,
         updateRequest: OrganizationUpdateRequest,
-    ): OrganizationDetails {
+    ): Organization {
         val updatedOrganization = organizationRepository.findById(organizationId)
             .copy(
                 name = updateRequest.name,
@@ -35,17 +32,14 @@ class OrganizationFacade(
                 location = locationClient.getLocation(updateRequest.address),
             )
         return organizationRepository.update(updatedOrganization)
-            .let { detailsDecorator.decorate(it) }
     }
 
     fun changeOrganizationStatus(
         organizationId: OrganizationId,
         changeStatusRequest: OrganizationChangeStatusRequest,
-    ): OrganizationDetails {
+    ): Organization {
         return organizationRepository.save(
             organizationRepository.findById(organizationId).copy(status = changeStatusRequest.status)
-        ).let {
-            detailsDecorator.decorate(it)
-        }
+        )
     }
 }

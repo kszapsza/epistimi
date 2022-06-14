@@ -6,16 +6,13 @@ import pl.edu.wat.wcy.epistimi.user.UserId
 class TeacherFacade(
     private val teacherAggregator: TeacherAggregator,
     private val teacherRegistrar: TeacherRegistrar,
-    private val teacherDetailsDecorator: TeacherDetailsDecorator,
 ) {
-    fun getTeachers(requesterUserId: UserId): List<TeacherDetails> {
+    fun getTeachers(requesterUserId: UserId): List<Teacher> {
         return teacherAggregator.getTeachers(requesterUserId)
-            .map { teacher -> teacherDetailsDecorator.decorate(teacher) }
     }
 
-    fun getTeacherById(requesterUserId: UserId, teacherId: TeacherId): TeacherDetails {
+    fun getTeacherById(requesterUserId: UserId, teacherId: TeacherId): Teacher {
         return teacherAggregator.getTeacherById(requesterUserId, teacherId)
-            .let { teacher -> teacherDetailsDecorator.decorate(teacher) }
     }
 
     fun registerTeacher(

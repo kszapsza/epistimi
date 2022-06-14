@@ -38,11 +38,11 @@ class OrganizationController(
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getOrganization(
-        @PathVariable organizationId: String,
+        @PathVariable organizationId: OrganizationId,
     ): ResponseEntity<OrganizationResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = OrganizationResponseMapper) {
-                organizationFacade.getOrganization(OrganizationId(organizationId))
+                organizationFacade.getOrganization(organizationId)
             }
         )
     }
@@ -98,13 +98,13 @@ class OrganizationController(
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun changeOrganizationStatus(
-        @PathVariable organizationId: String,
+        @PathVariable organizationId: OrganizationId,
         @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest,
     ): ResponseEntity<OrganizationResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = OrganizationResponseMapper) {
                 organizationFacade.changeOrganizationStatus(
-                    organizationId = OrganizationId(organizationId),
+                    organizationId = organizationId,
                     changeStatusRequest = organizationChangeStatusRequest,
                 )
             }
@@ -122,13 +122,13 @@ class OrganizationController(
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun updateOrganization(
-        @PathVariable organizationId: String,
+        @PathVariable organizationId: OrganizationId,
         @Valid @RequestBody organizationUpdateRequest: OrganizationUpdateRequest,
     ): ResponseEntity<OrganizationResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = OrganizationResponseMapper) {
                 organizationFacade.updateOrganization(
-                    organizationId = OrganizationId(organizationId),
+                    organizationId = organizationId,
                     updateRequest = organizationUpdateRequest
                 )
             }

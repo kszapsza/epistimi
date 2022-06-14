@@ -19,7 +19,7 @@ class TeacherAggregator(
         val requesterOrganization = organizationContextProvider.provide(requesterUserId)
         val teacher = teacherRepository.findById(teacherId)
 
-        if (requesterOrganization == null || teacher.organizationId != requesterOrganization.id) {
+        if (requesterOrganization == null || teacher.organization.id != requesterOrganization.id) {
             logger.warn("Attempted to retrieve teacher from other organization")
             throw TeacherNotFoundException(teacherId)
         }

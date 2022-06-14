@@ -41,7 +41,7 @@ class OrganizationRegistrar(
             Organization(
                 id = null,
                 name = registerRequest.name,
-                adminId = organizationAdminUser.user.id!!,
+                admin = organizationAdminUser.user,
                 status = Organization.Status.ENABLED,
                 address = registerRequest.address,
                 location = retrieveLocation(registerRequest),

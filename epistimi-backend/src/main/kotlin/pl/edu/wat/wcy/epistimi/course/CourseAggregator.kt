@@ -22,7 +22,7 @@ class CourseAggregator(
         val organizationContext = organizationContextProvider.provide(userId)
         val course = courseRepository.findById(courseId)
 
-        if (organizationContext == null || course.organizationId != organizationContext.id) {
+        if (organizationContext == null || course.organization.id != organizationContext.id) {
             throw CourseNotFoundException(courseId)
         }
         return course
