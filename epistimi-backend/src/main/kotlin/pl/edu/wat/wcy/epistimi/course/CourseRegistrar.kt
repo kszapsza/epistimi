@@ -16,6 +16,10 @@ class CourseRegistrar(
     private val teacherRepository: TeacherRepository,
     private val organizationContextProvider: OrganizationContextProvider,
 ) {
+    companion object {
+        private val logger by logger()
+    }
+
     fun createCourse(userId: UserId, createRequest: CourseCreateRequest): Course {
         if (!createRequest.isSchoolYearTimeFrameValid()) {
             throw CourseBadRequestException("Invalid school year time frame")
@@ -81,8 +85,4 @@ class CourseRegistrar(
 
     private val CourseCreateRequest.formatSchoolYear
         get() = "${schoolYearBegin.year}/${schoolYearEnd.year}"
-
-    companion object {
-        private val logger by logger()
-    }
 }

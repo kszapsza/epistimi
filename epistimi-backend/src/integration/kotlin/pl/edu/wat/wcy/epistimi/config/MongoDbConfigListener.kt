@@ -12,6 +12,12 @@ import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.utility.DockerImageName
 
 internal class MongoDbConfigListener : BeforeProjectListener, AfterProjectListener, AfterTestListener {
+
+    companion object {
+        const val MONGODB_DATABASE_NAME = "epistimi_integration"
+        const val MONGODB_IMAGE = "mongo:4.0.10"
+    }
+
     lateinit var container: MongoDBContainer
     lateinit var client: MongoClient
     lateinit var database: MongoDatabase
@@ -30,10 +36,5 @@ internal class MongoDbConfigListener : BeforeProjectListener, AfterProjectListen
         database.listCollectionNames()
             .map { collectionName -> database.getCollection(collectionName) }
             .forEach { collection -> collection.drop() }
-    }
-
-    companion object {
-        const val MONGODB_DATABASE_NAME = "epistimi_integration"
-        const val MONGODB_IMAGE = "mongo:4.0.10"
     }
 }

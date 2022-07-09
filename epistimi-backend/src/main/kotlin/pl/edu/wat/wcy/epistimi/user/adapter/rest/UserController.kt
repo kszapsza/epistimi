@@ -93,7 +93,7 @@ class UserController(
         tags = ["user"],
         description = "Epistimi admin endpoint allowing registering a new user with any role",
     )
-//    @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN')")
+    @PreAuthorize("hasAnyRole('EPISTIMI_ADMIN')")
     @PostMapping(
         path = [""],
         produces = [MediaType.APPLICATION_JSON_V1],

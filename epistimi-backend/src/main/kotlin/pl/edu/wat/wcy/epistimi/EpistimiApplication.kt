@@ -7,15 +7,16 @@ import javax.annotation.PostConstruct
 
 @SpringBootApplication
 class EpistimiApplication {
-    @PostConstruct
-    fun init() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"))
-    }
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
             runApplication<EpistimiApplication>(*args)
         }
+    }
+
+    @PostConstruct
+    fun init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Europe/Warsaw"))
     }
 }

@@ -15,7 +15,6 @@ import pl.edu.wat.wcy.epistimi.student.StudentRegisterRequest
 import pl.edu.wat.wcy.epistimi.student.StudentRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.net.URI
-import java.util.UUID
 import javax.validation.Valid
 
 @RestController

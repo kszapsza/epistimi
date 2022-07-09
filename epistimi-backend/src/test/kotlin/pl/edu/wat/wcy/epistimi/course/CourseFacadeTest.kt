@@ -20,32 +20,30 @@ internal class CourseFacadeTest : ShouldSpec({
     val courseAggregator = mockk<CourseAggregator>()
     val courseRegistrar = mockk<CourseRegistrar>()
     val courseRepository = mockk<CourseRepository>()
-    val courseDetailsDecorator = mockk<CourseDetailsDecorator>()
 
     val courseFacade = CourseFacade(
         courseAggregator,
         courseRegistrar,
         courseRepository,
-        courseDetailsDecorator,
     )
 
     val teacherStub = Teacher(
         id = TeacherId("teacher_id"),
-        userId = TestData.Users.teacher.id!!,
-        organizationId = TestData.organization.id!!,
+        user = TestData.Users.teacher,
+        organization = TestData.organization,
         academicTitle = "dr",
     )
 
     val courseStub = Course(
         id = CourseId("course1"),
-        organizationId = TestData.organization.id!!,
+        organization = TestData.organization,
         code = Course.Code(
-            number = "6",
+            number = 6,
             letter = "a"
         ),
         schoolYear = "2012/2013",
-        classTeacherId = teacherStub.id!!,
-        studentIds = emptyList(),
+        classTeacher = teacherStub,
+        students = emptyList(),
         schoolYearBegin = TestUtils.parseDate("2012-09-03"),
         schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
         schoolYearEnd = TestUtils.parseDate("2013-06-28"),
@@ -56,9 +54,9 @@ internal class CourseFacadeTest : ShouldSpec({
 
     val studentStub = Student(
         id = StudentId("student_id"),
-        userId = UserId("student_user_id"),
-        organizationId = TestData.organization.id!!,
-        parentsIds = emptyList(),
+        user = UserId("student_user_id"),
+        organization = TestData.organization,
+        parents = emptyList(),
     )
 
     should("add new student to existing course") {
@@ -71,9 +69,9 @@ internal class CourseFacadeTest : ShouldSpec({
         val updatedCourse = courseFacade.addStudent(CourseId("course_id"), studentStub.id!!)
 
         // then
-        with(updatedCourse.studentIds) {
+        with(updatedCourse.students) {
             shouldHaveSize(1)
-            shouldContain(studentStub.id!!)
+            shouldContain(studentStub)
         }
     }
 

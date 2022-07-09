@@ -13,7 +13,7 @@ import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.parent.ParentDetails
+import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.parent.ParentId
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar.NewParent
@@ -53,14 +53,14 @@ internal class StudentRegistrarTest : ShouldSpec({
 
     val courseStub = Course(
         id = CourseId("course_id"),
-        organizationId = OrganizationId("organization_id"),
+        organization = OrganizationId("organization_id"),
         code = Course.Code(
-            number = "6",
+            number = 6,
             letter = "a"
         ),
         schoolYear = "2012/2013",
-        classTeacherId = TeacherId("teacher_id"),
-        studentIds = mutableListOf(),
+        classTeacher = TeacherId("teacher_id"),
+        students = mutableListOf(),
         schoolYearBegin = TestUtils.parseDate("2012-09-03"),
         schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
         schoolYearEnd = TestUtils.parseDate("2013-06-28"),
@@ -103,7 +103,7 @@ internal class StudentRegistrarTest : ShouldSpec({
             with(secondArg<List<UserRegisterRequest>>()[0]) {
                 listOf(
                     NewParent(
-                        parent = ParentDetails(
+                        parent = Parent(
                             id = ParentId("parent_id"),
                             user = User(
                                 id = UserId("user_id"),
@@ -175,7 +175,7 @@ internal class StudentRegistrarTest : ShouldSpec({
         )
         parents shouldHaveSize 1
         parents[0] shouldBe NewParent(
-            parent = ParentDetails(
+            parent = Parent(
                 id = ParentId("parent_id"),
                 user = User(
                     id = UserId("user_id"),

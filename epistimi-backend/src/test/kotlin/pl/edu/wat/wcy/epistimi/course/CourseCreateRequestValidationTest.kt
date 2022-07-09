@@ -9,6 +9,7 @@ import io.kotest.matchers.shouldBe
 import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import java.time.LocalDate
+import java.util.UUID
 import javax.validation.Validation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
@@ -28,7 +29,7 @@ internal class CourseCreateRequestValidationTest : ShouldSpec({
         schoolYearBegin = LocalDate.now().plusMonths(1),
         schoolYearSemesterEnd = LocalDate.now().plusMonths(2),
         schoolYearEnd = LocalDate.now().plusMonths(3),
-        classTeacherId = TeacherId("teacher_id"),
+        classTeacherId = TeacherId(UUID.randomUUID()),
         profile = null,
         profession = null,
         specialization = null,

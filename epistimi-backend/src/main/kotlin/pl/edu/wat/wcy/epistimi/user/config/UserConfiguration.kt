@@ -28,4 +28,11 @@ class UserConfiguration {
             passwordEncoder,
         )
     }
+
+    @Bean
+    fun userCredentialsGenerator(
+        userRepository: UserRepository,
+    ): UserCredentialsGenerator {
+        return UserCredentialsGenerator(userRepository)
+    }
 }

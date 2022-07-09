@@ -33,7 +33,7 @@ internal class ParentRegistrarTest : ShouldSpec({
     val organizationStub = Organization(
         id = OrganizationId("organization_id"),
         name = "SP7",
-        adminId = UserId("admin_user_id"),
+        admin = UserId("admin_user_id"),
         status = ENABLED,
         address = TestData.address,
         location = null,
@@ -77,7 +77,7 @@ internal class ParentRegistrarTest : ShouldSpec({
         )[0]
 
         // then
-        parent shouldBe ParentDetails(
+        parent shouldBe Parent(
             id = ParentId("parent_id"),
             user = User(
                 id = UserId("user_id"),
@@ -99,8 +99,8 @@ internal class ParentRegistrarTest : ShouldSpec({
                 listOf(
                     Parent(
                         id = null,
-                        userId = UserId("user_id"),
-                        organizationId = organizationStub.id!!,
+                        user = UserId("user_id"),
+                        organization = organizationStub,
                     )
                 )
             )

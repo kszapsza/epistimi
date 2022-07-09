@@ -33,7 +33,7 @@ object CourseDbBiMapper : BiMapper<Course, CourseJpaEntity> {
             codeLetter = code.letter,
             schoolYear = schoolYear,
             classTeacher = TeacherDbBiMapper.fromDomain(classTeacher),
-            students = students.map { StudentDbBiMapper.fromDomain(it) },
+            students = students.map { StudentDbBiMapper.fromDomain(it) }.toSet(),
             schoolYearBegin = schoolYearBegin,
             schoolYearSemesterEnd = schoolYearSemesterEnd,
             schoolYearEnd = schoolYearEnd,

@@ -9,6 +9,10 @@ class TeacherAggregator(
     private val organizationContextProvider: OrganizationContextProvider,
     private val teacherRepository: TeacherRepository,
 ) {
+    companion object {
+        private val logger by logger()
+    }
+
     fun getTeachers(requesterUserId: UserId): List<Teacher> {
         return organizationContextProvider.provide(requesterUserId)
             ?.let { organization -> teacherRepository.findAll(organization.id!!) }
@@ -24,9 +28,5 @@ class TeacherAggregator(
             throw TeacherNotFoundException(teacherId)
         }
         return teacher
-    }
-
-    companion object {
-        private val logger by logger()
     }
 }

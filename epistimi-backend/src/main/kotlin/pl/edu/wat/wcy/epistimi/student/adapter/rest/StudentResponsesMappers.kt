@@ -14,13 +14,13 @@ private fun NewStudent.toStudentRegisterResponse() = StudentRegisterResponse(
     student = user.let {
         StudentRegisterResponse.NewUserResponse(
             user = UserResponseMapper.fromDomain(it.user),
-            password = it.password
+            password = it.password,
         )
     },
     parents = parents.map {
         StudentRegisterResponse.NewParentResponse(
             parent = ParentResponseMapper.fromDomain(it.parent),
-            password = it.password
+            password = it.password,
         )
-    }
+    },
 )

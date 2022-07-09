@@ -28,6 +28,10 @@ class JwtAuthenticationFilter(
     @Value("\${epistimi.security.jwt-secret}") private val jwtSecret: String,
 ) : OncePerRequestFilter() {
 
+    companion object {
+        private val BEARER_PATTERN = Pattern.compile("^Bearer (.+)\$")!!
+    }
+
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         try {
             request.getHeader(HttpHeaders.AUTHORIZATION)
@@ -71,9 +75,5 @@ class JwtAuthenticationFilter(
         } catch (e: IllegalArgumentException) {
             throw UnauthorizedException("Authorization token missing")
         }
-    }
-
-    companion object {
-        private val BEARER_PATTERN = Pattern.compile("^Bearer (.+)\$")!!
     }
 }
