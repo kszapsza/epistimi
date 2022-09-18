@@ -1,17 +1,16 @@
 import './TeachersListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { IconAlertCircle, IconPlus } from '@tabler/icons';
-import { TeacherCreate } from '../TeacherCreate';
+import { TeacherCreate, TeachersListingTile } from '../../teachers';
 import { TeacherRegisterResponse, TeachersResponse } from '../../../dto/teacher';
-import { TeachersListingTile } from '../TeachersListingTile';
-import { useDisclosure, useDocumentTitle } from '@mantine/hooks';
-import { useFetch } from '../../../hooks/useFetch';
+import { useDisclosure } from '@mantine/hooks';
+import { useDocumentTitle, useFetch } from '../../../hooks';
 
 export const TeachersListing = (): JSX.Element => {
   const { data, loading, error, setData } = useFetch<TeachersResponse>('/api/teacher');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
-  useDocumentTitle('Nauczyciele – Epistimi');
+  useDocumentTitle('Nauczyciele');
 
   const appendCreatedTeacher = (newTeacher: TeacherRegisterResponse): void => {
     data && setData({

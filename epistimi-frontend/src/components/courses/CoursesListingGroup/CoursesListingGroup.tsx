@@ -1,6 +1,6 @@
 import './CoursesListingGroup.scss';
 import { CourseResponse } from '../../../dto/course';
-import { CoursesListingTile } from '../CoursesListingTile';
+import { CoursesListingTile } from '../../courses';
 
 interface CoursesListingGroupProps {
   courses: CourseResponse[];

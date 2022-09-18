@@ -1,8 +1,8 @@
 import { Alert, Loader } from '@mantine/core';
 import { Articles } from '../../../dto/article';
-import { ArticleThumbnail } from '../ArticleThumbnail';
+import { ArticleThumbnail } from '../../main-page';
 import { IconAlertCircle } from '@tabler/icons';
-import { useFetch } from '../../../hooks/useFetch';
+import { useFetch } from '../../../hooks';
 
 export const ArticleListing = (): JSX.Element => {
   const { data, loading } = useFetch<Articles>('api/article');

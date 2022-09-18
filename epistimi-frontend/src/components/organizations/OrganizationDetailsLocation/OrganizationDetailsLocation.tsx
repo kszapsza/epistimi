@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import { Address } from '../../../dto/address';
 import { Location } from '../../../dto/location';
 import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
-import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
+import { OrganizationDetailsKeyValue } from '../../organizations';
 import { Title } from '@mantine/core';
 import { useEffect } from 'react';
 import L from 'leaflet';

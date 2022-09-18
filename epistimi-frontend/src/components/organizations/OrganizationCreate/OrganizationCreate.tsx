@@ -1,11 +1,13 @@
 import './OrganizationCreate.scss';
 import { Alert } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons';
-import { OrganizationAdminForm } from '../OrganizationAdminForm';
-import { OrganizationCreateStepper } from '../OrganizationCreateStepper';
-import { OrganizationCreateSummary } from '../OrganizationCreateSummary';
-import { OrganizationForm } from '../OrganizationForm';
-import { OrganizationFormVariant } from '../OrganizationForm/OrganizationForm';
+import {
+  OrganizationAdminForm,
+  OrganizationCreateStepper,
+  OrganizationCreateSummary,
+  OrganizationForm,
+  OrganizationFormVariant,
+} from '../../organizations';
 import { OrganizationRegisterRequest, OrganizationRegisterResponse } from '../../../dto/organization';
 import { useForm } from '@mantine/form';
 import { UserRole, UserSex } from '../../../dto/user';

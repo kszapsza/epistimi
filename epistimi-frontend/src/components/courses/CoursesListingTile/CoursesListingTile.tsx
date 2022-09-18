@@ -1,7 +1,7 @@
 import './CoursesListingTile.scss';
 import { Box } from '@mantine/core';
 import { CourseCode } from '../../../dto/course';
-import { CoursesListingTileAvatars } from '../CoursesListingTileAvatars';
+import { CoursesListingTileAvatars } from '../../courses';
 import { Link } from 'react-router-dom';
 import { StudentResponse } from '../../../dto/student';
 import { TeacherResponse } from '../../../dto/teacher';

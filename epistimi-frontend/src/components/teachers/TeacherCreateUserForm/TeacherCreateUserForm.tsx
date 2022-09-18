@@ -1,4 +1,4 @@
-import { TeacherRegisterFormData } from '../TeacherCreate/TeacherCreate';
+import { TeacherRegisterFormData } from '../TeacherCreate';
 import { TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
 

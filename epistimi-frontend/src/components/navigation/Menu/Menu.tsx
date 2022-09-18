@@ -19,8 +19,7 @@ import {
   IconWriting,
   IconZoomQuestion,
 } from '@tabler/icons';
-import { MenuItem } from '../MenuItem';
-import { MenuUser } from '../MenuUser';
+import { MenuItem, MenuUser } from '../../navigation';
 import { Navbar, ScrollArea } from '@mantine/core';
 import { useAppSelector } from '../../../store/hooks';
 import { UserRole } from '../../../dto/user';

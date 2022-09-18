@@ -1,10 +1,7 @@
 import './CourseAddStudent.scss';
 import { Address } from '../../../dto/address';
 import { Button } from '@mantine/core';
-import { CourseAddStudentParentsList } from '../CourseAddStudentParentsList';
-import { CourseAddStudentStepper } from '../CourseAddStudentStepper';
-import { CourseAddStudentSummary } from '../CourseAddStudentSummary';
-import { CourseAddStudentUserForm } from '../CourseAddStudentUserForm';
+import { CourseAddStudentParentsList, CourseAddStudentStepper, CourseAddStudentSummary, CourseAddStudentUserForm } from '../../courses';
 import { CourseResponse } from '../../../dto/course';
 import { IconArrowLeft, IconArrowRight, IconCheck, IconPlus } from '@tabler/icons';
 import { StudentRegisterRequest, StudentRegisterResponse } from '../../../dto/student';

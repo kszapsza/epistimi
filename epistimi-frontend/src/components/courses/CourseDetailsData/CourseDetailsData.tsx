@@ -1,5 +1,5 @@
 import './CourseDetailsData.scss';
-import { CourseDetailsKeyValue } from '../CourseDetailsKeyValue';
+import { CourseDetailsKeyValue } from '../../courses';
 import { CourseResponse } from '../../../dto/course';
 import { UserAvatar } from '../../common';
 import dayjs from 'dayjs';

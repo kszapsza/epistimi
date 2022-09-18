@@ -1,1 +1,1 @@
-export { OrganizationForm } from './OrganizationForm';
+export { OrganizationForm, OrganizationFormVariant } from './OrganizationForm';

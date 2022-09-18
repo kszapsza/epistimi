@@ -1,18 +1,17 @@
 import './CoursesListing.scss';
 import { Accordion, Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { CourseEdit } from '../CourseEdit';
+import { CourseEdit, CoursesListingGroup } from '../../courses';
 import { CourseResponse, CoursesResponse } from '../../../dto/course';
-import { CoursesListingGroup } from '../CoursesListingGroup';
 import { IconAlertCircle, IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons';
-import { useDisclosure, useDocumentTitle } from '@mantine/hooks';
-import { useFetch } from '../../../hooks/useFetch';
+import { useDisclosure } from '@mantine/hooks';
+import { useDocumentTitle, useFetch } from '../../../hooks';
 
 export const CoursesListing = (): JSX.Element => {
   const { data, loading, error } = useFetch<CoursesResponse>('api/course');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
   const [createdMessageOpened, createdMessageHandlers] = useDisclosure(false);
 
-  useDocumentTitle('Klasy – Epistimi');
+  useDocumentTitle('Klasy');
 
   const coursesBySchoolYear = data && Object.entries(
     data.courses

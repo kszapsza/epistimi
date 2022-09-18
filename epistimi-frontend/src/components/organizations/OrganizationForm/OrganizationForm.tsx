@@ -4,7 +4,7 @@ import { IconArrowRight, IconCheck } from '@tabler/icons';
 import { OrganizationFormData } from '../OrganizationCreate';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
 
-export enum OrganizationFormVariant {
+export const enum OrganizationFormVariant {
   CREATE,
   UPDATE,
 }

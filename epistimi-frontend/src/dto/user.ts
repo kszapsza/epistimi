@@ -13,7 +13,7 @@ export interface UserResponse {
   address?: Address,
 }
 
-export enum UserRole {
+export const enum UserRole {
   EPISTIMI_ADMIN = 'EPISTIMI_ADMIN',
   ORGANIZATION_ADMIN = 'ORGANIZATION_ADMIN',
   TEACHER = 'TEACHER',
@@ -21,7 +21,7 @@ export enum UserRole {
   PARENT = 'PARENT',
 }
 
-export enum UserSex {
+export const enum UserSex {
   MALE = 'MALE',
   FEMALE = 'FEMALE',
   OTHER = 'OTHER',

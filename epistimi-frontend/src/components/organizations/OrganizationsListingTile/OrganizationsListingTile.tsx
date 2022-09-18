@@ -1,6 +1,6 @@
 import './OrganizationsListingTile.scss';
 import { Card } from '@mantine/core';
-import { OrganizationColorStatus } from '../OrganizationColorStatus';
+import { OrganizationColorStatus } from '../../organizations';
 import { OrganizationStatus } from '../../../dto/organization';
 
 interface OrganizationsListingTileProps {

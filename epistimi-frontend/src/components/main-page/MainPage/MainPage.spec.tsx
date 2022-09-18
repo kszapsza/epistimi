@@ -9,6 +9,6 @@ describe('MainPage component', () => {
 
   it('should render heading and description', () => {
     const { queryByText } = render(<MainPage/>);
-    expect(queryByText('E‑dziennik i platforma e‑learningowa – od teraz w jednym miejscu.')).toBeInTheDocument();
+    expect(queryByText('Platforma edukacyjna Epistimi — zapraszamy!')).toBeInTheDocument();
   });
 });

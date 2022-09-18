@@ -6,7 +6,7 @@ import { DatePicker } from '@mantine/dates';
 import { IconAlertCircle } from '@tabler/icons';
 import { TeachersResponse } from '../../../dto/teacher';
 import { useDisclosure } from '@mantine/hooks';
-import { useFetch } from '../../../hooks/useFetch';
+import { useFetch } from '../../../hooks';
 import { useForm } from '@mantine/form';
 import axios, { AxiosResponse } from 'axios';
 

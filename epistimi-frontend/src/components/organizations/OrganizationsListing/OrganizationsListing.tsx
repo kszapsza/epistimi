@@ -1,17 +1,16 @@
 import './OrganizationsListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { IconAlertCircle, IconPencil } from '@tabler/icons';
-import { OrganizationCreate } from '../OrganizationCreate';
+import { IconAlertCircle, IconInfoCircle, IconPencil } from '@tabler/icons';
+import { OrganizationCreate, OrganizationsListingTile } from '../../organizations';
 import { OrganizationRegisterResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
-import { OrganizationsListingTile } from '../OrganizationsListingTile';
-import { useDisclosure, useDocumentTitle } from '@mantine/hooks';
-import { useFetch } from '../../../hooks/useFetch';
+import { useDisclosure } from '@mantine/hooks';
+import { useDocumentTitle, useFetch } from '../../../hooks';
 
 export const OrganizationsListing = (): JSX.Element => {
   const { data, setData, loading, error } = useFetch<OrganizationsResponse>('api/organization');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
-  useDocumentTitle('Placówki – Epistimi');
+  useDocumentTitle('Placówki');
 
   const activeCount: number = data?.organizations
     .filter((organization) => organization.status === OrganizationStatus.ENABLED)
@@ -57,6 +56,11 @@ export const OrganizationsListing = (): JSX.Element => {
       {error &&
         <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
           Nie udało się załadować listy placówek!
+        </Alert>}
+
+      {data?.organizations?.length === 0 &&
+        <Alert icon={<IconInfoCircle size={16}/>} color="blue">
+          W systemie nie zarejestrowano jeszcze żadnych placówek!
         </Alert>}
 
       {loading && <Loader/>}

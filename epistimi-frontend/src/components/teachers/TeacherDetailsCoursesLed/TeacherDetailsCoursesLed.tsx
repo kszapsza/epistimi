@@ -2,7 +2,7 @@ import './TeacherDetailsCoursesLed.scss';
 import { Alert, Card, Loader } from '@mantine/core';
 import { CoursesResponse } from '../../../dto/course';
 import { IconAlertCircle } from '@tabler/icons';
-import { useFetch } from '../../../hooks/useFetch';
+import { useFetch } from '../../../hooks';
 
 interface TeacherDetailsCoursesLedProps {
   teacherId: string;

@@ -1,9 +1,7 @@
 import './OrganizationUpdate.scss';
 import { Alert } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons';
-import { OrganizationForm } from '../OrganizationForm';
-import { OrganizationFormData } from '../OrganizationCreate';
-import { OrganizationFormVariant } from '../OrganizationForm/OrganizationForm';
+import { OrganizationForm, OrganizationFormData, OrganizationFormVariant } from '../../organizations';
 import { OrganizationResponse, OrganizationUpdateRequest } from '../../../dto/organization';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';

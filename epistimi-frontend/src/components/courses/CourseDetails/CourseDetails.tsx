@@ -1,15 +1,12 @@
 import './CourseDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { AxiosError } from 'axios';
-import { CourseAddStudent } from '../CourseAddStudent';
-import { CourseDetailsData } from '../CourseDetailsData';
-import { CourseDetailsStudents } from '../CourseDetailsStudents';
+import { CourseAddStudent, CourseDetailsData, CourseDetailsStudents } from '../../courses';
 import { CourseResponse } from '../../../dto/course';
 import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconBook, IconSchool } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
-import { useEffect } from 'react';
-import { useFetch } from '../../../hooks/useFetch';
+import { useDocumentTitle, useFetch } from '../../../hooks';
 
 export const CourseDetails = (): JSX.Element => {
   const { id } = useParams();
@@ -22,9 +19,7 @@ export const CourseDetails = (): JSX.Element => {
 
   const [addStudentModalOpened, addStudentModalHandlers] = useDisclosure(false);
 
-  useEffect(() => {
-    course && (document.title = `${course.code.number}${course.code.letter} (${course.schoolYear}) – Epistimi`);
-  }, [course]);
+  useDocumentTitle(course && `${course.code.number}${course.code.letter} (${course.schoolYear})`);
 
   const getErrorMessage = (error: AxiosError): string => {
     if (error.response?.status === 404) {

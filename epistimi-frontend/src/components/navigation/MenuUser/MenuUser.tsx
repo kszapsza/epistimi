@@ -1,7 +1,7 @@
 import './MenuUser.scss';
 import { Divider, Menu } from '@mantine/core';
 import { IconCheck, IconLogout, IconSettings } from '@tabler/icons';
-import { MenuUserButton } from '../MenuUserButton';
+import { MenuUserButton } from '../../navigation';
 import { removeCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { UserRole } from '../../../dto/user';

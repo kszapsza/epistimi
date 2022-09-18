@@ -2,16 +2,17 @@ import './OrganizationDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { IconAlertCircle, IconArrowBack, IconBan, IconCheck, IconPencil } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
-import { OrganizationColorStatus } from '../OrganizationColorStatus';
-import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
-import { OrganizationDetailsLocation } from '../OrganizationDetailsLocation';
-import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
+import {
+  OrganizationColorStatus,
+  OrganizationDetailsKeyValue,
+  OrganizationDetailsLocation,
+  OrganizationDetailsStatsTile,
+  OrganizationStatusChange,
+  OrganizationUpdate,
+} from '../../organizations';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
-import { OrganizationStatusChange } from '../OrganizationStatusChange';
-import { OrganizationUpdate } from '../OrganizationUpdate';
 import { useDisclosure } from '@mantine/hooks';
-import { useEffect } from 'react';
-import { useFetch } from '../../../hooks/useFetch';
+import { useDocumentTitle, useFetch } from '../../../hooks';
 
 export const OrganizationDetails = (): JSX.Element => {
   const { id } = useParams();
@@ -27,9 +28,7 @@ export const OrganizationDetails = (): JSX.Element => {
   const [editModalOpened, editModalHandlers] = useDisclosure(false);
   const [updatedMessageOpened, updatedMessageHandlers] = useDisclosure(false);
 
-  useEffect(() => {
-    organization && (document.title = `${organization.name} – Epistimi`);
-  }, [organization]);
+  useDocumentTitle(organization && organization.name);
 
   if (loading) {
     return <Loader/>;
