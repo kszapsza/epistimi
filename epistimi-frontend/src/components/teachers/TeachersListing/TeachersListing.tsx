@@ -4,17 +4,14 @@ import { IconAlertCircle, IconPlus } from '@tabler/icons';
 import { TeacherCreate } from '../TeacherCreate';
 import { TeacherRegisterResponse, TeachersResponse } from '../../../dto/teacher';
 import { TeachersListingTile } from '../TeachersListingTile';
-import { useDisclosure } from '@mantine/hooks';
-import { useEffect } from 'react';
+import { useDisclosure, useDocumentTitle } from '@mantine/hooks';
 import { useFetch } from '../../../hooks/useFetch';
 
 export const TeachersListing = (): JSX.Element => {
   const { data, loading, error, setData } = useFetch<TeachersResponse>('/api/teacher');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
-  useEffect(() => {
-    document.title = 'Nauczyciele – Epistimi';
-  }, []);
+  useDocumentTitle('Nauczyciele – Epistimi');
 
   const appendCreatedTeacher = (newTeacher: TeacherRegisterResponse): void => {
     data && setData({

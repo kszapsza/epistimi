@@ -18,6 +18,7 @@ import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.net.URI
+import java.util.UUID
 import javax.validation.Valid
 
 @RestController
@@ -60,7 +61,7 @@ class TeacherController(
     )
     fun getTeacherById(
         authentication: Authentication,
-        @PathVariable teacherId: String,
+        @PathVariable teacherId: UUID,
     ): ResponseEntity<TeacherResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = TeacherResponseMapper) {

@@ -1,27 +1,18 @@
 package pl.edu.wat.wcy.epistimi.student
 
 import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.parent.ParentDetails
-import pl.edu.wat.wcy.epistimi.parent.ParentId
+import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserId
+import java.util.UUID
 
 data class Student(
     val id: StudentId? = null,
-    val userId: UserId,
-    val organizationId: OrganizationId,
-    val parentsIds: List<ParentId>,
+    val user: User,
+    val organization: Organization,
+    val parents: List<Parent>,
 )
 
 @JvmInline
 value class StudentId(
-    val value: String,
-)
-
-data class StudentDetails(
-    val id: StudentId? = null,
-    val user: User,
-    val organization: Organization,
-    val parents: List<ParentDetails>,
+    val value: UUID,
 )

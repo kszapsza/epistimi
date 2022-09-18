@@ -4,10 +4,10 @@ A monolithic backend for Epistimi, build with Spring Boot.
 
 ## Prerequisites
 
-Setup and run local mongoDB:
+Setup and run local databases:
 
 ```bash
-docker compose -f docker-compose.yml
+docker compose -f docker-compose.yml up -d
 ```
 
 Setup required environment variables:

@@ -25,6 +25,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
+import java.util.UUID
 
 internal class UserControllerSpec(
     private val restTemplate: TestRestTemplate,
@@ -289,12 +290,12 @@ internal class UserControllerSpec(
             response.statusCode shouldBe UNAUTHORIZED
         }
 
-        should("return HTTP 403 on get by id endpoint if user is unauthorized") {
-            forAll(
-                row(PARENT),
-                row(STUDENT),
-                row(TEACHER),
-            ) { role ->
+        forAll(
+            row(PARENT),
+            row(STUDENT),
+            row(TEACHER),
+        ) { role ->
+            should("return HTTP 403 on get by id endpoint if user is unauthorized (role=$role)") {
                 // given
                 val user = userStubbing.userExists(role = role)
                 val headers = securityStubbing.authorizationHeaderFor(user)
@@ -317,7 +318,7 @@ internal class UserControllerSpec(
 
             // when
             val response = restTemplate.exchange<String>(
-                url = "/api/user/42",
+                url = "/api/user/${UUID.randomUUID()}",
                 method = GET,
                 requestEntity = HttpEntity(null, headers),
             )

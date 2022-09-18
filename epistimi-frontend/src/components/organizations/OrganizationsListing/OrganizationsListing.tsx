@@ -4,17 +4,14 @@ import { IconAlertCircle, IconPencil } from '@tabler/icons';
 import { OrganizationCreate } from '../OrganizationCreate';
 import { OrganizationRegisterResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
 import { OrganizationsListingTile } from '../OrganizationsListingTile';
-import { useDisclosure } from '@mantine/hooks';
-import { useEffect } from 'react';
+import { useDisclosure, useDocumentTitle } from '@mantine/hooks';
 import { useFetch } from '../../../hooks/useFetch';
 
 export const OrganizationsListing = (): JSX.Element => {
   const { data, setData, loading, error } = useFetch<OrganizationsResponse>('api/organization');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
-  useEffect(() => {
-    document.title = 'Placówki – Epistimi';
-  }, []);
+  useDocumentTitle('Placówki – Epistimi');
 
   const activeCount: number = data?.organizations
     .filter((organization) => organization.status === OrganizationStatus.ENABLED)

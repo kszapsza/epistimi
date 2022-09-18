@@ -34,6 +34,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
+import java.util.UUID
 
 internal class OrganizationControllerSpec(
     private val restTemplate: TestRestTemplate,
@@ -127,7 +128,7 @@ internal class OrganizationControllerSpec(
 
             // when
             val response = restTemplate.exchange<String>(
-                url = "/api/organization/42",
+                url = "/api/organization/${UUID.randomUUID()}",
                 method = GET,
                 requestEntity = HttpEntity(null, headers)
             )
@@ -378,13 +379,13 @@ internal class OrganizationControllerSpec(
             response.statusCode shouldBe UNAUTHORIZED
         }
 
-        should("fail changing organization status with HTTP 403 if user is unauthorized") {
-            forAll(
-                row(ORGANIZATION_ADMIN),
-                row(PARENT),
-                row(STUDENT),
-                row(TEACHER),
-            ) { role ->
+        forAll(
+            row(ORGANIZATION_ADMIN),
+            row(PARENT),
+            row(STUDENT),
+            row(TEACHER),
+        ) { role ->
+            should("fail changing organization status with HTTP 403 if user is unauthorized (role=$role)") {
                 // given
                 val organizationAdmin = stubOrganizationAdmin()
                 val organization = organizationStubbing.organizationExists(
@@ -413,7 +414,7 @@ internal class OrganizationControllerSpec(
 
             // when
             val response = restTemplate.exchange<String>(
-                url = "/api/organization/42/status",
+                url = "/api/organization/${UUID.randomUUID()}/status",
                 method = PUT,
                 requestEntity = HttpEntity(body, headers)
             )
@@ -492,15 +493,16 @@ internal class OrganizationControllerSpec(
             response.statusCode shouldBe UNAUTHORIZED
         }
 
-        should("fail updating organization with HTTP 403 if user is unauthorized") {
-            forAll(
-                row(ORGANIZATION_ADMIN),
-                row(PARENT),
-                row(STUDENT),
-                row(TEACHER),
-            ) { role ->
+        forAll(
+            row(ORGANIZATION_ADMIN),
+            row(PARENT),
+            row(STUDENT),
+            row(TEACHER),
+        ) { role ->
+            should("fail updating organization with HTTP 403 if user is unauthorized (role=$role)") {
                 // given
-                val organizationAdmin = stubOrganizationAdmin()
+                stubOrganizationAdmin()
+
                 val headers = securityStubbing.authorizationHeaderFor(role)
                 val body = OrganizationUpdateRequest(
                     name = "Changed Name",
@@ -509,7 +511,7 @@ internal class OrganizationControllerSpec(
 
                 // when
                 val response = restTemplate.exchange<String>(
-                    url = "/api/organization/42",
+                    url = "/api/organization/${UUID.randomUUID()}",
                     method = PUT,
                     requestEntity = HttpEntity(body, headers)
                 )
@@ -529,7 +531,7 @@ internal class OrganizationControllerSpec(
 
             // when
             val response = restTemplate.exchange<String>(
-                url = "/api/organization/42",
+                url = "/api/organization/${UUID.randomUUID()}",
                 method = PUT,
                 requestEntity = HttpEntity(body, headers)
             )

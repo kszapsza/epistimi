@@ -14,7 +14,7 @@ class ParentRegistrar(
     private val organizationContextProvider: OrganizationContextProvider,
 ) {
     data class NewParent(
-        val parent: ParentDetails,
+        val parent: Parent,
         val password: String,
     )
 
@@ -31,7 +31,7 @@ class ParentRegistrar(
         return parentUsers.zip(parents)
             .map { (parentUser, parent) ->
                 NewParent(
-                    parent = ParentDetails(
+                    parent = Parent(
                         id = parent.id,
                         user = parentUser.user,
                         organization = organization,
@@ -57,8 +57,8 @@ class ParentRegistrar(
             parentUsers.map { (user) ->
                 Parent(
                     id = null,
-                    userId = user.id!!,
-                    organizationId = organization.id!!,
+                    user = user,
+                    organization = organization,
                 )
             }
         )

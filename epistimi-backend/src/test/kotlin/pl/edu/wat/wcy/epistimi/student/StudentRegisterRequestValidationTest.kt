@@ -13,6 +13,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
 import pl.edu.wat.wcy.epistimi.user.User.Sex.OTHER
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
+import java.util.UUID
 import javax.validation.Validation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory
@@ -51,7 +52,7 @@ internal class StudentRegisterRequestValidationTest : ShouldSpec({
         should("have no violations if list of parents $scenario") {
             // given
             val registerRequest = StudentRegisterRequest(
-                courseId = CourseId("course_id"),
+                courseId = CourseId(UUID.randomUUID()),
                 user = validUserRegisterRequest.copy(role = STUDENT),
                 parents = parentUserRequests
             )
@@ -81,7 +82,7 @@ internal class StudentRegisterRequestValidationTest : ShouldSpec({
         should("have a violation if list of parents $scenario") {
             // given
             val registerRequest = StudentRegisterRequest(
-                courseId = CourseId("course_id"),
+                courseId = CourseId(UUID.randomUUID()),
                 user = validUserRegisterRequest.copy(role = STUDENT),
                 parents = parentUserRequests
             )

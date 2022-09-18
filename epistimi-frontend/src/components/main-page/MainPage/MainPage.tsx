@@ -4,12 +4,10 @@ import { Header as EpistimiHeader, Footer } from '../../navigation';
 import { HashLink } from 'react-router-hash-link';
 import { LoginForm } from '../LoginForm';
 import { Outlet } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useDocumentTitle } from '@mantine/hooks';
 
 export const MainPage = (): JSX.Element => {
-  useEffect(() => {
-    document.title = 'Epistimi';
-  }, []);
+  useDocumentTitle('Epistimi');
 
   const header =
     <Header

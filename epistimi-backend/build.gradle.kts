@@ -14,6 +14,7 @@ object Versions {
     const val SLF4J = "1.7.36"
     const val SPRINGFOX = "3.0.0"
     const val TC_MONGO = "1.16.3"
+    const val TC_POSTGRES = "1.17.3"
 }
 
 plugins {
@@ -22,7 +23,12 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     id("org.springframework.boot") version "2.5.9"
     kotlin("jvm") version "1.6.10"
+    kotlin("plugin.noarg") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
+}
+
+noArg {
+    annotation("javax.persistence.Entity")
 }
 
 group = "pl.edu.wat.wcy"
@@ -59,11 +65,14 @@ dependencies {
     implementation("org.jetbrains.kotlin", "kotlin-reflect")
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8")
     implementation("org.passay", "passay", Versions.PASSAY)
+    implementation("org.postgresql", "postgresql")
     implementation("org.slf4j", "slf4j-api", Versions.SLF4J)
+    implementation("org.springframework.boot", "spring-boot-starter-data-jpa")
     implementation("org.springframework.boot", "spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot", "spring-boot-starter-security")
     implementation("org.springframework.boot", "spring-boot-starter-validation")
     implementation("org.springframework.boot", "spring-boot-starter-web")
+
 
     testImplementation("io.kotest", "kotest-assertions-core", Versions.KOTEST)
     testImplementation("io.kotest", "kotest-property", Versions.KOTEST)
@@ -77,6 +86,7 @@ dependencies {
     integrationImplementation("io.kotest.extensions", "kotest-extensions-testcontainers", Versions.KOTEST_TC)
     integrationImplementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
     integrationImplementation("org.testcontainers", "mongodb", Versions.TC_MONGO)
+    integrationImplementation("org.testcontainers", "postgresql", Versions.TC_POSTGRES)
 }
 
 sourceSets {

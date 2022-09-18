@@ -16,6 +16,10 @@ class CourseRegistrar(
     private val teacherRepository: TeacherRepository,
     private val organizationContextProvider: OrganizationContextProvider,
 ) {
+    companion object {
+        private val logger by logger()
+    }
+
     fun createCourse(userId: UserId, createRequest: CourseCreateRequest): Course {
         if (!createRequest.isSchoolYearTimeFrameValid()) {
             throw CourseBadRequestException("Invalid school year time frame")
@@ -37,7 +41,7 @@ class CourseRegistrar(
         if (organization == null) {
             throw CourseBadRequestException("User not managing any organization")
         }
-        if (classTeacher.organizationId != organization.id) {
+        if (classTeacher.organization.id != organization.id) {
             logger.warn("Attempted to register course with class teacher from other organization")
             throw CourseBadRequestException("Provided class teacher is not associated with your organization")
         }
@@ -61,14 +65,14 @@ class CourseRegistrar(
         return courseRepository.save(
             Course(
                 id = null,
-                organizationId = organization.id!!,
+                organization = organization,
                 code = Course.Code(
-                    number = createRequest.codeNumber.toString(),
+                    number = createRequest.codeNumber,
                     letter = createRequest.codeLetter,
                 ),
                 schoolYear = createRequest.formatSchoolYear,
-                classTeacherId = classTeacher.id!!,
-                studentIds = emptyList(),
+                classTeacher = classTeacher,
+                students = emptyList(),
                 schoolYearBegin = createRequest.schoolYearBegin,
                 schoolYearSemesterEnd = createRequest.schoolYearSemesterEnd,
                 schoolYearEnd = createRequest.schoolYearEnd,
@@ -81,8 +85,4 @@ class CourseRegistrar(
 
     private val CourseCreateRequest.formatSchoolYear
         get() = "${schoolYearBegin.year}/${schoolYearEnd.year}"
-
-    companion object {
-        private val logger by logger()
-    }
 }

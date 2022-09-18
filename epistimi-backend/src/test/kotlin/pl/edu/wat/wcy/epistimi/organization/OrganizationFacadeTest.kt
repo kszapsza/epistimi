@@ -9,13 +9,11 @@ internal class OrganizationFacadeTest : ShouldSpec({
     val organizationRegistrar = mockk<OrganizationRegistrar>()
     val organizationRepository = mockk<OrganizationRepository>()
     val locationClient = mockk<OrganizationLocationClient>()
-    val organizationDetailsDecorator = mockk<OrganizationDetailsDecorator>()
 
     val organizationFacade = OrganizationFacade(
         organizationRegistrar,
         organizationRepository,
         locationClient,
-        organizationDetailsDecorator,
     )
 
     // TODO

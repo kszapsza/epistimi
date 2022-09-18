@@ -9,43 +9,35 @@ import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.TestUtils
 import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.student.Student
-import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import java.time.LocalDate
+import java.util.UUID
 
 internal class CourseFacadeTest : ShouldSpec({
     val courseAggregator = mockk<CourseAggregator>()
     val courseRegistrar = mockk<CourseRegistrar>()
     val courseRepository = mockk<CourseRepository>()
-    val courseDetailsDecorator = mockk<CourseDetailsDecorator>()
+    val studentRepository = mockk<StudentRepository>()
 
     val courseFacade = CourseFacade(
         courseAggregator,
         courseRegistrar,
         courseRepository,
-        courseDetailsDecorator,
+        studentRepository,
     )
 
-    val teacherStub = Teacher(
-        id = TeacherId("teacher_id"),
-        userId = TestData.Users.teacher.id!!,
-        organizationId = TestData.organization.id!!,
-        academicTitle = "dr",
-    )
+    val courseId = CourseId(UUID.randomUUID())
 
     val courseStub = Course(
-        id = CourseId("course1"),
-        organizationId = TestData.organization.id!!,
+        id = courseId,
+        organization = TestData.organization,
         code = Course.Code(
-            number = "6",
+            number = 6,
             letter = "a"
         ),
         schoolYear = "2012/2013",
-        classTeacherId = teacherStub.id!!,
-        studentIds = emptyList(),
+        classTeacher = TestData.teacher,
+        students = emptyList(),
         schoolYearBegin = TestUtils.parseDate("2012-09-03"),
         schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
         schoolYearEnd = TestUtils.parseDate("2013-06-28"),
@@ -54,37 +46,30 @@ internal class CourseFacadeTest : ShouldSpec({
         specialization = null,
     )
 
-    val studentStub = Student(
-        id = StudentId("student_id"),
-        userId = UserId("student_user_id"),
-        organizationId = TestData.organization.id!!,
-        parentsIds = emptyList(),
-    )
-
     should("add new student to existing course") {
         // given
-        every { courseRepository.findById(CourseId("course_id")) } returns
-                courseStub.copy(schoolYearEnd = LocalDate.now().plusMonths(1))
+        every { studentRepository.findById(TestData.student.id!!) } returns TestData.student
+        every { courseRepository.findById(courseId) } returns courseStub.copy(schoolYearEnd = LocalDate.now().plusMonths(1))
         every { courseRepository.save(any()) } returnsArgument 0
 
         // when
-        val updatedCourse = courseFacade.addStudent(CourseId("course_id"), studentStub.id!!)
+        val updatedCourse = courseFacade.addStudent(courseId, TestData.student.id!!)
 
         // then
-        with(updatedCourse.studentIds) {
+        with(updatedCourse.students) {
             shouldHaveSize(1)
-            shouldContain(studentStub.id!!)
+            shouldContain(TestData.student)
         }
     }
 
     should("fail adding new student to existing course if it has already ended") {
         // given
-        every { courseRepository.findById(CourseId("course_id")) } returns
-                courseStub.copy(schoolYearEnd = LocalDate.now().minusMonths(3))
+        every { studentRepository.findById(TestData.student.id!!) } returns TestData.student
+        every { courseRepository.findById(courseId) } returns courseStub.copy(schoolYearEnd = LocalDate.now().minusMonths(3))
 
         // expect
         shouldThrow<CourseUnmodifiableException> {
-            courseFacade.addStudent(CourseId("course_id"), studentStub.id!!)
+            courseFacade.addStudent(courseId, TestData.student.id!!)
         }
     }
 })

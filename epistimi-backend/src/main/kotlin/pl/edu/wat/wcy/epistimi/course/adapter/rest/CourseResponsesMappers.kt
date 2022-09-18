@@ -1,19 +1,19 @@
 package pl.edu.wat.wcy.epistimi.course.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
-import pl.edu.wat.wcy.epistimi.course.CourseDetails
+import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.parent.adapter.rest.ParentResponseMapper
 import pl.edu.wat.wcy.epistimi.student.adapter.rest.StudentResponse
 import pl.edu.wat.wcy.epistimi.teacher.adapter.rest.TeacherResponseMapper
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponse
 
-object CourseResponseMapper : FromDomainMapper<CourseDetails, CourseResponse> {
-    override fun fromDomain(domainObject: CourseDetails) = domainObject.toCourseResponse()
+object CourseResponseMapper : FromDomainMapper<Course, CourseResponse> {
+    override fun fromDomain(domainObject: Course) = domainObject.toCourseResponse()
 }
 
-private fun CourseDetails.toCourseResponse() = CourseResponse(
+private fun Course.toCourseResponse() = CourseResponse(
     id = id,
-    code = CourseResponse.Code(number = code.number, letter = code.letter),
+    code = CourseResponse.Code(number = code.number.toString(), letter = code.letter),
     schoolYear = schoolYear,
     classTeacher = TeacherResponseMapper.fromDomain(classTeacher),
     students = students.map { student ->
@@ -44,7 +44,7 @@ private fun CourseDetails.toCourseResponse() = CourseResponse(
     specialization = specialization,
 )
 
-object CoursesResponseMapper : FromDomainMapper<List<CourseDetails>, CoursesResponse> {
-    override fun fromDomain(domainObject: List<CourseDetails>) =
+object CoursesResponseMapper : FromDomainMapper<List<Course>, CoursesResponse> {
+    override fun fromDomain(domainObject: List<Course>) =
         CoursesResponse(courses = domainObject.map { it.toCourseResponse() })
 }

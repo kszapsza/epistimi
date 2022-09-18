@@ -9,7 +9,7 @@ A platform combining electronic school diary and e-learning features.
 * 🍅 Kotlin
 * 🍃 Spring Boot
 * 🧪 Kotest
-* 📦 MongoDB
+* 📦 PostgreSQL, MongoDB
 
 **Frontend:**
 

@@ -15,10 +15,14 @@ import java.util.Locale
 internal class CourseStubbing(
     private val courseRepository: CourseRepository,
 ) {
+    companion object {
+        private val DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
+    }
+
     fun courseExists(
         id: CourseId? = null,
         organization: Organization,
-        code: Course.Code = Course.Code(number = "6", letter = "a"),
+        code: Course.Code = Course.Code(number = 6, letter = "a"),
         schoolYear: String = "2012/2013",
         classTeacher: Teacher,
         students: List<Student> = emptyList(),
@@ -32,11 +36,11 @@ internal class CourseStubbing(
         return courseRepository.save(
             Course(
                 id = id,
-                organizationId = organization.id!!,
+                organization = organization,
                 code = code,
                 schoolYear = schoolYear,
-                classTeacherId = classTeacher.id!!,
-                studentIds = students.map { it.id!! },
+                classTeacher = classTeacher,
+                students = students,
                 schoolYearBegin = schoolYearBegin,
                 schoolYearSemesterEnd = schoolYearSemesterEnd,
                 schoolYearEnd = schoolYearEnd,
@@ -45,9 +49,5 @@ internal class CourseStubbing(
                 specialization = specialization,
             )
         )
-    }
-
-    companion object {
-        private val DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
     }
 }

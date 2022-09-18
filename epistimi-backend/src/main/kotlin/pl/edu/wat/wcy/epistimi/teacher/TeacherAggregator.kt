@@ -9,6 +9,10 @@ class TeacherAggregator(
     private val organizationContextProvider: OrganizationContextProvider,
     private val teacherRepository: TeacherRepository,
 ) {
+    companion object {
+        private val logger by logger()
+    }
+
     fun getTeachers(requesterUserId: UserId): List<Teacher> {
         return organizationContextProvider.provide(requesterUserId)
             ?.let { organization -> teacherRepository.findAll(organization.id!!) }
@@ -19,14 +23,10 @@ class TeacherAggregator(
         val requesterOrganization = organizationContextProvider.provide(requesterUserId)
         val teacher = teacherRepository.findById(teacherId)
 
-        if (requesterOrganization == null || teacher.organizationId != requesterOrganization.id) {
+        if (requesterOrganization == null || teacher.organization.id != requesterOrganization.id) {
             logger.warn("Attempted to retrieve teacher from other organization")
             throw TeacherNotFoundException(teacherId)
         }
         return teacher
-    }
-
-    companion object {
-        private val logger by logger()
     }
 }

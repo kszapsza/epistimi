@@ -17,6 +17,7 @@ import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.UserId
 import java.time.LocalDate
+import java.util.UUID
 
 internal class CourseRegistrarTest : ShouldSpec({
     val courseRepository = mockk<CourseRepository>()
@@ -35,29 +36,22 @@ internal class CourseRegistrarTest : ShouldSpec({
         schoolYearBegin = LocalDate.of(2010, 9, 1),
         schoolYearSemesterEnd = LocalDate.of(2011, 2, 1),
         schoolYearEnd = LocalDate.of(2011, 6, 30),
-        classTeacherId = TeacherId("teacher_id"),
+        classTeacherId = TestData.teacher.id!!,
         profile = null,
         profession = null,
         specialization = null,
-    )
-
-    val teacherStub = Teacher(
-        id = TeacherId("teacher_id"),
-        userId = TestData.Users.teacher.id!!,
-        organizationId = TestData.organization.id!!,
-        academicTitle = "dr",
     )
 
     should("throw an exception when registering new course if semester end date is before school year begin date") {
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrar.createCourse(
-                userId = UserId("user_id"),
+                userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2010, 7, 1),
                     schoolYearEnd = LocalDate.of(2011, 6, 30),
-                )
+                ),
             )
         }
 
@@ -69,12 +63,12 @@ internal class CourseRegistrarTest : ShouldSpec({
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrar.createCourse(
-                userId = UserId("user_id"),
+                userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2011, 2, 10),
                     schoolYearEnd = LocalDate.of(2009, 6, 30),
-                )
+                ),
             )
         }
 
@@ -86,12 +80,12 @@ internal class CourseRegistrarTest : ShouldSpec({
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrar.createCourse(
-                userId = UserId("user_id"),
+                userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2011, 2, 10),
                     schoolYearEnd = LocalDate.of(2011, 1, 28),
-                )
+                ),
             )
         }
 
@@ -103,12 +97,12 @@ internal class CourseRegistrarTest : ShouldSpec({
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrar.createCourse(
-                userId = UserId("user_id"),
+                userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2010, 10, 1),
                     schoolYearEnd = LocalDate.of(2010, 11, 1),
-                )
+                ),
             )
         }
 
@@ -118,20 +112,23 @@ internal class CourseRegistrarTest : ShouldSpec({
 
     should("throw an exception when registering new course if provided teacher is connected with other organization") {
         // given
-        every { organizationContextProvider.provide(UserId("user_id")) } returns TestData.organization
-        every { teacherRepository.findById(TeacherId("other_teacher_id")) } returns Teacher(
-            id = TeacherId("other_teacher_id"),
-            userId = UserId("other_teacher_user_id"),
-            organizationId = OrganizationId("other_organization_id"),
+        val userContextId = TestData.organization.admin.id!!
+        val teacherFromOtherOrganizationId = TeacherId(UUID.randomUUID())
+
+        every { organizationContextProvider.provide(userContextId) } returns TestData.organization
+        every { teacherRepository.findById(teacherFromOtherOrganizationId) } returns Teacher(
+            id = teacherFromOtherOrganizationId,
+            user = TestData.Users.teacher.copy(id = UserId(UUID.randomUUID())),
+            organization = TestData.organization.copy(id = OrganizationId(UUID.randomUUID())),
             academicTitle = null,
         )
 
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrar.createCourse(
-                userId = UserId("user_id"),
+                userId = userContextId,
                 createRequest = validCourseCreateRequest.copy(
-                    classTeacherId = TeacherId("other_teacher_id")
+                    classTeacherId = teacherFromOtherOrganizationId,
                 ),
             )
         }
@@ -142,14 +139,16 @@ internal class CourseRegistrarTest : ShouldSpec({
 
     should("successfully register new course") {
         // given
-        every { organizationContextProvider.provide(UserId("user_id")) } returns TestData.organization
-        every { teacherRepository.findById(TeacherId("teacher_id")) } returns teacherStub
+        val userContextId = TestData.organization.admin.id!!
+
+        every { organizationContextProvider.provide(userContextId) } returns TestData.organization
+        every { teacherRepository.findById(TestData.teacher.id!!) } returns TestData.teacher
         every { courseRepository.save(any()) } returnsArgument 0
 
         // expect
         shouldNotThrow<CourseBadRequestException> {
             courseRegistrar.createCourse(
-                userId = UserId("user_id"),
+                userId = userContextId,
                 createRequest = validCourseCreateRequest,
             )
         }
@@ -159,14 +158,14 @@ internal class CourseRegistrarTest : ShouldSpec({
             courseRepository.save(
                 Course(
                     id = null,
-                    organizationId = TestData.organization.id!!,
+                    organization = TestData.organization,
                     code = Course.Code(
-                        number = "1",
+                        number = 1,
                         letter = "b"
                     ),
                     schoolYear = "2010/2011",
-                    classTeacherId = teacherStub.id!!,
-                    studentIds = emptyList(),
+                    classTeacher = TestData.teacher,
+                    students = emptyList(),
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2011, 2, 1),
                     schoolYearEnd = LocalDate.of(2011, 6, 30),

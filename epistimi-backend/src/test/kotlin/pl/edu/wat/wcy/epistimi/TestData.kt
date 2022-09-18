@@ -3,10 +3,12 @@ package pl.edu.wat.wcy.epistimi
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
-import pl.edu.wat.wcy.epistimi.organization.OrganizationDetails
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
+import pl.edu.wat.wcy.epistimi.parent.Parent
+import pl.edu.wat.wcy.epistimi.parent.ParentId
+import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.student.StudentId
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.TeacherDetails
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
@@ -16,6 +18,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
 import pl.edu.wat.wcy.epistimi.user.UserId
+import java.util.UUID
 
 internal object TestData {
     val address = Address(
@@ -25,16 +28,7 @@ internal object TestData {
     )
 
     val organization = Organization(
-        id = OrganizationId("organization_id"),
-        name = "SP7",
-        adminId = Users.organizationAdmin.id!!,
-        status = ENABLED,
-        address = address,
-        location = null,
-    )
-
-    val organizationDetails = OrganizationDetails(
-        id = OrganizationId("organization_id"),
+        id = OrganizationId(UUID.randomUUID()),
         name = "SP7",
         admin = Users.organizationAdmin,
         status = ENABLED,
@@ -42,9 +36,9 @@ internal object TestData {
         location = null,
     )
 
-    object Users {
+    internal object Users {
         private val baseUser = User(
-            id = UserId("user_id"),
+            id = UserId(UUID.randomUUID()),
             firstName = "Jan",
             lastName = "Kowalski",
             role = EPISTIMI_ADMIN,
@@ -55,59 +49,65 @@ internal object TestData {
 
         fun withRole(
             role: User.Role,
-            id: String? = null,
+            id: UUID,
             username: String? = null,
         ): User {
             val roleName = role.toString().lowercase()
             return baseUser.copy(
-                id = id?.let { UserId(id) } ?: UserId("${roleName}_user_id"),
+                id = UserId(id),
                 role = role,
                 username = username ?: roleName,
             )
         }
 
         val epistimiAdmin = baseUser.copy(
-            id = UserId("epistimi_admin_user_id"),
+            id = UserId(UUID.randomUUID()),
             role = EPISTIMI_ADMIN,
             username = "epistimi_admin",
         )
 
         val organizationAdmin = baseUser.copy(
-            id = UserId("organization_admin_user_id"),
+            id = UserId(UUID.randomUUID()),
             role = ORGANIZATION_ADMIN,
             username = "organization_admin",
         )
 
         val teacher = baseUser.copy(
-            id = UserId("teacher_user_id"),
+            id = UserId(UUID.randomUUID()),
             role = TEACHER,
             username = "teacher",
         )
 
         val student = baseUser.copy(
-            id = UserId("student_user_id"),
+            id = UserId(UUID.randomUUID()),
             role = STUDENT,
             username = "student",
         )
 
         val parent = baseUser.copy(
-            id = UserId("parent_user_id"),
+            id = UserId(UUID.randomUUID()),
             role = PARENT,
             username = "parent",
         )
     }
 
     val teacher = Teacher(
-        id = TeacherId("teacher_id"),
-        userId = Users.teacher.id!!,
-        organizationId = organization.id!!,
-        academicTitle = null,
-    )
-
-    val teacherDetails = TeacherDetails(
-        id = TeacherId("teacher_id"),
+        id = TeacherId(UUID.randomUUID()),
         user = Users.teacher,
         organization = organization,
         academicTitle = null,
+    )
+
+    val student = Student(
+        id = StudentId(UUID.randomUUID()),
+        user = Users.student,
+        organization = organization,
+        parents = emptyList(),
+    )
+
+    val parent = Parent(
+        id = ParentId(UUID.randomUUID()),
+        user = Users.parent,
+        organization = organization,
     )
 }
