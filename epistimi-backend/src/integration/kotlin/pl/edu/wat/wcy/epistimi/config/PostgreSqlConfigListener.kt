@@ -19,9 +19,9 @@ internal class PostgreSqlConfigListener
         const val POSTGRESQL_USERNAME = "epistimi"
         const val POSTGRESQL_PASSWORD = "123456"
 
+        // TODO: retrieve table names instead of hardcoding?
         private val TABLE_NAMES = listOf(
             "courses",
-            "courses_students",
             "epistimi_users",
             "organizations",
             "parents",
