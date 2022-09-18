@@ -35,7 +35,7 @@ internal class UsernameNormalizerTest : ShouldSpec({
         val normalizedUsername = UsernameNormalizer.normalize(username)
 
         // then
-        normalizedUsername shouldBe "AaEeIiOoUuAaEeIiOoUuYyAaEeIiOoUuYyAaOoNnAaEeIiOoUuYyAaCcOoUu"
+        normalizedUsername shouldBe "aaeeiioouuaaeeiioouuyyaaeeiioouuyyaaoonnaaeeiioouuyyaaccoouu"
     }
 
 })

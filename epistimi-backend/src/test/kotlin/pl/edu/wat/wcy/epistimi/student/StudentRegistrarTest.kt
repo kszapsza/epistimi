@@ -12,13 +12,11 @@ import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.parent.ParentId
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar.NewParent
 import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
@@ -27,6 +25,7 @@ import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
+import java.util.UUID
 
 internal class StudentRegistrarTest : ShouldSpec({
     val studentRepository = mockk<StudentRepository>()
@@ -50,15 +49,22 @@ internal class StudentRegistrarTest : ShouldSpec({
         address = TestData.address,
     )
 
+    val organizationAdminUserId = UserId(UUID.randomUUID())
+    val courseId = CourseId(UUID.randomUUID())
+    val studentId = StudentId(UUID.randomUUID())
+    val studentUserId = UserId(UUID.randomUUID())
+    val parentId = ParentId(UUID.randomUUID())
+    val parentUserId = UserId(UUID.randomUUID())
+
     val courseStub = Course(
-        id = CourseId("course_id"),
-        organization = OrganizationId("organization_id"),
+        id = courseId,
+        organization = TestData.organization,
         code = Course.Code(
             number = 6,
             letter = "a"
         ),
         schoolYear = "2012/2013",
-        classTeacher = TeacherId("teacher_id"),
+        classTeacher = TestData.teacher,
         students = listOf(),
         schoolYearBegin = TestUtils.parseDate("2012-09-03"),
         schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
@@ -67,7 +73,7 @@ internal class StudentRegistrarTest : ShouldSpec({
 
     fun stubOrganizationContextProvider() {
         every {
-            organizationContextProvider.provide(UserId("organization_admin_user_id"))
+            organizationContextProvider.provide(organizationAdminUserId)
         } returns TestData.organization
     }
 
@@ -78,7 +84,7 @@ internal class StudentRegistrarTest : ShouldSpec({
             with(firstArg<UserRegisterRequest>()) {
                 NewUser(
                     user = User(
-                        id = UserId("user_id"),
+                        id = studentUserId,
                         firstName = firstName,
                         lastName = lastName,
                         role = role,
@@ -95,28 +101,26 @@ internal class StudentRegistrarTest : ShouldSpec({
     fun stubParentRegistrar() {
         every {
             parentRegistrar.registerParents(
-                requesterUserId = UserId("organization_admin_user_id"),
+                requesterUserId = organizationAdminUserId,
                 userRegisterRequests = any()
             )
         } answers {
-            with(secondArg<List<UserRegisterRequest>>()[0]) {
-                listOf(
-                    NewParent(
-                        parent = Parent(
-                            id = ParentId("parent_id"),
-                            user = User(
-                                id = UserId("user_id"),
-                                firstName = firstName,
-                                lastName = lastName,
-                                role = PARENT,
-                                username = "$firstName.$lastName".lowercase(),
-                                address = address,
-                                passwordHash = "654321",
-                            ),
-                            organization = TestData.organization,
+            secondArg<List<UserRegisterRequest>>().map { request ->
+                NewParent(
+                    parent = Parent(
+                        id = parentId,
+                        user = User(
+                            id = parentUserId,
+                            firstName = request.firstName,
+                            lastName = request.lastName,
+                            role = request.role,
+                            username = "${request.firstName}.${request.lastName}".lowercase(),
+                            address = request.address,
+                            passwordHash = "654321",
                         ),
-                        password = "123456",
-                    )
+                        organization = TestData.organization,
+                    ),
+                    password = "123456",
                 )
             }
         }
@@ -124,15 +128,15 @@ internal class StudentRegistrarTest : ShouldSpec({
 
     fun stubStudentRepository() {
         every { studentRepository.save(ofType(Student::class)) } answers {
-            firstArg<Student>().copy(id = StudentId("student_id"))
+            firstArg<Student>().copy(id = studentId)
         }
     }
 
-    fun stubCourseService() {
+    fun stubCourseFacade() {
         every {
             courseFacade.addStudent(
-                courseId = CourseId("course_id"),
-                studentId = StudentId("student_id"),
+                courseId = courseId,
+                studentId = studentId,
             )
         } returns courseStub
     }
@@ -143,26 +147,26 @@ internal class StudentRegistrarTest : ShouldSpec({
         stubUserRegistrar()
         stubParentRegistrar()
         stubStudentRepository()
-        stubCourseService()
+        stubCourseFacade()
 
         // when
         val studentUserRegisterRequest = userRegisterRequest.copy(role = STUDENT)
         val parentUserRegisterRequest = userRegisterRequest.copy(role = PARENT, firstName = "Malwina", lastName = "Kowalska", sex = FEMALE)
 
         val (id, user, parents) = studentRegistrar.registerStudent(
-            requesterUserId = UserId("organization_admin_user_id"),
+            requesterUserId = organizationAdminUserId,
             request = StudentRegisterRequest(
-                courseId = CourseId("course_id"),
+                courseId = courseId,
                 user = studentUserRegisterRequest,
                 parents = listOf(parentUserRegisterRequest),
             ),
         )
 
         // then
-        id shouldBe StudentId("student_id")
+        id shouldBe studentId
         user shouldBe NewUser(
             user = User(
-                id = UserId("user_id"),
+                id = studentUserId,
                 firstName = "Jan",
                 lastName = "Kowalski",
                 role = STUDENT,
@@ -175,9 +179,9 @@ internal class StudentRegistrarTest : ShouldSpec({
         parents shouldHaveSize 1
         parents[0] shouldBe NewParent(
             parent = Parent(
-                id = ParentId("parent_id"),
+                id = parentId,
                 user = User(
-                    id = UserId("user_id"),
+                    id = parentUserId,
                     firstName = "Malwina",
                     lastName = "Kowalska",
                     role = PARENT,
@@ -191,15 +195,15 @@ internal class StudentRegistrarTest : ShouldSpec({
         )
 
         // and
-        verify { organizationContextProvider.provide(UserId("organization_admin_user_id")) }
+        verify { organizationContextProvider.provide(organizationAdminUserId) }
         verify { userRegistrar.registerUser(studentUserRegisterRequest) }
         verify {
             parentRegistrar.registerParents(
-                requesterUserId = UserId("organization_admin_user_id"),
+                requesterUserId = organizationAdminUserId,
                 userRegisterRequests = listOf(parentUserRegisterRequest),
             )
         }
         verify { studentRepository.save(ofType(Student::class)) }
-        verify { courseFacade.addStudent(CourseId("course_id"), StudentId("student_id")) }
+        verify { courseFacade.addStudent(courseId, studentId) }
     }
 })

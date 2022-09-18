@@ -21,6 +21,7 @@ object UsernameNormalizer {
     private fun String.removeDiacritics(): String {
         return this
             .let { Normalizer.normalize(it, Normalizer.Form.NFD) }
+            .replace("ł", "l")
             .let { DIACRITICS_PATTERN.matcher(it).replaceAll("") }
     }
 }

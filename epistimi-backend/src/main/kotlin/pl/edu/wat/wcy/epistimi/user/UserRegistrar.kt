@@ -48,8 +48,8 @@ class UserRegistrar(
     }
 
     fun registerUsers(requests: List<UserRegisterRequest>): List<NewUser> {
-        val credentials = requests.map { credentialsGenerator.generate(it.firstName, it.lastName) }
-        val usersToRegister = requests.zip(credentials).map { (request, credentials) -> request.toUser(credentials) }
+        val credentials: List<Credentials> = requests.map { credentialsGenerator.generate(it.firstName, it.lastName) }
+        val usersToRegister: List<User> = requests.zip(credentials).map { (request, credentials) -> request.toUser(credentials) }
 
         return userRepository.saveAll(usersToRegister)
             .mapIndexed { index, user ->

@@ -48,8 +48,8 @@ internal class CourseFacadeTest : ShouldSpec({
 
     should("add new student to existing course") {
         // given
-        every { courseRepository.findById(courseId) } returns
-                courseStub.copy(schoolYearEnd = LocalDate.now().plusMonths(1))
+        every { studentRepository.findById(TestData.student.id!!) } returns TestData.student
+        every { courseRepository.findById(courseId) } returns courseStub.copy(schoolYearEnd = LocalDate.now().plusMonths(1))
         every { courseRepository.save(any()) } returnsArgument 0
 
         // when
@@ -64,8 +64,8 @@ internal class CourseFacadeTest : ShouldSpec({
 
     should("fail adding new student to existing course if it has already ended") {
         // given
-        every { courseRepository.findById(courseId) } returns
-                courseStub.copy(schoolYearEnd = LocalDate.now().minusMonths(3))
+        every { studentRepository.findById(TestData.student.id!!) } returns TestData.student
+        every { courseRepository.findById(courseId) } returns courseStub.copy(schoolYearEnd = LocalDate.now().minusMonths(3))
 
         // expect
         shouldThrow<CourseUnmodifiableException> {

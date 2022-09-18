@@ -10,10 +10,10 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
+import java.util.UUID
 
 internal class ParentRegistrarTest : ShouldSpec({
 
@@ -28,30 +28,48 @@ internal class ParentRegistrarTest : ShouldSpec({
     )
 
     val organizationAdminId = TestData.organization.admin.id!!
+    val parentUserId = TestData.Users.parent.id!!
+    val parentId = ParentId(UUID.randomUUID())
 
-    should("register parent along with underlying user profile") {
-        // given
-        every { organizationContextProvider.provide(organizationAdminId) } returns TestData.organization
-        every { userRegistrar.registerUsers(any()) } answers {
-            with(firstArg<List<UserRegisterRequest>>()[0]) {
-                listOf(
-                    NewUser(
-                        user = User(
-                            id = TestData.Users.parent.id!!,
-                            firstName = firstName,
-                            lastName = lastName,
-                            role = PARENT,
-                            username = "$firstName.$lastName".lowercase(),
-                            passwordHash = "654321",
-                        ),
-                        password = "123456",
-                    )
+    fun stubOrganizationContextProvider() {
+        every {
+            organizationContextProvider.provide(organizationAdminId)
+        } returns TestData.organization
+    }
+
+    fun stubUserRegistrar() {
+        every {
+            userRegistrar.registerUsers(any())
+        } answers {
+            firstArg<List<UserRegisterRequest>>().map { request ->
+                NewUser(
+                    user = User(
+                        id = parentUserId,
+                        firstName = request.firstName,
+                        lastName = request.lastName,
+                        role = request.role,
+                        username = "${request.firstName}.${request.lastName}".lowercase(),
+                        passwordHash = "654321",
+                    ),
+                    password = "123456",
                 )
             }
         }
-        every { parentRepository.saveAll(any()) } answers {
-            firstArg<List<Parent>>().map { it.copy(id = ParentId("parent_id")) }
+    }
+
+    fun stubParentRepository() {
+        every {
+            parentRepository.saveAll(any())
+        } answers {
+            firstArg<List<Parent>>().map { it.copy(id = parentId) }
         }
+    }
+
+    should("register parent along with underlying user profile") {
+        // given
+        stubOrganizationContextProvider()
+        stubUserRegistrar()
+        stubParentRepository()
 
         // and
         val userRegisterRequest = UserRegisterRequest(
@@ -62,35 +80,37 @@ internal class ParentRegistrarTest : ShouldSpec({
 
         // when
         val (parent, password) = parentRegistrar.registerParents(
-            requesterUserId = UserId("organization_admin_user_id"),
+            requesterUserId = organizationAdminId,
             userRegisterRequests = listOf(userRegisterRequest),
         )[0]
 
         // then
+        val parentUser = User(
+            id = parentUserId,
+            firstName = "Jan",
+            lastName = "Kowalski",
+            role = PARENT,
+            username = "jan.kowalski",
+            passwordHash = "654321",
+        )
+
         parent shouldBe Parent(
-            id = ParentId("parent_id"),
-            user = User(
-                id = UserId("user_id"),
-                firstName = "Jan",
-                lastName = "Kowalski",
-                role = PARENT,
-                username = "jan.kowalski",
-                passwordHash = "654321",
-            ),
-            organization = organizationStub,
+            id = parentId,
+            user = parentUser,
+            organization = TestData.organization,
         )
         password shouldBe "123456"
 
         // and
-        verify { organizationContextProvider.provide(UserId("organization_admin_user_id")) }
+        verify { organizationContextProvider.provide(organizationAdminId) }
         verify { userRegistrar.registerUsers(listOf(userRegisterRequest)) }
         verify {
             parentRepository.saveAll(
                 listOf(
                     Parent(
                         id = null,
-                        user = TestData.Users.parent,
-                        organization = organizationStub,
+                        user = parentUser,
+                        organization = TestData.organization,
                     ),
                 ),
             )
