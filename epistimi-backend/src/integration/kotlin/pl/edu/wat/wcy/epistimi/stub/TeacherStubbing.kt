@@ -20,8 +20,8 @@ internal class TeacherStubbing(
         return teacherRepository.save(
             Teacher(
                 id = id,
-                userId = user.id!!,
-                organizationId = organization.id!!,
+                user = user,
+                organization = organization,
                 academicTitle = academicTitle,
             )
         )

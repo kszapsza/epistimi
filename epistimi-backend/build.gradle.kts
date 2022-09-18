@@ -14,6 +14,7 @@ object Versions {
     const val SLF4J = "1.7.36"
     const val SPRINGFOX = "3.0.0"
     const val TC_MONGO = "1.16.3"
+    const val TC_POSTGRES = "1.17.3"
 }
 
 plugins {
@@ -85,6 +86,7 @@ dependencies {
     integrationImplementation("io.kotest.extensions", "kotest-extensions-testcontainers", Versions.KOTEST_TC)
     integrationImplementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
     integrationImplementation("org.testcontainers", "mongodb", Versions.TC_MONGO)
+    integrationImplementation("org.testcontainers", "postgresql", Versions.TC_POSTGRES)
 }
 
 sourceSets {

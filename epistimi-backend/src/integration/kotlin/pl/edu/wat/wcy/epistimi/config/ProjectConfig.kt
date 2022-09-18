@@ -5,8 +5,12 @@ import io.kotest.core.extensions.Extension
 
 internal object ProjectConfig : AbstractProjectConfig() {
     val mongoDbConfigListener = MongoDbConfigListener()
+    val postgreSqlConfigListener = PostgreSqlConfigListener()
 
     override fun extensions(): List<Extension> {
-        return listOf(mongoDbConfigListener)
+        return listOf(
+            mongoDbConfigListener,
+            postgreSqlConfigListener,
+        )
     }
 }

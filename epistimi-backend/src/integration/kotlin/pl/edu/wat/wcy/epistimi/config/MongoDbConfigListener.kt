@@ -11,11 +11,12 @@ import io.kotest.core.test.TestResult
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.utility.DockerImageName
 
-internal class MongoDbConfigListener : BeforeProjectListener, AfterProjectListener, AfterTestListener {
+internal class MongoDbConfigListener
+    : BeforeProjectListener, AfterProjectListener, AfterTestListener {
 
     companion object {
+        private const val MONGODB_IMAGE = "mongo:4.0.10"
         const val MONGODB_DATABASE_NAME = "epistimi_integration"
-        const val MONGODB_IMAGE = "mongo:4.0.10"
     }
 
     lateinit var container: MongoDBContainer

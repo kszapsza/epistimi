@@ -32,6 +32,7 @@ import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
 import java.time.LocalDate
+import java.util.UUID
 
 internal class CourseControllerSpec(
     private val restTemplate: TestRestTemplate,
@@ -496,7 +497,7 @@ internal class CourseControllerSpec(
 
             // when
             val response = restTemplate.exchange<String>(
-                url = "/api/course/42",
+                url = "/api/course/${UUID.randomUUID()}",
                 method = HttpMethod.GET,
                 requestEntity = HttpEntity(null, headers),
             )
@@ -549,7 +550,7 @@ internal class CourseControllerSpec(
 
                 // when
                 val response = restTemplate.exchange<String>(
-                    url = "/api/course/42",
+                    url = "/api/course/${UUID.randomUUID()}",
                     method = HttpMethod.GET,
                     requestEntity = HttpEntity(null, headers),
                 )
@@ -567,7 +568,7 @@ internal class CourseControllerSpec(
             schoolYearBegin = LocalDate.of(2099, 9, 1),
             schoolYearSemesterEnd = LocalDate.of(2100, 2, 10),
             schoolYearEnd = LocalDate.of(2100, 6, 30),
-            classTeacherId = TeacherId("teacher_id"),
+            classTeacherId = TeacherId(UUID.randomUUID()),
             profile = null,
             profession = null,
             specialization = null,
@@ -652,8 +653,9 @@ internal class CourseControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(admin)
 
             // when
+            val uuid = UUID.randomUUID()
             val requestBody = baseCreateRequest.copy(
-                classTeacherId = TeacherId("42"),
+                classTeacherId = TeacherId(uuid),
             )
             val response = restTemplate.exchange<ErrorMessage>(
                 url = "/api/course",
@@ -663,7 +665,7 @@ internal class CourseControllerSpec(
 
             // then
             response.statusCode shouldBe BAD_REQUEST
-            response.body?.message shouldBe "Teacher with id 42 was not found"
+            response.body?.message shouldBe "Teacher with id $uuid was not found"
         }
 
         should("return HTTP 403 if user is not an ORGANIZATION_ADMIN") {
