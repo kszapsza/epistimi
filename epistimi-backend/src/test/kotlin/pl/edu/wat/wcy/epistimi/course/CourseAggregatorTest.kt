@@ -56,11 +56,12 @@ internal class CourseAggregatorTest : ShouldSpec({
 
     should("return list of courses for organization administered by admin with provided id") {
         // given
+        val adminUserId = TestData.organization.admin.id!!
+        every { organizationContextProvider.provide(adminUserId) } returns TestData.organization
         every { courseRepository.findAllWithFiltering(TestData.organization.id!!, null) } returns listOf(courseStub)
-        every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
 
         // when
-        val courses = courseAggregator.getCourses(UserId("admin_user_id"), null)
+        val courses = courseAggregator.getCourses(adminUserId, null)
 
         // then
         with(courses) {
@@ -71,10 +72,11 @@ internal class CourseAggregatorTest : ShouldSpec({
 
     should("return empty list of courses if admin with provided id does not administer any organization") {
         // given
-        every { organizationContextProvider.provide(UserId("admin_user_id")) } returns null
+        val adminUserId = UserId(UUID.randomUUID())
+        every { organizationContextProvider.provide(adminUserId) } returns null
 
         // when
-        val courses = courseAggregator.getCourses(UserId("admin_user_id"), null)
+        val courses = courseAggregator.getCourses(adminUserId, null)
 
         // then
         courses.shouldBeEmpty()
@@ -82,11 +84,12 @@ internal class CourseAggregatorTest : ShouldSpec({
 
     should("return a single course by id") {
         // given
+        val adminUserId = TestData.organization.admin.id!!
+        every { organizationContextProvider.provide(adminUserId) } returns TestData.organization
         every { courseRepository.findById(courseId) } returns courseStub
-        every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
 
         // when
-        val course = courseAggregator.getCourse(courseId, UserId("admin_user_id"))
+        val course = courseAggregator.getCourse(courseId, adminUserId)
 
         // then
         course shouldBe courseStub
@@ -94,12 +97,13 @@ internal class CourseAggregatorTest : ShouldSpec({
 
     should("throw an exception if course with provided exists in organization not managed by current user") {
         // given
-        every { courseRepository.findById(CourseId("course_id")) } returns courseStub
-        every { organizationContextProvider.provide(UserId("other_admin_id")) } returns null
+        val otherAdminId = UserId(UUID.randomUUID())
+        every { organizationContextProvider.provide(otherAdminId) } returns null
+        every { courseRepository.findById(courseId) } returns courseStub
 
         // expect
         shouldThrow<CourseNotFoundException> {
-            courseAggregator.getCourse(CourseId("course_id"), UserId("other_admin_id"))
+            courseAggregator.getCourse(courseId, otherAdminId)
         }
     }
 })

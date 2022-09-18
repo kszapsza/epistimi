@@ -3,7 +3,7 @@ package pl.edu.wat.wcy.epistimi.user
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 
-class UsernameNormalizerTest : ShouldSpec({
+internal class UsernameNormalizerTest : ShouldSpec({
 
     should("leave the username unchanged if there are no special characters") {
         // given

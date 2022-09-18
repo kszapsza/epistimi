@@ -8,7 +8,6 @@ import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.UserId
 
@@ -22,13 +21,16 @@ internal class TeacherAggregatorTest : ShouldSpec({
         teacherRepository,
     )
 
+    val organizationAdminId = TestData.Users.organizationAdmin.id!!
+    val organizationId = TestData.organization.id!!
+
     should("return empty list of teachers if there are no teachers in school administered by provided admin") {
         // given
-        every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
-        every { teacherRepository.findAll(OrganizationId("organization_id")) } returns emptyList()
+        every { organizationContextProvider.provide(organizationAdminId) } returns TestData.organization
+        every { teacherRepository.findAll(organizationId) } returns emptyList()
 
         // when
-        val teachers = teacherAggregator.getTeachers(UserId("admin_user_id"))
+        val teachers = teacherAggregator.getTeachers(organizationAdminId)
 
         // then
         teachers.shouldBeEmpty()
@@ -37,7 +39,7 @@ internal class TeacherAggregatorTest : ShouldSpec({
     should("return list of teachers in school administered by provided admin") {
         // given
         every { organizationContextProvider.provide(UserId("admin_user_id")) } returns TestData.organization
-        every { teacherRepository.findAll(OrganizationId("organization_id")) } returns listOf(TestData.teacher)
+        every { teacherRepository.findAll(organizationId) } returns listOf(TestData.teacher)
 
         // when
         val teachers = teacherAggregator.getTeachers(UserId("admin_user_id"))

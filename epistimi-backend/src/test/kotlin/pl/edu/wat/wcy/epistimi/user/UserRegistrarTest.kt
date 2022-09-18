@@ -8,6 +8,7 @@ import io.mockk.verify
 import org.springframework.security.crypto.password.PasswordEncoder
 import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
 import pl.edu.wat.wcy.epistimi.user.port.UserRepository
+import java.util.UUID
 
 internal class UserRegistrarTest : ShouldSpec({
 
@@ -19,7 +20,7 @@ internal class UserRegistrarTest : ShouldSpec({
 
     should("successfully register user with provided credentials") {
         // given
-        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>().copy(id = UserId("user_id")) }
+        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>().copy(id = UserId(UUID.randomUUID())) }
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
 
         // when
@@ -40,7 +41,7 @@ internal class UserRegistrarTest : ShouldSpec({
 
     should("successfully register user with generated credentials if not provided") {
         // given
-        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>().copy(id = UserId("user_id")) }
+        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>().copy(id = UserId(UUID.randomUUID())) }
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
         every { credentialsGenerator.generate("Jan", "Kowalski") } returns
             Credentials("jan.kowalski", "123")

@@ -19,6 +19,7 @@ import java.net.URI
 
 internal class NominatimOrganizationLocationClientTest : ShouldSpec({
     val restTemplateMock = mockk<RestTemplate>()
+
     val locationClient = NominatimOrganizationLocationClient(
         restTemplate = restTemplateMock,
         nominatimEndpoint = "https://nominatim.openstreetmap.org/search",
@@ -81,7 +82,7 @@ internal class NominatimOrganizationLocationClientTest : ShouldSpec({
                 type = "house",
                 importance = 0.33100000000000007,
                 icon = null,
-            )
+            ),
         )
 
         every { restTemplateMock.exchange<NominatimResponse>(url = ofType(URI::class), method = GET) }

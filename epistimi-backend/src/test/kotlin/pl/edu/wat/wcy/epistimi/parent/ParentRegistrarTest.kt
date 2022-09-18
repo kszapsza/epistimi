@@ -6,10 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
@@ -27,27 +24,20 @@ internal class ParentRegistrarTest : ShouldSpec({
     val parentRegistrar = ParentRegistrar(
         parentRepository,
         userRegistrar,
-        organizationContextProvider
+        organizationContextProvider,
     )
 
-    val organizationStub = Organization(
-        id = OrganizationId("organization_id"),
-        name = "SP7",
-        admin = UserId("admin_user_id"),
-        status = ENABLED,
-        address = TestData.address,
-        location = null,
-    )
+    val organizationAdminId = TestData.organization.admin.id!!
 
     should("register parent along with underlying user profile") {
         // given
-        every { organizationContextProvider.provide(UserId("organization_admin_user_id")) } returns organizationStub
+        every { organizationContextProvider.provide(organizationAdminId) } returns TestData.organization
         every { userRegistrar.registerUsers(any()) } answers {
             with(firstArg<List<UserRegisterRequest>>()[0]) {
                 listOf(
                     NewUser(
                         user = User(
-                            id = UserId("user_id"),
+                            id = TestData.Users.parent.id!!,
                             firstName = firstName,
                             lastName = lastName,
                             role = PARENT,
@@ -99,10 +89,10 @@ internal class ParentRegistrarTest : ShouldSpec({
                 listOf(
                     Parent(
                         id = null,
-                        user = UserId("user_id"),
+                        user = TestData.Users.parent,
                         organization = organizationStub,
-                    )
-                )
+                    ),
+                ),
             )
         }
     }

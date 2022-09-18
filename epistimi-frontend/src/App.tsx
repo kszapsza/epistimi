@@ -6,8 +6,7 @@ import { NotImplementedYet } from './components/common';
 import { OrganizationDetails, OrganizationsListing } from './components/organizations';
 import { RequireAuth } from './router/RequireAuth';
 import { Summary } from './components/summary';
-import { TeacherDetails } from './components/teachers/TeacherDetails';
-import { TeachersListing } from './components/teachers';
+import { TeacherDetails, TeachersListing } from './components/teachers';
 import { useAppSelector } from './store/hooks';
 import { UserRole } from './dto/user';
 

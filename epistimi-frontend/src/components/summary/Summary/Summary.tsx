@@ -1,14 +1,12 @@
 import './Summary.scss';
 import { Title } from '@mantine/core';
 import { useAppSelector } from '../../../store/hooks';
-import { useEffect } from 'react';
+import { useDocumentTitle } from '@mantine/hooks';
 
 export const Summary = (): JSX.Element => {
   const { user } = useAppSelector((state) => state.auth);
 
-  useEffect(() => {
-    document.title = 'Strona główna – Epistimi';
-  }, []);
+  useDocumentTitle('Strona główna – Epistimi');
 
   return (
     <div className="summary">

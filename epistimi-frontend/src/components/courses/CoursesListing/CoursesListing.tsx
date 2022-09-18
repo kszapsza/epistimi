@@ -4,8 +4,7 @@ import { CourseEdit } from '../CourseEdit';
 import { CourseResponse, CoursesResponse } from '../../../dto/course';
 import { CoursesListingGroup } from '../CoursesListingGroup';
 import { IconAlertCircle, IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons';
-import { useDisclosure } from '@mantine/hooks';
-import { useEffect } from 'react';
+import { useDisclosure, useDocumentTitle } from '@mantine/hooks';
 import { useFetch } from '../../../hooks/useFetch';
 
 export const CoursesListing = (): JSX.Element => {
@@ -13,9 +12,7 @@ export const CoursesListing = (): JSX.Element => {
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
   const [createdMessageOpened, createdMessageHandlers] = useDisclosure(false);
 
-  useEffect(() => {
-    document.title = 'Klasy – Epistimi';
-  }, []);
+  useDocumentTitle('Klasy – Epistimi');
 
   const coursesBySchoolYear = data && Object.entries(
     data.courses

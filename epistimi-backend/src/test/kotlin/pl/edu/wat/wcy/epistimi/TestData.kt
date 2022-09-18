@@ -4,6 +4,10 @@ import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
+import pl.edu.wat.wcy.epistimi.parent.Parent
+import pl.edu.wat.wcy.epistimi.parent.ParentId
+import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.student.StudentId
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.user.User
@@ -32,7 +36,7 @@ internal object TestData {
         location = null,
     )
 
-    object Users {
+    internal object Users {
         private val baseUser = User(
             id = UserId(UUID.randomUUID()),
             firstName = "Jan",
@@ -45,12 +49,12 @@ internal object TestData {
 
         fun withRole(
             role: User.Role,
-            id: String? = null,
+            id: UUID,
             username: String? = null,
         ): User {
             val roleName = role.toString().lowercase()
             return baseUser.copy(
-                id = id?.let { UserId(id) } ?: UserId("${roleName}_user_id"),
+                id = UserId(id),
                 role = role,
                 username = username ?: roleName,
             )
@@ -92,5 +96,18 @@ internal object TestData {
         user = Users.teacher,
         organization = organization,
         academicTitle = null,
+    )
+
+    val student = Student(
+        id = StudentId(UUID.randomUUID()),
+        user = Users.student,
+        organization = organization,
+        parents = emptyList(),
+    )
+
+    val parent = Parent(
+        id = ParentId(UUID.randomUUID()),
+        user = Users.parent,
+        organization = organization,
     )
 }

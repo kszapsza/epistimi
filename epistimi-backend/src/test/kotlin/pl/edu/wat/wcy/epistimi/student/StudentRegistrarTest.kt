@@ -29,7 +29,6 @@ import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
 
 internal class StudentRegistrarTest : ShouldSpec({
-
     val studentRepository = mockk<StudentRepository>()
     val userRegistrar = mockk<UserRegistrar>()
     val parentRegistrar = mockk<ParentRegistrar>()
@@ -60,7 +59,7 @@ internal class StudentRegistrarTest : ShouldSpec({
         ),
         schoolYear = "2012/2013",
         classTeacher = TeacherId("teacher_id"),
-        students = mutableListOf(),
+        students = listOf(),
         schoolYearBegin = TestUtils.parseDate("2012-09-03"),
         schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
         schoolYearEnd = TestUtils.parseDate("2013-06-28"),
