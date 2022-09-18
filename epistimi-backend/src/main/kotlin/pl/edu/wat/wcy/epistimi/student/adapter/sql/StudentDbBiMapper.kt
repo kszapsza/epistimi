@@ -13,7 +13,7 @@ object StudentDbBiMapper : BiMapper<Student, StudentJpaEntity> {
             id = StudentId(id!!),
             user = UserDbBiMapper.toDomain(user),
             organization = OrganizationDbBiMapper.toDomain(organization),
-            parents = parents.map { ParentDbBiMapper.toDomain(it) }
+            parents = parents.map { ParentDbBiMapper.toDomain(it) },
         )
     }
 

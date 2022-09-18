@@ -55,7 +55,7 @@ internal class PostgreSqlConfigListener
 
     override suspend fun afterTest(testCase: TestCase, result: TestResult) {
         TABLE_NAMES.forEach { tableName ->
-            jdbcTemplate.execute("TRUNCATE $tableName CASCADE;")
+            jdbcTemplate.execute("truncate $tableName cascade;")
         }
     }
 }

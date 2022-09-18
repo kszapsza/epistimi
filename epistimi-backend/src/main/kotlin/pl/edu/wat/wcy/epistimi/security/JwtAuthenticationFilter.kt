@@ -29,7 +29,7 @@ class JwtAuthenticationFilter(
 ) : OncePerRequestFilter() {
 
     companion object {
-        private val BEARER_PATTERN = Pattern.compile("^Bearer (.+)\$")!!
+        private val BEARER_PATTERN by lazy { Pattern.compile("^Bearer (.+)\$") }
     }
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {

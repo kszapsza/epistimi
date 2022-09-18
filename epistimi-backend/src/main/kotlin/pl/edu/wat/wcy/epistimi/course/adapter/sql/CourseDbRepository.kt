@@ -36,11 +36,11 @@ class CourseDbRepository(
         classTeacherId: TeacherId?,
     ): List<Course> {
         return DbHandlers.handleDbMultiGet(mapper = CourseDbBiMapper) {
-            createFilteringTypedQuery(organizationId, classTeacherId).resultList
+            createTypedQuery(organizationId, classTeacherId).resultList
         }
     }
 
-    private fun createFilteringTypedQuery(
+    private fun createTypedQuery(
         organizationId: OrganizationId?,
         classTeacherId: TeacherId?,
     ): TypedQuery<CourseJpaEntity> {
@@ -49,14 +49,14 @@ class CourseDbRepository(
         val coursesRoot = criteriaQuery.from(CourseJpaEntity::class.java)
 
         val predicates = mutableListOf<Predicate>()
-
-        if (organizationId != null) predicates += buildOrganizationPredicate(criteriaBuilder, coursesRoot, organizationId)
-        if (classTeacherId != null) predicates += buildClassTeacherPredicate(criteriaBuilder, coursesRoot, classTeacherId)
+            .also { if (organizationId != null) it += buildOrganizationPredicate(criteriaBuilder, coursesRoot, organizationId) }
+            .also { if (classTeacherId != null) it += buildClassTeacherPredicate(criteriaBuilder, coursesRoot, classTeacherId) }
+            .toTypedArray()
 
         return entityManager.createQuery(
             criteriaQuery
                 .select(coursesRoot)
-                .where(*predicates.toTypedArray())
+                .where(*predicates)
         )
     }
 
