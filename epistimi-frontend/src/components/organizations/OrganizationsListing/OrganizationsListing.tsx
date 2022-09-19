@@ -5,12 +5,14 @@ import { OrganizationCreate, OrganizationsListingTile } from '../../organization
 import { OrganizationRegisterResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export const OrganizationsListing = (): JSX.Element => {
   const { data, setData, loading, error } = useFetch<OrganizationsResponse>('api/organization');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
-  useDocumentTitle('Placówki');
+  const { t } = useTranslation();
+  useDocumentTitle(t('organizations.organizationsListing.organizations'));
 
   const activeCount: number = data?.organizations
     .filter((organization) => organization.status === OrganizationStatus.ENABLED)
@@ -35,7 +37,7 @@ export const OrganizationsListing = (): JSX.Element => {
         onClose={createModalHandlers.close}
         opened={createModalOpened}
         size={'xl'}
-        title={'Tworzenie nowej placówki'}
+        title={t('organizations.organizationsListing.creatingNewOrganization')}
       >
         <OrganizationCreate
           submitCallback={onOrganizationCreate}
@@ -43,24 +45,26 @@ export const OrganizationsListing = (): JSX.Element => {
       </Modal>
 
       <div className={'organizations-actions'}>
-        <Title order={2}>Placówki</Title>
+        <Title order={2}>
+          {t('organizations.organizationsListing.organizations')}
+        </Title>
         <Button
           leftIcon={<IconPencil size={16}/>}
           onClick={createModalHandlers.open}
           variant={'default'}
         >
-          Utwórz nową
+          {t('organizations.organizationsListing.createNew')}
         </Button>
       </div>
 
       {error &&
         <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
-          Nie udało się załadować listy placówek!
+          {t('organizations.organizationsListing.couldNotLoadOrganizationsList')}
         </Alert>}
 
       {data?.organizations?.length === 0 &&
-        <Alert icon={<IconInfoCircle size={16}/>} color="blue">
-          W systemie nie zarejestrowano jeszcze żadnych placówek!
+        <Alert icon={<IconInfoCircle size={16}/>} color={'blue'}>
+          {t('organizations.organizationsListing.noOrganizationsRegistered')}
         </Alert>}
 
       {loading && <Loader/>}
@@ -76,7 +80,7 @@ export const OrganizationsListing = (): JSX.Element => {
               status={status}
             />)}
           <div className={'organizations-listing-summary'}>
-            Łącznie: {data.organizations.length}, w tym aktywnych: {activeCount}.
+            {t('organizations.organizationsListing.summary', { total: data.organizations.length, active: activeCount })}
           </div>
         </div>}
     </div>

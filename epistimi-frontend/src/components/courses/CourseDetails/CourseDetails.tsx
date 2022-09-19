@@ -7,9 +7,12 @@ import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconBook, IconScho
 import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export const CourseDetails = (): JSX.Element => {
   const { id } = useParams();
+  const { t } = useTranslation();
+
   const {
     data: course,
     setData: setCourse,
@@ -23,9 +26,9 @@ export const CourseDetails = (): JSX.Element => {
 
   const getErrorMessage = (error: AxiosError): string => {
     if (error.response?.status === 404) {
-      return 'Nie znaleziono klasy';
+      return t('courses.courseDetails.notFound');
     }
-    return 'Nie udało się połączyć z serwerem';
+    return t('courses.courseDetails.connectionFailed');
   };
 
   return (<>
@@ -39,7 +42,7 @@ export const CourseDetails = (): JSX.Element => {
         onClose={addStudentModalHandlers.close}
         opened={addStudentModalOpened}
         size={'xl'}
-        title={'Dodawanie ucznia do klasy'}
+        title={t('courses.courseDetails.addStudentModalTitle')}
       >
         <CourseAddStudent
           course={course}
@@ -69,7 +72,7 @@ export const CourseDetails = (): JSX.Element => {
                 onClick={addStudentModalHandlers.open}
                 variant={'default'}
               >
-                Dodaj ucznia
+                {t('courses.courseDetails.addStudent')}
               </Button>
               <Button
                 leftIcon={<IconBook size={16}/>}
@@ -77,7 +80,7 @@ export const CourseDetails = (): JSX.Element => {
                 variant={'default'}
                 disabled={true} // TODO
               >
-                Dodaj przedmiot
+                {t('courses.courseDetails.addSubject')}
               </Button>
               <Button
                 leftIcon={<IconArrowBigUpLines size={16}/>}
@@ -85,7 +88,7 @@ export const CourseDetails = (): JSX.Element => {
                 variant={'default'}
                 disabled={true} // TODO
               >
-                Promocja klasy
+                {t('courses.courseDetails.promoteClass')}
               </Button>
             </div>
           </div>
@@ -101,18 +104,18 @@ export const CourseDetails = (): JSX.Element => {
           </div>
 
           <div className={'course-details-box'}>
-            <Title order={4}>Dane</Title>
+            <Title order={4}>{t('courses.courseDetails.data')}</Title>
             <CourseDetailsData course={course}/>
           </div>
 
           <div className={'course-details-box'}>
-            <Title order={4}>Uczniowie</Title> ({course.students.length})
+            <Title order={4}>{t('courses.courseDetails.students')}</Title> ({course.students.length})
             <CourseDetailsStudents students={course.students}/>
           </div>
 
           <div className={'course-details-box'}>
             <div>
-              <Title order={4}>Przedmioty</Title>
+              <Title order={4}>{t('courses.courseDetails.subjects')}</Title>
             </div>
           </div>
         </div>

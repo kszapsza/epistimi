@@ -12,6 +12,7 @@ import { OrganizationRegisterRequest, OrganizationRegisterResponse } from '../..
 import { useForm } from '@mantine/form';
 import { UserRole, UserSex } from '../../../dto/user';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { validatePesel } from '../../../validators/pesel';
 import axios, { AxiosResponse } from 'axios';
 
@@ -50,6 +51,8 @@ export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element =>
   const [createResponse, setCreateResponse] = useState<OrganizationRegisterResponse>();
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  const { t } = useTranslation();
+
   const organizationForm = useForm<OrganizationFormData>({
     initialValues: {
       name: '',
@@ -58,10 +61,10 @@ export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element =>
       city: '',
     },
     validate: (values) => ({
-      name: values.name.trim() === '' ? 'Wymagane pole' : null,
-      street: values.street.trim() === '' ? 'Wymagane pole' : null,
-      postalCode: values.postalCode.trim() === '' ? 'Wymagane pole' : null,
-      city: values.city.trim() === '' ? 'Wymagane pole' : null,
+      name: values.name.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
+      street: values.street.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
+      postalCode: values.postalCode.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
+      city: values.city.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
     }),
   });
 
@@ -77,12 +80,13 @@ export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element =>
       city: '',
     },
     validate: (values) => ({
-      firstName: values.firstName.trim() === '' ? 'Wymagane pole' : null,
-      lastName: values.lastName.trim() === '' ? 'Wymagane pole' : null,
-      pesel: !values.pesel ? 'Wymagane pole' : !validatePesel(values.pesel) ? 'Niepoprawny PESEL' : null,
-      street: values.street.trim() === '' ? 'Wymagane pole' : null,
-      postalCode: values.postalCode.trim() === '' ? 'Wymagane pole' : null,
-      city: values.city.trim() === '' ? 'Wymagane pole' : null,
+      firstName: values.firstName.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
+      lastName: values.lastName.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
+      pesel: !values.pesel ? t('organizations.organizationCreate.requiredField')
+        : !validatePesel(values.pesel) ? t('organizations.organizationCreate.invalidPesel') : null,
+      street: values.street.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
+      postalCode: values.postalCode.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
+      city: values.city.trim() === '' ? t('organizations.organizationCreate.requiredField') : null,
     }),
   });
 
@@ -120,8 +124,8 @@ export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element =>
     }).catch(({ response }) => {
       setSubmitError(
         response?.data?.message == 'Provided admin is already managing other organization'
-          ? 'Wybrany administrator zarządza już inną placówką'
-          : 'Wystąpił nieoczekiwany błąd serwera', // TODO: update same as in organization update
+          ? t('organizations.organizationCreate.adminAlreadyManagingOtherOrganization')
+          : t('organizations.organizationCreate.serverError'), // TODO: update same as in organization update
       );
     });
   };
@@ -129,7 +133,7 @@ export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element =>
   return (
     <div className={'organization-create'}>
       {submitError &&
-        <Alert icon={<IconAlertCircle size={16}/>} title={'Błąd'} color={'red'}>
+        <Alert icon={<IconAlertCircle size={16}/>} title={t('organizations.organizationCreate.error')} color={'red'}>
           {submitError}
         </Alert>}
 

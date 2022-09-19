@@ -6,6 +6,7 @@ import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import { OrganizationDetailsKeyValue } from '../../organizations';
 import { Title } from '@mantine/core';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import L from 'leaflet';
 
 const MAP_ZOOM = 16;
@@ -46,6 +47,8 @@ export const OrganizationDetailsLocation = (
     });
   }, []);
 
+  const { t } = useTranslation();
+
   return (
     <div className={'organization-location'}>
       {location && <div className={'organization-map'}>
@@ -59,15 +62,17 @@ export const OrganizationDetailsLocation = (
         </MapContainer>
       </div>}
       <div className={'organization-address'}>
-        <Title order={4}>Adres i kontakt</Title>
+        <Title order={4}>
+          {t('organizations.organizationDetailsLocation.addressAndContact')}
+        </Title>
         <OrganizationDetailsKeyValue
-          label={'Ulica'}
+          label={t('organizations.organizationDetailsLocation.street')}
           value={address.street}/>
         <OrganizationDetailsKeyValue
-          label={'Kod pocztowy'}
+          label={t('organizations.organizationDetailsLocation.postalCode')}
           value={address.postalCode}/>
         <OrganizationDetailsKeyValue
-          label={'Miasto'}
+          label={t('organizations.organizationDetailsLocation.city')}
           value={address.city}/>
       </div>
     </div>

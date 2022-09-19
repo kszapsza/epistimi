@@ -5,13 +5,15 @@ import { CourseResponse, CoursesResponse } from '../../../dto/course';
 import { IconAlertCircle, IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export const CoursesListing = (): JSX.Element => {
   const { data, loading, error } = useFetch<CoursesResponse>('api/course');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
   const [createdMessageOpened, createdMessageHandlers] = useDisclosure(false);
 
-  useDocumentTitle('Klasy');
+  const { t } = useTranslation();
+  useDocumentTitle(t('courses.coursesListing.courses'));
 
   const coursesBySchoolYear = data && Object.entries(
     data.courses
@@ -37,34 +39,34 @@ export const CoursesListing = (): JSX.Element => {
         onClose={createModalHandlers.close}
         opened={createModalOpened}
         size={'lg'}
-        title={'Utwórz nową klasę'}
+        title={t('courses.coursesListing.createNewCourseModalTitle')}
       >
         <CourseEdit submitCallback={onCourseCreate}/>
       </Modal>
       <div className={'courses'}>
         <div className={'courses-actions'}>
-          <Title order={2}>Klasy</Title>
+          <Title order={2}>{t('courses.coursesListing.courses')}</Title>
           <Button
             leftIcon={<IconPlus size={16}/>}
             onClick={createModalHandlers.open}
             variant={'default'}
           >
-            Utwórz nową
+            {t('courses.coursesListing.createNewCourseButton')}
           </Button>
         </div>
 
         {loading && <Loader style={{ width: '100%' }}/>}
         {createdMessageOpened &&
           <Alert icon={<IconCheck size={16}/>} color={'green'}>
-            Pomyślnie utworzono nową klasę
+            {t('courses.coursesListing.createdNewCourse')}
           </Alert>}
         {error &&
-          <Alert icon={<IconAlertCircle size={16}/>} color="red">
-            Nie udało się załadować listy klas!
+          <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
+            {t('courses.coursesListing.couldNotLoadCourses')}
           </Alert>}
         {coursesBySchoolYear?.length === 0 &&
-          <Alert icon={<IconInfoCircle size={16}/>} color="blue">
-            W placówce nie zarejestrowano jeszcze żadnych klas!
+          <Alert icon={<IconInfoCircle size={16}/>} color={'blue'}>
+            {t('courses.coursesListing.noCoursesRegistered')}
           </Alert>}
 
         {coursesBySchoolYear && coursesBySchoolYear?.length > 0 &&

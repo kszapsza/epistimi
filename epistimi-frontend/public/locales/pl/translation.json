@@ -1,0 +1,299 @@
+{
+  "common": {
+    "notImplementedYet": "Ten komponent nie został (jeszcze) zaimplementowany."
+  },
+  "courses": {
+    "courseAddStudent": {
+      "addParent": "Dodaj rodzica",
+      "invalidPesel": "Niepoprawny PESEL",
+      "parentsData": "Dane rodziców",
+      "requiredField": "Wymagane pole",
+      "studentData": "Dane ucznia"
+    },
+    "courseAddStudentParentsList": {
+      "studentsParents": "Rodzice ucznia"
+    },
+    "courseAddStudentStepper": {
+      "parentsDesc": "Edytuj dane rodziców",
+      "parentsLabel": "Rodzice",
+      "studentDesc": "Edytuj dane ucznia",
+      "studentLabel": "Uczeń",
+      "summaryDesc": "Wygenerowane loginy i hasła",
+      "summaryLabel": "Podsumowanie"
+    },
+    "courseAddStudentSummary": {
+      "parentsRegistered": "Zarejestrowane konta rodziców",
+      "password": "Hasło",
+      "studentRegistered": "Zarejestrowano ucznia",
+      "username": "Nazwa użytkownika"
+    },
+    "courseAddStudentUserForm": {
+      "city": "Miasto",
+      "email": "Adres e-mail",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "pesel": "PESEL",
+      "phoneNumber": "Numer telefonu",
+      "postalCode": "Kod pocztowy",
+      "street": "Ulica"
+    },
+    "courseDetails": {
+      "addStudent": "Dodaj ucznia",
+      "addStudentModalTitle": "Dodawanie ucznia do klasy",
+      "addSubject": "Dodaj przedmiot",
+      "connectionFailed": "Nie udało połączyć się z serwerem",
+      "data": "Dane",
+      "notFound": "Nie znaleziono klasy",
+      "promoteClass": "Promocja klasy",
+      "students": "Uczniowie",
+      "subjects": "Przedmioty"
+    },
+    "courseDetailsData": {
+      "classTeacher": "Wychowawca klasy",
+      "schoolYearBegin": "Rozpoczęcie roku szkolnego",
+      "schoolYearEnd": "Zakończenie roku szkolnego",
+      "schoolYearSemesterEnd": "Zakończenie semestru"
+    },
+    "courseDetailsStudents": {
+      "noStudents": "Brak uczniów"
+    },
+    "courseEdit": {
+      "classTeacher": "Wychowawca klasy",
+      "codeLetter": "Oznaczenie literowe klasy",
+      "codeLetterRegexpFail": "Tylko małe litery, bez polskich znaków",
+      "codeNumber": "Numer klasy",
+      "couldNotCreateCourse": "Nie udało się utworzyć klasy!",
+      "create": "Utwórz",
+      "profession": "Zawód",
+      "professionPlaceholder": "np. „technik informatyk”",
+      "profile": "Profil",
+      "profilePlaceholder": "np. „matematyczno-fizyczny”",
+      "requiredField": "Wymagane pole",
+      "schoolYearBeginning": "Data rozpoczęcia roku szkolnego",
+      "schoolYearBeginningShouldBeBeforeSchoolYearEnd": "Data rozpoczęcia roku musi następować przed datą zakończenia roku",
+      "schoolYearBeginningShouldBeBeforeSemesterEnd": "Data rozpoczęcia roku musi następować przed datą końca pierwszego semestru",
+      "schoolYearBeginningShouldBeInFuture": "Data rozpoczęcia roku musi następować w przyszłości",
+      "schoolYearEnd": "Data zakończenia roku szkolnego",
+      "schoolYearEndShouldBeAfterSchoolYearBeginning": "Data zakończenia roku musi następować po dacie rozpoczęcia roku",
+      "schoolYearEndShouldBeAfterSemesterEnd": "Data zakończenia roku musi następować po dacie zakończenia pierwszego semestru",
+      "schoolYearEndShouldBeInFuture": "Data zakończenia roku musi następować w przyszłości",
+      "schoolYearEndShouldBeNextCalendarYearAfterSchoolYearBeginning": "Data zakończenia roku musi następować w kolejnym po rozpoczęciu roku kalendarzowym",
+      "schoolYearSemesterEnd": "Data zakończenia pierwszego semestru",
+      "schoolYearSemesterEndShouldBeAfterSchoolYearBeginning": "Data zakończenia pierwszego semestru musi następować po dacie rozpoczęcia roku",
+      "schoolYearSemesterEndShouldBeBeforeSchoolYearEnd": "Data zakończenia pierwszego semestru musi następować przed datą zakończenia roku",
+      "schoolYearSemesterEndShouldBeInFuture": "Data zakończenia semestru musi następować w przyszłości",
+      "selectClassTeacher": "Wybierz wychowawcę klasy",
+      "specialization": "Specjalizacja",
+      "specializationPlaceholder": "np. „zarządzanie projektami w IT”"
+    },
+    "coursesListing": {
+      "couldNotLoadCourses": "Nie udało się załadować listy klas",
+      "courses": "Klasy",
+      "createNewCourseButton": "Utwórz nową",
+      "createNewCourseModalTitle": "Utwórz nową klasę",
+      "createdNewCourse": "Pomyślnie utworzono nową klasę",
+      "noCoursesRegistered": "W placówce nie zarejestrowano jeszcze żadnych klas"
+    },
+    "coursesListingTile": {
+      "studentsCount_one": "{{count}} uczeń",
+      "studentsCount_other": "{{count}} uczniów"
+    }
+  },
+  "mainPage": {
+    "loginForm": {
+      "connectionFailed": "Nie udało połączyć się z serwerem",
+      "enterPassword": "Podaj hasło",
+      "enterUsername": "Podaj nazwę użytkownika",
+      "incorrectCredentials": "Niepoprawne dane logowania",
+      "logIn": "Zaloguj się",
+      "password": "Hasło",
+      "username": "Nazwa użytkownika"
+    },
+    "promo": "Zintegrowany system wspomagający dydaktykę, także w kształceniu zdalnym. Zaprojektowany z myślą o uczniach, rodzicach i nauczycielach.",
+    "welcomeToEpistimi": "Platforma edukacyjna Epistimi — zapraszamy!"
+  },
+  "navigation": {
+    "footer": {
+      "aboutUs": "O nas",
+      "bugReport": "Zgłoś błąd",
+      "careers": "Kariera",
+      "company": "Firma",
+      "contact": "Kontakt",
+      "forClient": "Dla klienta",
+      "forGovernments": "Dla samorządów",
+      "forSchools": "Dla szkół",
+      "offer": "Oferta",
+      "privacyPolicy": "Polityka prywatności",
+      "techSupport": "Pomoc techniczna",
+      "termsAndConditions": "Regulamin"
+    },
+    "menu": {
+      "absence": "Absencja",
+      "analytics": "Analityka",
+      "articles": "Artykuły",
+      "assignments": "Zadania domowe",
+      "calendar": "Kalendarz",
+      "chat": "Wiadomości",
+      "config": "Konfiguracja",
+      "courses": "Klasy",
+      "exams": "Sprawdziany",
+      "grades": "Oceny",
+      "noticeboard": "Tablica ogłoszeń",
+      "organizations": "Placówki",
+      "students": "Uczniowie",
+      "subjects": "Przedmioty",
+      "summary": "Strona główna",
+      "teachers": "Nauczyciele",
+      "timetable": "Plan lekcji",
+      "users": "Użytkownicy"
+    },
+    "menuUser": {
+      "account": "Konto",
+      "logOut": "Wyloguj się",
+      "settings": "Ustawienia"
+    },
+    "notFound": {
+      "desc": "Strona o podanym adresie nie istnieje"
+    }
+  },
+  "organizations": {
+    "organizationAdminForm": {
+      "address": "Adres",
+      "city": "Miasto",
+      "createOrganization": "Utwórz placówkę",
+      "email": "Adres e-mail",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "organizationData": "Dane placówki",
+      "pesel": "PESEL",
+      "phoneNumber": "Numer telefonu",
+      "postalCode": "Kod pocztowy",
+      "sex": "Płeć",
+      "sexFemale": "Kobieta",
+      "sexMale": "Mężczyzna",
+      "sexOther": "Inna",
+      "street": "Ulica"
+    },
+    "organizationColorStatus": {
+      "disabled": "Nieaktywna",
+      "enabled": "Aktywna"
+    },
+    "organizationCreate": {
+      "adminAlreadyManagingOtherOrganization": "Wybrany administrator zarządza już inną placówką",
+      "error": "Błąd",
+      "invalidPesel": "Niepoprawny PESEL",
+      "requiredField": "Wymagane pole",
+      "serverError": "Wystąpił nieoczekiwany błąd serwera"
+    },
+    "organizationCreateStepper": {
+      "adminDesc": "Dane administratora",
+      "adminLabel": "Administrator",
+      "organizationDesc": "Dane placówki",
+      "organizationLabel": "Placówka",
+      "summaryDesc": "Login i hasło administratora",
+      "summaryLabel": "Podsumowanie"
+    },
+    "organizationCreateSummary": {
+      "organizationAdminAccount": "Konto administratora placówki",
+      "organizationRegistered": "Zarejestrowano nową placówkę",
+      "password": "Hasło",
+      "username": "Nazwa użytkownika"
+    },
+    "organizationDetails": {
+      "activeCourses": "Aktywnych klas",
+      "activeStudents": "Aktywnych uczniów",
+      "activeTeachers": "Aktywnych nauczycieli",
+      "admin": "Administrator",
+      "changingOrganizationStatus": "Zmiana statusu placówki",
+      "couldNotLoadDetails": "Nie udało się załadować szczegółów placówki",
+      "dataUpdated": "Pomyślnie zaktualizowano dane placówki",
+      "disableOrganization": "Dezaktywuj placówkę",
+      "editData": "Edytuj dane",
+      "editingOrganization": "Edycja danych placówki",
+      "enableOrganization": "Aktywuj placówkę",
+      "id": "Id",
+      "status": "Status"
+    },
+    "organizationDetailsLocation": {
+      "addressAndContact": "Adres i kontakt",
+      "city": "Miasto",
+      "postalCode": "Kod pocztowy",
+      "street": "Ulica"
+    },
+    "organizationForm": {
+      "city": "Miasto",
+      "name": "Nazwa",
+      "organizationAddress": "Adres placówki",
+      "organizationAdminData": "Dane administratora placówki",
+      "postalCode": "Kod pocztowy",
+      "street": "Ulica",
+      "updateOrganizationData": "Aktualizuj dane placówki"
+    },
+    "organizationsListing": {
+      "couldNotLoadOrganizationsList": "Nie udało się załadować listy placówek",
+      "createNew": "Utwórz nową",
+      "creatingNewOrganization": "Tworzenie nowej placówki",
+      "noOrganizationsRegistered": "W systemie nie zarejestrowano jeszcze żadnych placówek",
+      "organizations": "Placówki",
+      "summary": "Łącznie: {{total}}, w tym aktywnych: {{active}}."
+    },
+    "organizationStatusChange": {
+      "areYouSureYouWantToDisable": "Czy na pewno chcesz dezaktywować placówkę {{name}}?",
+      "areYouSureYouWantToEnable": "Czy na pewno chcesz ponownie aktywować placówkę {{name}}?",
+      "disable": "Dezaktywuj",
+      "enable": "Aktywuj"
+    },
+    "organizationUpdate": {
+      "couldNotUpdateOrganization": "Nie udało się zaktualizować placówki",
+      "requiredField": "Wymagane pole",
+      "serverError": "Błąd serwera"
+    }
+  },
+  "summary": {
+    "greeting": "Witaj, {{name}}!"
+  },
+  "teachers": {
+    "teacherCreate": {
+      "addTeacher": "Dodaj nauczyciela",
+      "invalidPesel": "Niepoprawny PESEL",
+      "requiredField": "Wymagane pole"
+    },
+    "teacherCreateStepper": {
+      "summaryDesc": "Wygenerowane loginy i hasła",
+      "summaryLabel": "Podsumowanie",
+      "teacherDesc": "Podaj dane nauczyciela",
+      "teacherLabel": "Nauczyciel"
+    },
+    "teacherCreateSummary": {
+      "password": "Hasło",
+      "teacherRegistered": "Zarejestrowano nauczyciela",
+      "username": "Nazwa użytkownika"
+    },
+    "teacherCreateUserForm": {
+      "academicTitle": "Tytuł naukowy",
+      "city": "Miasto",
+      "email": "Adres e-mail",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "pesel": "PESEL",
+      "phoneNumber": "Numer telefonu",
+      "postalCode": "Kod pocztowy",
+      "street": "Ulica"
+    },
+    "teacherDetails": {
+      "couldNotLoad": "Nie udało się załadować danych nauczyciela",
+      "coursesLed": "Wychowawstwa",
+      "subjectsLed": "Prowadzone przedmioty"
+    },
+    "teacherDetailsCoursesLed": {
+      "couldNotLoad": "Nie udało się załadować listy klas, w których nauczyciel jest wychowawcą",
+      "noCourses": "Nauczyciel nie jest wychowawcą żadnej klasy"
+    },
+    "teachersListing": {
+      "addingNewTeacher": "Dodawanie nowego nauczyciela",
+      "addTeacher": "Dodaj nauczyciela",
+      "couldNotLoad": "Nie udało się załadować listy nauczycieli",
+      "teachers": "Nauczyciele"
+    }
+  }
+}

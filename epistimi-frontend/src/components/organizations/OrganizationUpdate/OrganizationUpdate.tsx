@@ -5,6 +5,7 @@ import { OrganizationForm, OrganizationFormData, OrganizationFormVariant } from 
 import { OrganizationResponse, OrganizationUpdateRequest } from '../../../dto/organization';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import axios, { AxiosResponse } from 'axios';
 
 interface OrganizationUpdateProps {
@@ -18,6 +19,8 @@ export const OrganizationUpdate = (
   const [sendingRequest, setSendingRequest] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<boolean>(false);
 
+  const { t } = useTranslation();
+
   const form = useForm<OrganizationFormData>({
     initialValues: {
       name: updatedOrganization.name,
@@ -26,10 +29,10 @@ export const OrganizationUpdate = (
       city: updatedOrganization.address.city,
     },
     validate: (values) => ({
-      name: values.name.trim() === '' ? 'Wymagane pole' : null,
-      street: values.street.trim() === '' ? 'Wymagane pole' : null,
-      postalCode: values.postalCode.trim() === '' ? 'Wymagane pole' : null,
-      city: values.city.trim() === '' ? 'Wymagane pole' : null,
+      name: values.name.trim() === '' ? t('organizations.organizationUpdate.requiredField') : null,
+      street: values.street.trim() === '' ? t('organizations.organizationUpdate.requiredField') : null,
+      postalCode: values.postalCode.trim() === '' ? t('organizations.organizationUpdate.requiredField') : null,
+      city: values.city.trim() === '' ? t('organizations.organizationUpdate.requiredField') : null,
     }),
   });
 
@@ -57,8 +60,8 @@ export const OrganizationUpdate = (
   return (
     <div className={'organization-update'}>
       {submitError &&
-        <Alert icon={<IconAlertCircle size={16}/>} color={'red'} title={'Błąd serwera'}>
-          Nie udało się zaktualizować placówki
+        <Alert icon={<IconAlertCircle size={16}/>} color={'red'} title={t('organizations.organizationUpdate.serverError')}>
+          {t('organizations.organizationUpdate.couldNotUpdateOrganization')}
         </Alert>}
       <OrganizationForm
         variant={OrganizationFormVariant.UPDATE}

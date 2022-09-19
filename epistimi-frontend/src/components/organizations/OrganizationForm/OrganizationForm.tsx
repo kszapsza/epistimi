@@ -3,6 +3,7 @@ import { Button, TextInput, Title } from '@mantine/core';
 import { IconArrowRight, IconCheck } from '@tabler/icons';
 import { OrganizationFormData } from '../OrganizationCreate';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
+import { useTranslation } from 'react-i18next';
 
 export const enum OrganizationFormVariant {
   CREATE,
@@ -19,6 +20,7 @@ interface OrganizationCreateFormProps {
 export const OrganizationForm = (
   { variant, form, onSubmit, sendingRequest }: OrganizationCreateFormProps,
 ): JSX.Element => {
+  const { t } = useTranslation();
   return (
     <form
       noValidate
@@ -28,20 +30,20 @@ export const OrganizationForm = (
       <div className={'organization-form-group'}>
         <TextInput
           required
-          label={'Nazwa'}
+          label={t('organizations.organizationForm.name')}
           autoComplete={'organization'}
           autoFocus={true}
           {...form.getInputProps('name')}/>
       </div>
 
       <Title order={3}>
-        Adres placówki
+        {t('organizations.organizationForm.organizationAddress')}
       </Title>
 
       <div className={'organization-form-group'}>
         <TextInput
           required
-          label={'Ulica'}
+          label={t('organizations.organizationForm.street')}
           autoComplete={'street-address'}
           id={'street'}
           {...form.getInputProps('street')}/>
@@ -49,14 +51,14 @@ export const OrganizationForm = (
         <div className={'organization-city'}>
           <TextInput
             required
-            label={'Kod pocztowy'}
+            label={t('organizations.organizationForm.postalCode')}
             autoComplete={'postal-code'}
             id={'postal-code'}
             style={{ flex: 1 }}
             {...form.getInputProps('postalCode')}/>
           <TextInput
             required
-            label={'Miasto'}
+            label={t('organizations.organizationForm.city')}
             autoComplete={'address-level2'}
             id={'city'}
             style={{ flex: 2 }}
@@ -71,7 +73,7 @@ export const OrganizationForm = (
             variant={'outline'}
             type={'submit'}
           >
-            Dane administratora placówki
+            {t('organizations.organizationForm.organizationAdminData')}
           </Button>}
         {variant === OrganizationFormVariant.UPDATE &&
           <Button
@@ -79,7 +81,7 @@ export const OrganizationForm = (
             type={'submit'}
             loading={sendingRequest}
           >
-            Zaktualizuj dane placówki
+            {t('organizations.organizationForm.updateOrganizationData')}
           </Button>}
       </div>
     </form>

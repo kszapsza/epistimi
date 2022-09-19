@@ -5,12 +5,14 @@ import { TeacherCreate, TeachersListingTile } from '../../teachers';
 import { TeacherRegisterResponse, TeachersResponse } from '../../../dto/teacher';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export const TeachersListing = (): JSX.Element => {
   const { data, loading, error, setData } = useFetch<TeachersResponse>('/api/teacher');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
-  useDocumentTitle('Nauczyciele');
+  const { t } = useTranslation();
+  useDocumentTitle(t('teachers.teachersListing.teachers'));
 
   const appendCreatedTeacher = (newTeacher: TeacherRegisterResponse): void => {
     data && setData({
@@ -31,19 +33,21 @@ export const TeachersListing = (): JSX.Element => {
         onClose={createModalHandlers.close}
         opened={createModalOpened}
         size={'lg'}
-        title={'Dodaj nowego nauczyciela'}
+        title={t('teachers.teachersListing.addingNewTeacher')}
       >
         <TeacherCreate onTeacherRegistered={appendCreatedTeacher}/>
       </Modal>
       <div className={'teachers'}>
         <div className={'teachers-actions'}>
-          <Title order={2}>Nauczyciele</Title>
+          <Title order={2}>
+            {t('teachers.teachersListing.teachers')}
+          </Title>
           <Button
             leftIcon={<IconPlus size={16}/>}
             onClick={createModalHandlers.open}
             variant={'default'}
           >
-            Dodaj nauczyciela
+            {t('teachers.teachersListing.addTeacher')}
           </Button>
         </div>
 
@@ -51,7 +55,7 @@ export const TeachersListing = (): JSX.Element => {
 
         {error &&
           <Alert icon={<IconAlertCircle size={16}/>} color="red">
-            Nie udało się załadować listy nauczycieli
+            {t('teachers.teachersListing.couldNotLoad')}
           </Alert>}
 
         {data &&

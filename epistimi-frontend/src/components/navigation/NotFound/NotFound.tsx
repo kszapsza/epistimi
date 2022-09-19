@@ -1,9 +1,11 @@
 import './NotFound.scss';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const NotFound = (): JSX.Element => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setTimeout(() => {
@@ -17,7 +19,7 @@ export const NotFound = (): JSX.Element => {
         404
       </h1>
       <div className={"not-found-desc"}>
-        Strona o&nbsp;podanym adresie nie istnieje
+        {t('navigation.notFound.desc')}
       </div>
     </div>
   );

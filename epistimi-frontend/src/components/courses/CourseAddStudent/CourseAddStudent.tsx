@@ -8,6 +8,7 @@ import { StudentRegisterRequest, StudentRegisterResponse } from '../../../dto/st
 import { useForm } from '@mantine/form';
 import { UserRegisterRequest, UserRole, UserSex } from '../../../dto/user';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { validatePesel } from '../../../validators/pesel';
 import axios from 'axios';
 
@@ -54,15 +55,17 @@ export const CourseAddStudent = (
   const [sendingRequest, setSendingRequest] = useState<boolean>(false);
   const [registerResponse, setRegisterResponse] = useState<StudentRegisterResponse>();
 
+  const { t } = useTranslation();
+
   const form = useForm<StudentRegisterFormData>({
     initialValues: {
       ...userInitialValues,
     },
     validate: (values) => ({
-      firstName: !values.firstName ? 'Wymagane pole' : null,
-      lastName: !values.lastName ? 'Wymagane pole' : null,
-      pesel: !values.pesel ? 'Wymagane pole'
-        : !validatePesel(values.pesel) ? 'Niepoprawny PESEL' : null,
+      firstName: !values.firstName ? t('courses.courseAddStudent.requiredField') : null,
+      lastName: !values.lastName ? t('courses.courseAddStudent.requiredField') : null,
+      pesel: !values.pesel ? t('courses.courseAddStudent.requiredField')
+        : !validatePesel(values.pesel) ? t('courses.courseAddStudent.invalidPesel') : null,
     }),
   });
 
@@ -176,7 +179,7 @@ export const CourseAddStudent = (
             variant={'outline'}
             onClick={openEditParentsView}
           >
-            Dane rodziców
+            {t('courses.courseAddStudent.parentsData')}
           </Button>)}
         {modalState === CourseAddStudentState.EDIT_PARENTS && (
           <>
@@ -185,7 +188,7 @@ export const CourseAddStudent = (
               variant={'outline'}
               onClick={openEditStudentView}
             >
-              Dane ucznia
+              {t('courses.courseAddStudent.studentData')}
             </Button>
             {parentList.length < 2 && (
               <Button
@@ -193,7 +196,7 @@ export const CourseAddStudent = (
                 variant={'outline'}
                 onClick={addToParentsList}
               >
-                Dodaj rodzica
+                {t('courses.courseAddStudent.addParent')}
               </Button>)}
             {parentList.length >= 1 && (
               <Button
@@ -201,7 +204,7 @@ export const CourseAddStudent = (
                 onClick={sendRegisterRequest}
                 loading={sendingRequest}
               >
-                Dodaj ucznia do klasy
+                {t('courses.courseAddStudent.addStudent')}
               </Button>)}
           </>)}
       </div>

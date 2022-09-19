@@ -7,6 +7,7 @@ import { TeacherRegisterRequest, TeacherRegisterResponse } from '../../../dto/te
 import { useForm } from '@mantine/form';
 import { UserRole } from '../../../dto/user';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { validatePesel } from '../../../validators/pesel';
 import axios from 'axios';
 
@@ -31,6 +32,9 @@ interface TeacherCreateProps {
 export const TeacherCreate = (
   { onTeacherRegistered }: TeacherCreateProps,
 ): JSX.Element => {
+
+  const { t } = useTranslation();
+
   const userInitialValues = {
     academicTitle: '',
     firstName: '',
@@ -49,10 +53,10 @@ export const TeacherCreate = (
       ...userInitialValues,
     },
     validate: (values) => ({
-      firstName: !values.firstName ? 'Wymagane pole' : null,
-      lastName: !values.lastName ? 'Wymagane pole' : null,
-      pesel: !values.pesel ? 'Wymagane pole'
-        : !validatePesel(values.pesel) ? 'Niepoprawny PESEL' : null,
+      firstName: !values.firstName ? t('teachers.teacherCreate.requiredField') : null,
+      lastName: !values.lastName ? t('teachers.teacherCreate.requiredField') : null,
+      pesel: !values.pesel ? t('teachers.teacherCreate.requiredField')
+        : !validatePesel(values.pesel) ? t('teachers.teacherCreate.invalidPesel') : null,
     }),
   });
 
@@ -103,7 +107,7 @@ export const TeacherCreate = (
           onClick={sendRegisterRequest}
           loading={sendingRequest}
         >
-          Dodaj nauczyciela
+          {t('teachers.teacherCreate.addTeacher')}
         </Button>
       </>}
 

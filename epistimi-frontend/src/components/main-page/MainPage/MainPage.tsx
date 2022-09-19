@@ -5,8 +5,11 @@ import { HashLink } from 'react-router-hash-link';
 import { LoginForm } from '../LoginForm';
 import { Outlet } from 'react-router-dom';
 import { useDocumentTitle } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export const MainPage = (): JSX.Element => {
+  const { t } = useTranslation();
+
   useDocumentTitle();
 
   const header =
@@ -36,10 +39,9 @@ export const MainPage = (): JSX.Element => {
             </HashLink>
           </div>
           <div className={'main-page-copy'}>
-            <h2>Platforma edukacyjna Epistimi —&nbsp;zapraszamy!</h2>
+            <h2>{t('mainPage.welcomeToEpistimi')}</h2>
             <div className={'main-page-copy-desc'}>
-              Zintegrowany system wspomagający dydaktykę, także w&nbsp;kształceniu zdalnym.
-              Zaprojektowany z&nbsp;myślą o&nbsp;uczniach, rodzicach i&nbsp;nauczycielach.
+              {t('mainPage.promo')}
             </div>
           </div>
           <LoginForm/>
