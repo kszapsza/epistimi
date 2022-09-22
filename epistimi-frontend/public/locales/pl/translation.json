@@ -150,6 +150,7 @@
     "menuUser": {
       "account": "Konto",
       "logOut": "Wyloguj się",
+      "selectStudent": "Wybierz ucznia",
       "settings": "Ustawienia"
     },
     "notFound": {

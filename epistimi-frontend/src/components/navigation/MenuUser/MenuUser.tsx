@@ -22,7 +22,7 @@ export const MenuUser = (): JSX.Element => {
       {user?.role === UserRole.PARENT &&
         <>
           {/* TODO: hardcoded select */}
-          <Menu.Label>Wybierz ucznia</Menu.Label>
+          <Menu.Label>{t('navigation.menuUser.selectStudent')}</Menu.Label>
           <Menu.Item rightSection={<IconCheck size={16}/>}>Jan Kowalski</Menu.Item>
           <Menu.Item>Malwina Kowalska</Menu.Item>
           <Divider/>

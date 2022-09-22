@@ -70,7 +70,7 @@ export const LoginForm = (): JSX.Element => {
           <TextInput
             autoFocus
             required
-            label={t('mainPage.loginForm.logIn')}
+            label={t('mainPage.loginForm.username')}
             autoComplete={'username'}
             {...form.getInputProps('username')}
           />

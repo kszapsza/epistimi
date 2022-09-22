@@ -9,11 +9,17 @@ jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
 
 describe('OrganizationDetails component', () => {
+
+  const DISABLE_REGEXP = /organizations\.organizationDetails\.disableOrganization/;
+  const ENABLE_REGEXP = /organizations\.organizationDetails\.enableOrganization/;
+  const EDIT_DATA_REGEXP = /organizations\.organizationDetails\.editData/;
+  const COULD_NOT_LOAD_REGEXP = /organizations\.organizationDetails\.couldNotLoadDetails/;
+
   it.each([
-    ['Dezaktywuj placówkę', enabledOrganization],
-    ['Aktywuj placówkę', disabledOrganization],
+    [DISABLE_REGEXP, enabledOrganization],
+    [ENABLE_REGEXP, disabledOrganization],
   ])('should render status change button (%s)', async (
-    statusButtonLabel: string,
+    statusButtonLabelRegexp: RegExp,
     mockData: OrganizationResponse,
   ) => {
     axiosMock.get.mockResolvedValue({
@@ -24,8 +30,8 @@ describe('OrganizationDetails component', () => {
 
     await waitFor(() => {
       const buttons = queryAllByRole('button') as HTMLButtonElement[];
-      expect(buttons[0]).toHaveTextContent(statusButtonLabel);
-      expect(buttons[1]).toHaveTextContent('Edytuj dane');
+      expect(buttons[0]).toHaveTextContent(statusButtonLabelRegexp);
+      expect(buttons[1]).toHaveTextContent(EDIT_DATA_REGEXP);
     });
   });
 
@@ -35,7 +41,7 @@ describe('OrganizationDetails component', () => {
     const { getByText } = render(<OrganizationDetails/>);
 
     await waitFor(() => {
-      expect(getByText(/nie udało się załadować szczegółów organizacji/i)).toBeInTheDocument();
+      expect(getByText(COULD_NOT_LOAD_REGEXP)).toBeInTheDocument();
     });
   });
 });

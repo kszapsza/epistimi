@@ -3,33 +3,15 @@ import { render } from '../../../utils/test-render';
 import { UserRole } from '../../../dto/user';
 
 describe('CoursesListingTile component', () => {
+
+  const STUDENTS_COUNT_REGEXP = /courses\.coursesListingTile\.studentsCount/;
+
   it('should render component', () => {
     const { queryByText } = render(<CoursesListingTile {...testProps}/>);
 
     expect(queryByText('7b')).toBeInTheDocument();
     expect(queryByText('Maciej Nowak')).toBeInTheDocument();
-    expect(queryByText('10 uczniów')).toBeInTheDocument();
-  });
-
-  it.each([
-    [0, '0 uczniów'],
-    [1, '1 uczeń'],
-    [2, '2 uczniów'],
-    [21, '21 uczniów'],
-    [20, '20 uczniów'],
-    [100, '100 uczniów'],
-  ])('should properly format students plural form (%s student(s))', (
-    count: number,
-    formattedCount: string,
-  ) => {
-    const props = {
-      ...testProps,
-      students: Array(count),
-    };
-
-    const { queryByText } = render(<CoursesListingTile {...props}/>);
-
-    expect(queryByText(formattedCount)).toBeInTheDocument();
+    expect(queryByText(STUDENTS_COUNT_REGEXP)).toBeInTheDocument();
   });
 
   const testStudent = {

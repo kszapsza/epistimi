@@ -14,13 +14,20 @@ describe('OrganizationsListing component', () => {
     jest.resetAllMocks();
   });
 
+  const DOCUMENT_TITLE_REGEXP = /organizations\.organizationsListing\.organizations – Epistimi/;
+  const COULD_NOT_LOAD_REGEXP = /organizations\.organizationsListing\.couldNotLoadOrganizationsList/;
+  const ENABLED_LABEL_REGEXP = /organizations\.organizationColorStatus\.enabled/i;
+  const DISABLED_LABEL_REGEXP = /organizations\.organizationColorStatus\.disabled/i;
+  const CREATE_NEW_BUTTON_REGEXP = /organizations\.organizationsListing\.createNew/;
+  const CREATING_NEW_HEADER_REGEXP = /organizations\.organizationsListing\.creatingNewOrganization/;
+
   it('should set page title', async () => {
     axiosMock.get.mockResolvedValue({});
 
     render(<OrganizationsListing/>);
 
     await waitFor(() => {
-      expect(document.title).toBe('Placówki – Epistimi');
+      expect(document.title).toMatch(DOCUMENT_TITLE_REGEXP);
     });
   });
 
@@ -31,7 +38,7 @@ describe('OrganizationsListing component', () => {
 
     await waitFor(() => {
       expect(axiosMock.get).toHaveBeenCalledWith('api/organization');
-      expect(queryByText(/nie udało się załadować listy placówek/i)).toBeInTheDocument();
+      expect(queryByText(COULD_NOT_LOAD_REGEXP)).toBeInTheDocument();
     });
   });
 
@@ -47,9 +54,9 @@ describe('OrganizationsListing component', () => {
       expect(axiosMock.get).toHaveBeenCalledWith('api/organization');
       expect(rows).toHaveLength(2);
       expect(rows[0]).toHaveTextContent(/sp7/i);
-      expect(rows[0]).toHaveTextContent(/nieaktywna/i);
+      expect(rows[0]).toHaveTextContent(DISABLED_LABEL_REGEXP);
       expect(rows[1]).toHaveTextContent(/sp7/i);
-      expect(rows[1]).toHaveTextContent(/aktywna/i);
+      expect(rows[1]).toHaveTextContent(ENABLED_LABEL_REGEXP);
     });
   });
 
@@ -61,10 +68,10 @@ describe('OrganizationsListing component', () => {
     const { getByText } = render(<OrganizationsListing/>);
 
     await waitFor(() => {
-      const modalButton = getByText(/utwórz nową/i) as HTMLButtonElement;
+      const modalButton = getByText(CREATE_NEW_BUTTON_REGEXP) as HTMLButtonElement;
       fireEvent.click(modalButton);
 
-      const modalWindowHeader = getByText(/tworzenie nowej placówki/i);
+      const modalWindowHeader = getByText(CREATING_NEW_HEADER_REGEXP);
       expect(modalWindowHeader).toBeInTheDocument();
     });
   });
