@@ -21,9 +21,9 @@ export const OrganizationDetails = (): JSX.Element => {
 
   const {
     data: organization,
-    setData: setOrganization,
     loading,
     error,
+    reload,
   } = useFetch<OrganizationResponse>(`/api/organization/${id}`);
 
   const [statusChangeModalOpened, statusChangeModalHandlers] = useDisclosure(false);
@@ -41,8 +41,8 @@ export const OrganizationDetails = (): JSX.Element => {
     statusChangeModalHandlers.close();
   };
 
-  const onOrganizationUpdate = (updatedOrganization: OrganizationResponse): void => {
-    setOrganization(updatedOrganization);
+  const onOrganizationUpdate = (): void => {
+    reload();
     editModalHandlers.close();
     updatedMessageHandlers.open();
   };
@@ -54,7 +54,6 @@ export const OrganizationDetails = (): JSX.Element => {
         <div className={'organization-mbox-dock'}>
           {error &&
             <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
-              {/*Nie udało się załadować szczegółów organizacji*/}
               {t('organizations.organizationDetails.couldNotLoadDetails')}
             </Alert>}
           {updatedMessageOpened &&

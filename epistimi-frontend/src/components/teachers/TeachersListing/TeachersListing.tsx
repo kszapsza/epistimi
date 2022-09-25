@@ -2,30 +2,18 @@ import './TeachersListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { IconAlertCircle, IconPlus } from '@tabler/icons';
 import { TeacherCreate, TeachersListingTile } from '../../teachers';
-import { TeacherRegisterResponse, TeachersResponse } from '../../../dto/teacher';
+import { TeachersResponse } from '../../../dto/teacher';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
 import { useTranslation } from 'react-i18next';
 
 export const TeachersListing = (): JSX.Element => {
-  const { data, loading, error, setData } = useFetch<TeachersResponse>('/api/teacher');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
+  const { data, loading, error, reload } = useFetch<TeachersResponse>('/api/teacher');
   const { t } = useTranslation();
-  useDocumentTitle(t('teachers.teachersListing.teachers'));
 
-  const appendCreatedTeacher = (newTeacher: TeacherRegisterResponse): void => {
-    data && setData({
-      teachers: [
-        ...data.teachers,
-        {
-          id: newTeacher.id,
-          user: newTeacher.newUser.user,
-          academicTitle: newTeacher.academicTitle,
-        },
-      ],
-    });
-  };
+  useDocumentTitle(t('teachers.teachersListing.teachers'));
 
   return (
     <>
@@ -35,8 +23,9 @@ export const TeachersListing = (): JSX.Element => {
         size={'lg'}
         title={t('teachers.teachersListing.addingNewTeacher')}
       >
-        <TeacherCreate onTeacherRegistered={appendCreatedTeacher}/>
+        <TeacherCreate onTeacherRegistered={reload}/>
       </Modal>
+
       <div className={'teachers'}>
         <div className={'teachers-actions'}>
           <Title order={2}>

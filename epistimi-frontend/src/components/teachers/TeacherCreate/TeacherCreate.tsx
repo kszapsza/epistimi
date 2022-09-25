@@ -35,22 +35,17 @@ export const TeacherCreate = (
 
   const { t } = useTranslation();
 
-  const userInitialValues = {
-    academicTitle: '',
-    firstName: '',
-    lastName: '',
-    pesel: '',
-    email: '',
-    phoneNumber: '',
-    street: '',
-    postalCode: '',
-    city: '',
-    countryCode: 'PL',
-  };
-
   const form = useForm<TeacherRegisterFormData>({
     initialValues: {
-      ...userInitialValues,
+      academicTitle: '',
+      firstName: '',
+      lastName: '',
+      pesel: '',
+      email: '',
+      phoneNumber: '',
+      street: '',
+      postalCode: '',
+      city: '',
     },
     validate: (values) => ({
       firstName: !values.firstName ? t('teachers.teacherCreate.requiredField') : null,

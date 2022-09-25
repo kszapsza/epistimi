@@ -15,9 +15,9 @@ export const CourseDetails = (): JSX.Element => {
 
   const {
     data: course,
-    setData: setCourse,
     loading,
     error,
+    reload,
   } = useFetch<CourseResponse>(`/api/course/${id}`);
 
   const [addStudentModalOpened, addStudentModalHandlers] = useDisclosure(false);
@@ -46,16 +46,7 @@ export const CourseDetails = (): JSX.Element => {
       >
         <CourseAddStudent
           course={course}
-          onStudentRegistered={(response) => {
-            course && setCourse({
-              ...course,
-              students: [...course.students, {
-                id: response.id,
-                user: response.student.user,
-                parents: response.parents.map((parentResponse) => parentResponse.parent),
-              }],
-            });
-          }}
+          onStudentRegistered={reload}
         />
       </Modal>}
 

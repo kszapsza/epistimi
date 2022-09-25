@@ -2,13 +2,13 @@ import './OrganizationsListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { IconAlertCircle, IconInfoCircle, IconPencil } from '@tabler/icons';
 import { OrganizationCreate, OrganizationsListingTile } from '../../organizations';
-import { OrganizationRegisterResponse, OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
+import { OrganizationsResponse, OrganizationStatus } from '../../../dto/organization';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
 import { useTranslation } from 'react-i18next';
 
 export const OrganizationsListing = (): JSX.Element => {
-  const { data, setData, loading, error } = useFetch<OrganizationsResponse>('api/organization');
+  const { data, loading, error, reload } = useFetch<OrganizationsResponse>('api/organization');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
   const { t } = useTranslation();
@@ -17,19 +17,6 @@ export const OrganizationsListing = (): JSX.Element => {
   const activeCount: number = data?.organizations
     .filter((organization) => organization.status === OrganizationStatus.ENABLED)
     .length ?? 0;
-
-  const onOrganizationCreate = (response: OrganizationRegisterResponse) => {
-    data && setData({
-      organizations: [...data.organizations, {
-        id: response.id,
-        name: response.name,
-        admin: response.admin.user,
-        status: response.status,
-        address: response.address,
-        location: response.location,
-      }],
-    });
-  };
 
   return (
     <div className={'organizations'}>
@@ -40,7 +27,7 @@ export const OrganizationsListing = (): JSX.Element => {
         title={t('organizations.organizationsListing.creatingNewOrganization')}
       >
         <OrganizationCreate
-          submitCallback={onOrganizationCreate}
+          submitCallback={reload}
         />
       </Modal>
 
