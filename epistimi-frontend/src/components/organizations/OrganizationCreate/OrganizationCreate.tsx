@@ -16,6 +16,12 @@ import { useTranslation } from 'react-i18next';
 import { validatePesel } from '../../../validators/pesel';
 import axios, { AxiosResponse } from 'axios';
 
+const enum OrganizationCreateStep {
+  ORGANIZATION_DATA = 0,
+  ORGANIZATION_ADMIN_DATA = 1,
+  SUMMARY = 2,
+}
+
 export interface OrganizationFormData {
   name: string;
   street: string;
@@ -35,18 +41,12 @@ export interface OrganizationAdminFormData {
   city: string;
 }
 
-const enum OrganizationCreateStep {
-  ORGANIZATION_DATA,
-  ORGANIZATION_ADMIN_DATA,
-  SUMMARY,
-}
-
 interface OrganizationEditProps {
   submitCallback: (organization: OrganizationRegisterResponse) => void;
   organizationId?: string;
 }
 
-export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element => {
+export const OrganizationCreate = ({ submitCallback }: OrganizationEditProps): JSX.Element => {
   const [step, setStep] = useState<OrganizationCreateStep>(OrganizationCreateStep.ORGANIZATION_DATA);
   const [createResponse, setCreateResponse] = useState<OrganizationRegisterResponse>();
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -96,38 +96,43 @@ export const OrganizationCreate = (props: OrganizationEditProps): JSX.Element =>
       return;
     }
     axios.post<OrganizationRegisterResponse, AxiosResponse<OrganizationRegisterResponse>, OrganizationRegisterRequest>(
-      '/api/organization', {
-        name: organizationForm.values.name,
-        admin: {
-          firstName: organizationAdminForm.values.firstName,
-          lastName: organizationAdminForm.values.lastName,
-          role: UserRole.ORGANIZATION_ADMIN,
-          pesel: organizationAdminForm.values.pesel,
-          sex: organizationAdminForm.values.sex,
-          email: organizationAdminForm.values.email,
-          phoneNumber: organizationAdminForm.values.phoneNumber,
-          address: {
-            street: organizationAdminForm.values.street,
-            postalCode: organizationAdminForm.values.postalCode,
-            city: organizationAdminForm.values.city,
-          },
-        },
-        address: {
-          street: organizationForm.values.street,
-          postalCode: organizationForm.values.postalCode,
-          city: organizationForm.values.city,
-        },
-      }).then((response) => {
-      setCreateResponse(response.data);
-      setStep(OrganizationCreateStep.SUMMARY);
-      props.submitCallback(response.data);
-    }).catch(({ response }) => {
+      '/api/organization', buildRequestBody())
+      .then((response) => {
+        setCreateResponse(response.data);
+        setStep(OrganizationCreateStep.SUMMARY);
+        submitCallback(response.data);
+      }).catch(({ response }) => {
       setSubmitError(
-        response?.data?.message == 'Provided admin is already managing other organization'
+        response?.data?.message == 'Provided admin is already managing other organization' // TODO: should this be some enum value?
           ? t('organizations.organizationCreate.adminAlreadyManagingOtherOrganization')
           : t('organizations.organizationCreate.serverError'), // TODO: update same as in organization update
       );
     });
+  };
+
+  const buildRequestBody = (): OrganizationRegisterRequest => {
+    return {
+      name: organizationForm.values.name,
+      admin: {
+        firstName: organizationAdminForm.values.firstName,
+        lastName: organizationAdminForm.values.lastName,
+        role: UserRole.ORGANIZATION_ADMIN,
+        pesel: organizationAdminForm.values.pesel,
+        sex: organizationAdminForm.values.sex,
+        email: organizationAdminForm.values.email,
+        phoneNumber: organizationAdminForm.values.phoneNumber,
+        address: {
+          street: organizationAdminForm.values.street,
+          postalCode: organizationAdminForm.values.postalCode,
+          city: organizationAdminForm.values.city,
+        },
+      },
+      address: {
+        street: organizationForm.values.street,
+        postalCode: organizationForm.values.postalCode,
+        city: organizationForm.values.city,
+      },
+    };
   };
 
   return (

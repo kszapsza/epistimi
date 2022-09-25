@@ -4,10 +4,14 @@
   },
   "courses": {
     "courseAddStudent": {
-      "addParent": "Add parent",
+      "errorAddingStudent": "An error occurred when adding new student to a course",
       "invalidPesel": "Invalid PESEL",
+      "requiredField": "Required field"
+    },
+    "courseAddStudentActions": {
+      "addParent": "Add parent",
+      "addStudent": "Add student",
       "parentsData": "Parents data",
-      "requiredField": "Required field",
       "studentData": "Student data"
     },
     "courseAddStudentParentsList": {

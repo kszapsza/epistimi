@@ -4,10 +4,14 @@
   },
   "courses": {
     "courseAddStudent": {
-      "addParent": "Dodaj rodzica",
+      "errorAddingStudent": "Wystąpił błąd podczas dodawania ucznia do klasy",
       "invalidPesel": "Niepoprawny PESEL",
+      "requiredField": "Wymagane pole"
+    },
+    "courseAddStudentActions": {
+      "addParent": "Dodaj rodzica",
+      "addStudent": "Dodaj ucznia",
       "parentsData": "Dane rodziców",
-      "requiredField": "Wymagane pole",
       "studentData": "Dane ucznia"
     },
     "courseAddStudentParentsList": {

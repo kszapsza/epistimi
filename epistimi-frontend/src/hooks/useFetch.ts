@@ -23,7 +23,7 @@ type FetchAction<TData> =
 
 type FetchReducer<TData> = Reducer<FetchState<TData>, FetchAction<TData>>;
 
-const reducer = <TData>(
+const fetchReducer = <TData>(
   state: FetchState<TData>,
   action: FetchAction<TData>,
 ): FetchState<TData> => {
@@ -58,7 +58,7 @@ const reducer = <TData>(
 };
 
 export const useFetch = <TData = unknown>(url: string): FetchResponse<TData> => {
-  const [state, dispatch] = useReducer<FetchReducer<TData>>(reducer, {
+  const [state, dispatch] = useReducer<FetchReducer<TData>>(fetchReducer, {
     loading: false,
     reloadFlag: false,
   });

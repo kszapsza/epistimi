@@ -1,11 +1,11 @@
 import './CourseAddStudentParentsList.scss';
 import { IconTrash } from '@tabler/icons';
-import { StudentRegisterFormData } from '../CourseAddStudent';
 import { Title } from '@mantine/core';
+import { UserFormData } from '../CourseAddStudent';
 import { useTranslation } from 'react-i18next';
 
 interface CourseAddStudentParentsListProps {
-  parents: StudentRegisterFormData[];
+  parents: UserFormData[];
   removeCallback: (idx: number) => void;
 }
 

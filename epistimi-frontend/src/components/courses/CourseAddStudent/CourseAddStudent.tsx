@@ -1,24 +1,30 @@
 import './CourseAddStudent.scss';
 import { Address } from '../../../dto/address';
-import { Button } from '@mantine/core';
-import { CourseAddStudentParentsList, CourseAddStudentStepper, CourseAddStudentSummary, CourseAddStudentUserForm } from '../../courses';
+import { Alert } from '@mantine/core';
+import {
+  CourseAddStudentActions,
+  CourseAddStudentParentsList,
+  CourseAddStudentStepper,
+  CourseAddStudentSummary,
+  CourseAddStudentUserForm,
+} from '../../courses';
 import { CourseResponse } from '../../../dto/course';
-import { IconArrowLeft, IconArrowRight, IconCheck, IconPlus } from '@tabler/icons';
+import { IconAlertCircle } from '@tabler/icons';
 import { StudentRegisterRequest, StudentRegisterResponse } from '../../../dto/student';
 import { useForm } from '@mantine/form';
+import { useReducer } from 'react';
 import { UserRegisterRequest, UserRole, UserSex } from '../../../dto/user';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { validatePesel } from '../../../validators/pesel';
 import axios from 'axios';
 
-const enum CourseAddStudentState {
-  EDIT_STUDENT,
-  EDIT_PARENTS,
-  SUMMARY,
+export const enum CourseAddStudentStep {
+  EDIT_STUDENT = 0,
+  EDIT_PARENTS = 1,
+  SUMMARY = 2,
 }
 
-export type StudentRegisterFormData = {
+export type UserFormData = {
   firstName: string;
   lastName: string;
   pesel?: string;
@@ -27,16 +33,85 @@ export type StudentRegisterFormData = {
   phoneNumber?: string;
 } & Address;
 
-interface CourseAddStudentProps {
+type CourseAddStudentState = {
+  step: CourseAddStudentStep;
+  studentFormData: UserFormData;
+  parentFormData: UserFormData;
+  parentList: UserFormData[];
+  sendingRequest: boolean;
+  submittingError: boolean;
+  registerResponse?: StudentRegisterResponse;
+};
+
+type CourseAddStudentAction =
+  | { type: 'OPEN_EDIT_PARENTS', studentFormData: UserFormData }
+  | { type: 'OPEN_EDIT_STUDENT', parentFormData: UserFormData }
+  | { type: 'ADD_TO_PARENTS_LIST', newParent: UserFormData }
+  | { type: 'REMOVE_FROM_PARENTS_LIST', parentIndex: number }
+  | { type: 'SUBMIT_INIT' }
+  | { type: 'SUBMIT_SUCCESS', registerResponse: StudentRegisterResponse }
+  | { type: 'SUBMIT_ERROR' };
+
+type CourseAddStudentProps = {
   course: CourseResponse;
   onStudentRegistered: (response: StudentRegisterResponse) => void;
 }
+
+const courseAddStudentReducer = (
+  state: CourseAddStudentState,
+  action: CourseAddStudentAction,
+): CourseAddStudentState => {
+  switch (action.type) {
+    case 'OPEN_EDIT_PARENTS':
+      return {
+        ...state,
+        step: CourseAddStudentStep.EDIT_PARENTS,
+        studentFormData: action.studentFormData,
+      };
+    case 'OPEN_EDIT_STUDENT':
+      return {
+        ...state,
+        step: CourseAddStudentStep.EDIT_STUDENT,
+        parentFormData: action.parentFormData,
+      };
+    case 'ADD_TO_PARENTS_LIST':
+      return {
+        ...state,
+        parentList: [...state.parentList, action.newParent],
+      };
+    case 'REMOVE_FROM_PARENTS_LIST':
+      return {
+        ...state,
+        parentList: state.parentList
+          .filter((_, index) => index !== action.parentIndex),
+      };
+    case 'SUBMIT_INIT':
+      return {
+        ...state,
+        submittingError: false,
+        sendingRequest: true,
+      };
+    case 'SUBMIT_SUCCESS':
+      return {
+        ...state,
+        step: CourseAddStudentStep.SUMMARY,
+        sendingRequest: false,
+        registerResponse: action.registerResponse,
+      };
+    case 'SUBMIT_ERROR':
+      return {
+        ...state,
+        submittingError: true,
+        sendingRequest: false,
+      };
+  }
+};
 
 export const CourseAddStudent = (
   { course: { id: courseId }, onStudentRegistered }: CourseAddStudentProps,
 ): JSX.Element => {
 
-  const userInitialValues = {
+  const USER_FORM_INITIAL_VALUES = {
     firstName: '',
     lastName: '',
     pesel: '',
@@ -45,21 +120,31 @@ export const CourseAddStudent = (
     street: '',
     postalCode: '',
     city: '',
-    countryCode: 'PL',
   };
 
-  const [modalState, setModalState] = useState<CourseAddStudentState>(CourseAddStudentState.EDIT_STUDENT);
-  const [studentFormData, setStudentFormData] = useState<StudentRegisterFormData>(userInitialValues);
-  const [parentFormData, setParentFormData] = useState<StudentRegisterFormData>(userInitialValues);
-  const [parentList, setParentList] = useState<StudentRegisterFormData[]>([]);
-  const [sendingRequest, setSendingRequest] = useState<boolean>(false);
-  const [registerResponse, setRegisterResponse] = useState<StudentRegisterResponse>();
+  const [{
+    step,
+    studentFormData,
+    parentFormData,
+    parentList,
+    sendingRequest,
+    submittingError,
+    registerResponse,
+  }, dispatch] = useReducer(courseAddStudentReducer, {
+    step: CourseAddStudentStep.EDIT_STUDENT,
+    studentFormData: USER_FORM_INITIAL_VALUES,
+    parentFormData: USER_FORM_INITIAL_VALUES,
+    parentList: [],
+    sendingRequest: false,
+    submittingError: false,
+    registerResponse: undefined,
+  });
 
   const { t } = useTranslation();
 
-  const form = useForm<StudentRegisterFormData>({
+  const form = useForm<UserFormData>({
     initialValues: {
-      ...userInitialValues,
+      ...USER_FORM_INITIAL_VALUES,
     },
     validate: (values) => ({
       firstName: !values.firstName ? t('courses.courseAddStudent.requiredField') : null,
@@ -71,17 +156,14 @@ export const CourseAddStudent = (
 
   const openEditParentsView = (): void => {
     if (form.validate().hasErrors) return;
-
-    setModalState(CourseAddStudentState.EDIT_PARENTS);
-    setStudentFormData(form.values);
+    dispatch({ type: 'OPEN_EDIT_PARENTS', studentFormData: form.values });
 
     form.clearErrors();
     form.setValues(parentFormData);
   };
 
   const openEditStudentView = (): void => {
-    setModalState(CourseAddStudentState.EDIT_STUDENT);
-    setParentFormData(form.values);
+    dispatch({ type: 'OPEN_EDIT_STUDENT', parentFormData: form.values });
 
     form.clearErrors();
     form.setValues(studentFormData);
@@ -89,73 +171,74 @@ export const CourseAddStudent = (
 
   const addToParentsList = (): void => {
     if (form.validate().hasErrors) return;
-
-    setModalState(CourseAddStudentState.EDIT_PARENTS);
-    setParentList([...parentList, form.values]);
+    dispatch({ type: 'ADD_TO_PARENTS_LIST', newParent: form.values });
 
     form.clearErrors();
-    form.setValues(userInitialValues);
+    form.setValues(USER_FORM_INITIAL_VALUES);
   };
 
   const removeFromParentsList = (idx: number): void => {
-    const newParentList = [...parentList];
-    newParentList.splice(idx, 1);
-    setParentList(newParentList);
+    dispatch({ type: 'REMOVE_FROM_PARENTS_LIST', parentIndex: idx });
   };
 
   const isUserFormDisabled = (): boolean => {
-    return modalState === CourseAddStudentState.EDIT_PARENTS && parentList.length === 2;
+    return step === CourseAddStudentStep.EDIT_PARENTS && parentList.length === 2;
   };
 
   const sendRegisterRequest = (): void => {
-    const registerRequest: StudentRegisterRequest = {
+    dispatch({ type: 'SUBMIT_INIT' });
+
+    axios.post(
+      '/api/student', buildStudentRegisterRequest(),
+    ).then((response): void => {
+      dispatch({ type: 'SUBMIT_SUCCESS', registerResponse: response.data });
+      onStudentRegistered(response.data);
+    }).catch((): void => {
+      dispatch({ type: 'SUBMIT_ERROR' });
+      // TODO: handle failures!
+    });
+  };
+
+  const buildStudentRegisterRequest = (): StudentRegisterRequest => {
+    const buildUserRegisterRequest = (
+      formData: UserFormData,
+      role: UserRole,
+    ): UserRegisterRequest => {
+      return {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        role,
+        pesel: formData.pesel,
+        sex: formData.sex,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        address: {
+          street: formData.street,
+          postalCode: formData.postalCode,
+          city: formData.city,
+        },
+      };
+    };
+
+    return {
       courseId,
       user: buildUserRegisterRequest(studentFormData, UserRole.STUDENT),
       parents: parentList.map((parentFormData) =>
         buildUserRegisterRequest(parentFormData, UserRole.PARENT)),
     };
-
-    setSendingRequest(true);
-
-    axios.post(
-      '/api/student', registerRequest,
-    ).then((response) => {
-      setModalState(CourseAddStudentState.SUMMARY);
-      setSendingRequest(false);
-      setRegisterResponse(response.data);
-      onStudentRegistered(response.data);
-    }).catch(() => {
-      setSendingRequest(false);
-      // TODO: handle failures!
-    });
-  };
-
-  const buildUserRegisterRequest = (
-    formData: StudentRegisterFormData,
-    role: UserRole,
-  ): UserRegisterRequest => {
-    return {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      role,
-      pesel: formData.pesel,
-      sex: formData.sex,
-      email: formData.email,
-      phoneNumber: formData.phoneNumber,
-      address: {
-        street: formData.street,
-        postalCode: formData.postalCode,
-        city: formData.city,
-      },
-    };
   };
 
   return (
     <div className={'add-student'}>
-      <CourseAddStudentStepper step={modalState.valueOf()}/>
+      <CourseAddStudentStepper step={step.valueOf() as number}/>
+
+      {submittingError &&
+        <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
+          {t('courses.courseAddStudent.errorAddingStudent')}
+        </Alert>}
 
       {/* TODO: edit already added parent */}
-      {modalState === CourseAddStudentState.EDIT_PARENTS
+      {step === CourseAddStudentStep.EDIT_PARENTS
         && parentList.length > 0 && (
           <CourseAddStudentParentsList
             parents={parentList}
@@ -163,51 +246,24 @@ export const CourseAddStudent = (
           />
         )}
 
-      {modalState !== CourseAddStudentState.SUMMARY && (
+      {step !== CourseAddStudentStep.SUMMARY && (
         <CourseAddStudentUserForm
           formData={form}
           disabled={isUserFormDisabled()}
         />)}
 
-      {modalState === CourseAddStudentState.SUMMARY &&
+      {step === CourseAddStudentStep.SUMMARY &&
         <CourseAddStudentSummary registerResponse={registerResponse}/>}
 
-      <div className={'add-student-actions'}>
-        {modalState === CourseAddStudentState.EDIT_STUDENT && (
-          <Button
-            rightIcon={<IconArrowRight size={18}/>}
-            variant={'outline'}
-            onClick={openEditParentsView}
-          >
-            {t('courses.courseAddStudent.parentsData')}
-          </Button>)}
-        {modalState === CourseAddStudentState.EDIT_PARENTS && (
-          <>
-            <Button
-              leftIcon={<IconArrowLeft size={18}/>}
-              variant={'outline'}
-              onClick={openEditStudentView}
-            >
-              {t('courses.courseAddStudent.studentData')}
-            </Button>
-            {parentList.length < 2 && (
-              <Button
-                leftIcon={<IconPlus size={18}/>}
-                variant={'outline'}
-                onClick={addToParentsList}
-              >
-                {t('courses.courseAddStudent.addParent')}
-              </Button>)}
-            {parentList.length >= 1 && (
-              <Button
-                leftIcon={<IconCheck size={18}/>}
-                onClick={sendRegisterRequest}
-                loading={sendingRequest}
-              >
-                {t('courses.courseAddStudent.addStudent')}
-              </Button>)}
-          </>)}
-      </div>
+      <CourseAddStudentActions
+        modalStep={step}
+        onAddParentClick={addToParentsList}
+        onEditParentsClick={openEditParentsView}
+        onEditStudentClick={openEditStudentView}
+        onSubmitClick={sendRegisterRequest}
+        parentsList={parentList}
+        sendingRequest={sendingRequest}
+      />
     </div>
   );
 };

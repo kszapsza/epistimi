@@ -12,8 +12,8 @@ import { validatePesel } from '../../../validators/pesel';
 import axios from 'axios';
 
 const enum TeacherCreateState {
-  EDIT,
-  SUMMARY,
+  EDIT = 0,
+  SUMMARY = 1,
 }
 
 export type TeacherRegisterFormData = {

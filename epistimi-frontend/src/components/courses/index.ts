@@ -1,4 +1,5 @@
 export { CourseAddStudent } from './CourseAddStudent';
+export { CourseAddStudentActions } from './CourseAddStudentActions';
 export { CourseAddStudentParentsList } from './CourseAddStudentParentsList';
 export { CourseAddStudentStepper } from './CourseAddStudentStepper';
 export { CourseAddStudentSummary } from './CourseAddStudentSummary';

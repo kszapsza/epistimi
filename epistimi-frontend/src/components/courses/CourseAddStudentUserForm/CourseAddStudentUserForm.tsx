@@ -1,11 +1,11 @@
 import './CourseAddStudentUserForm.scss';
-import { StudentRegisterFormData } from '../CourseAddStudent';
 import { TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
+import { UserFormData } from '../CourseAddStudent';
 import { useTranslation } from 'react-i18next';
 
 interface CourseAddStudentUserFormProps {
-  formData: UseFormReturnType<StudentRegisterFormData>;
+  formData: UseFormReturnType<UserFormData>;
   disabled: boolean;
 }
 
