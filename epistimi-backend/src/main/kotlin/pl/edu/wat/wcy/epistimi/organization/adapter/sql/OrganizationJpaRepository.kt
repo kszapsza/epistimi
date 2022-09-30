@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.organization.adapter.sql;
+package pl.edu.wat.wcy.epistimi.organization.adapter.sql
 
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID

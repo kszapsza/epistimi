@@ -6,6 +6,7 @@ import { LoginFormData, LoginResponse } from '../../../dto/login';
 import { useDispatch } from 'react-redux';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import axios, { AxiosResponse } from 'axios';
 
 export const LoginForm = (): JSX.Element => {
@@ -13,6 +14,7 @@ export const LoginForm = (): JSX.Element => {
   const [serverUnauthorized, setServerUnauthorized] = useState<boolean>(false);
   const [serverFailed, setServerFailed] = useState<boolean>(false);
 
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const form = useForm<LoginFormData>({
@@ -21,8 +23,8 @@ export const LoginForm = (): JSX.Element => {
       password: '',
     },
     validate: (values) => ({
-      username: values.username.trim() === '' ? 'Podaj nazwę użytkownika' : null,
-      password: values.password.trim() === '' ? 'Podaj hasło' : null,
+      username: values.username.trim() === '' ? t('mainPage.loginForm.enterUsername') : null,
+      password: values.password.trim() === '' ? t('mainPage.loginForm.enterPassword') : null,
     }),
   });
 
@@ -57,31 +59,31 @@ export const LoginForm = (): JSX.Element => {
         <LoadingOverlay visible={loadingOverlay} />
         {hasErrors() &&
           <Alert icon={<IconAlertCircle size={16}/>} color="red">
-            Niepoprawne dane logowania
+            {t('mainPage.loginForm.incorrectCredentials')}
           </Alert>}
         {serverFailed &&
           <Alert icon={<IconAlertCircle size={16}/>} color="red">
-            Nie udało się połączyć z&nbsp;serwerem
+            {t('mainPage.loginForm.connectionFailed')}
           </Alert>}
 
         <div className={'login-form-fields'}>
           <TextInput
             autoFocus
             required
-            label="Nazwa użytkownika"
+            label={t('mainPage.loginForm.username')}
             autoComplete={'username'}
             {...form.getInputProps('username')}
           />
           <PasswordInput
             required
-            label="Hasło"
+            label={t('mainPage.loginForm.password')}
             autoComplete={'current-password'}
             {...form.getInputProps('password')}
           />
         </div>
 
         <Button type={'submit'} variant={'filled'}>
-          Zaloguj się
+          {t('mainPage.loginForm.logIn')}
         </Button>
       </form>
     </div>

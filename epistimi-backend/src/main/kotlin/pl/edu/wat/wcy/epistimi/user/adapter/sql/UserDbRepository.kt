@@ -35,7 +35,7 @@ class UserDbRepository(
 
     override fun findByUsername(username: String): User {
         return DbHandlers.handleDbGet(mapper = UserDbBiMapper) {
-                userJpaRepository.findFirstByUsername(username) ?: throw UserNotFoundException()
+            userJpaRepository.findFirstByUsername(username) ?: throw UserNotFoundException()
         }
     }
 

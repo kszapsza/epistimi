@@ -1,20 +1,22 @@
 import './CourseAddStudentParentsList.scss';
 import { IconTrash } from '@tabler/icons';
-import { StudentRegisterFormData } from '../CourseAddStudent';
 import { Title } from '@mantine/core';
+import { UserFormData } from '../CourseAddStudent';
+import { useTranslation } from 'react-i18next';
 
 interface CourseAddStudentParentsListProps {
-  parents: StudentRegisterFormData[];
+  parents: UserFormData[];
   removeCallback: (idx: number) => void;
 }
 
 export const CourseAddStudentParentsList = (
   { parents, removeCallback }: CourseAddStudentParentsListProps,
 ): JSX.Element => {
+  const { t } = useTranslation();
   return (
     <div className={'add-student-parent-list'}>
       <Title order={4}>
-        Rodzice ucznia
+        {t('courses.courseAddStudentParentsList.studentsParents')}
       </Title>
       {parents.map((parent, idx) => (
         <div className={'add-student-parent-entry'} key={idx}>

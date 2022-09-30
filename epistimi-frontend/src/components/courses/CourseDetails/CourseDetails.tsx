@@ -1,36 +1,34 @@
 import './CourseDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { AxiosError } from 'axios';
-import { CourseAddStudent } from '../CourseAddStudent';
-import { CourseDetailsData } from '../CourseDetailsData';
-import { CourseDetailsStudents } from '../CourseDetailsStudents';
+import { CourseAddStudent, CourseDetailsData, CourseDetailsStudents } from '../../courses';
 import { CourseResponse } from '../../../dto/course';
 import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconBook, IconSchool } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
-import { useEffect } from 'react';
-import { useFetch } from '../../../hooks/useFetch';
+import { useDocumentTitle, useFetch } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export const CourseDetails = (): JSX.Element => {
   const { id } = useParams();
+  const { t } = useTranslation();
+
   const {
     data: course,
-    setData: setCourse,
     loading,
     error,
+    reload,
   } = useFetch<CourseResponse>(`/api/course/${id}`);
 
   const [addStudentModalOpened, addStudentModalHandlers] = useDisclosure(false);
 
-  useEffect(() => {
-    course && (document.title = `${course.code.number}${course.code.letter} (${course.schoolYear}) – Epistimi`);
-  }, [course]);
+  useDocumentTitle(course && `${course.code.number}${course.code.letter} (${course.schoolYear})`);
 
   const getErrorMessage = (error: AxiosError): string => {
     if (error.response?.status === 404) {
-      return 'Nie znaleziono klasy';
+      return t('courses.courseDetails.notFound');
     }
-    return 'Nie udało się połączyć z serwerem';
+    return t('courses.courseDetails.connectionFailed');
   };
 
   return (<>
@@ -44,20 +42,11 @@ export const CourseDetails = (): JSX.Element => {
         onClose={addStudentModalHandlers.close}
         opened={addStudentModalOpened}
         size={'xl'}
-        title={'Dodawanie ucznia do klasy'}
+        title={t('courses.courseDetails.addStudentModalTitle')}
       >
         <CourseAddStudent
           course={course}
-          onStudentRegistered={(response) => {
-            course && setCourse({
-              ...course,
-              students: [...course.students, {
-                id: response.id,
-                user: response.student.user,
-                parents: response.parents.map((parentResponse) => parentResponse.parent),
-              }],
-            });
-          }}
+          onStudentRegistered={reload}
         />
       </Modal>}
 
@@ -74,7 +63,7 @@ export const CourseDetails = (): JSX.Element => {
                 onClick={addStudentModalHandlers.open}
                 variant={'default'}
               >
-                Dodaj ucznia
+                {t('courses.courseDetails.addStudent')}
               </Button>
               <Button
                 leftIcon={<IconBook size={16}/>}
@@ -82,7 +71,7 @@ export const CourseDetails = (): JSX.Element => {
                 variant={'default'}
                 disabled={true} // TODO
               >
-                Dodaj przedmiot
+                {t('courses.courseDetails.addSubject')}
               </Button>
               <Button
                 leftIcon={<IconArrowBigUpLines size={16}/>}
@@ -90,7 +79,7 @@ export const CourseDetails = (): JSX.Element => {
                 variant={'default'}
                 disabled={true} // TODO
               >
-                Promocja klasy
+                {t('courses.courseDetails.promoteClass')}
               </Button>
             </div>
           </div>
@@ -106,18 +95,18 @@ export const CourseDetails = (): JSX.Element => {
           </div>
 
           <div className={'course-details-box'}>
-            <Title order={4}>Dane</Title>
+            <Title order={4}>{t('courses.courseDetails.data')}</Title>
             <CourseDetailsData course={course}/>
           </div>
 
           <div className={'course-details-box'}>
-            <Title order={4}>Uczniowie</Title> ({course.students.length})
+            <Title order={4}>{t('courses.courseDetails.students')}</Title> ({course.students.length})
             <CourseDetailsStudents students={course.students}/>
           </div>
 
           <div className={'course-details-box'}>
             <div>
-              <Title order={4}>Przedmioty</Title>
+              <Title order={4}>{t('courses.courseDetails.subjects')}</Title>
             </div>
           </div>
         </div>

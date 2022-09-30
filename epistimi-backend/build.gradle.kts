@@ -73,7 +73,6 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-validation")
     implementation("org.springframework.boot", "spring-boot-starter-web")
 
-
     testImplementation("io.kotest", "kotest-assertions-core", Versions.KOTEST)
     testImplementation("io.kotest", "kotest-property", Versions.KOTEST)
     testImplementation("io.kotest", "kotest-runner-junit5", Versions.KOTEST)

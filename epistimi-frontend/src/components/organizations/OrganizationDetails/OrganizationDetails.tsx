@@ -2,34 +2,35 @@ import './OrganizationDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { IconAlertCircle, IconArrowBack, IconBan, IconCheck, IconPencil } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
-import { OrganizationColorStatus } from '../OrganizationColorStatus';
-import { OrganizationDetailsKeyValue } from '../OrganizationDetailsKeyValue';
-import { OrganizationDetailsLocation } from '../OrganizationDetailsLocation';
-import { OrganizationDetailsStatsTile } from '../OrganizationDetailsStatsTile';
+import {
+  OrganizationColorStatus,
+  OrganizationDetailsKeyValue,
+  OrganizationDetailsLocation,
+  OrganizationDetailsStatsTile,
+  OrganizationStatusChange,
+  OrganizationUpdate,
+} from '../../organizations';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
-import { OrganizationStatusChange } from '../OrganizationStatusChange';
-import { OrganizationUpdate } from '../OrganizationUpdate';
 import { useDisclosure } from '@mantine/hooks';
-import { useEffect } from 'react';
-import { useFetch } from '../../../hooks/useFetch';
+import { useDocumentTitle, useFetch } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export const OrganizationDetails = (): JSX.Element => {
   const { id } = useParams();
+  const { t } = useTranslation();
 
   const {
     data: organization,
-    setData: setOrganization,
     loading,
     error,
+    reload,
   } = useFetch<OrganizationResponse>(`/api/organization/${id}`);
 
   const [statusChangeModalOpened, statusChangeModalHandlers] = useDisclosure(false);
   const [editModalOpened, editModalHandlers] = useDisclosure(false);
   const [updatedMessageOpened, updatedMessageHandlers] = useDisclosure(false);
 
-  useEffect(() => {
-    organization && (document.title = `${organization.name} – Epistimi`);
-  }, [organization]);
+  useDocumentTitle(organization && organization.name);
 
   if (loading) {
     return <Loader/>;
@@ -40,8 +41,8 @@ export const OrganizationDetails = (): JSX.Element => {
     statusChangeModalHandlers.close();
   };
 
-  const onOrganizationUpdate = (updatedOrganization: OrganizationResponse): void => {
-    setOrganization(updatedOrganization);
+  const onOrganizationUpdate = (): void => {
+    reload();
     editModalHandlers.close();
     updatedMessageHandlers.open();
   };
@@ -52,12 +53,12 @@ export const OrganizationDetails = (): JSX.Element => {
       {(error || updatedMessageOpened) &&
         <div className={'organization-mbox-dock'}>
           {error &&
-            <Alert icon={<IconAlertCircle size={16}/>} color="red">
-              Nie udało się załadować szczegółów organizacji
+            <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
+              {t('organizations.organizationDetails.couldNotLoadDetails')}
             </Alert>}
           {updatedMessageOpened &&
-            <Alert icon={<IconCheck size={16}/>} color="green">
-              Zaktualizowano dane placówki
+            <Alert icon={<IconCheck size={16}/>} color={'green'}>
+              {t('organizations.organizationDetails.dataUpdated')}
             </Alert>}
         </div>}
       {organization && <>
@@ -65,7 +66,7 @@ export const OrganizationDetails = (): JSX.Element => {
           onClose={statusChangeModalHandlers.close}
           opened={statusChangeModalOpened}
           size={'md'}
-          title={'Zmiana statusu placówki'}
+          title={t('organizations.organizationDetails.changingOrganizationStatus')}
         >
           <OrganizationStatusChange
             organization={organization}
@@ -76,7 +77,7 @@ export const OrganizationDetails = (): JSX.Element => {
           onClose={editModalHandlers.close}
           opened={editModalOpened}
           size={'lg'}
-          title={'Edytowanie placówki'}
+          title={t('organizations.organizationDetails.editingOrganization')}
         >
           <OrganizationUpdate
             submitCallback={onOrganizationUpdate}
@@ -95,20 +96,20 @@ export const OrganizationDetails = (): JSX.Element => {
                 leftIcon={<IconBan size={16}/>}
                 onClick={statusChangeModalHandlers.open}
                 variant={'default'}>
-                Dezaktywuj placówkę
+                {t('organizations.organizationDetails.disableOrganization')}
               </Button>}
             {organization.status === OrganizationStatus.DISABLED &&
               <Button
                 leftIcon={<IconCheck size={16}/>}
                 onClick={statusChangeModalHandlers.open}
                 variant={'default'}>
-                Aktywuj placówkę
+                {t('organizations.organizationDetails.enableOrganization')}
               </Button>}
             <Button
               leftIcon={<IconPencil size={16}/>}
               onClick={editModalHandlers.open}
               variant={'default'}>
-              Edytuj dane
+              {t('organizations.organizationDetails.editData')}
             </Button>
           </div>
         </div>
@@ -118,23 +119,23 @@ export const OrganizationDetails = (): JSX.Element => {
           </Title>
           <div className={'organization-entries'}>
             <OrganizationDetailsKeyValue
-              label={'Id:'}
+              label={t('organizations.organizationDetails.id')}
               value={<samp>{organization.id}</samp>}
             />
             <OrganizationDetailsKeyValue
-              label={'Administrator:'}
+              label={t('organizations.organizationDetails.admin')}
               value={`${organization.admin.lastName} ${organization.admin.firstName} (${organization.admin.username})`}
             />
             <OrganizationDetailsKeyValue
-              label={'Status:'}
+              label={t('organizations.organizationDetails.status')}
               value={<OrganizationColorStatus status={organization.status}/>}
             />
           </div>
         </div>
         <div className={'organization-stats'}>
-          <OrganizationDetailsStatsTile label={'Aktywnych klas:'} value={'N/A'}/>
-          <OrganizationDetailsStatsTile label={'Aktywnych uczniów:'} value={'N/A'}/>
-          <OrganizationDetailsStatsTile label={'Aktywnych nauczycieli:'} value={'N/A'}/>
+          <OrganizationDetailsStatsTile label={t('organizations.organizationDetails.activeCourses')} value={'N/A'}/>
+          <OrganizationDetailsStatsTile label={t('organizations.organizationDetails.activeStudents')} value={'N/A'}/>
+          <OrganizationDetailsStatsTile label={t('organizations.organizationDetails.activeTeachers')} value={'N/A'}/>
         </div>
         <OrganizationDetailsLocation
           address={organization.address}

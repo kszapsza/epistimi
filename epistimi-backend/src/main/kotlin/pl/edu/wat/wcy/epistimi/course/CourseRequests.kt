@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.course.dto
+package pl.edu.wat.wcy.epistimi.course
 
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import java.time.LocalDate

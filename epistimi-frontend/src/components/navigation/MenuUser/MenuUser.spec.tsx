@@ -27,18 +27,22 @@ describe('MenuUser component', () => {
     },
   );
 
+  const SETTINGS_REGEXP = /navigation\.menuUser\.settings/;
+  const LOG_OUT_REGEXP = /navigation\.menuUser\.logOut/;
+  const SELECT_STUDENT_REGEXP = /navigation\.menuUser\.selectStudent/;
+
   it('should open menu on button click', async () => {
     const storeMock = getStoreMock();
     const { getByRole, queryByText } = render(<MenuUser/>, storeMock);
 
-    expect(queryByText(/ustawienia/i)).not.toBeInTheDocument();
-    expect(queryByText(/wyloguj się/i)).not.toBeInTheDocument();
+    expect(queryByText(SETTINGS_REGEXP)).not.toBeInTheDocument();
+    expect(queryByText(LOG_OUT_REGEXP)).not.toBeInTheDocument();
 
     getByRole('button').click();
 
     await waitFor(() => {
-      expect(queryByText(/ustawienia/i)).toBeInTheDocument();
-      expect(queryByText(/wyloguj się/i)).toBeInTheDocument();
+      expect(queryByText(SETTINGS_REGEXP)).toBeInTheDocument();
+      expect(queryByText(LOG_OUT_REGEXP)).toBeInTheDocument();
     });
   });
 
@@ -54,7 +58,7 @@ describe('MenuUser component', () => {
     getByRole('button').click();
 
     await waitFor(() => {
-      expect(queryByText(/wybierz ucznia/i)).not.toBeInTheDocument();
+      expect(queryByText(SELECT_STUDENT_REGEXP)).not.toBeInTheDocument();
     });
   });
 
@@ -65,7 +69,7 @@ describe('MenuUser component', () => {
     getByRole('button').click();
 
     await waitFor(() => {
-      expect(queryByText(/wybierz ucznia/i)).toBeInTheDocument();
+      expect(queryByText(SELECT_STUDENT_REGEXP)).toBeInTheDocument();
     });
   });
 
@@ -78,7 +82,7 @@ describe('MenuUser component', () => {
     getByRole('button').click();
 
     await waitFor(() => {
-      getByText(/wyloguj się/i).click();
+      getByText(LOG_OUT_REGEXP).click();
       expect(localStorage.getItem(TOKEN_KEY)).toBeFalsy();
       expect(storeMock.getState().auth.isAuthenticated).toBeFalsy();
       expect(storeMock.getState().auth.isFetching).toBeFalsy();

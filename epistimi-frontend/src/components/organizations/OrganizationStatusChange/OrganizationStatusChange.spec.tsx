@@ -9,6 +9,12 @@ jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
 
 describe('OrganizationStatusChange component', () => {
+
+  const DISABLE_CONFIRMATION_TEXT_REGEXP = /organizations\.organizationStatusChange\.areYouSureYouWantToDisable/;
+  const DISABLE_CONFIRMATION_BUTTON_REGEXP = /organizations\.organizationStatusChange\.disable/;
+  const ENABLE_CONFIRMATION_TEXT_REGEXP = /organizations\.organizationStatusChange\.areYouSureYouWantToEnable/;
+  const ENABLE_CONFIRMATION_BUTTON_REGEXP = /organizations\.organizationStatusChange\.enable/;
+
   it('should render component (disable variant)', () => {
     const { getByRole, getByText } = render(
       <OrganizationStatusChange
@@ -17,8 +23,11 @@ describe('OrganizationStatusChange component', () => {
       />,
     );
 
-    expect(getByText(/czy na pewno/i)).toContainHTML('Czy na pewno chcesz zdezaktywować placówkę <strong>SP7</strong>?');
-    expect(getByRole('button')).toHaveTextContent(/dezaktywuj/i);
+    const confirmationText = getByText(DISABLE_CONFIRMATION_TEXT_REGEXP);
+    const confirmationButton = getByRole('button');
+
+    expect(confirmationText).toBeTruthy();
+    expect(confirmationButton).toHaveTextContent(DISABLE_CONFIRMATION_BUTTON_REGEXP);
   });
 
   it('should send status change request (disable variant)', () => {
@@ -47,8 +56,11 @@ describe('OrganizationStatusChange component', () => {
       />,
     );
 
-    expect(getByText(/czy na pewno/i)).toContainHTML('Czy na pewno chcesz ponownie aktywować placówkę <strong>SP7</strong>?');
-    expect(getByRole('button')).toHaveTextContent(/aktywuj/i);
+    const confirmationText = getByText(ENABLE_CONFIRMATION_TEXT_REGEXP);
+    const confirmationButton = getByRole('button');
+
+    expect(confirmationText).toBeTruthy();
+    expect(confirmationButton).toHaveTextContent(ENABLE_CONFIRMATION_BUTTON_REGEXP);
   });
 
   it('should send status change request (re-enable variant)', () => {

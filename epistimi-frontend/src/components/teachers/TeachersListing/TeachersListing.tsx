@@ -1,30 +1,19 @@
 import './TeachersListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { IconAlertCircle, IconPlus } from '@tabler/icons';
-import { TeacherCreate } from '../TeacherCreate';
-import { TeacherRegisterResponse, TeachersResponse } from '../../../dto/teacher';
-import { TeachersListingTile } from '../TeachersListingTile';
-import { useDisclosure, useDocumentTitle } from '@mantine/hooks';
-import { useFetch } from '../../../hooks/useFetch';
+import { TeacherCreate, TeachersListingTile } from '../../teachers';
+import { TeachersResponse } from '../../../dto/teacher';
+import { useDisclosure } from '@mantine/hooks';
+import { useDocumentTitle, useFetch } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export const TeachersListing = (): JSX.Element => {
-  const { data, loading, error, setData } = useFetch<TeachersResponse>('/api/teacher');
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
 
-  useDocumentTitle('Nauczyciele – Epistimi');
+  const { data, loading, error, reload } = useFetch<TeachersResponse>('/api/teacher');
+  const { t } = useTranslation();
 
-  const appendCreatedTeacher = (newTeacher: TeacherRegisterResponse): void => {
-    data && setData({
-      teachers: [
-        ...data.teachers,
-        {
-          id: newTeacher.id,
-          user: newTeacher.newUser.user,
-          academicTitle: newTeacher.academicTitle,
-        },
-      ],
-    });
-  };
+  useDocumentTitle(t('teachers.teachersListing.teachers'));
 
   return (
     <>
@@ -32,19 +21,22 @@ export const TeachersListing = (): JSX.Element => {
         onClose={createModalHandlers.close}
         opened={createModalOpened}
         size={'lg'}
-        title={'Dodaj nowego nauczyciela'}
+        title={t('teachers.teachersListing.addingNewTeacher')}
       >
-        <TeacherCreate onTeacherRegistered={appendCreatedTeacher}/>
+        <TeacherCreate onTeacherRegistered={reload}/>
       </Modal>
+
       <div className={'teachers'}>
         <div className={'teachers-actions'}>
-          <Title order={2}>Nauczyciele</Title>
+          <Title order={2}>
+            {t('teachers.teachersListing.teachers')}
+          </Title>
           <Button
             leftIcon={<IconPlus size={16}/>}
             onClick={createModalHandlers.open}
             variant={'default'}
           >
-            Dodaj nauczyciela
+            {t('teachers.teachersListing.addTeacher')}
           </Button>
         </div>
 
@@ -52,7 +44,7 @@ export const TeachersListing = (): JSX.Element => {
 
         {error &&
           <Alert icon={<IconAlertCircle size={16}/>} color="red">
-            Nie udało się załadować listy nauczycieli
+            {t('teachers.teachersListing.couldNotLoad')}
           </Alert>}
 
         {data &&

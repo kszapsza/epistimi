@@ -1,5 +1,4 @@
-import { Avatar, AvatarsGroup } from '@mantine/core';
-import { AvatarsGroupProps } from '@mantine/core/lib/components/Avatar/AvatarsGroup/AvatarsGroup';
+import { Avatar, AvatarsGroup, AvatarsGroupProps } from '@mantine/core';
 import { getUserAvatarColor } from '../UserAvatar/UserAvatar';
 import { UserResponse } from '../../../dto/user';
 

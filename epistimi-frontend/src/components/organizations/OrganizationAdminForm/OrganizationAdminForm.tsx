@@ -3,6 +3,7 @@ import { Button, Radio, RadioGroup, TextInput, Title } from '@mantine/core';
 import { IconArrowLeft, IconPlus } from '@tabler/icons';
 import { OrganizationAdminFormData } from '../OrganizationCreate';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
+import { useTranslation } from 'react-i18next';
 
 interface OrganizationAdminFormProps {
   form: UseFormReturnType<OrganizationAdminFormData>;
@@ -13,6 +14,7 @@ interface OrganizationAdminFormProps {
 export const OrganizationAdminForm = (
   { form, onPrev, onNext }: OrganizationAdminFormProps,
 ): JSX.Element => {
+  const { t } = useTranslation();
   return (
     <form
       noValidate
@@ -22,47 +24,47 @@ export const OrganizationAdminForm = (
       <div className={'organization-admin-form-group'}>
         <TextInput
           required
-          label={'Imię'}
+          label={t('organizations.organizationAdminForm.firstName')}
           {...form.getInputProps('firstName')}
         />
         <TextInput
           required
-          label={'Nazwisko'}
+          label={t('organizations.organizationAdminForm.lastName')}
           {...form.getInputProps('lastName')}
         />
         <TextInput
           required
-          label={'PESEL'}
+          label={t('organizations.organizationAdminForm.pesel')}
           {...form.getInputProps('pesel')}
         />
 
         <RadioGroup
-          label={'Płeć'}
+          label={t('organizations.organizationAdminForm.sex')}
           {...form.getInputProps('sex')}
         >
-          <Radio size={'xs'} value={'FEMALE'} label={'Kobieta'}/>
-          <Radio size={'xs'} value={'MALE'} label={'Mężczyzna'}/>
-          <Radio size={'xs'} value={'OTHER'} label={'Inna'}/>
+          <Radio size={'xs'} value={'FEMALE'} label={t('organizations.organizationAdminForm.sexFemale')}/>
+          <Radio size={'xs'} value={'MALE'} label={t('organizations.organizationAdminForm.sexMale')}/>
+          <Radio size={'xs'} value={'OTHER'} label={t('organizations.organizationAdminForm.sexOther')}/>
         </RadioGroup>
 
         <TextInput
-          label={'E-mail'}
+          label={t('organizations.organizationAdminForm.email')}
           {...form.getInputProps('email')}
         />
         <TextInput
-          label={'Numer telefonu'}
+          label={t('organizations.organizationAdminForm.phoneNumber')}
           {...form.getInputProps('phoneNumber')}
         />
       </div>
 
       <Title order={3}>
-        Adres
+        {t('organizations.organizationAdminForm.address')}
       </Title>
 
       <div className={'organization-admin-form-group'}>
         <TextInput
           required
-          label={'Ulica'}
+          label={t('organizations.organizationAdminForm.street')}
           autoComplete={'street-address'}
           id={'street'}
           {...form.getInputProps('street')}/>
@@ -70,14 +72,14 @@ export const OrganizationAdminForm = (
         <div className={'organization-admin-city'}>
           <TextInput
             required
-            label={'Kod pocztowy'}
+            label={t('organizations.organizationAdminForm.postalCode')}
             autoComplete={'postal-code'}
             id={'postal-code'}
             style={{ flex: 1 }}
             {...form.getInputProps('postalCode')}/>
           <TextInput
             required
-            label={'Miasto'}
+            label={t('organizations.organizationAdminForm.city')}
             autoComplete={'address-level2'}
             id={'city'}
             style={{ flex: 2 }}
@@ -91,13 +93,13 @@ export const OrganizationAdminForm = (
           variant={'outline'}
           onClick={onPrev}
         >
-          Dane placówki
+          {t('organizations.organizationAdminForm.organizationData')}
         </Button>
         <Button
           leftIcon={<IconPlus size={18}/>}
           type={'submit'}
         >
-          Utwórz placówkę
+          {t('organizations.organizationAdminForm.createOrganization')}
         </Button>
       </div>
     </form>

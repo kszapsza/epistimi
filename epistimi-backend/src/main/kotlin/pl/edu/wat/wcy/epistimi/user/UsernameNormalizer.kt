@@ -23,6 +23,5 @@ object UsernameNormalizer {
             .let { Normalizer.normalize(it, Normalizer.Form.NFD) }
             .let { DIACRITICS_PATTERN.matcher(it).replaceAll("") }
             .replace("ł", "l")
-
     }
 }

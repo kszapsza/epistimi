@@ -1,9 +1,11 @@
 export { CourseAddStudent } from './CourseAddStudent';
+export { CourseAddStudentActions } from './CourseAddStudentActions';
 export { CourseAddStudentParentsList } from './CourseAddStudentParentsList';
 export { CourseAddStudentStepper } from './CourseAddStudentStepper';
 export { CourseAddStudentSummary } from './CourseAddStudentSummary';
 export { CourseAddStudentUserForm } from './CourseAddStudentUserForm';
 export { CourseDetails } from './CourseDetails';
+export { CourseDetailsData } from './CourseDetailsData';
 export { CourseDetailsKeyValue } from './CourseDetailsKeyValue';
 export { CourseDetailsStudents } from './CourseDetailsStudents';
 export { CourseEdit } from './CourseEdit';

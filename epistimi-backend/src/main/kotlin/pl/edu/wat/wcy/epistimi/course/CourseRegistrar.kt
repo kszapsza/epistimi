@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.epistimi.course
 
-import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.organization.Organization
@@ -29,9 +28,9 @@ class CourseRegistrar(
 
     private fun CourseCreateRequest.isSchoolYearTimeFrameValid(): Boolean {
         return schoolYearBegin.isBefore(schoolYearEnd) &&
-                schoolYearBegin.isBefore(schoolYearSemesterEnd) &&
-                schoolYearSemesterEnd.isBefore(schoolYearEnd) &&
-                schoolYearBegin.year == schoolYearEnd.year - 1
+            schoolYearBegin.isBefore(schoolYearSemesterEnd) &&
+            schoolYearSemesterEnd.isBefore(schoolYearEnd) &&
+            schoolYearBegin.year == schoolYearEnd.year - 1
     }
 
     private fun saveCourse(userId: UserId, createRequest: CourseCreateRequest): Course {

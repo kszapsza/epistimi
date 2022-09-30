@@ -2,6 +2,7 @@ import './CourseDetailsStudents.scss';
 import { Card } from '@mantine/core';
 import { StudentResponse } from '../../../dto/student';
 import { UserAvatar } from '../../common';
+import { useTranslation } from 'react-i18next';
 
 interface CourseDetailsStudentsProps {
   students: StudentResponse[];
@@ -10,10 +11,12 @@ interface CourseDetailsStudentsProps {
 export const CourseDetailsStudents = (
   { students }: CourseDetailsStudentsProps,
 ): JSX.Element => {
+  const { t } = useTranslation();
+
   if (students.length === 0) {
     return (
       <div className={'course-no-students'}>
-        Brak uczniów
+        {t('courses.courseDetailsStudents.noStudents')}
       </div>
     );
   }

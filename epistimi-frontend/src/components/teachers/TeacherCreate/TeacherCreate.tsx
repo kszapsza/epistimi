@@ -2,19 +2,18 @@ import './TeacherCreate.scss';
 import { Address } from '../../../dto/address';
 import { Button } from '@mantine/core';
 import { IconCheck } from '@tabler/icons';
-import { TeacherCreateStepper } from '../TeacherCreateStepper';
-import { TeacherCreateSummary } from '../TeacherCreateSummary';
-import { TeacherCreateUserForm } from '../TeacherCreateUserForm';
+import { TeacherCreateStepper, TeacherCreateSummary, TeacherCreateUserForm } from '../../teachers';
 import { TeacherRegisterRequest, TeacherRegisterResponse } from '../../../dto/teacher';
 import { useForm } from '@mantine/form';
 import { UserRole } from '../../../dto/user';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { validatePesel } from '../../../validators/pesel';
 import axios from 'axios';
 
 const enum TeacherCreateState {
-  EDIT,
-  SUMMARY,
+  EDIT = 0,
+  SUMMARY = 1,
 }
 
 export type TeacherRegisterFormData = {
@@ -33,28 +32,26 @@ interface TeacherCreateProps {
 export const TeacherCreate = (
   { onTeacherRegistered }: TeacherCreateProps,
 ): JSX.Element => {
-  const userInitialValues = {
-    academicTitle: '',
-    firstName: '',
-    lastName: '',
-    pesel: '',
-    email: '',
-    phoneNumber: '',
-    street: '',
-    postalCode: '',
-    city: '',
-    countryCode: 'PL',
-  };
+
+  const { t } = useTranslation();
 
   const form = useForm<TeacherRegisterFormData>({
     initialValues: {
-      ...userInitialValues,
+      academicTitle: '',
+      firstName: '',
+      lastName: '',
+      pesel: '',
+      email: '',
+      phoneNumber: '',
+      street: '',
+      postalCode: '',
+      city: '',
     },
     validate: (values) => ({
-      firstName: !values.firstName ? 'Wymagane pole' : null,
-      lastName: !values.lastName ? 'Wymagane pole' : null,
-      pesel: !values.pesel ? 'Wymagane pole'
-        : !validatePesel(values.pesel) ? 'Niepoprawny PESEL' : null,
+      firstName: !values.firstName ? t('teachers.teacherCreate.requiredField') : null,
+      lastName: !values.lastName ? t('teachers.teacherCreate.requiredField') : null,
+      pesel: !values.pesel ? t('teachers.teacherCreate.requiredField')
+        : !validatePesel(values.pesel) ? t('teachers.teacherCreate.invalidPesel') : null,
     }),
   });
 
@@ -105,7 +102,7 @@ export const TeacherCreate = (
           onClick={sendRegisterRequest}
           loading={sendingRequest}
         >
-          Dodaj nauczyciela
+          {t('teachers.teacherCreate.addTeacher')}
         </Button>
       </>}
 

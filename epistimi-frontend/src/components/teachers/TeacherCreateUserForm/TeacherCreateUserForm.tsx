@@ -1,6 +1,7 @@
-import { TeacherRegisterFormData } from '../TeacherCreate/TeacherCreate';
+import { TeacherRegisterFormData } from '../TeacherCreate';
 import { TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form/lib/use-form';
+import { useTranslation } from 'react-i18next';
 
 interface TeacherCreateUserFormProps {
   form: UseFormReturnType<TeacherRegisterFormData>;
@@ -9,37 +10,38 @@ interface TeacherCreateUserFormProps {
 export const TeacherCreateUserForm = (
   { form }: TeacherCreateUserFormProps,
 ): JSX.Element => {
+  const { t } = useTranslation();
   return (
     <form className={'add-student-form'}>
       <TextInput
-        label={'Tytuł naukowy'}
+        label={t('teachers.teacherCreateUserForm.academicTitle')}
         {...form.getInputProps('academicTitle')}/>
       <TextInput
-        label={'Imię'}
+        label={t('teachers.teacherCreateUserForm.firstName')}
         required={true}
         {...form.getInputProps('firstName')}/>
       <TextInput
-        label={'Nazwisko'}
+        label={t('teachers.teacherCreateUserForm.lastName')}
         required={true}
         {...form.getInputProps('lastName')}/>
       <TextInput
-        label={'PESEL'}
+        label={t('teachers.teacherCreateUserForm.pesel')}
         required={true}
         {...form.getInputProps('pesel')}/>
       <TextInput
-        label={'E-mail'}
+        label={t('teachers.teacherCreateUserForm.email')}
         {...form.getInputProps('email')}/>
       <TextInput
-        label={'Numer telefonu'}
+        label={t('teachers.teacherCreateUserForm.phoneNumber')}
         {...form.getInputProps('phoneNumber')}/>
       <TextInput
-        label={'Ulica'}
+        label={t('teachers.teacherCreateUserForm.street')}
         {...form.getInputProps('street')}/>
       <TextInput
-        label={'Kod pocztowy'}
+        label={t('teachers.teacherCreateUserForm.postalCode')}
         {...form.getInputProps('postalCode')}/>
       <TextInput
-        label={'Miasto'}
+        label={t('teachers.teacherCreateUserForm.city')}
         {...form.getInputProps('city')}/>
     </form>
   );

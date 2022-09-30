@@ -2,7 +2,8 @@ import './TeacherDetailsCoursesLed.scss';
 import { Alert, Card, Loader } from '@mantine/core';
 import { CoursesResponse } from '../../../dto/course';
 import { IconAlertCircle } from '@tabler/icons';
-import { useFetch } from '../../../hooks/useFetch';
+import { useFetch } from '../../../hooks';
+import { useTranslation } from 'react-i18next';
 
 interface TeacherDetailsCoursesLedProps {
   teacherId: string;
@@ -11,6 +12,7 @@ interface TeacherDetailsCoursesLedProps {
 export const TeacherDetailsCoursesLed = (
   { teacherId }: TeacherDetailsCoursesLedProps
 ): JSX.Element => {
+  const { t } = useTranslation();
   const { data, loading, error } = useFetch<CoursesResponse>(`/api/course?classTeacherId=${teacherId}`);
 
   return (
@@ -18,12 +20,12 @@ export const TeacherDetailsCoursesLed = (
       {loading && <Loader style={{ width: '100%' }}/>}
       {error &&
         <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
-          Nie udało się załadować listy klas, w których nauczyciel jest wychowawcą
+          {t('teachers.teacherDetailsCoursesLed.couldNotLoad')}
         </Alert>}
 
       {data && data.courses.length === 0 &&
         <div className={'teacher-details-no-courses'}>
-          Nauczyciel nie jest wychowawcą żadnej klasy
+          {t('teachers.teacherDetailsCoursesLed.noCourses')}
         </div>
       }
 

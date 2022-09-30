@@ -1,14 +1,16 @@
+import './i18n';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
 import { App } from './App';
 import { BrowserRouter } from 'react-router-dom';
+import { LoaderBox } from './components/common';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './store/config';
 import { Provider } from 'react-redux';
 import { TOKEN_KEY } from './store/slices/authSlice';
 import axios from 'axios';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 
 axios.defaults.baseURL = 'http://localhost:8080/';
@@ -32,7 +34,9 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <App/>
+          <Suspense fallback={<LoaderBox/>}>
+            <App/>
+          </Suspense>
         </BrowserRouter>
       </PersistGate>
     </Provider>

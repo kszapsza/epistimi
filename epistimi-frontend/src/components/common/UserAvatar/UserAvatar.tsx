@@ -1,5 +1,4 @@
-import { Avatar } from '@mantine/core';
-import { AvatarProps } from '@mantine/core/lib/components/Avatar/Avatar';
+import { Avatar, AvatarProps } from '@mantine/core';
 import { MantineColor } from '@mantine/styles';
 import { UserResponse, UserRole } from '../../../dto/user';
 

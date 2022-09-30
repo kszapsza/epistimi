@@ -1,3 +1,3 @@
-export { CourseAddStudent } from './CourseAddStudent';
-export type { StudentRegisterFormData } from './CourseAddStudent';
+export { CourseAddStudent, CourseAddStudentStep } from './CourseAddStudent';
+export type { UserFormData } from './CourseAddStudent';
 

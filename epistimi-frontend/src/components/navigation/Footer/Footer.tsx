@@ -1,6 +1,8 @@
 import './Footer.scss';
+import { useTranslation } from 'react-i18next';
 
 export const Footer = (): JSX.Element => {
+  const { t } = useTranslation();
   return (
     <footer className={'footer'}>
       <div className={'footer-logo'}>
@@ -8,22 +10,22 @@ export const Footer = (): JSX.Element => {
       </div>
       <div className={'footer-columns'}>
         <div className={'footer-column'}>
-          <div className={'footer-column-header'}>Firma</div>
-          <div className={'footer-column-item'}>O nas</div>
-          <div className={'footer-column-item'}>Kariera</div>
-          <div className={'footer-column-item'}>Kontakt</div>
+          <div className={'footer-column-header'}>{t('navigation.footer.company')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.aboutUs')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.careers')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.contact')}</div>
         </div>
         <div className={'footer-column'}>
-          <div className={'footer-column-header'}>Oferta</div>
-          <div className={'footer-column-item'}>Dla szkół</div>
-          <div className={'footer-column-item'}>Dla samorządów</div>
+          <div className={'footer-column-header'}>{t('navigation.footer.offer')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.forSchools')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.forGovernments')}</div>
         </div>
         <div className={'footer-column'}>
-          <div className={'footer-column-header'}>Dla klienta</div>
-          <div className={'footer-column-item'}>Pomoc techniczna</div>
-          <div className={'footer-column-item'}>Zgłoś błąd</div>
-          <div className={'footer-column-item'}>Regulamin</div>
-          <div className={'footer-column-item'}>Poltyka prywatności</div>
+          <div className={'footer-column-header'}>{t('navigation.footer.forClient')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.techSupport')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.bugReport')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.termsAndConditions')}</div>
+          <div className={'footer-column-item'}>{t('navigation.footer.privacyPolicy')}</div>
         </div>
       </div>
       <div className={'footer-copyright'}>

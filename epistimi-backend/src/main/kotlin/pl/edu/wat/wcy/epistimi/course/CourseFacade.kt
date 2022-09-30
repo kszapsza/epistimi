@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.epistimi.course
 
-import pl.edu.wat.wcy.epistimi.course.dto.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.student.StudentId

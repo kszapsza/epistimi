@@ -1,0 +1,306 @@
+{
+  "common": {
+    "notImplementedYet": "This component was not implemented (yet)."
+  },
+  "courses": {
+    "courseAddStudent": {
+      "errorAddingStudent": "An error occurred when adding new student to a course",
+      "invalidPesel": "Invalid PESEL",
+      "requiredField": "Required field"
+    },
+    "courseAddStudentActions": {
+      "addParent": "Add parent",
+      "addStudent": "Add student",
+      "parentsData": "Parents data",
+      "studentData": "Student data"
+    },
+    "courseAddStudentParentsList": {
+      "studentsParents": "Student's parents"
+    },
+    "courseAddStudentStepper": {
+      "parentsDesc": "Edit parents data",
+      "parentsLabel": "Parents",
+      "studentDesc": "Edit student data",
+      "studentLabel": "Student",
+      "summaryDesc": "Generated usernames and passwords",
+      "summaryLabel": "Summary"
+    },
+    "courseAddStudentSummary": {
+      "parentsRegistered": "Registered parent accounts",
+      "password": "Password",
+      "studentRegistered": "A student has been registered",
+      "username": "Username"
+    },
+    "courseAddStudentUserForm": {
+      "city": "City",
+      "email": "E-mail address",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "pesel": "PESEL",
+      "phoneNumber": "Phone number",
+      "postalCode": "Postal code",
+      "street": "Street"
+    },
+    "courseDetails": {
+      "addStudent": "Add student",
+      "addStudentModalTitle": "Add student to the class",
+      "addSubject": "Add subject",
+      "connectionFailed": "Could not connect to the server",
+      "data": "Data",
+      "notFound": "A course was not found",
+      "promoteClass": "Promote class",
+      "students": "Students",
+      "subjects": "Subjects"
+    },
+    "courseDetailsData": {
+      "classTeacher": "Class teacher",
+      "schoolYearBegin": "School year beginning",
+      "schoolYearEnd": "School year end",
+      "schoolYearSemesterEnd": "School year semester end"
+    },
+    "courseDetailsStudents": {
+      "noStudents": "No students"
+    },
+    "courseEdit": {
+      "classTeacher": "Class teacher",
+      "codeLetter": "Course code letter",
+      "codeLetterRegexpFail": "Lowercase letters only, no Polish characters",
+      "codeNumber": "Course code number",
+      "couldNotCreateCourse": "Could not create course!",
+      "create": "Create",
+      "error": "Error",
+      "profession": "Profession",
+      "professionPlaceholder": "e.g., \"IT technician\"",
+      "profile": "Profile",
+      "profilePlaceholder": "e.g., \"maths & physics\"",
+      "requiredField": "Required field",
+      "schoolYearBeginning": "Start date of the year",
+      "schoolYearBeginningShouldBeBeforeSchoolYearEnd": "The year start date must be before the year end date",
+      "schoolYearBeginningShouldBeBeforeSemesterEnd": "SchoolYearBeginningShouldBeBeforeSemesterEnd Date",
+      "schoolYearBeginningShouldBeInFuture": "The year starting date must be in the future",
+      "schoolYearEnd": "End date of the school year",
+      "schoolYearEndShouldBeAfterSchoolYearBeginning": "The year end date must follow the year start date",
+      "schoolYearEndShouldBeAfterSemesterEnd": "The year end date must follow the first semester end date",
+      "schoolYearEndShouldBeInFuture": "The year end date must occur in the future",
+      "schoolYearEndShouldBeNextCalendarYearAfterSchoolYearBeginning": "The year end date must be in the next calendar year after the beginning of the calendar year.",
+      "schoolYearSemesterEnd": "First semester end date",
+      "schoolYearSemesterEndShouldBeAfterSchoolYearBeginning": "The date of the end of the first semester must follow the date of the beginning of the year",
+      "schoolYearSemesterEndShouldBeBeforeSchoolYearEnd": "The end date of the first semester must be before the end date of the year",
+      "schoolYearSemesterEndShouldBeInFuture": "The end date of the semester must occur in the future",
+      "selectClassTeacher": "Select class teacher",
+      "specialization": "Specialization",
+      "specializationPlaceholder": "e.g., \"project management in IT\""
+    },
+    "coursesListing": {
+      "couldNotLoadCourses": "Could not load list of courses",
+      "courses": "Courses",
+      "createNewCourseButton": "Create new",
+      "createNewCourseModalTitle": "Create new course",
+      "createdNewCourse": "Successfully created new course",
+      "noCoursesRegistered": "No courses have been registered in the organization yet"
+    },
+    "coursesListingTile": {
+      "studentsCount_one": "{{count}} student",
+      "studentsCount_other": "{{count}} students"
+    }
+  },
+  "mainPage": {
+    "loginForm": {
+      "connectionFailed": "Could not connect to the server",
+      "enterPassword": "Enter password",
+      "enterUsername": "Enter username",
+      "incorrectCredentials": "Incorrect login credentials",
+      "logIn": "Log in",
+      "password": "Password",
+      "username": "Username"
+    },
+    "promo": "An integrated system to support didactics, including in remote learning. Designed with students, parents and teachers in mind.",
+    "welcomeToEpistimi": "Welcome to Epistimi educational platform"
+  },
+  "navigation": {
+    "footer": {
+      "aboutUs": "About us",
+      "bugReport": "Report a bug",
+      "careers": "Careers",
+      "company": "Company",
+      "contact": "Contact",
+      "forClient": "For client",
+      "forGovernments": "For local governments",
+      "forSchools": "For schools",
+      "offer": "Offer",
+      "privacyPolicy": "Privacy policy",
+      "techSupport": "Technical support",
+      "termsAndConditions": "Terms & Conditions"
+    },
+    "menu": {
+      "absence": "Absence",
+      "analytics": "Analytics",
+      "articles": "Articles",
+      "assignments": "Assignments",
+      "calendar": "Calendar",
+      "chat": "Chat",
+      "config": "Configuration",
+      "courses": "Courses",
+      "exams": "Exams",
+      "grades": "Grades",
+      "noticeboard": "Noticeboard",
+      "organizations": "Organizations",
+      "students": "Students",
+      "subjects": "Subjects",
+      "summary": "Home page",
+      "teachers": "Teachers",
+      "timetable": "Timetable",
+      "users": "Users"
+    },
+    "menuUser": {
+      "account": "Account",
+      "logOut": "Log out",
+      "selectStudent": "Select student",
+      "settings": "Settings"
+    },
+    "notFound": {
+      "desc": "The page with the given address does not exist"
+    }
+  },
+  "organizations": {
+    "organizationAdminForm": {
+      "address": "Address",
+      "city": "City",
+      "createOrganization": "Create organization",
+      "email": "E-mail address",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "organizationData": "Organization data",
+      "pesel": "PESEL",
+      "phoneNumber": "Phone number",
+      "postalCode": "Postal code",
+      "sex": "Sex",
+      "sexFemale": "Female",
+      "sexMale": "Male",
+      "sexOther": "Other",
+      "street": "Street"
+    },
+    "organizationColorStatus": {
+      "disabled": "Disabled",
+      "enabled": "Enabled"
+    },
+    "organizationCreate": {
+      "adminAlreadyManagingOtherOrganization": "Selected administrator is already managing other organization",
+      "error": "Error",
+      "invalidPesel": "Invalid PESEL",
+      "requiredField": "Required field",
+      "serverError": "An unexpected server error occurred"
+    },
+    "organizationCreateStepper": {
+      "adminDesc": "Admin data",
+      "adminLabel": "Admin",
+      "organizationDesc": "Organization data",
+      "organizationLabel": "Organization",
+      "summaryDesc": "Admin username and password",
+      "summaryLabel": "Summary"
+    },
+    "organizationCreateSummary": {
+      "organizationAdminAccount": "Organization admin account",
+      "organizationRegistered": "New organization registered",
+      "password": "Password",
+      "username": "Username"
+    },
+    "organizationDetails": {
+      "activeCourses": "Active courses",
+      "activeStudents": "Active students",
+      "activeTeachers": "Active teachers",
+      "admin": "Admin",
+      "changingOrganizationStatus": "Changing organization status",
+      "couldNotLoadDetails": "Could not load organization details",
+      "dataUpdated": "Successfully updated organization data",
+      "disableOrganization": "Disable organization",
+      "editData": "Edit data",
+      "editingOrganization": "Editing organization data",
+      "enableOrganization": "Enable organization",
+      "id": "Id",
+      "status": "Status"
+    },
+    "organizationDetailsLocation": {
+      "addressAndContact": "Address and contact",
+      "city": "City",
+      "postalCode": "Postal code",
+      "street": "Street"
+    },
+    "organizationForm": {
+      "city": "City",
+      "name": "Name",
+      "organizationAddress": "Organization address",
+      "organizationAdminData": "Organization admin data",
+      "postalCode": "Postal code",
+      "street": "Street",
+      "updateOrganizationData": "Update organization data"
+    },
+    "organizationsListing": {
+      "couldNotLoadOrganizationsList": "Could not load organizations list",
+      "createNew": "Create new",
+      "creatingNewOrganization": "Creating new organization",
+      "noOrganizationsRegistered": "No organizations registered in the system yet",
+      "organizations": "Organizations",
+      "summary": "Total: {{total}}, active: {{active}}."
+    },
+    "organizationStatusChange": {
+      "areYouSureYouWantToDisable": "Are you sure you want to disable organization {{name}}?",
+      "areYouSureYouWantToEnable": "Are you sure you want to re-enable organization {{name}}?",
+      "disable": "Disable",
+      "enable": "Enable"
+    },
+    "organizationUpdate": {
+      "couldNotUpdateOrganization": "Could not update organization",
+      "requiredField": "Required field",
+      "serverError": "Server error"
+    }
+  },
+  "summary": {
+    "greeting": "Hello, {{name}}!",
+    "pageTitle": "Home page"
+  },
+  "teachers": {
+    "teacherCreate": {
+      "addTeacher": "Add teacher",
+      "invalidPesel": "Invalid PESEL",
+      "requiredField": "Required field"
+    },
+    "teacherCreateStepper": {
+      "summaryDesc": "Generated username and password",
+      "summaryLabel": "Summary",
+      "teacherDesc": "Enter teacher data",
+      "teacherLabel": "Teacher"
+    },
+    "teacherCreateSummary": {
+      "password": "Password",
+      "teacherRegistered": "Teacher registered",
+      "username": "Username"
+    },
+    "teacherCreateUserForm": {
+      "academicTitle": "Academic title",
+      "city": "City",
+      "email": "E-mail address",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "pesel": "PESEL",
+      "phoneNumber": "Phone number",
+      "postalCode": "Postal code",
+      "street": "Street"
+    },
+    "teacherDetails": {
+      "couldNotLoad": "Could not load teacher details",
+      "coursesLed": "Courses led",
+      "subjectsLed": "Subjects led"
+    },
+    "teacherDetailsCoursesLed": {
+      "couldNotLoad": "Could not load list of courses led by this teacher",
+      "noCourses": "No courses led by this teacher"
+    },
+    "teachersListing": {
+      "addingNewTeacher": "Adding a new teacher",
+      "addTeacher": "Add teacher",
+      "couldNotLoad": "Could not load a list of teachers",
+      "teachers": "Teachers"
+    }
+  }
+}

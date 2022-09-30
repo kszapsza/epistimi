@@ -9,6 +9,10 @@ jest.mock('axios');
 const axiosMock = axios as jest.Mocked<typeof axios>;
 
 describe('CoursesListing component', () => {
+
+  const COULD_NOT_LOAD_REGEXP = /courses\.coursesListing\.couldNotLoadCourses/;
+  const NO_COURSES_REGEXP = /courses\.coursesListing\.noCoursesRegistered/;
+
   it('should render courses listing grouped by school year (groups sorted descending)', async () => {
     axiosMock.get.mockResolvedValue({
       data: coursesResponse,
@@ -30,7 +34,7 @@ describe('CoursesListing component', () => {
     const { getByText } = render(<CoursesListing/>);
 
     await waitFor(() => {
-      const messageBox = getByText(/Nie udało się załadować listy klas!/);
+      const messageBox = getByText(COULD_NOT_LOAD_REGEXP);
       expect(messageBox).toBeInTheDocument();
     });
   });
@@ -45,7 +49,7 @@ describe('CoursesListing component', () => {
     const { getByText } = render(<CoursesListing/>);
 
     await waitFor(() => {
-      const messageBox = getByText(/W placówce nie zarejestrowano jeszcze żadnych klas!/);
+      const messageBox = getByText(NO_COURSES_REGEXP);
       expect(messageBox).toBeInTheDocument();
     });
   });

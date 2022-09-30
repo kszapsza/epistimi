@@ -2,7 +2,7 @@ import './ArticlePage.scss';
 import { Alert, Loader } from '@mantine/core';
 import { Article } from '../../../dto/article';
 import { IconAlertCircle } from '@tabler/icons';
-import { useFetch } from '../../../hooks/useFetch';
+import { useFetch } from '../../../hooks';
 import { useParams } from 'react-router-dom';
 
 export const ArticlePage = (): JSX.Element => {
