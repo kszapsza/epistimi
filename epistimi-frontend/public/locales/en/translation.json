@@ -162,6 +162,11 @@
       "desc": "The page with the given address does not exist"
     }
   },
+  "noticeboard": {
+    "noticeboardFeed": {
+      "title": "Noticeboard"
+    }
+  },
   "organizations": {
     "organizationAdminForm": {
       "address": "Address",

@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.user
 
 import pl.edu.wat.wcy.epistimi.common.Address
+import pl.edu.wat.wcy.epistimi.common.api.toUuid
 import java.util.UUID
 
 data class User(
@@ -35,5 +36,5 @@ data class User(
 value class UserId(
     val value: UUID,
 ) {
-    constructor(value: String) : this(value = UUID.fromString(value))
+    constructor(value: String) : this(value = value.toUuid())
 }

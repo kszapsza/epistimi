@@ -4,18 +4,18 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.context.request.ServletWebRequest
 import org.springframework.web.context.request.WebRequest
-import java.time.LocalDate
+import java.time.Instant
 import javax.servlet.http.HttpServletRequest
 
 data class ErrorMessage(
-    val timestamp: LocalDate = LocalDate.now(),
+    val timestamp: Instant = Instant.now(),
     val status: Int,
     val error: String,
     val message: String?,
     val path: String,
 ) {
     constructor(exception: Exception, httpStatus: HttpStatus, request: WebRequest) : this(
-        timestamp = LocalDate.now(),
+        timestamp = Instant.now(),
         status = httpStatus.value(),
         error = httpStatus.reasonPhrase,
         message = exception.message,
@@ -23,7 +23,7 @@ data class ErrorMessage(
     )
 
     constructor(exception: Exception, httpStatus: HttpStatus, request: HttpServletRequest) : this(
-        timestamp = LocalDate.now(),
+        timestamp = Instant.now(),
         status = httpStatus.value(),
         error = httpStatus.reasonPhrase,
         message = exception.message,

@@ -2,6 +2,7 @@ import { ArticleListing, ArticlePage, MainPage } from './components/main-page';
 import { CourseDetails, CoursesListing } from './components/courses';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { NotFound, Shell } from './components/navigation';
+import { NoticeboardFeed } from './components/noticeboard';
 import { NotImplementedYet } from './components/common';
 import { OrganizationDetails, OrganizationsListing } from './components/organizations';
 import { RequireAuth } from './router/RequireAuth';
@@ -214,7 +215,16 @@ const App = (): JSX.Element => {
         {
           path: 'noticeboard',
           element: (
-            <NotImplementedYet/>
+            <RequireAuth
+              element={<NoticeboardFeed/>}
+              auth={auth}
+              allowedRoles={[
+                UserRole.ORGANIZATION_ADMIN,
+                UserRole.TEACHER,
+                UserRole.STUDENT,
+                UserRole.PARENT,
+              ]}
+            />
           ),
         },
       ],

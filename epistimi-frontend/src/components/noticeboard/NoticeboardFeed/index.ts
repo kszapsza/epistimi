@@ -1,0 +1,1 @@
+export { NoticeboardFeed } from './NoticeboardFeed';
