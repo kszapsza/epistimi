@@ -3,7 +3,7 @@ import './index.scss';
 import * as serviceWorker from './serviceWorker';
 import { App } from './App';
 import { BrowserRouter } from 'react-router-dom';
-import { Loader } from '@mantine/core';
+import { LoaderBox } from './components/common';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from './store/config';
 import { Provider } from 'react-redux';
@@ -34,7 +34,7 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <Suspense fallback={<Loader style={{ width: '100%', marginTop: '50%' }}/>}>
+          <Suspense fallback={<LoaderBox/>}>
             <App/>
           </Suspense>
         </BrowserRouter>

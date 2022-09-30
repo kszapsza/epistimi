@@ -8,7 +8,7 @@ export const Summary = (): JSX.Element => {
   const { user } = useAppSelector((state) => state.auth);
   const { t } = useTranslation();
 
-  useDocumentTitle('Strona główna');
+  useDocumentTitle(t('summary.pageTitle'));
 
   return (
     <div className="summary">

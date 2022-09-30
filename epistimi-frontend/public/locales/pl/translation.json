@@ -255,7 +255,8 @@
     }
   },
   "summary": {
-    "greeting": "Witaj, {{name}}!"
+    "greeting": "Witaj, {{name}}!",
+    "pageTitle": "Strona główna"
   },
   "teachers": {
     "teacherCreate": {

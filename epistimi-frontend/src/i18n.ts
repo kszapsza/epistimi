@@ -6,7 +6,6 @@ i18n
   .use(backend)
   .use(initReactI18next)
   .init({
-    // resources,
     backend: {
       loadPath: `${process.env.PUBLIC_URL}/locales/{{lng}}/{{ns}}.json`,
     },
@@ -16,7 +15,7 @@ i18n
     lng: 'en',
   })
   .then(() => {
-    //noop
+    // noop
   });
 
 export default i18n;

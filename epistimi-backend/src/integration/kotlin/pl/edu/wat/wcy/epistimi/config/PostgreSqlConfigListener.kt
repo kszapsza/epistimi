@@ -10,8 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate
 import org.testcontainers.containers.PostgreSQLContainer
 import javax.sql.DataSource
 
-internal class PostgreSqlConfigListener
-    : BeforeProjectListener, AfterProjectListener, AfterTestListener {
+internal class PostgreSqlConfigListener :
+    BeforeProjectListener, AfterProjectListener, AfterTestListener {
 
     companion object {
         private const val POSTGRESQL_IMAGE = "postgres:11.1"

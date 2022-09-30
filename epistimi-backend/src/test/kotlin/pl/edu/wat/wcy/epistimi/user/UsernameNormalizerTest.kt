@@ -37,5 +37,4 @@ internal class UsernameNormalizerTest : ShouldSpec({
         // then
         normalizedUsername shouldBe "aaeeiioouuaaeeiioouuyyaaeeiioouuyyaaoonnaaeeiioouuyyaaccoouu"
     }
-
 })
