@@ -1,5 +1,6 @@
 import './NoticeboardPostContent.scss';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface NoticeboardPostContentProps {
   content: string;
@@ -10,6 +11,8 @@ const CONTENT_PREVIEW_WORD_LIMIT = 70;
 export const NoticeboardPostContent = (
   { content }: NoticeboardPostContentProps,
 ): JSX.Element => {
+
+  const { t } = useTranslation();
 
   const [shortenedContent, setShortenedContent] = useState<string | null>(null);
   const [isContentExpanded, setContentExpanded] = useState<boolean>(false);
@@ -37,8 +40,9 @@ export const NoticeboardPostContent = (
       {
         shortenedContent &&
         <a className={'noticeboard-post-expand'} onClick={() => setContentExpanded(!isContentExpanded)}>
-          {isContentExpanded ? ' Pokaż mniej' : ' Pokaż więcej'}
-          {/* TODO: move texts to JSON */}
+          {isContentExpanded
+            ? ` ${t('noticeboard.noticeboardPostContent.showLess')}`
+            : ` ${t('noticeboard.noticeboardPostContent.showMore')}`}
         </a>
       }
     </div>

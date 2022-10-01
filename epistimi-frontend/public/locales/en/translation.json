@@ -167,12 +167,17 @@
       "couldNotLoadPosts": "Could not load noticeboard posts!",
       "createPost": "Create post",
       "createNewPostModalTitle": "Creating new noticeboard post",
-      "newPostCreated": "New noticeboard post sucessfully created!",
+      "newPostCreated": "New noticeboard post successfully created",
+      "postDeleted": "Post successfully deleted",
       "title": "Noticeboard"
     },
     "noticeboardPostActions": {
       "delete": "Delete",
       "edit": "Edit"
+    },
+    "noticeboardPostContent": {
+      "showLess": "Show less",
+      "showMore": "Show more"
     },
     "noticeboardPostHeader": {
       "edited": "edited"

@@ -1,12 +1,14 @@
 import './Noticeboard.scss';
-import { Alert, Button, Modal, Title } from '@mantine/core';
-import { IconAlertCircle, IconCheck, IconPlus } from '@tabler/icons';
+import { Alert, Modal } from '@mantine/core';
+import { IconAlertCircle, IconCheck } from '@tabler/icons';
 import { LoaderBox } from '../../common';
+import { NoticeboardHeader } from '../NoticeboardHeader';
 import { NoticeboardPost, NoticeboardPostForm, NoticeboardPostFormVariant } from '../../noticeboard';
 import { NoticeboardPostResponse } from '../../../dto/noticeboard-post';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 export const Noticeboard = (): JSX.Element => {
   const { t } = useTranslation();
@@ -14,6 +16,7 @@ export const Noticeboard = (): JSX.Element => {
 
   const [createModalOpened, createModalHandlers] = useDisclosure(false);
   const [createdMessageOpened, createdMessageHandlers] = useDisclosure(false);
+  const [deletedMessageOpened, deletedMessageHandlers] = useDisclosure(false);
 
   useDocumentTitle(t('noticeboard.noticeboard.title'));
 
@@ -21,6 +24,25 @@ export const Noticeboard = (): JSX.Element => {
     reload();
     createModalHandlers.close();
     createdMessageHandlers.open();
+  };
+
+  const onLikeClick = (postId: string) => {
+    // TODO
+    console.log(`like: ${postId}`);
+  };
+
+  const onEditClick = (postId: string) => {
+    // TODO
+    console.log(`edit: ${postId}`);
+  };
+
+  const onDeleteClick = (postId: string) => {
+    // TODO: confirmation modal
+    axios.delete(`/api/noticeboard/post/${postId}`)
+      .then(() => {
+        reload();
+        deletedMessageHandlers.open();
+      });
   };
 
   return (
@@ -38,18 +60,10 @@ export const Noticeboard = (): JSX.Element => {
       </Modal>
 
       <div className={'noticeboard'}>
-        <div className={'noticeboard-header'}>
-          <Title order={2}>{t('noticeboard.noticeboard.title')}</Title>
-          <Button
-            leftIcon={<IconPlus size={16}/>}
-            onClick={createModalHandlers.open}
-            variant={'default'}
-          >
-            {t('noticeboard.noticeboard.createPost')}
-          </Button>
-        </div>
+        <NoticeboardHeader onCreatePostClick={createModalHandlers.open} />
 
         {loading && <LoaderBox/>}
+
         {error && (
           <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
             {t('noticeboard.noticeboard.couldNotLoadPosts')}
@@ -60,11 +74,22 @@ export const Noticeboard = (): JSX.Element => {
             {t('noticeboard.noticeboard.newPostCreated')}
           </Alert>
         )}
+        {deletedMessageOpened && (
+          <Alert icon={<IconCheck size={16}/>} color={'green'}>
+            {t('noticeboard.noticeboard.postDeleted')}
+          </Alert>
+        )}
 
         {data && (
           <div className={'noticeboard-posts'}>
             {data.posts.map((post) =>
-              <NoticeboardPost key={post.id} post={post}/>)}
+              <NoticeboardPost
+                key={post.id}
+                post={post}
+                onLikeClick={() => onLikeClick(post.id)}
+                onEditClick={() => onEditClick(post.id)}
+                onDeleteClick={() => onDeleteClick(post.id)}
+              />)}
           </div>
         )}
       </div>

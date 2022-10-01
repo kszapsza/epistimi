@@ -168,12 +168,17 @@
       "couldNotLoadPosts": "Nie udało się załadować ogłoszeń!",
       "createPost": "Dodaj ogłoszenie",
       "createNewPostModalTitle": "Dodawanie nowego ogłoszenia",
-      "newPostCreated": "Pomyślnie dodano nowe ogłoszenie!",
+      "newPostCreated": "Pomyślnie dodano nowe ogłoszenie",
+      "postDeleted": "Pomyślnie usunięto ogłoszenie",
       "title": "Tablica ogłoszeń"
     },
     "noticeboardPostActions": {
       "delete": "Usuń",
       "edit": "Edytuj"
+    },
+    "noticeboardPostContent": {
+      "showLess": "Pokaż mniej",
+      "showMore": "Pokaż więcej"
     },
     "noticeboardPostForm": {
       "content": "Treść",
