@@ -1,6 +1,6 @@
 @import 'src/styles/themes';
 
-.noticeboard-feed-post-content {
+.noticeboard-post-content {
   color: rgba($black, .9);
   font: {
     size: 14px;
@@ -8,7 +8,7 @@
   }
   padding: .5rem 0;
 
-  .noticeboard-feed-post-expand {
+  .noticeboard-post-expand {
     color: $blue;
     font: {
       weight: 500;

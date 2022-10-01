@@ -164,8 +164,28 @@
     }
   },
   "noticeboard": {
-    "noticeboardFeed": {
+    "noticeboard": {
+      "couldNotLoadPosts": "Nie udało się załadować ogłoszeń!",
+      "createPost": "Dodaj ogłoszenie",
+      "createNewPostModalTitle": "Dodawanie nowego ogłoszenia",
+      "newPostCreated": "Pomyślnie dodano nowe ogłoszenie!",
       "title": "Tablica ogłoszeń"
+    },
+    "noticeboardPostActions": {
+      "delete": "Usuń",
+      "edit": "Edytuj"
+    },
+    "noticeboardPostForm": {
+      "content": "Treść",
+      "couldNotCreate": "Nie udało się dodać nowego ogłoszenia",
+      "couldNotUpdate": "Nie udało się zaktualizować ogłoszenia",
+      "createPost": "Dodaj ogłoszenie",
+      "requiredField": "Wymagane pole",
+      "title": "Tytuł",
+      "updatePost": "Zaktualizuj ogłoszenie"
+    },
+    "noticeboardPostHeader": {
+      "edited": "edytowany"
     }
   },
   "organizations": {

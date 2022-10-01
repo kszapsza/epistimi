@@ -1,1 +1,0 @@
-export { NoticeboardFeed } from './NoticeboardFeed';

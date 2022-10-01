@@ -67,7 +67,7 @@ class NoticeboardPostService(
     private fun verifyNoticeboardPostActionAccess(
         post: NoticeboardPost,
         requesterUserId: UserId,
-        noticeboardPostId: NoticeboardPostId
+        noticeboardPostId: NoticeboardPostId,
     ) {
         // TODO: organization admin can update/delete everything?
         if (requesterUserId != post.author.id) {

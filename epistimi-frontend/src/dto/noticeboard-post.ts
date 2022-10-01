@@ -12,3 +12,8 @@ export interface NoticeboardPostResponse {
 export interface NoticeboardPostResponse {
   posts: NoticeboardPostResponse[];
 }
+
+export interface NoticeboardPostRequest {
+  title: string;
+  content: string;
+}

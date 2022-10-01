@@ -163,8 +163,19 @@
     }
   },
   "noticeboard": {
-    "noticeboardFeed": {
+    "noticeboard": {
+      "couldNotLoadPosts": "Could not load noticeboard posts!",
+      "createPost": "Create post",
+      "createNewPostModalTitle": "Creating new noticeboard post",
+      "newPostCreated": "New noticeboard post sucessfully created!",
       "title": "Noticeboard"
+    },
+    "noticeboardPostActions": {
+      "delete": "Delete",
+      "edit": "Edit"
+    },
+    "noticeboardPostHeader": {
+      "edited": "edited"
     }
   },
   "organizations": {

@@ -1,1 +1,0 @@
-export { NoticeboardFeedPostContent } from './NoticeboardFeedPostContent';

@@ -1,14 +1,14 @@
-import './NoticeboardFeedPostContent.scss';
+import './NoticeboardPostContent.scss';
 import { useEffect, useState } from 'react';
 
-interface NoticeboardFeedPostContentProps {
+interface NoticeboardPostContentProps {
   content: string;
 }
 
 const CONTENT_PREVIEW_WORD_LIMIT = 70;
 
-export const NoticeboardFeedPostContent = (
-  { content }: NoticeboardFeedPostContentProps,
+export const NoticeboardPostContent = (
+  { content }: NoticeboardPostContentProps,
 ): JSX.Element => {
 
   const [shortenedContent, setShortenedContent] = useState<string | null>(null);
@@ -28,7 +28,7 @@ export const NoticeboardFeedPostContent = (
   }, [content]);
 
   return (
-    <div className={'noticeboard-feed-post-content'}>
+    <div className={'noticeboard-post-content'}>
       {
         (shortenedContent === null || isContentExpanded)
           ? content
@@ -36,8 +36,9 @@ export const NoticeboardFeedPostContent = (
       }
       {
         shortenedContent &&
-        <a className={'noticeboard-feed-post-expand'} onClick={() => setContentExpanded(!isContentExpanded)}>
+        <a className={'noticeboard-post-expand'} onClick={() => setContentExpanded(!isContentExpanded)}>
           {isContentExpanded ? ' Pokaż mniej' : ' Pokaż więcej'}
+          {/* TODO: move texts to JSON */}
         </a>
       }
     </div>

@@ -1,5 +1,6 @@
-export { NoticeboardFeed } from './NoticeboardFeed';
-export { NoticeboardFeedPost } from './NoticeboardFeedPost';
-export { NoticeboardFeedPostActions } from './NoticeboardFeedPostActions';
-export { NoticeboardFeedPostContent } from './NoticeboardFeedPostContent';
-export { NoticeboardFeedPostHeader } from './NoticeboardFeedPostHeader';
+export { Noticeboard } from './Noticeboard';
+export { NoticeboardPost } from './NoticeboardPost';
+export { NoticeboardPostActions } from './NoticeboardPostActions';
+export { NoticeboardPostContent } from './NoticeboardPostContent';
+export { NoticeboardPostForm, NoticeboardPostFormVariant } from './NoticeboardPostForm';
+export { NoticeboardPostHeader } from './NoticeboardPostHeader';
