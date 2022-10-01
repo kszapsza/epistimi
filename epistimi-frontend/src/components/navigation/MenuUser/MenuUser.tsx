@@ -18,19 +18,25 @@ export const MenuUser = (): JSX.Element => {
   };
 
   return (
-    <Menu className={'menu-user'} control={<MenuUserButton/>}>
-      {user?.role === UserRole.PARENT &&
-        <>
-          {/* TODO: hardcoded select */}
-          <Menu.Label>{t('navigation.menuUser.selectStudent')}</Menu.Label>
-          <Menu.Item rightSection={<IconCheck size={16}/>}>Jan Kowalski</Menu.Item>
-          <Menu.Item>Malwina Kowalska</Menu.Item>
-          <Divider/>
-        </>}
+    <Menu width={'100%'}>
+      <Menu.Target>
+        <MenuUserButton/>
+      </Menu.Target>
 
-      <Menu.Label>{t('navigation.menuUser.account')}</Menu.Label>
-      <Menu.Item icon={<IconSettings size={14}/>}>{t('navigation.menuUser.settings')}</Menu.Item>
-      <Menu.Item icon={<IconLogout size={14}/>} onClick={handleLogout}>{t('navigation.menuUser.logOut')}</Menu.Item>
+      <Menu.Dropdown>
+        {user?.role === UserRole.PARENT &&
+          <>
+            {/* TODO: hardcoded select */}
+            <Menu.Label>{t('navigation.menuUser.selectStudent')}</Menu.Label>
+            <Menu.Item rightSection={<IconCheck size={16}/>}>Jan Kowalski</Menu.Item>
+            <Menu.Item>Malwina Kowalska</Menu.Item>
+            <Divider/>
+          </>}
+
+        <Menu.Label>{t('navigation.menuUser.account')}</Menu.Label>
+        <Menu.Item icon={<IconSettings size={14}/>}>{t('navigation.menuUser.settings')}</Menu.Item>
+        <Menu.Item icon={<IconLogout size={14}/>} onClick={handleLogout}>{t('navigation.menuUser.logOut')}</Menu.Item>
+      </Menu.Dropdown>
     </Menu>
   );
 };

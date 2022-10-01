@@ -1,6 +1,7 @@
 import './CourseAddStudentUserForm.scss';
+import { IconAt, IconPhone } from '@tabler/icons';
 import { TextInput } from '@mantine/core';
-import { UseFormReturnType } from '@mantine/form/lib/use-form';
+import { UseFormReturnType } from '@mantine/form';
 import { UserFormData } from '../CourseAddStudent';
 import { useTranslation } from 'react-i18next';
 
@@ -31,10 +32,12 @@ export const CourseAddStudentUserForm = (
         disabled={disabled}
         {...formData.getInputProps('pesel')}/>
       <TextInput
+        icon={<IconAt size={16} />}
         label={t('courses.courseAddStudentUserForm.email')}
         disabled={disabled}
         {...formData.getInputProps('email')}/>
       <TextInput
+        icon={<IconPhone size={16} />}
         label={t('courses.courseAddStudentUserForm.phoneNumber')}
         disabled={disabled}
         {...formData.getInputProps('phoneNumber')}/>

@@ -1,20 +1,29 @@
-import { Avatar, AvatarsGroup, AvatarsGroupProps } from '@mantine/core';
+import { Avatar } from '@mantine/core';
 import { getUserAvatarColor } from '../UserAvatar/UserAvatar';
 import { UserResponse } from '../../../dto/user';
 
-interface UserAvatarGroupProps extends AvatarsGroupProps {
+interface UserAvatarGroupProps {
   users: UserResponse[];
+  limit: number;
 }
 
-export const UserAvatarGroup = (props: UserAvatarGroupProps): JSX.Element => {
+export const UserAvatarGroup = ({ users, limit }: UserAvatarGroupProps): JSX.Element => {
   return (
-    <AvatarsGroup {...props}>
-      {props.users
+    <Avatar.Group>
+      {users
+        .slice(0, limit)
         .map((user, idx) =>
-          <Avatar key={idx} color={getUserAvatarColor(user.role)}>
+          <Avatar radius={'xl'} key={idx} color={getUserAvatarColor(user.role)}>
             {`${user.firstName[0]}${user.lastName[0]}`.toUpperCase()}
           </Avatar>
         )}
-    </AvatarsGroup>
+      {
+        (users.length > limit) && (
+          <Avatar radius={'xl'}>
+            {`+${users.length - limit}`}
+          </Avatar>
+        )
+      }
+    </Avatar.Group>
   );
 };

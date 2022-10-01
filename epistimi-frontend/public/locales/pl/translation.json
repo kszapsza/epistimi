@@ -99,7 +99,9 @@
       "noCoursesRegistered": "W placówce nie zarejestrowano jeszcze żadnych klas"
     },
     "coursesListingTile": {
+      "studentsCount_many": "{{count}} uczniów",
       "studentsCount_one": "{{count}} uczeń",
+      "studentsCount_few": "{{count}} uczniów",
       "studentsCount_other": "{{count}} uczniów"
     }
   },

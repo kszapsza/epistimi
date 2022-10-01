@@ -1,0 +1,1 @@
+export { NoticeboardFeedPostHeader } from './NoticeboardFeedPostHeader';

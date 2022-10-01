@@ -69,6 +69,7 @@ class NoticeboardPostService(
         requesterUserId: UserId,
         noticeboardPostId: NoticeboardPostId
     ) {
+        // TODO: organization admin can update/delete everything?
         if (requesterUserId != post.author.id) {
             logger.warn("Attempted to perform action on noticeboard post created by other user")
             throw NoticeboardPostActionForbidden(requesterUserId, noticeboardPostId)

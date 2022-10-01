@@ -1,7 +1,7 @@
 import './LoginForm.scss';
 import { Alert, Button, LoadingOverlay, PasswordInput, TextInput } from '@mantine/core';
 import { fetchCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
-import { IconAlertCircle } from '@tabler/icons';
+import { IconAlertCircle, IconLock, IconUser } from '@tabler/icons';
 import { LoginFormData, LoginResponse } from '../../../dto/login';
 import { useDispatch } from 'react-redux';
 import { useForm } from '@mantine/form';
@@ -70,12 +70,14 @@ export const LoginForm = (): JSX.Element => {
           <TextInput
             autoFocus
             required
+            icon={<IconUser size={16} />}
             label={t('mainPage.loginForm.username')}
             autoComplete={'username'}
             {...form.getInputProps('username')}
           />
           <PasswordInput
             required
+            icon={<IconLock size={16} />}
             label={t('mainPage.loginForm.password')}
             autoComplete={'current-password'}
             {...form.getInputProps('password')}

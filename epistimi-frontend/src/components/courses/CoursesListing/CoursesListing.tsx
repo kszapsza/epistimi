@@ -69,15 +69,22 @@ export const CoursesListing = (): JSX.Element => {
             {t('courses.coursesListing.noCoursesRegistered')}
           </Alert>}
 
+        {/* TODO: expand first accordion as it was before Mantine UI bump */}
         {coursesBySchoolYear && coursesBySchoolYear?.length > 0 &&
-          <Accordion initialItem={0}>
+          <Accordion>
             {coursesBySchoolYear
               .sort(([schoolYearA], [schoolYearB]) =>
                 schoolYearB.localeCompare(schoolYearA, 'pl-PL'))
-              .map(([schoolYear, courses]) =>
-                <Accordion.Item label={schoolYear} key={schoolYear}>
-                  <CoursesListingGroup courses={courses}/>
-                </Accordion.Item>,
+              .map(([schoolYear, courses]) => (
+                  <Accordion.Item key={schoolYear} value={schoolYear}>
+                    <Accordion.Control>
+                      <strong>{schoolYear}</strong>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                      <CoursesListingGroup courses={courses}/>
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                ),
               )
             }
           </Accordion>

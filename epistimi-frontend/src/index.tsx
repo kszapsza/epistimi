@@ -10,8 +10,10 @@ import { Provider } from 'react-redux';
 import { TOKEN_KEY } from './store/slices/authSlice';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 axios.defaults.baseURL = 'http://localhost:8080/';
 axios.defaults.timeout = 1500;
@@ -27,7 +29,8 @@ axios.interceptors.request.use(
   },
 );
 
-dayjs.locale('pl');
+dayjs.extend(localizedFormat).locale('pl');
+dayjs.extend(relativeTime).locale('pl');
 
 ReactDOM.render(
   <React.StrictMode>

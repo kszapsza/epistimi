@@ -1,6 +1,7 @@
+import { IconAt, IconPhone } from '@tabler/icons';
 import { TeacherRegisterFormData } from '../TeacherCreate';
 import { TextInput } from '@mantine/core';
-import { UseFormReturnType } from '@mantine/form/lib/use-form';
+import { UseFormReturnType } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 
 interface TeacherCreateUserFormProps {
@@ -29,9 +30,11 @@ export const TeacherCreateUserForm = (
         required={true}
         {...form.getInputProps('pesel')}/>
       <TextInput
+        icon={<IconAt size={16} />}
         label={t('teachers.teacherCreateUserForm.email')}
         {...form.getInputProps('email')}/>
       <TextInput
+        icon={<IconPhone size={16} />}
         label={t('teachers.teacherCreateUserForm.phoneNumber')}
         {...form.getInputProps('phoneNumber')}/>
       <TextInput

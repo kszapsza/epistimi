@@ -1,0 +1,17 @@
+@import 'src/styles/themes';
+
+.noticeboard-feed-post-content {
+  color: rgba($black, .9);
+  font: {
+    size: 14px;
+    weight: 400;
+  }
+  padding: .5rem 0;
+
+  .noticeboard-feed-post-expand {
+    color: $blue;
+    font: {
+      weight: 500;
+    }
+  }
+}
