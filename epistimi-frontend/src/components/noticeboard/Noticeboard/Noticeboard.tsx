@@ -10,122 +10,163 @@ import {
   NoticeboardPostFormVariant,
 } from '../../noticeboard';
 import { NoticeboardPostResponse } from '../../../dto/noticeboard-post';
-import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
+
+interface NoticeboardState {
+  createModalOpened: boolean;
+  deletedPost: NoticeboardPostResponse | null;
+  editedPost: NoticeboardPostResponse | null;
+  successMessageTranslationKey: string | null;
+}
+
+type NoticeboardAction =
+  | { type: 'OPEN_POST_CREATE_MODAL' }
+  | { type: 'CLOSE_POST_CREATE_MODAL' }
+  | { type: 'ON_POST_CREATED' }
+  | { type: 'OPEN_POST_EDIT_MODAL', editedPost: NoticeboardPostResponse }
+  | { type: 'CLOSE_POST_EDIT_MODAL' }
+  | { type: 'ON_POST_EDITED' }
+  | { type: 'OPEN_POST_DELETE_MODAL', deletedPost: NoticeboardPostResponse }
+  | { type: 'CLOSE_POST_DELETE_MODAL' }
+  | { type: 'ON_POST_DELETED' };
+
+const noticeboardReducer = (state: NoticeboardState, action: NoticeboardAction): NoticeboardState => {
+  switch (action.type) {
+    case 'OPEN_POST_CREATE_MODAL':
+      return {
+        ...state,
+        createModalOpened: true,
+      };
+    case 'CLOSE_POST_CREATE_MODAL':
+      return {
+        ...state,
+        createModalOpened: false,
+      };
+    case 'ON_POST_CREATED':
+      return {
+        ...state,
+        createModalOpened: false,
+        successMessageTranslationKey: 'noticeboard.noticeboard.newPostCreated',
+      };
+    case 'OPEN_POST_EDIT_MODAL':
+      return {
+        ...state,
+        editedPost: action.editedPost,
+      };
+    case 'CLOSE_POST_EDIT_MODAL':
+      return {
+        ...state,
+        editedPost: null,
+      };
+    case 'ON_POST_EDITED':
+      return {
+        ...state,
+        editedPost: null,
+        successMessageTranslationKey: 'noticeboard.noticeboard.postUpdated',
+      };
+    case 'OPEN_POST_DELETE_MODAL':
+      return {
+        ...state,
+        deletedPost: action.deletedPost,
+      };
+    case 'CLOSE_POST_DELETE_MODAL':
+      return {
+        ...state,
+        deletedPost: null,
+      };
+    case 'ON_POST_DELETED':
+      return {
+        ...state,
+        deletedPost: null,
+        successMessageTranslationKey: 'noticeboard.noticeboard.postDeleted',
+      };
+  }
+};
 
 export const Noticeboard = (): JSX.Element => {
   const { t } = useTranslation();
   const { data, error, loading, reload } = useFetch<NoticeboardPostResponse>('/api/noticeboard/post');
 
-  const [createModalOpened, createModalHandlers] = useDisclosure(false);
-  const [createdMessageOpened, createdMessageHandlers] = useDisclosure(false);
-  const [deleteModalOpened, deleteModalHandlers] = useDisclosure(false);
-  const [deletedMessageOpened, deletedMessageHandlers] = useDisclosure(false);
-  const [editModalOpened, editModalHandlers] = useDisclosure(false);
-  const [updatedMessageOpened, updatedMessageHandlers] = useDisclosure(false);
-
-  const [deletedPost, setDeletedPost] = useState<NoticeboardPostResponse | null>(null);
-  const [editedPost, setEditedPost] = useState<NoticeboardPostResponse | null>(null);
+  const [{
+    createModalOpened,
+    deletedPost,
+    editedPost,
+    successMessageTranslationKey,
+  }, dispatch] = useReducer(noticeboardReducer, {
+    createModalOpened: false,
+    deletedPost: null,
+    editedPost: null,
+    successMessageTranslationKey: null,
+  });
 
   useDocumentTitle(t('noticeboard.noticeboard.title'));
-
-  const onNoticeboardPostCreated = (): void => {
-    reload();
-    createModalHandlers.close();
-    createdMessageHandlers.open();
-  };
-
-  const onEditClick = (post: NoticeboardPostResponse) => {
-    setEditedPost(post);
-    editModalHandlers.open();
-  };
-
-  const onNoticeboardPostUpdated = (): void => {
-    reload();
-    editModalHandlers.close();
-    updatedMessageHandlers.open();
-  };
-
-  const onDeleteClick = (post: NoticeboardPostResponse): void => {
-    setDeletedPost(post);
-    deleteModalHandlers.open();
-  };
-
-  const afterDelete = (): void => {
-    deleteModalHandlers.close();
-    deletedMessageHandlers.open();
-    reload();
-  };
-
-  const onDeleteCancel = (): void => {
-    deleteModalHandlers.close();
-  };
 
   return (
     <>
       <Modal
-        onClose={createModalHandlers.close}
+        onClose={() => dispatch({ type: 'CLOSE_POST_CREATE_MODAL' })}
         opened={createModalOpened}
         size={'lg'}
         title={t('noticeboard.noticeboard.createNewPostModalTitle')}
       >
         <NoticeboardPostForm
-          onSubmit={onNoticeboardPostCreated}
           variant={NoticeboardPostFormVariant.CREATE}
+          onSubmit={() => {
+            reload();
+            dispatch({ type: 'ON_POST_CREATED' });
+          }}
+          onCancel={() => dispatch({ type: 'CLOSE_POST_CREATE_MODAL' })}
         />
       </Modal>
 
       {deletedPost && <Modal
-        onClose={deleteModalHandlers.close}
-        opened={deleteModalOpened}
+        onClose={() => dispatch({ type: 'ON_POST_CREATED' })}
+        opened={!!deletedPost}
         size={'lg'}
         title={t('noticeboard.noticeboard.deletePostModalTitle')}
       >
         <NoticeboardPostDeleteConfirmation
           post={deletedPost}
-          afterDelete={afterDelete}
-          onCancel={onDeleteCancel}
+          afterDelete={() => {
+            reload();
+            dispatch({ type: 'ON_POST_DELETED' });
+          }}
+          onCancel={() => dispatch({ type: 'CLOSE_POST_DELETE_MODAL' })}
         />
       </Modal>}
 
       {editedPost && <Modal
-        onClose={editModalHandlers.close}
-        opened={editModalOpened}
+        onClose={() => dispatch({ type: 'CLOSE_POST_EDIT_MODAL' })}
+        opened={!!editedPost}
         size={'lg'}
         title={t('noticeboard.noticeboard.editPostModalTitle')}
       >
         <NoticeboardPostForm
-          onSubmit={onNoticeboardPostUpdated}
           variant={NoticeboardPostFormVariant.UPDATE}
+          onSubmit={() => {
+            reload();
+            dispatch({ type: 'ON_POST_EDITED' });
+          }}
+          onCancel={() => dispatch({ type: 'CLOSE_POST_EDIT_MODAL' })}
           post={editedPost}
         />
       </Modal>}
 
       <div className={'noticeboard'}>
-        <NoticeboardHeader onCreatePostClick={createModalHandlers.open}/>
-
-        {loading && <LoaderBox/>}
+        <NoticeboardHeader
+          onCreatePostClick={() => dispatch({ type: 'OPEN_POST_CREATE_MODAL' })}
+        />
 
         {error && (
           <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
             {t('noticeboard.noticeboard.couldNotLoadPosts')}
           </Alert>
         )}
-        {createdMessageOpened && (
+        {successMessageTranslationKey && (
           <Alert icon={<IconCheck size={16}/>} color={'green'}>
-            {t('noticeboard.noticeboard.newPostCreated')}
-          </Alert>
-        )}
-        {updatedMessageOpened && (
-          <Alert icon={<IconCheck size={16}/>} color={'green'}>
-            {t('noticeboard.noticeboard.postUpdated')}
-          </Alert>
-        )}
-        {deletedMessageOpened && (
-          <Alert icon={<IconCheck size={16}/>} color={'green'}>
-            {t('noticeboard.noticeboard.postDeleted')}
+            {t(successMessageTranslationKey)}
           </Alert>
         )}
         {data && data.posts.length === 0 &&
@@ -134,14 +175,16 @@ export const Noticeboard = (): JSX.Element => {
           </Alert>
         }
 
+        {loading && <LoaderBox/>}
+
         {data && data.posts.length > 0 && (
           <div className={'noticeboard-posts'}>
             {data.posts.map((post) =>
               <NoticeboardPost
                 key={post.id}
                 post={post}
-                onEditClick={() => onEditClick(post)}
-                onDeleteClick={() => onDeleteClick(post)}
+                onEditClick={() => dispatch({ type: 'OPEN_POST_EDIT_MODAL', editedPost: post })}
+                onDeleteClick={() => dispatch({ type: 'OPEN_POST_DELETE_MODAL', deletedPost: post })}
               />)}
           </div>
         )}

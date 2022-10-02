@@ -14,6 +14,7 @@ export const NoticeboardPost =
   ({ post, onEditClick, onDeleteClick }: NoticeboardPostProps,
   ): JSX.Element => {
     const { user } = useAppSelector((state) => state.auth);
+
     return (
       <Card className={'noticeboard-post'} radius={'md'} withBorder>
         <NoticeboardPostHeader post={post}/>

@@ -12,15 +12,19 @@ export const enum NoticeboardPostFormVariant {
   UPDATE,
 }
 
-interface NoticeboardPostFormUpdateProps {
+interface NoticeboardPostFormCommonProps {
+  onSubmit: (response: NoticeboardPostResponse) => void;
+  onCancel: () => void;
+}
+
+interface NoticeboardPostFormUpdateProps extends NoticeboardPostFormCommonProps {
   variant: NoticeboardPostFormVariant.UPDATE;
   onSubmit: (response: NoticeboardPostResponse) => void;
   post: NoticeboardPostResponse;
 }
 
-interface NoticeboardPostFormCreateProps {
+interface NoticeboardPostFormCreateProps extends NoticeboardPostFormCommonProps {
   variant: NoticeboardPostFormVariant.CREATE;
-  onSubmit: (response: NoticeboardPostResponse) => void;
 }
 
 type NoticeboardPostFormProps =
@@ -95,8 +99,10 @@ export const NoticeboardPostForm = (props: NoticeboardPostFormProps): JSX.Elemen
       >
         {error && (
           <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
-            {props.variant === NoticeboardPostFormVariant.CREATE && t('noticeboard.noticeboardPostForm.couldNotCreate')}
-            {props.variant === NoticeboardPostFormVariant.UPDATE && t('noticeboard.noticeboardPostForm.couldNotUpdate')}
+            {props.variant === NoticeboardPostFormVariant.CREATE &&
+              t('noticeboard.noticeboardPostForm.couldNotCreate')}
+            {props.variant === NoticeboardPostFormVariant.UPDATE &&
+              t('noticeboard.noticeboardPostForm.couldNotUpdate')}
           </Alert>
         )}
         <TextInput
@@ -116,22 +122,30 @@ export const NoticeboardPostForm = (props: NoticeboardPostFormProps): JSX.Elemen
           maxRows={10}
           {...form.getInputProps('content')}
         />
-        {props.variant === NoticeboardPostFormVariant.UPDATE &&
+        <div className={'noticeboard-post-form-actions'}>
+          {props.variant === NoticeboardPostFormVariant.UPDATE &&
+            <Button
+              leftIcon={<IconCheck size={18}/>}
+              type={'submit'}
+              loading={sendingRequest}
+            >
+              {t('noticeboard.noticeboardPostForm.updatePost')}
+            </Button>}
+          {props.variant === NoticeboardPostFormVariant.CREATE &&
+            <Button
+              leftIcon={<IconCheck size={18}/>}
+              type={'submit'}
+              loading={sendingRequest}
+            >
+              {t('noticeboard.noticeboardPostForm.createPost')}
+            </Button>}
           <Button
-            leftIcon={<IconCheck size={18}/>}
-            type={'submit'}
-            loading={sendingRequest}
+            onClick={props.onCancel}
+            variant={'default'}
           >
-            {t('noticeboard.noticeboardPostForm.updatePost')}
-          </Button>}
-        {props.variant === NoticeboardPostFormVariant.CREATE &&
-          <Button
-            leftIcon={<IconCheck size={18}/>}
-            type={'submit'}
-            loading={sendingRequest}
-          >
-            {t('noticeboard.noticeboardPostForm.createPost')}
-          </Button>}
+            {t('noticeboard.noticeboardPostDeleteConfirmation.cancel')}
+          </Button>
+        </div>
       </form>
     </>
   );
