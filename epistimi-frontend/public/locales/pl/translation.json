@@ -168,8 +168,12 @@
       "couldNotLoadPosts": "Nie udało się załadować ogłoszeń!",
       "createPost": "Dodaj ogłoszenie",
       "createNewPostModalTitle": "Dodawanie nowego ogłoszenia",
+      "deletePostModalTitle": "Usuwanie ogłoszenia",
+      "editPostModalTitle": "Edytowanie ogłoszenia",
       "newPostCreated": "Pomyślnie dodano nowe ogłoszenie",
+      "noPosts": "Brak ogłoszeń",
       "postDeleted": "Pomyślnie usunięto ogłoszenie",
+      "postUpdated": "Pomyślnie zaktualizowano ogłoszenie",
       "title": "Tablica ogłoszeń"
     },
     "noticeboardPostActions": {
@@ -179,6 +183,11 @@
     "noticeboardPostContent": {
       "showLess": "Pokaż mniej",
       "showMore": "Pokaż więcej"
+    },
+    "noticeboardPostDeleteConfirmation": {
+      "areYouSure": "Czy na pewno chcesz usunąć post „{{title}}”?",
+      "cancel": "Anuluj",
+      "delete": "Usuń"
     },
     "noticeboardPostForm": {
       "content": "Treść",

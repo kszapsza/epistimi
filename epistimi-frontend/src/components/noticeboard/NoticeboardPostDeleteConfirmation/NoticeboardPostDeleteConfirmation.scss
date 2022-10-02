@@ -1,0 +1,19 @@
+.noticeboard-post-delete-confirmation {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .noticeboard-post-delete-disclaimer {
+  }
+
+  .noticeboard-post-delete-actions {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    width: 100%;
+
+    button {
+      flex: 1;
+    }
+  }
+}

@@ -15,8 +15,7 @@ export const enum NoticeboardPostFormVariant {
 interface NoticeboardPostFormUpdateProps {
   variant: NoticeboardPostFormVariant.UPDATE;
   onSubmit: (response: NoticeboardPostResponse) => void;
-  initialValues: NoticeboardPostRequest;
-  postId: string;
+  post: NoticeboardPostResponse;
 }
 
 interface NoticeboardPostFormCreateProps {
@@ -38,7 +37,7 @@ export const NoticeboardPostForm = (props: NoticeboardPostFormProps): JSX.Elemen
   const form = useForm<NoticeboardPostRequest>({
     initialValues: (
       (props.variant === NoticeboardPostFormVariant.UPDATE)
-        ? props.initialValues
+        ? { title: props.post.title, content: props.post.content }
         : { title: '', content: '' }
     ),
     validate: (values) => ({
@@ -55,7 +54,7 @@ export const NoticeboardPostForm = (props: NoticeboardPostFormProps): JSX.Elemen
       case NoticeboardPostFormVariant.CREATE:
         return handleCreate();
       case NoticeboardPostFormVariant.UPDATE:
-        return handleUpdate(props.postId);
+        return handleUpdate(props.post.id);
     }
   };
 
