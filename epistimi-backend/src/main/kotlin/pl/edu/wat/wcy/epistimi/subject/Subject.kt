@@ -1,13 +1,13 @@
 package pl.edu.wat.wcy.epistimi.subject
 
-import pl.edu.wat.wcy.epistimi.course.CourseId
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
+import pl.edu.wat.wcy.epistimi.course.Course
+import pl.edu.wat.wcy.epistimi.teacher.Teacher
 
 data class Subject(
     val id: SubjectId? = null,
     val name: String,
-    val courseId: CourseId,
-    val teacherId: TeacherId,
+    val course: Course,
+    val teacher: Teacher,
 )
 
 @JvmInline

@@ -35,18 +35,15 @@ class OrganizationContextProvider(
         return organizationRepository.findFirstByAdminId(userId)
     }
 
-    private fun provideForTeacher(userId: UserId): Organization? {
-        return teacherRepository.findByUserId(userId).organization.id
-            ?.let { organizationId -> organizationRepository.findById(organizationId) }
+    private fun provideForTeacher(userId: UserId): Organization {
+        return teacherRepository.findByUserId(userId).organization
     }
 
-    private fun provideForStudent(userId: UserId): Organization? {
-        return studentRepository.findByUserId(userId).organization.id
-            ?.let { organizationId -> organizationRepository.findById(organizationId) }
+    private fun provideForStudent(userId: UserId): Organization {
+        return studentRepository.findByUserId(userId).organization
     }
 
-    private fun provideForParent(userId: UserId): Organization? {
-        return parentRepository.findByUserId(userId).organization.id
-            ?.let { organizationId -> organizationRepository.findById(organizationId) }
+    private fun provideForParent(userId: UserId): Organization {
+        return parentRepository.findByUserId(userId).organization
     }
 }
