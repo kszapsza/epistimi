@@ -99,7 +99,9 @@
       "noCoursesRegistered": "W placówce nie zarejestrowano jeszcze żadnych klas"
     },
     "coursesListingTile": {
+      "studentsCount_many": "{{count}} uczniów",
       "studentsCount_one": "{{count}} uczeń",
+      "studentsCount_few": "{{count}} uczniów",
       "studentsCount_other": "{{count}} uczniów"
     }
   },
@@ -159,6 +161,45 @@
     },
     "notFound": {
       "desc": "Strona o podanym adresie nie istnieje"
+    }
+  },
+  "noticeboard": {
+    "noticeboard": {
+      "couldNotLoadPosts": "Nie udało się załadować ogłoszeń!",
+      "createPost": "Dodaj ogłoszenie",
+      "createNewPostModalTitle": "Dodawanie nowego ogłoszenia",
+      "deletePostModalTitle": "Usuwanie ogłoszenia",
+      "editPostModalTitle": "Edytowanie ogłoszenia",
+      "newPostCreated": "Pomyślnie dodano nowe ogłoszenie",
+      "noPosts": "Brak ogłoszeń",
+      "postDeleted": "Pomyślnie usunięto ogłoszenie",
+      "postUpdated": "Pomyślnie zaktualizowano ogłoszenie",
+      "title": "Tablica ogłoszeń"
+    },
+    "noticeboardPostActions": {
+      "delete": "Usuń",
+      "edit": "Edytuj"
+    },
+    "noticeboardPostContent": {
+      "showLess": "Pokaż mniej",
+      "showMore": "Pokaż więcej"
+    },
+    "noticeboardPostDeleteConfirmation": {
+      "areYouSure": "Czy na pewno chcesz usunąć post „{{title}}”?",
+      "cancel": "Anuluj",
+      "delete": "Usuń"
+    },
+    "noticeboardPostForm": {
+      "content": "Treść",
+      "couldNotCreate": "Nie udało się dodać nowego ogłoszenia",
+      "couldNotUpdate": "Nie udało się zaktualizować ogłoszenia",
+      "createPost": "Dodaj ogłoszenie",
+      "requiredField": "Wymagane pole",
+      "title": "Tytuł",
+      "updatePost": "Zaktualizuj ogłoszenie"
+    },
+    "noticeboardPostHeader": {
+      "edited": "edytowany"
     }
   },
   "organizations": {

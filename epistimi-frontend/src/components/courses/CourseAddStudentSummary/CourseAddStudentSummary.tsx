@@ -30,12 +30,12 @@ export const CourseAddStudentSummary = (
         <>
           <div className={'add-student-summary-credentials'}>
             <TextInput
-              icon={<IconUser size={18}/>}
+              icon={<IconUser size={16}/>}
               label={t('courses.courseAddStudentSummary.username')}
               readOnly={true}
               value={registerResponse.student.user.username}/>
             <TextInput
-              icon={<IconLock size={18}/>}
+              icon={<IconLock size={16}/>}
               label={t('courses.courseAddStudentSummary.password')}
               readOnly={true}
               value={registerResponse.student.password}/>
@@ -51,12 +51,12 @@ export const CourseAddStudentSummary = (
                 {parentResponse.parent.user.firstName} {parentResponse.parent.user.lastName}
               </Title>
               <TextInput
-                icon={<IconUser size={18}/>}
+                icon={<IconUser size={16}/>}
                 label={t('courses.courseAddStudentSummary.username')}
                 readOnly={true}
                 value={parentResponse.parent.user.username}/>
               <TextInput
-                icon={<IconLock size={18}/>}
+                icon={<IconLock size={16}/>}
                 label={t('courses.courseAddStudentSummary.password')}
                 readOnly={true}
                 value={parentResponse.password}/>

@@ -1,8 +1,8 @@
 import './OrganizationAdminForm.scss';
-import { Button, Radio, RadioGroup, TextInput, Title } from '@mantine/core';
-import { IconArrowLeft, IconPlus } from '@tabler/icons';
+import { Button, Radio, TextInput, Title } from '@mantine/core';
+import { IconArrowLeft, IconAt, IconPhone, IconPlus } from '@tabler/icons';
 import { OrganizationAdminFormData } from '../OrganizationCreate';
-import { UseFormReturnType } from '@mantine/form/lib/use-form';
+import { UseFormReturnType } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 
 interface OrganizationAdminFormProps {
@@ -38,20 +38,22 @@ export const OrganizationAdminForm = (
           {...form.getInputProps('pesel')}
         />
 
-        <RadioGroup
+        <Radio.Group
           label={t('organizations.organizationAdminForm.sex')}
           {...form.getInputProps('sex')}
         >
           <Radio size={'xs'} value={'FEMALE'} label={t('organizations.organizationAdminForm.sexFemale')}/>
           <Radio size={'xs'} value={'MALE'} label={t('organizations.organizationAdminForm.sexMale')}/>
           <Radio size={'xs'} value={'OTHER'} label={t('organizations.organizationAdminForm.sexOther')}/>
-        </RadioGroup>
+        </Radio.Group>
 
         <TextInput
+          icon={<IconAt size={16} />}
           label={t('organizations.organizationAdminForm.email')}
           {...form.getInputProps('email')}
         />
         <TextInput
+          icon={<IconPhone size={16} />}
           label={t('organizations.organizationAdminForm.phoneNumber')}
           {...form.getInputProps('phoneNumber')}
         />

@@ -27,12 +27,12 @@ export const OrganizationCreateSummary = (
       </Title>
       <div className={'organization-create-summary-credentials'}>
         <TextInput
-          icon={<IconUser size={18}/>}
+          icon={<IconUser size={16}/>}
           label={t('organizations.organizationCreateSummary.username')}
           readOnly={true}
           value={newOrganization.admin.user.username}/>
         <TextInput
-          icon={<IconLock size={18}/>}
+          icon={<IconLock size={16}/>}
           label={t('organizations.organizationCreateSummary.password')}
           readOnly={true}
           value={newOrganization.admin.password}/>

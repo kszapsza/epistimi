@@ -1,0 +1,1 @@
+export { NoticeboardPostForm, NoticeboardPostFormVariant } from './NoticeboardPostForm';

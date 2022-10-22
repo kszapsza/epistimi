@@ -2,7 +2,7 @@ import './OrganizationForm.scss';
 import { Button, TextInput, Title } from '@mantine/core';
 import { IconArrowRight, IconCheck } from '@tabler/icons';
 import { OrganizationFormData } from '../OrganizationCreate';
-import { UseFormReturnType } from '@mantine/form/lib/use-form';
+import { UseFormReturnType } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 
 export const enum OrganizationFormVariant {

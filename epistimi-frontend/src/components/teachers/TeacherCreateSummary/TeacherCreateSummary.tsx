@@ -29,12 +29,12 @@ export const TeacherCreateSummary = (
       {registerResponse &&
         <div className={'teacher-create-summary-credentials'}>
           <TextInput
-            icon={<IconUser size={18}/>}
+            icon={<IconUser size={16}/>}
             label={t('teachers.teacherCreateSummary.username')}
             readOnly={true}
             value={registerResponse.newUser.user.username}/>
           <TextInput
-            icon={<IconLock size={18}/>}
+            icon={<IconLock size={16}/>}
             label={t('teachers.teacherCreateSummary.password')}
             readOnly={true}
             value={registerResponse.newUser.password}/>

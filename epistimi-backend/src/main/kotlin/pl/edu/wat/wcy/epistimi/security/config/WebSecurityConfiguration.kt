@@ -49,6 +49,7 @@ class WebSecurityConfiguration(
                 registry
                     .addMapping("/api/**")
                     .allowedMethods(
+                        HttpMethod.DELETE.name,
                         HttpMethod.GET.name,
                         HttpMethod.POST.name,
                         HttpMethod.PUT.name,

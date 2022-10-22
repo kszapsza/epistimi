@@ -5,7 +5,7 @@ import { IconChevronRight } from '@tabler/icons';
 import { useAppSelector } from '../../../store/hooks';
 import { UserAvatar } from '../../common';
 
-type MenuUserButtonProps = UnstyledButtonProps<'button'>;
+type MenuUserButtonProps = UnstyledButtonProps;
 
 export const MenuUserButton = forwardRef<HTMLButtonElement, MenuUserButtonProps>((props, ref) => {
   const { user } = useAppSelector((state) => state.auth);

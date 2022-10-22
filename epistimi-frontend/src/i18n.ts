@@ -12,7 +12,7 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    lng: 'en',
+    lng: 'pl',
   })
   .then(() => {
     // noop

@@ -1,0 +1,34 @@
+@import 'src/styles/themes';
+
+.noticeboard-post-header {
+  border-bottom: 1px solid $gray;
+  display: flex;
+  flex-direction: row;
+  gap: .75rem;
+  padding: 0 0 .75rem;
+
+  .noticeboard-post-meta {
+    display: flex;
+    flex-direction: column;
+
+    .noticeboard-post-title {
+      font:{
+        size: 16px;
+        weight: 600;
+      }
+    }
+
+    .noticeboard-post-subtitle {
+      color: rgba($black, .75);
+      font: {
+        size: 13px;
+      }
+
+      .noticeboard-post-author {
+        font: {
+          weight: 500;
+        }
+      }
+    }
+  }
+}

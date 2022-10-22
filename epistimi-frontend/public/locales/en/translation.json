@@ -162,6 +162,45 @@
       "desc": "The page with the given address does not exist"
     }
   },
+  "noticeboard": {
+    "noticeboard": {
+      "couldNotLoadPosts": "Could not load noticeboard posts!",
+      "createPost": "Create post",
+      "createNewPostModalTitle": "Creating new noticeboard post",
+      "deletePostModalTitle": "Deleting noticeboard post",
+      "editPostModalTitle": "Editing noticeboard post",
+      "newPostCreated": "New noticeboard post successfully created",
+      "noPosts": "No noticeboard posts",
+      "postDeleted": "Post successfully deleted",
+      "postUpdated": "Post successfully updated",
+      "title": "Noticeboard"
+    },
+    "noticeboardPostActions": {
+      "delete": "Delete",
+      "edit": "Edit"
+    },
+    "noticeboardPostContent": {
+      "showLess": "Show less",
+      "showMore": "Show more"
+    },
+    "noticeboardPostDeleteConfirmation": {
+      "areYouSure": "Are you sure you want to delete “{{title}}” post?",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "noticeboardPostForm": {
+      "content": "Content",
+      "couldNotCreate": "Could not add new noticeboard post",
+      "couldNotUpdate": "Could not update noticeboard post",
+      "createPost": "Create post",
+      "requiredField": "Required field",
+      "title": "Title",
+      "updatePost": "Update post"
+    },
+    "noticeboardPostHeader": {
+      "edited": "edited"
+    }
+  },
   "organizations": {
     "organizationAdminForm": {
       "address": "Address",

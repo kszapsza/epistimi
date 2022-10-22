@@ -2,7 +2,7 @@ import { Avatar, AvatarProps } from '@mantine/core';
 import { MantineColor } from '@mantine/styles';
 import { UserResponse, UserRole } from '../../../dto/user';
 
-interface UserAvatarProps extends AvatarProps<'div'> {
+interface UserAvatarProps extends AvatarProps {
   user: UserResponse;
 }
 
