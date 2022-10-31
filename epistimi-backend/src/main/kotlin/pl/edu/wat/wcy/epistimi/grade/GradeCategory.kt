@@ -1,13 +1,14 @@
 package pl.edu.wat.wcy.epistimi.grade
 
-import pl.edu.wat.wcy.epistimi.course.Course
+import pl.edu.wat.wcy.epistimi.subject.Subject
 import java.util.UUID
 
 data class GradeCategory(
     val id: GradeCategoryId,
-    val course: Course,
+    val subject: Subject,
     val name: String,
-    val color: String,
+    val defaultWeight: Int,
+    val color: String? = null,
 )
 
 @JvmInline

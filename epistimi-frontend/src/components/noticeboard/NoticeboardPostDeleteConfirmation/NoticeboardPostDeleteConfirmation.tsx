@@ -15,7 +15,7 @@ export const NoticeboardPostDeleteConfirmation = (
   { post, afterDelete, onCancel }: NoticeboardPostDeleteConfirmationProps,
 ): JSX.Element => {
 
-  const { t }= useTranslation();
+  const { t } = useTranslation();
 
   const onDeleteClick = (): void => {
     axios.delete(`/api/noticeboard/post/${post.id}`)

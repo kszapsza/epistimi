@@ -1,14 +1,14 @@
 package pl.edu.wat.wcy.epistimi.grade
 
-import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.subject.Subject
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import java.time.LocalDateTime
 import java.util.UUID
 
 data class Grade(
     val id: GradeId? = null,
-    val course: Course,
+    val subject: Subject,
     val student: Student,
     val issuedBy: Teacher,
     val issuedAt: LocalDateTime? = null,
@@ -16,7 +16,7 @@ data class Grade(
     val value: GradeValue,
     val weight: Int,
     val category: GradeCategory,
-    val countIntoAverage: Boolean = true,
+    val countTowardsAverage: Boolean = true,
     val comment: String? = null,
 )
 
