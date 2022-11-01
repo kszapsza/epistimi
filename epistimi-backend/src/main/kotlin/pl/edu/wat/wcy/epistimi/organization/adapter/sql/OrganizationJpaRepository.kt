@@ -5,5 +5,5 @@ import pl.edu.wat.wcy.epistimi.organization.Organization
 import java.util.UUID
 
 interface OrganizationJpaRepository : JpaRepository<Organization, UUID> {
-    fun findFirstByAdminId(adminId: UUID): Organization?
+    fun findFirstByAdminsContaining(adminId: UUID): Organization?
 }

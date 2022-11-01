@@ -19,7 +19,6 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.OrganizationUpdateRequest
-import pl.edu.wat.wcy.epistimi.user.User
 import java.net.URI
 import javax.validation.Valid
 
@@ -83,7 +82,6 @@ class OrganizationController(
     ): ResponseEntity<OrganizationRegisterResponse> {
         return RestHandlers.handleRequest(mapper = OrganizationRegisterResponseMapper) {
             organizationFacade.registerOrganization(
-                requesterUser = authentication.principal as User,
                 registerRequest = organizationRegisterRequest,
             )
         }.let { newOrganization ->

@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.epistimi.organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegistrar.NewOrganization
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
-import pl.edu.wat.wcy.epistimi.user.User
 
 class OrganizationFacade(
     private val organizationRegistrar: OrganizationRegistrar,
@@ -19,10 +18,9 @@ class OrganizationFacade(
     }
 
     fun registerOrganization(
-        requesterUser: User,
         registerRequest: OrganizationRegisterRequest,
     ): NewOrganization {
-        return organizationRegistrar.registerOrganizationWithAdmin(requesterUser, registerRequest)
+        return organizationRegistrar.registerOrganizationWithAdmin(registerRequest)
     }
 
     fun updateOrganization(
@@ -37,7 +35,7 @@ class OrganizationFacade(
                 id = updatedOrganization.id,
                 name = updateRequest.name,
                 status = updatedOrganization.status,
-                admin = updatedOrganization.admin,
+                admins = updatedOrganization.admins,
                 street = updateRequest.address.street,
                 postalCode = updateRequest.address.postalCode,
                 city = updateRequest.address.city,
@@ -57,7 +55,7 @@ class OrganizationFacade(
                 id = updatedOrganization.id,
                 name = updatedOrganization.name,
                 status = changeStatusRequest.status,
-                admin = updatedOrganization.admin,
+                admins = updatedOrganization.admins,
                 street = updatedOrganization.street,
                 postalCode = updatedOrganization.postalCode,
                 city = updatedOrganization.city,

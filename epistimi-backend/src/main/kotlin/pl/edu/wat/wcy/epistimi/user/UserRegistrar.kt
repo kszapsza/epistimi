@@ -14,8 +14,16 @@ class UserRegistrar(
         val password: String,
     )
 
+    /**
+     * Registers new user account in Epistimi system.
+     *
+     * @param contextOrganization Admin's organization.
+     *  `null` for `EPISTIMI_ADMIN` registering new `ORGANIZATION_ADMIN` user account.
+     * @param request Newly registered user data.
+     * @return Newly created user with randomly generated credentials.
+     */
     fun registerUser(
-        contextOrganization: Organization,
+        contextOrganization: Organization?,
         request: UserRegisterRequest,
     ): NewUser {
         val credentials = getCredentials(request)
@@ -35,7 +43,7 @@ class UserRegistrar(
         }
     }
 
-    private fun UserRegisterRequest.toUser(credentials: Credentials, organization: Organization): User {
+    private fun UserRegisterRequest.toUser(credentials: Credentials, organization: Organization?): User {
         return User(
             id = null,
             organization = organization,
@@ -54,6 +62,13 @@ class UserRegistrar(
         )
     }
 
+    /**
+     * Registers multiple user accounts in Epistimi system.
+     *
+     * @param contextOrganization Admin's organization. New users will be connected with this organization.
+     * @param requests Newly registered users' data.
+     * @return Newly created users with randomly generated credentials.
+     */
     fun registerUsers(
         contextOrganization: Organization,
         requests: List<UserRegisterRequest>,

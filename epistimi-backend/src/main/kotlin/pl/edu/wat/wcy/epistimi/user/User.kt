@@ -23,9 +23,13 @@ class User(
     @Column(name = "id", length = 36, nullable = false, updatable = false)
     val id: UserId? = null,
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "organization_id")
-    val organization: Organization,
+    /**
+     * An organization the user is registered within.
+     * `null` only for `EPISTIMI_ADMIN`.
+     */
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "organization_id", updatable = false)
+    val organization: Organization?,
 
     @Column(name = "first_name", nullable = false)
     val firstName: String,
@@ -65,7 +69,6 @@ class User(
     @Column(name = "city")
     val city: String?,
 )
-
 
 @JvmInline
 value class UserId(

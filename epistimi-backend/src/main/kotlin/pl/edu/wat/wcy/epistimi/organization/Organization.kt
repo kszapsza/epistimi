@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.organization
 
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.Where
 import pl.edu.wat.wcy.epistimi.user.User
 import java.util.UUID
 import javax.persistence.Column
@@ -9,8 +10,7 @@ import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.OneToOne
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -29,9 +29,9 @@ class Organization(
     @Enumerated(EnumType.STRING)
     val status: OrganizationStatus,
 
-    @OneToOne
-    @JoinColumn(name = "admin_id", updatable = false, insertable = true)
-    val admin: User,
+    @OneToMany(mappedBy = "organization")
+    @Where(clause = "role = 'ORGANIZATION_ADMIN'")
+    val admins: Set<User>,
 
     @Column(name = "street", nullable = false)
     val street: String,
@@ -47,9 +47,7 @@ class Organization(
 
     @Column(name = "longitude")
     val longitude: Double?,
-
 )
-
 
 enum class OrganizationStatus {
     ENABLED,

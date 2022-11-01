@@ -39,7 +39,7 @@ class StudentController(
     ): ResponseEntity<StudentRegisterResponse> {
         return RestHandlers.handleRequest(mapper = StudentRegisterResponseMapper) {
             studentRegistrar.registerStudent(
-                contextOrganization = (authentication.principal as User).organization,
+                contextOrganization = (authentication.principal as User).organization!!,
                 request = studentRegisterRequest,
             )
         }.let { newStudent ->

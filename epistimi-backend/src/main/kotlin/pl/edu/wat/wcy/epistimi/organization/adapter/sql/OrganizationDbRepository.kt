@@ -21,8 +21,7 @@ class OrganizationDbRepository(
     }
 
     override fun findFirstByAdminId(adminId: UserId): Organization? {
-        return organizationJpaRepository.findFirstByAdminId(adminId.value)
-
+        return organizationJpaRepository.findFirstByAdminsContaining(adminId.value)
     }
 
     override fun findById(organizationId: OrganizationId): Organization {

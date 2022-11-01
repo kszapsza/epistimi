@@ -37,7 +37,7 @@ class NoticeboardPostService(
     ): NoticeboardPost {
         return noticeboardPostRepository.savePost(
             NoticeboardPost(
-                organization = contextUser.organization,
+                organization = contextUser.organization!!,
                 author = userRepository.findById(contextUser.id!!),
                 title = createRequest.title,
                 content = createRequest.content,
@@ -52,7 +52,7 @@ class NoticeboardPostService(
         noticeboardPostId: NoticeboardPostId,
         updateRequest: NoticeboardPostUpdateRequest,
     ): NoticeboardPost {
-        val updatedPost = getNoticeboardPost(contextUser.organization, noticeboardPostId)
+        val updatedPost = getNoticeboardPost(contextUser.organization!!, noticeboardPostId)
         verifyNoticeboardPostActionAccess(updatedPost, contextUser, noticeboardPostId)
         return noticeboardPostRepository.savePost(
             NoticeboardPost(
@@ -83,7 +83,7 @@ class NoticeboardPostService(
         contextUser: User,
         noticeboardPostId: NoticeboardPostId,
     ) {
-        val post = getNoticeboardPost(contextUser.organization, noticeboardPostId)
+        val post = getNoticeboardPost(contextUser.organization!!, noticeboardPostId)
         verifyNoticeboardPostActionAccess(post, contextUser, noticeboardPostId)
         noticeboardPostRepository.deletePost(noticeboardPostId)
     }

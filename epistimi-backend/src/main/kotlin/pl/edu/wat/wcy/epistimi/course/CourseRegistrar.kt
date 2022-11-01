@@ -17,13 +17,13 @@ class CourseRegistrar(
     }
 
     fun createCourse(
-        contextOrganization: Organization,
+        contextOrganization: Organization?,
         createRequest: CourseCreateRequest,
     ): Course {
         if (!createRequest.isSchoolYearTimeFrameValid()) {
             throw CourseBadRequestException("Invalid school year time frame")
         }
-        return saveCourse(contextOrganization, createRequest)
+        return saveCourse(contextOrganization!!, createRequest)
     }
 
     private fun CourseCreateRequest.isSchoolYearTimeFrameValid(): Boolean {
@@ -39,7 +39,7 @@ class CourseRegistrar(
     ): Course {
         val classTeacher = tryGetClassTeacher(createRequest.classTeacherId)
 
-        if (classTeacher.user.organization.id != contextOrganization.id) {
+        if (classTeacher.user.organization?.id != contextOrganization.id) {
             logger.warn("Attempted to register course with class teacher from other organization")
             throw CourseBadRequestException("Provided class teacher is not associated with your organization")
         }

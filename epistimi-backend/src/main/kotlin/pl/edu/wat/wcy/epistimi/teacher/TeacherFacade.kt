@@ -8,20 +8,20 @@ class TeacherFacade(
     private val teacherRegistrar: TeacherRegistrar,
 ) {
     fun getTeachers(contextUser: User): List<Teacher> {
-        return teacherAggregator.getTeachers(contextOrganization = contextUser.organization)
+        return teacherAggregator.getTeachers(contextOrganization = contextUser.organization!!)
     }
 
     fun getTeacherById(
         contextUser: User,
         teacherId: TeacherId,
     ): Teacher {
-        return teacherAggregator.getTeacherById(contextOrganization = contextUser.organization, teacherId)
+        return teacherAggregator.getTeacherById(contextOrganization = contextUser.organization!!, teacherId)
     }
 
     fun registerTeacher(
         contextUser: User,
         registerRequest: TeacherRegisterRequest,
     ): NewTeacher {
-        return teacherRegistrar.registerTeacher(contextOrganization = contextUser.organization, registerRequest)
+        return teacherRegistrar.registerTeacher(contextOrganization = contextUser.organization!!, registerRequest)
     }
 }

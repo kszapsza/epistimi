@@ -8,9 +8,12 @@ class CourseAggregator(
     private val courseRepository: CourseRepository,
 ) {
     fun getCourses(
-        contextOrganization: Organization,
+        contextOrganization: Organization?,
         classTeacherId: TeacherId?,
     ): List<Course> {
+        if (contextOrganization == null) {
+            return emptyList()
+        }
         return courseRepository.findAllWithFiltering(
             organizationId = contextOrganization.id!!,
             classTeacherId,
@@ -18,11 +21,13 @@ class CourseAggregator(
     }
 
     fun getCourse(
-        contextOrganization: Organization,
+        contextOrganization: Organization?,
         courseId: CourseId,
     ): Course {
+        if (contextOrganization == null) {
+            throw CourseNotFoundException(courseId)
+        }
         val course = courseRepository.findById(courseId)
-
         if (course.organization.id != contextOrganization.id) {
             throw CourseNotFoundException(courseId)
         }

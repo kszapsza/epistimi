@@ -44,7 +44,7 @@ class NoticeboardPostController(
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = NoticeboardPostsResponseMapper) {
                 noticeboardPostService.getNoticeboardPosts(
-                    contextOrganization = (authentication.principal as User).organization,
+                    contextOrganization = (authentication.principal as User).organization!!,
                 )
             }
         )

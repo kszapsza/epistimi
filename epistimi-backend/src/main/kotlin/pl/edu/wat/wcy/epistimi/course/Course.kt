@@ -21,14 +21,17 @@ class Course(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(length = 36, nullable = false, updatable = false)
+    @Column(name = "id", length = 36, nullable = false, updatable = false)
     val id: CourseId? = null,
 
     @ManyToOne
     val organization: Organization,
 
-    @Column val codeNumber: Int,
-    @Column val codeLetter: String,
+    @Column(name = "code_number")
+    val codeNumber: Int,
+
+    @Column(name = "code_letter")
+    val codeLetter: String,
 
     @ManyToOne(optional = false)
     val classTeacher: Teacher,
@@ -37,13 +40,24 @@ class Course(
     @JoinColumn(name = "course_id")
     val students: Set<Student>,
 
-    @Column val schoolYearBegin: LocalDate,
-    @Column val schoolYearSemesterEnd: LocalDate,
-    @Column val schoolYearEnd: LocalDate,
+    @Column(name = "school_year_begin")
+    val schoolYearBegin: LocalDate,
 
-    @Column val profile: String?,
-    @Column val profession: String?,
-    @Column val specialization: String?,
+    @Column(name = "school_year_semester_end")
+    val schoolYearSemesterEnd: LocalDate,
+
+    @Column(name = "school_year_end")
+    val schoolYearEnd: LocalDate,
+
+    @Column(name = "profile")
+    val profile: String?,
+
+    @Column(name = "profession")
+    val profession: String?,
+
+    @Column(name = "specialization")
+    val specialization: String?,
+
 )
 
 @JvmInline

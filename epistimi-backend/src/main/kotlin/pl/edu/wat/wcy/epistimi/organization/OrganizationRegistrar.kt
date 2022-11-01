@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.epistimi.organization
 import pl.edu.wat.wcy.epistimi.common.Location
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
-import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
 import pl.edu.wat.wcy.epistimi.user.UserRole
@@ -18,12 +17,9 @@ class OrganizationRegistrar(
         val admin: NewUser,
     )
 
-    fun registerOrganizationWithAdmin(
-        contextUser: User,
-        registerRequest: OrganizationRegisterRequest,
-    ): NewOrganization {
-        val organizationAdminUser = registerOrganizationAdminUser(contextUser.organization, registerRequest)
-        val organization = registerOrganization(registerRequest, organizationAdminUser)
+    fun registerOrganizationWithAdmin(registerRequest: OrganizationRegisterRequest): NewOrganization {
+        val organization = registerOrganization(registerRequest)
+        val organizationAdminUser = registerOrganizationAdmin(registerRequest, organization)
 
         return NewOrganization(
             organization = organization,
@@ -31,27 +27,24 @@ class OrganizationRegistrar(
         )
     }
 
-    private fun registerOrganizationAdminUser(
-        contextOrganization: Organization,
+    private fun registerOrganizationAdmin(
         registerRequest: OrganizationRegisterRequest,
+        organization: Organization,
     ): NewUser {
         return userRegistrar.registerUser(
-            contextOrganization,
+            contextOrganization = organization,
             request = registerRequest.admin.copy(role = UserRole.ORGANIZATION_ADMIN)
         )
     }
 
-    private fun registerOrganization(
-        registerRequest: OrganizationRegisterRequest,
-        organizationAdminUser: NewUser
-    ): Organization {
+    private fun registerOrganization(registerRequest: OrganizationRegisterRequest): Organization {
         val location = retrieveLocation(registerRequest)
         return organizationRepository.save(
             Organization(
                 id = null,
                 name = registerRequest.name,
                 status = OrganizationStatus.ENABLED,
-                admin = organizationAdminUser.user,
+                admins = emptySet(),
                 street = registerRequest.address.street,
                 postalCode = registerRequest.address.postalCode,
                 city = registerRequest.address.city,
