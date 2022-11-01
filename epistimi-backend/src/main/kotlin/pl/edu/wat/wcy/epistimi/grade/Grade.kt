@@ -1,23 +1,67 @@
 package pl.edu.wat.wcy.epistimi.grade
 
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.UpdateTimestamp
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.subject.Subject
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import java.time.LocalDateTime
 import java.util.UUID
+import javax.persistence.Column
+import javax.persistence.Convert
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.ManyToOne
+import javax.persistence.Table
 
+@Entity
+@Table(name = "grades")
 data class Grade(
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", length = 36, nullable = false, updatable = false)
     val id: GradeId? = null,
+
+    @ManyToOne
     val subject: Subject,
+
+    @ManyToOne
     val student: Student,
+
+    @ManyToOne
     val issuedBy: Teacher,
-    val issuedAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null,
-    val value: GradeValue,
-    val weight: Int,
+
+    @ManyToOne
     val category: GradeCategory,
-    val countTowardsAverage: Boolean = true,
-    val comment: String? = null,
+
+    @CreationTimestamp
+    @Column(name = "issued_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
+    @Convert(converter = LocalDateTimeConverter::class)
+    val issuedAt: LocalDateTime?,
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = true, updatable = true, columnDefinition = "TIMESTAMP")
+    @Convert(converter = LocalDateTimeConverter::class)
+    val updatedAt: LocalDateTime?,
+
+    @Column(name = "value", nullable = false)
+    @Enumerated(EnumType.STRING)
+    val value: GradeValue,
+
+    @Column(name = "weight", nullable = false)
+    val weight: Int,
+
+    @Column(name = "count_towards_average", nullable = false)
+    val countTowardsAverage: Boolean,
+
+    @Column(name = "comment", columnDefinition = "TEXT")
+    val comment: String?,
 )
 
 @JvmInline
