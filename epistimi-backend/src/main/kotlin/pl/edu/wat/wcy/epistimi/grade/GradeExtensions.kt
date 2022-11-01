@@ -6,17 +6,16 @@ import java.math.RoundingMode
 /**
  * Evaluates grades weighted average (mean) value. Grades marked as not counted towards
  * average and grades without numeric values (np, nb, nz etc.) are not taken
- * into account. If empty collection was provided, null value is returned.
+ * into account. If empty collection was provided, `null` value is returned.
  *
- * @return weighted average [BigDecimal] object, null in case of empty grades collection
+ * @return weighted average [BigDecimal] object, `null` in case of empty grades collection
  */
 fun Collection<Grade>.weightedAverage(): BigDecimal? {
     if (this.isEmpty()) {
         return null
     }
     return this
-        .filter { it.countTowardsAverage }
-        .filter { it.value.numericValue != null }
+        .filter { it.countTowardsAverage && it.value.numericValue != null }
         .map { WeightedValue(value = it.value.numericValue!!, weight = it.weight) }
         .let { calculateWeightedAverage(it) }
 }

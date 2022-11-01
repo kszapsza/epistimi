@@ -2,47 +2,43 @@ package pl.edu.wat.wcy.epistimi.noticeboard
 
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.noticeboard.port.NoticeboardPostRepository
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.organization.Organization
+import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
 class NoticeboardPostService(
     private val noticeboardPostRepository: NoticeboardPostRepository,
     private val userRepository: UserRepository,
-    private val organizationContextProvider: OrganizationContextProvider,
 ) {
     companion object {
         private val logger by logger()
     }
 
     private fun getNoticeboardPost(
-        requesterUserId: UserId,
-        noticeboardPostId: NoticeboardPostId
+        contextOrganization: Organization,
+        noticeboardPostId: NoticeboardPostId,
     ): NoticeboardPost {
-        val contextOrganization = organizationContextProvider.provide(requesterUserId)
         val post = noticeboardPostRepository.getPostById(noticeboardPostId)
 
-        if (contextOrganization == null || post.organization.id != contextOrganization.id) {
+        if (post.organization.id != contextOrganization.id) {
             logger.warn("Attempted to retrieve noticeboard post from other organization")
             throw NoticeboardPostNotFoundException(noticeboardPostId)
         }
         return post
     }
 
-    fun getNoticeboardPosts(requesterUserId: UserId): List<NoticeboardPost> {
-        return organizationContextProvider.provide(requesterUserId)
-            ?.let { organization -> noticeboardPostRepository.getAllPosts(organization.id!!) }
-            ?: emptyList()
+    fun getNoticeboardPosts(contextOrganization: Organization): List<NoticeboardPost> {
+        return noticeboardPostRepository.getAllPosts(contextOrganization.id!!)
     }
 
     fun createNoticeboardPost(
-        requesterUserId: UserId,
+        contextUser: User,
         createRequest: NoticeboardPostCreateRequest,
     ): NoticeboardPost {
         return noticeboardPostRepository.savePost(
             NoticeboardPost(
-                organization = organizationContextProvider.provide(requesterUserId)!!,
-                author = userRepository.findById(requesterUserId),
+                organization = contextUser.organization,
+                author = userRepository.findById(contextUser.id!!),
                 title = createRequest.title,
                 content = createRequest.content,
             )
@@ -50,12 +46,12 @@ class NoticeboardPostService(
     }
 
     fun updateNoticeboardPost(
-        requesterUserId: UserId,
+        contextUser: User,
         noticeboardPostId: NoticeboardPostId,
         updateRequest: NoticeboardPostUpdateRequest,
     ): NoticeboardPost {
-        val post = getNoticeboardPost(requesterUserId, noticeboardPostId)
-        verifyNoticeboardPostActionAccess(post, requesterUserId, noticeboardPostId)
+        val post = getNoticeboardPost(contextUser.organization, noticeboardPostId)
+        verifyNoticeboardPostActionAccess(post, contextUser, noticeboardPostId)
         return noticeboardPostRepository.savePost(
             post.copy(
                 title = updateRequest.title,
@@ -66,22 +62,22 @@ class NoticeboardPostService(
 
     private fun verifyNoticeboardPostActionAccess(
         post: NoticeboardPost,
-        requesterUserId: UserId,
+        contextUser: User,
         noticeboardPostId: NoticeboardPostId,
     ) {
         // TODO: organization admin can update/delete everything?
-        if (requesterUserId != post.author.id) {
+        if (contextUser.id != post.author.id) {
             logger.warn("Attempted to perform action on noticeboard post created by other user")
-            throw NoticeboardPostActionForbidden(requesterUserId, noticeboardPostId)
+            throw NoticeboardPostActionForbidden(contextUser.id, noticeboardPostId)
         }
     }
 
     fun deleteNoticeboardPost(
-        requesterUserId: UserId,
+        contextUser: User,
         noticeboardPostId: NoticeboardPostId,
     ) {
-        val post = getNoticeboardPost(requesterUserId, noticeboardPostId)
-        verifyNoticeboardPostActionAccess(post, requesterUserId, noticeboardPostId)
+        val post = getNoticeboardPost(contextUser.organization, noticeboardPostId)
+        verifyNoticeboardPostActionAccess(post, contextUser, noticeboardPostId)
         noticeboardPostRepository.deletePost(noticeboardPostId)
     }
 }

@@ -8,8 +8,8 @@ import java.util.UUID
 data class Organization(
     val id: OrganizationId? = null,
     val name: String,
-    val admin: User,
     val status: Status,
+    val admin: User,
     val address: Address,
     val location: Location?,
 ) {

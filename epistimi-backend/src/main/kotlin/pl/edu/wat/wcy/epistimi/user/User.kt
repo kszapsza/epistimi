@@ -2,10 +2,12 @@ package pl.edu.wat.wcy.epistimi.user
 
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.api.toUuid
+import pl.edu.wat.wcy.epistimi.organization.Organization
 import java.util.UUID
 
 data class User(
     val id: UserId? = null,
+    val organization: Organization,
     val firstName: String,
     val lastName: String,
     val role: Role,
@@ -22,13 +24,13 @@ data class User(
         ORGANIZATION_ADMIN,
         TEACHER,
         STUDENT,
-        PARENT,
+        PARENT;
     }
 
     enum class Sex {
         MALE,
         FEMALE,
-        OTHER,
+        OTHER;
     }
 }
 

@@ -10,7 +10,7 @@ import java.util.UUID
 /**
  * A wrapper around [java.util.UUID.fromString]. Maps generic [java.lang.IllegalArgumentException]
  * into [pl.edu.wat.wcy.epistimi.common.api.MalformedUuidException], which is globally
- * mapped into HTTP 400 response Status.
+ * mapped into HTTP 400 response status.
  *
  * @throws MalformedUuidException if provided string was not a valid UUID.
  */

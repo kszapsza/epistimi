@@ -19,7 +19,7 @@ import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostCreateRequest
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostId
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostService
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostUpdateRequest
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.user.User
 import javax.validation.Valid
 
 @RestController
@@ -44,7 +44,7 @@ class NoticeboardPostController(
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = NoticeboardPostsResponseMapper) {
                 noticeboardPostService.getNoticeboardPosts(
-                    requesterUserId = UserId(authentication.principal as String),
+                    contextOrganization = (authentication.principal as User).organization,
                 )
             }
         )
@@ -67,7 +67,7 @@ class NoticeboardPostController(
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = NoticeboardPostResponseMapper) {
                 noticeboardPostService.createNoticeboardPost(
-                    requesterUserId = UserId(authentication.principal as String),
+                    contextUser = authentication.principal as User,
                     createRequest = createRequest,
                 )
             }
@@ -92,7 +92,7 @@ class NoticeboardPostController(
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = NoticeboardPostResponseMapper) {
                 noticeboardPostService.updateNoticeboardPost(
-                    requesterUserId = UserId(authentication.principal as String),
+                    contextUser = authentication.principal as User,
                     updateRequest = updateRequest,
                     noticeboardPostId = noticeboardPostId,
                 )
@@ -115,7 +115,7 @@ class NoticeboardPostController(
         @PathVariable noticeboardPostId: NoticeboardPostId,
     ): ResponseEntity<Unit> {
         noticeboardPostService.deleteNoticeboardPost(
-            requesterUserId = UserId(authentication.principal as String),
+            contextUser = authentication.principal as User,
             noticeboardPostId = noticeboardPostId,
         )
         return ResponseEntity.noContent().build()

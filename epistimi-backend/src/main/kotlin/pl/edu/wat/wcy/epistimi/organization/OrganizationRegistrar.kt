@@ -3,6 +3,7 @@ package pl.edu.wat.wcy.epistimi.organization
 import pl.edu.wat.wcy.epistimi.common.Location
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
@@ -17,8 +18,11 @@ class OrganizationRegistrar(
         val admin: NewUser,
     )
 
-    fun registerOrganizationWithAdmin(registerRequest: OrganizationRegisterRequest): NewOrganization {
-        val organizationAdminUser = registerOrganizationAdminUser(registerRequest)
+    fun registerOrganizationWithAdmin(
+        contextUser: User,
+        registerRequest: OrganizationRegisterRequest,
+    ): NewOrganization {
+        val organizationAdminUser = registerOrganizationAdminUser(contextUser.organization, registerRequest)
         val organization = registerOrganization(registerRequest, organizationAdminUser)
 
         return NewOrganization(
@@ -27,9 +31,13 @@ class OrganizationRegistrar(
         )
     }
 
-    private fun registerOrganizationAdminUser(registerRequest: OrganizationRegisterRequest): NewUser {
+    private fun registerOrganizationAdminUser(
+        contextOrganization: Organization,
+        registerRequest: OrganizationRegisterRequest,
+    ): NewUser {
         return userRegistrar.registerUser(
-            registerRequest.admin.copy(role = ORGANIZATION_ADMIN)
+            contextOrganization,
+            request = registerRequest.admin.copy(role = ORGANIZATION_ADMIN)
         )
     }
 
@@ -41,8 +49,8 @@ class OrganizationRegistrar(
             Organization(
                 id = null,
                 name = registerRequest.name,
-                admin = organizationAdminUser.user,
                 status = Organization.Status.ENABLED,
+                admin = organizationAdminUser.user,
                 address = registerRequest.address,
                 location = retrieveLocation(registerRequest),
             )

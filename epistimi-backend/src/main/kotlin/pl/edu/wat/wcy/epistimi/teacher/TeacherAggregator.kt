@@ -1,29 +1,27 @@
 package pl.edu.wat.wcy.epistimi.teacher
 
 import pl.edu.wat.wcy.epistimi.logger
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
+import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.UserId
 
 class TeacherAggregator(
-    private val organizationContextProvider: OrganizationContextProvider,
     private val teacherRepository: TeacherRepository,
 ) {
     companion object {
         private val logger by logger()
     }
 
-    fun getTeachers(requesterUserId: UserId): List<Teacher> {
-        return organizationContextProvider.provide(requesterUserId)
-            ?.let { organization -> teacherRepository.findAll(organization.id!!) }
-            ?: emptyList()
+    fun getTeachers(contextOrganization: Organization): List<Teacher> {
+        return teacherRepository.findAll(contextOrganization.id!!)
     }
 
-    fun getTeacherById(requesterUserId: UserId, teacherId: TeacherId): Teacher {
-        val requesterOrganization = organizationContextProvider.provide(requesterUserId)
+    fun getTeacherById(
+        contextOrganization: Organization,
+        teacherId: TeacherId,
+    ): Teacher {
         val teacher = teacherRepository.findById(teacherId)
 
-        if (requesterOrganization == null || teacher.organization.id != requesterOrganization.id) {
+        if (teacher.user.organization.id != contextOrganization.id) {
             logger.warn("Attempted to retrieve teacher from other organization")
             throw TeacherNotFoundException(teacherId)
         }

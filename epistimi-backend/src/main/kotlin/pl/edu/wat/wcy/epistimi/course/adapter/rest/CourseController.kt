@@ -18,7 +18,7 @@ import pl.edu.wat.wcy.epistimi.course.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.user.User
 import java.net.URI
 import javax.validation.Valid
 
@@ -45,7 +45,7 @@ class CourseController(
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = CoursesResponseMapper) {
                 courseFacade.getCourses(
-                    requesterUserId = UserId(authentication.principal as String),
+                    contextUser = authentication.principal as User,
                     classTeacherId = classTeacherId,
                 )
             }
@@ -70,7 +70,7 @@ class CourseController(
             RestHandlers.handleRequest(mapper = CourseResponseMapper) {
                 courseFacade.getCourse(
                     courseId = courseId,
-                    userId = UserId(authentication.principal as String),
+                    contextUser = authentication.principal as User,
                 )
             }
         )
@@ -92,7 +92,7 @@ class CourseController(
     ): ResponseEntity<CourseResponse> {
         return RestHandlers.handleRequest(mapper = CourseResponseMapper) {
             courseFacade.createCourse(
-                userId = UserId(authentication.principal as String),
+                contextUser = authentication.principal as User,
                 createRequest = createRequest,
             )
         }.let { createdCourse ->

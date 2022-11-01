@@ -16,7 +16,7 @@ import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.user.User
 import java.net.URI
 import java.util.UUID
 import javax.validation.Valid
@@ -43,7 +43,7 @@ class TeacherController(
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = TeachersResponseMapper) {
                 teacherFacade.getTeachers(
-                    requesterUserId = UserId(authentication.principal as String)
+                    contextUser = authentication.principal as User
                 )
             }
         )
@@ -66,7 +66,7 @@ class TeacherController(
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = TeacherResponseMapper) {
                 teacherFacade.getTeacherById(
-                    requesterUserId = UserId(authentication.principal as String),
+                    contextUser = authentication.principal as User,
                     teacherId = TeacherId(teacherId),
                 )
             }
@@ -89,7 +89,7 @@ class TeacherController(
     ): ResponseEntity<TeacherRegisterResponse> {
         return RestHandlers.handleRequest(mapper = TeacherRegisterResponseMapper) {
             teacherFacade.registerTeacher(
-                requesterUserId = UserId(authentication.principal as String),
+                contextUser = authentication.principal as User,
                 registerRequest = registerRequest,
             )
         }.let { newTeacher ->

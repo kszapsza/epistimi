@@ -5,5 +5,5 @@ import java.util.UUID
 
 interface TeacherJpaRepository : JpaRepository<TeacherJpaEntity, UUID> {
     fun findFirstByUserId(userId: UUID): TeacherJpaEntity?
-    fun findAllByOrganizationId(organizationId: UUID): Collection<TeacherJpaEntity>
+    fun findAllByUserOrganizationId(organizationId: UUID): Collection<TeacherJpaEntity>
 }

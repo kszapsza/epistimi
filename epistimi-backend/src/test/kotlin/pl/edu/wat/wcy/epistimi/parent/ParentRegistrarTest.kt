@@ -6,7 +6,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
@@ -19,23 +18,15 @@ internal class ParentRegistrarTest : ShouldSpec({
 
     val parentRepository = mockk<ParentRepository>()
     val userRegistrar = mockk<UserRegistrar>()
-    val organizationContextProvider = mockk<OrganizationContextProvider>()
 
     val parentRegistrar = ParentRegistrar(
         parentRepository,
         userRegistrar,
-        organizationContextProvider,
     )
 
     val organizationAdminId = TestData.organization.admin.id!!
     val parentUserId = TestData.Users.parent.id!!
     val parentId = ParentId(UUID.randomUUID())
-
-    fun stubOrganizationContextProvider() {
-        every {
-            organizationContextProvider.provide(organizationAdminId)
-        } returns TestData.organization
-    }
 
     fun stubUserRegistrar() {
         every {
@@ -67,7 +58,6 @@ internal class ParentRegistrarTest : ShouldSpec({
 
     should("register parent along with underlying user profile") {
         // given
-        stubOrganizationContextProvider()
         stubUserRegistrar()
         stubParentRepository()
 
@@ -102,7 +92,6 @@ internal class ParentRegistrarTest : ShouldSpec({
         password shouldBe "123456"
 
         // and
-        verify { organizationContextProvider.provide(organizationAdminId) }
         verify { userRegistrar.registerUsers(listOf(userRegisterRequest)) }
         verify {
             parentRepository.saveAll(

@@ -1,7 +1,6 @@
 package pl.edu.wat.wcy.epistimi.parent.adapter.sql
 
 import pl.edu.wat.wcy.epistimi.common.mapper.BiMapper
-import pl.edu.wat.wcy.epistimi.organization.adapter.sql.OrganizationDbBiMapper
 import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.parent.ParentId
 import pl.edu.wat.wcy.epistimi.user.adapter.sql.UserDbBiMapper
@@ -11,7 +10,6 @@ object ParentDbBiMapper : BiMapper<Parent, ParentJpaEntity> {
         Parent(
             id = ParentId(id!!),
             user = UserDbBiMapper.toDomain(user),
-            organization = OrganizationDbBiMapper.toDomain(organization),
         )
     }
 
@@ -19,7 +17,6 @@ object ParentDbBiMapper : BiMapper<Parent, ParentJpaEntity> {
         ParentJpaEntity(
             id = id?.value,
             user = UserDbBiMapper.fromDomain(user),
-            organization = OrganizationDbBiMapper.fromDomain(organization),
         )
     }
 }

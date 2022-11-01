@@ -12,19 +12,26 @@ object OrganizationDbBiMapper : BiMapper<Organization, OrganizationJpaEntity> {
         Organization(
             id = OrganizationId(id!!),
             name = name,
-            admin = UserDbBiMapper.toDomain(admin),
             status = Organization.Status.valueOf(status),
+            admin = UserDbBiMapper.toDomain(admin),
             address = Address(
                 street = street,
                 postalCode = postalCode,
                 city = city,
             ),
-            location = if (latitude == null || longitude == null)
-                null
-            else Location(
-                latitude = latitude,
-                longitude = longitude,
-            ),
+            location = mapLocation(latitude, longitude),
+        )
+    }
+
+    private fun mapLocation(
+        latitude: Double?,
+        longitude: Double?,
+    ): Location? {
+        return if (latitude == null || longitude == null)
+            null
+        else Location(
+            latitude = latitude,
+            longitude = longitude,
         )
     }
 
@@ -32,8 +39,8 @@ object OrganizationDbBiMapper : BiMapper<Organization, OrganizationJpaEntity> {
         OrganizationJpaEntity(
             id = id?.value,
             name = name,
-            admin = UserDbBiMapper.fromDomain(admin),
             status = status.toString(),
+            admin = UserDbBiMapper.fromDomain(admin),
             street = address.street,
             postalCode = address.postalCode,
             city = address.city,

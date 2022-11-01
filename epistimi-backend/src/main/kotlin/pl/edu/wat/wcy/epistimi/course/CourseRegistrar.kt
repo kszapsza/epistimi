@@ -3,27 +3,27 @@ package pl.edu.wat.wcy.epistimi.course
 import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.teacher.TeacherNotFoundException
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.UserId
 
 class CourseRegistrar(
     private val courseRepository: CourseRepository,
     private val teacherRepository: TeacherRepository,
-    private val organizationContextProvider: OrganizationContextProvider,
 ) {
     companion object {
         private val logger by logger()
     }
 
-    fun createCourse(userId: UserId, createRequest: CourseCreateRequest): Course {
+    fun createCourse(
+        contextOrganization: Organization,
+        createRequest: CourseCreateRequest,
+    ): Course {
         if (!createRequest.isSchoolYearTimeFrameValid()) {
             throw CourseBadRequestException("Invalid school year time frame")
         }
-        return saveCourse(userId, createRequest)
+        return saveCourse(contextOrganization, createRequest)
     }
 
     private fun CourseCreateRequest.isSchoolYearTimeFrameValid(): Boolean {
@@ -33,19 +33,17 @@ class CourseRegistrar(
             schoolYearBegin.year == schoolYearEnd.year - 1
     }
 
-    private fun saveCourse(userId: UserId, createRequest: CourseCreateRequest): Course {
-        val organization = organizationContextProvider.provide(userId)
+    private fun saveCourse(
+        contextOrganization: Organization,
+        createRequest: CourseCreateRequest,
+    ): Course {
         val classTeacher = tryGetClassTeacher(createRequest.classTeacherId)
 
-        if (organization == null) {
-            throw CourseBadRequestException("User not managing any organization")
-        }
-        if (classTeacher.organization.id != organization.id) {
+        if (classTeacher.user.organization.id != contextOrganization.id) {
             logger.warn("Attempted to register course with class teacher from other organization")
             throw CourseBadRequestException("Provided class teacher is not associated with your organization")
         }
-
-        return saveCourse(organization, createRequest, classTeacher)
+        return saveCourse(contextOrganization, createRequest, classTeacher)
     }
 
     private fun tryGetClassTeacher(classTeacherId: TeacherId): Teacher {
@@ -69,7 +67,7 @@ class CourseRegistrar(
                     number = createRequest.codeNumber,
                     letter = createRequest.codeLetter,
                 ),
-                schoolYear = createRequest.formatSchoolYear,
+                schoolYear = createRequest.formattedSchoolYear,
                 classTeacher = classTeacher,
                 students = emptyList(),
                 schoolYearBegin = createRequest.schoolYearBegin,
@@ -78,10 +76,10 @@ class CourseRegistrar(
                 profile = createRequest.profile,
                 profession = createRequest.profession,
                 specialization = createRequest.specialization,
-            )
+            ),
         )
     }
 
-    private val CourseCreateRequest.formatSchoolYear
+    private val CourseCreateRequest.formattedSchoolYear
         get() = "${schoolYearBegin.year}/${schoolYearEnd.year}"
 }

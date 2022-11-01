@@ -7,7 +7,8 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.ManyToOne
+import javax.persistence.JoinColumn
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
@@ -19,13 +20,12 @@ class OrganizationJpaEntity(
     @Column(length = 36, nullable = false, updatable = false)
     val id: UUID? = null,
 
-    @Column
-    val name: String,
-
-    @ManyToOne
-    val admin: UserJpaEntity,
-
+    @Column val name: String,
     @Column val status: String,
+
+    @OneToOne
+    @JoinColumn(name = "admin_id", updatable = false, insertable = false)
+    val admin: UserJpaEntity,
 
     @Column val street: String,
     @Column val postalCode: String,

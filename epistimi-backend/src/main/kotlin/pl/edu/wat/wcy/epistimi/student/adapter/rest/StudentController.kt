@@ -13,7 +13,7 @@ import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.student.StudentRegisterRequest
 import pl.edu.wat.wcy.epistimi.student.StudentRegistrar
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.user.User
 import java.net.URI
 import javax.validation.Valid
 
@@ -39,7 +39,7 @@ class StudentController(
     ): ResponseEntity<StudentRegisterResponse> {
         return RestHandlers.handleRequest(mapper = StudentRegisterResponseMapper) {
             studentRegistrar.registerStudent(
-                requesterUserId = UserId(authentication.principal as String),
+                contextOrganization = (authentication.principal as User).organization,
                 request = studentRegisterRequest,
             )
         }.let { newStudent ->

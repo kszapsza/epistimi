@@ -11,7 +11,6 @@ import pl.edu.wat.wcy.epistimi.TestUtils
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseId
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.parent.ParentId
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar
@@ -154,7 +153,7 @@ internal class StudentRegistrarTest : ShouldSpec({
         val parentUserRegisterRequest = userRegisterRequest.copy(role = PARENT, firstName = "Malwina", lastName = "Kowalska", sex = FEMALE)
 
         val (id, user, parents) = studentRegistrar.registerStudent(
-            requesterUserId = organizationAdminUserId,
+            contextUser = organizationAdminUserId,
             request = StudentRegisterRequest(
                 courseId = courseId,
                 user = studentUserRegisterRequest,

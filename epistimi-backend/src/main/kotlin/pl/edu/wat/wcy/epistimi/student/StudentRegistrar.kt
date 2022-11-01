@@ -2,12 +2,10 @@ package pl.edu.wat.wcy.epistimi.student
 
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar.NewParent
 import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
@@ -17,7 +15,6 @@ class StudentRegistrar(
     private val userRegistrar: UserRegistrar,
     private val parentRegistrar: ParentRegistrar,
     private val courseFacade: CourseFacade,
-    private val organizationContextProvider: OrganizationContextProvider,
 ) {
     data class NewStudent(
         val id: StudentId? = null,
@@ -26,15 +23,12 @@ class StudentRegistrar(
     )
 
     fun registerStudent(
-        requesterUserId: UserId,
+        contextOrganization: Organization,
         request: StudentRegisterRequest,
     ): NewStudent {
-        val organization = organizationContextProvider.provide(requesterUserId)
-            ?: throw StudentBadRequestException("User not managing any organization")
-
-        val studentUser = registerStudentUser(request.user)
-        val newParents = registerParents(requesterUserId, request.parents)
-        val newStudent = registerStudent(studentUser, organization, newParents)
+        val studentUser = registerStudentUser(contextOrganization, request.user)
+        val newParents = registerParents(contextOrganization, request.parents)
+        val newStudent = registerStudent(studentUser, newParents)
 
         courseFacade.addStudent(
             courseId = request.courseId,
@@ -48,31 +42,33 @@ class StudentRegistrar(
         )
     }
 
-    private fun registerStudentUser(userData: UserRegisterRequest): NewUser {
+    private fun registerStudentUser(
+        contextOrganization: Organization,
+        userData: UserRegisterRequest,
+    ): NewUser {
         return userRegistrar.registerUser(
-            userData.copy(role = User.Role.STUDENT)
+            contextOrganization,
+            request = userData.copy(role = User.Role.STUDENT),
         )
     }
 
     private fun registerParents(
-        requesterUserId: UserId,
+        contextOrganization: Organization,
         parentsUserData: List<UserRegisterRequest>,
     ): List<NewParent> {
-        return parentRegistrar.registerParents(requesterUserId, parentsUserData)
+        return parentRegistrar.registerParents(contextOrganization, parentsUserData)
     }
 
     private fun registerStudent(
         studentUser: NewUser,
-        organization: Organization,
         newParents: List<NewParent>,
     ): Student {
         return studentRepository.save(
             Student(
                 id = null,
                 user = studentUser.user,
-                organization = organization,
                 parents = newParents.map { it.parent },
-            )
+            ),
         )
     }
 }

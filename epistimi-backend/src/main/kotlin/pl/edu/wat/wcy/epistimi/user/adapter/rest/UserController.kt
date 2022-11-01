@@ -43,7 +43,7 @@ class UserController(
     ): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = UserResponseMapper) {
-                userAggregator.getUserById(UserId(authentication.principal as String))
+                userAggregator.getUserById((authentication.principal as User).id!!)
             }
         )
     }
@@ -99,9 +99,10 @@ class UserController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun registerUser(
+        authentication: Authentication,
         @Valid @RequestBody registerRequest: UserRegisterRequest,
     ): ResponseEntity<UserRegisterResponse> {
-        return userRegistrar.registerUser(registerRequest)
+        return userRegistrar.registerUser(contextOrganization = (authentication.principal as User).organization, registerRequest)
             .let { (newUser, password) -> UserRegisterResponse(newUser, password) }
             .let { ResponseEntity.created(URI("/api/user/${it.id}")).body(it) }
     }

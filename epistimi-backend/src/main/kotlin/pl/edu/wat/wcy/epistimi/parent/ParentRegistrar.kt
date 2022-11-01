@@ -1,17 +1,14 @@
 package pl.edu.wat.wcy.epistimi.parent
 
 import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 
 class ParentRegistrar(
     private val parentRepository: ParentRepository,
     private val userRegistrar: UserRegistrar,
-    private val organizationContextProvider: OrganizationContextProvider,
 ) {
     data class NewParent(
         val parent: Parent,
@@ -19,14 +16,11 @@ class ParentRegistrar(
     )
 
     fun registerParents(
-        requesterUserId: UserId,
+        contextOrganization: Organization,
         userRegisterRequests: List<UserRegisterRequest>,
     ): List<NewParent> {
-        val organization = organizationContextProvider.provide(requesterUserId)
-            ?: throw ParentBadRequestException("User not managing any organization")
-
-        val parentUsers = registerParentUsers(usersData = userRegisterRequests)
-        val parents = registerParents(parentUsers, organization)
+        val parentUsers = registerParentUsers(contextOrganization, userRegisterRequests)
+        val parents = registerParents(parentUsers)
 
         return parentUsers.zip(parents)
             .map { (parentUser, parent) ->
@@ -34,7 +28,6 @@ class ParentRegistrar(
                     parent = Parent(
                         id = parent.id,
                         user = parentUser.user,
-                        organization = organization,
                     ),
                     password = parentUser.password,
                 )
@@ -42,23 +35,22 @@ class ParentRegistrar(
     }
 
     private fun registerParentUsers(
+        contextOrganization: Organization,
         usersData: List<UserRegisterRequest>,
     ): List<UserRegistrar.NewUser> {
         return usersData
             .map { it.copy(role = User.Role.PARENT) }
-            .let { userRegistrar.registerUsers(it) }
+            .let { userRegistrar.registerUsers(contextOrganization, requests = it) }
     }
 
     private fun registerParents(
         parentUsers: List<UserRegistrar.NewUser>,
-        organization: Organization,
     ): List<Parent> {
         return parentRepository.saveAll(
             parentUsers.map { (user) ->
                 Parent(
                     id = null,
                     user = user,
-                    organization = organization,
                 )
             }
         )

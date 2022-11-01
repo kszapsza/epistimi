@@ -8,7 +8,7 @@ import pl.edu.wat.wcy.epistimi.TestUtils
 import java.math.BigDecimal
 import java.util.UUID
 
-class GradeExtensionsTest : ShouldSpec({
+internal class GradeExtensionsTest : ShouldSpec({
 
     val testGradeCategory = GradeCategory(
         id = GradeCategoryId(UUID.randomUUID()),

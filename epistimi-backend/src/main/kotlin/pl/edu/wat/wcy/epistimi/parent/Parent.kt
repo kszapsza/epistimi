@@ -1,6 +1,5 @@
 package pl.edu.wat.wcy.epistimi.parent
 
-import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.user.User
 import java.util.UUID
 
@@ -12,7 +11,6 @@ import java.util.UUID
 data class Parent(
     val id: ParentId? = null,
     val user: User,
-    val organization: Organization,
 )
 
 @JvmInline

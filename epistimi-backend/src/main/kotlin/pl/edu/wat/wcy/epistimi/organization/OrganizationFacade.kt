@@ -3,6 +3,7 @@ package pl.edu.wat.wcy.epistimi.organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegistrar.NewOrganization
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.User
 
 class OrganizationFacade(
     private val organizationRegistrar: OrganizationRegistrar,
@@ -17,8 +18,11 @@ class OrganizationFacade(
         return organizationRepository.findAll()
     }
 
-    fun registerOrganization(registerRequest: OrganizationRegisterRequest): NewOrganization {
-        return organizationRegistrar.registerOrganizationWithAdmin(registerRequest)
+    fun registerOrganization(
+        requesterUser: User,
+        registerRequest: OrganizationRegisterRequest,
+    ): NewOrganization {
+        return organizationRegistrar.registerOrganizationWithAdmin(requesterUser, registerRequest)
     }
 
     fun updateOrganization(

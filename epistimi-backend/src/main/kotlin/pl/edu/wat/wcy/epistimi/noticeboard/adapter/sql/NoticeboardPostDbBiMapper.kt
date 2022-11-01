@@ -30,5 +30,4 @@ object NoticeboardPostDbBiMapper : BiMapper<NoticeboardPost, NoticeboardPostJpaE
             content = content,
         )
     }
-
 }

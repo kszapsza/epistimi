@@ -6,7 +6,6 @@ import pl.edu.wat.wcy.epistimi.course.CourseAggregator
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseRegistrar
 import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 
@@ -31,11 +30,9 @@ class CourseConfiguration {
     @Bean
     fun courseAggregator(
         courseRepository: CourseRepository,
-        organizationContextProvider: OrganizationContextProvider,
     ): CourseAggregator {
         return CourseAggregator(
             courseRepository,
-            organizationContextProvider,
         )
     }
 
@@ -43,12 +40,10 @@ class CourseConfiguration {
     fun courseRegistrar(
         courseRepository: CourseRepository,
         teacherRepository: TeacherRepository,
-        organizationContextProvider: OrganizationContextProvider,
     ): CourseRegistrar {
         return CourseRegistrar(
             courseRepository,
             teacherRepository,
-            organizationContextProvider,
         )
     }
 }

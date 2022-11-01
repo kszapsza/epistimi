@@ -30,7 +30,7 @@ class TeacherDbRepository(
 
     override fun findAll(organizationId: OrganizationId): List<Teacher> {
         return DbHandlers.handleDbMultiGet(mapper = TeacherDbBiMapper) {
-            teacherJpaRepository.findAllByOrganizationId(organizationId.value)
+            teacherJpaRepository.findAllByUserOrganizationId(organizationId.value)
         }
     }
 

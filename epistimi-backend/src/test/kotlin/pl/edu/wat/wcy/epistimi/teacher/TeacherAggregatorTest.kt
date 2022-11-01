@@ -7,25 +7,18 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 
 internal class TeacherAggregatorTest : ShouldSpec({
 
     val teacherRepository = mockk<TeacherRepository>()
-    val organizationContextProvider = mockk<OrganizationContextProvider>()
-
-    val teacherAggregator = TeacherAggregator(
-        organizationContextProvider,
-        teacherRepository,
-    )
+    val teacherAggregator = TeacherAggregator(teacherRepository)
 
     val organizationAdminId = TestData.Users.organizationAdmin.id!!
     val organizationId = TestData.organization.id!!
 
     should("return empty list of teachers if there are no teachers in school administered by provided admin") {
         // given
-        every { organizationContextProvider.provide(organizationAdminId) } returns TestData.organization
         every { teacherRepository.findAll(organizationId) } returns emptyList()
 
         // when
@@ -37,7 +30,6 @@ internal class TeacherAggregatorTest : ShouldSpec({
 
     should("return list of teachers in school administered by provided admin") {
         // given
-        every { organizationContextProvider.provide(organizationAdminId) } returns TestData.organization
         every { teacherRepository.findAll(organizationId) } returns listOf(TestData.teacher)
 
         // when
