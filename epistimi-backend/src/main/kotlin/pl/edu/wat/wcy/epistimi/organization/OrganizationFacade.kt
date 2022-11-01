@@ -30,20 +30,40 @@ class OrganizationFacade(
         updateRequest: OrganizationUpdateRequest,
     ): Organization {
         val updatedOrganization = organizationRepository.findById(organizationId)
-            .copy(
+        val updatedLocation = locationClient.getLocation(updateRequest.address)
+
+        return organizationRepository.update(
+            Organization(
+                id = updatedOrganization.id,
                 name = updateRequest.name,
-                address = updateRequest.address,
-                location = locationClient.getLocation(updateRequest.address),
+                status = updatedOrganization.status,
+                admin = updatedOrganization.admin,
+                street = updateRequest.address.street,
+                postalCode = updateRequest.address.postalCode,
+                city = updateRequest.address.city,
+                latitude = updatedLocation?.latitude,
+                longitude = updatedLocation?.longitude,
             )
-        return organizationRepository.update(updatedOrganization)
+        )
     }
 
     fun changeOrganizationStatus(
         organizationId: OrganizationId,
         changeStatusRequest: OrganizationChangeStatusRequest,
     ): Organization {
+        val updatedOrganization = organizationRepository.findById(organizationId)
         return organizationRepository.save(
-            organizationRepository.findById(organizationId).copy(status = changeStatusRequest.status)
+            Organization(
+                id = updatedOrganization.id,
+                name = updatedOrganization.name,
+                status = changeStatusRequest.status,
+                admin = updatedOrganization.admin,
+                street = updatedOrganization.street,
+                postalCode = updatedOrganization.postalCode,
+                city = updatedOrganization.city,
+                latitude = updatedOrganization.latitude,
+                longitude = updatedOrganization.longitude,
+            )
         )
     }
 }

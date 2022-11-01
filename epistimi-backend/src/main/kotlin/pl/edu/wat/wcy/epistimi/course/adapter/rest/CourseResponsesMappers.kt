@@ -1,5 +1,6 @@
 package pl.edu.wat.wcy.epistimi.course.adapter.rest
 
+import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.parent.adapter.rest.ParentResponseMapper
@@ -13,8 +14,8 @@ object CourseResponseMapper : FromDomainMapper<Course, CourseResponse> {
 
 private fun Course.toCourseResponse() = CourseResponse(
     id = id,
-    code = CourseResponse.Code(number = code.number.toString(), letter = code.letter),
-    schoolYear = schoolYear,
+    code = CourseResponse.Code(number = codeNumber.toString(), letter = codeLetter),
+    schoolYear = "${schoolYearBegin.year}/${schoolYearEnd.year}",
     classTeacher = TeacherResponseMapper.fromDomain(classTeacher),
     students = students.map { student ->
         StudentResponse(
@@ -30,7 +31,7 @@ private fun Course.toCourseResponse() = CourseResponse(
                     sex = user.sex,
                     email = user.email,
                     phoneNumber = user.phoneNumber,
-                    address = user.address,
+                    address = Address.of(user.street, user.postalCode, user.city),
                 )
             },
             parents = student.parents.map { ParentResponseMapper.fromDomain(it) },

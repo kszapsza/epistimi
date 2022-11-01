@@ -7,13 +7,13 @@ import javax.validation.constraints.Email
 data class UserRegisterRequest(
     val firstName: String,
     val lastName: String,
-    val role: User.Role,
+    val role: UserRole,
     val username: String? = null,
     val password: String? = null,
 
     @field:PESEL
     val pesel: String? = null,
-    val sex: User.Sex? = null,
+    val sex: UserSex? = null,
 
     @field:Email
     val email: String? = null,

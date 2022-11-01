@@ -2,9 +2,9 @@ package pl.edu.wat.wcy.epistimi.parent
 
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
-import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
+import pl.edu.wat.wcy.epistimi.user.UserRole
 
 class ParentRegistrar(
     private val parentRepository: ParentRepository,
@@ -39,7 +39,7 @@ class ParentRegistrar(
         usersData: List<UserRegisterRequest>,
     ): List<UserRegistrar.NewUser> {
         return usersData
-            .map { it.copy(role = User.Role.PARENT) }
+            .map { it.copy(role = UserRole.PARENT) }
             .let { userRegistrar.registerUsers(contextOrganization, requests = it) }
     }
 

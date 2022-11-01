@@ -2,16 +2,18 @@ package pl.edu.wat.wcy.epistimi.user.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.UserRole
+import pl.edu.wat.wcy.epistimi.user.UserSex
 import java.util.UUID
 
 data class UserResponse(
     val id: UUID,
     val firstName: String,
     val lastName: String,
-    val role: User.Role,
+    val role: UserRole,
     val username: String,
     val pesel: String?,
-    val sex: User.Sex?,
+    val sex: UserSex?,
     val email: String?,
     val phoneNumber: String?,
     val address: Address?,
@@ -25,11 +27,11 @@ data class UserRegisterResponse(
     val id: UUID,
     val firstName: String,
     val lastName: String,
-    val role: User.Role,
+    val role: UserRole,
     val username: String,
     val password: String,
     val pesel: String?,
-    val sex: User.Sex?,
+    val sex: UserSex?,
     val email: String?,
     val phoneNumber: String?,
     val address: Address?,
@@ -45,6 +47,6 @@ data class UserRegisterResponse(
         sex = user.sex,
         email = user.email,
         phoneNumber = user.phoneNumber,
-        address = user.address,
+        address = Address.of(user.street, user.postalCode, user.city),
     )
 }

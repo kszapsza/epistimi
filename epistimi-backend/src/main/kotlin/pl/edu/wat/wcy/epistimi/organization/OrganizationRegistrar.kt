@@ -4,9 +4,9 @@ import pl.edu.wat.wcy.epistimi.common.Location
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
+import pl.edu.wat.wcy.epistimi.user.UserRole
 
 class OrganizationRegistrar(
     private val organizationRepository: OrganizationRepository,
@@ -37,7 +37,7 @@ class OrganizationRegistrar(
     ): NewUser {
         return userRegistrar.registerUser(
             contextOrganization,
-            request = registerRequest.admin.copy(role = ORGANIZATION_ADMIN)
+            request = registerRequest.admin.copy(role = UserRole.ORGANIZATION_ADMIN)
         )
     }
 
@@ -45,14 +45,18 @@ class OrganizationRegistrar(
         registerRequest: OrganizationRegisterRequest,
         organizationAdminUser: NewUser
     ): Organization {
+        val location = retrieveLocation(registerRequest)
         return organizationRepository.save(
             Organization(
                 id = null,
                 name = registerRequest.name,
-                status = Organization.Status.ENABLED,
+                status = OrganizationStatus.ENABLED,
                 admin = organizationAdminUser.user,
-                address = registerRequest.address,
-                location = retrieveLocation(registerRequest),
+                street = registerRequest.address.street,
+                postalCode = registerRequest.address.postalCode,
+                city = registerRequest.address.city,
+                latitude = location?.latitude,
+                longitude = location?.longitude,
             )
         )
     }

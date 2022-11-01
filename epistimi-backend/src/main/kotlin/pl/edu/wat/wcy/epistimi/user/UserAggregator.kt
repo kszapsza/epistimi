@@ -5,7 +5,7 @@ import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 class UserAggregator(
     private val userRepository: UserRepository,
 ) {
-    fun getUsers(userRoles: List<User.Role>?): List<User> {
+    fun getUsers(userRoles: List<UserRole>?): List<User> {
         return if (userRoles == null) {
             userRepository.findAll()
         } else {

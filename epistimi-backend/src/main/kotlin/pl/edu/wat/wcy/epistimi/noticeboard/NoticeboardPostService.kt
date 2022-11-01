@@ -41,6 +41,8 @@ class NoticeboardPostService(
                 author = userRepository.findById(contextUser.id!!),
                 title = createRequest.title,
                 content = createRequest.content,
+                createdAt = null,
+                updatedAt = null,
             )
         )
     }
@@ -50,13 +52,18 @@ class NoticeboardPostService(
         noticeboardPostId: NoticeboardPostId,
         updateRequest: NoticeboardPostUpdateRequest,
     ): NoticeboardPost {
-        val post = getNoticeboardPost(contextUser.organization, noticeboardPostId)
-        verifyNoticeboardPostActionAccess(post, contextUser, noticeboardPostId)
+        val updatedPost = getNoticeboardPost(contextUser.organization, noticeboardPostId)
+        verifyNoticeboardPostActionAccess(updatedPost, contextUser, noticeboardPostId)
         return noticeboardPostRepository.savePost(
-            post.copy(
+            NoticeboardPost(
+                id = updatedPost.id,
+                organization = updatedPost.organization,
+                author = updatedPost.author,
                 title = updateRequest.title,
                 content = updateRequest.content,
-            )
+                createdAt = updatedPost.createdAt,
+                updatedAt = null,
+            ),
         )
     }
 

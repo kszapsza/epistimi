@@ -9,6 +9,7 @@ import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
+import pl.edu.wat.wcy.epistimi.user.UserRole
 
 class StudentRegistrar(
     private val studentRepository: StudentRepository,
@@ -48,7 +49,7 @@ class StudentRegistrar(
     ): NewUser {
         return userRegistrar.registerUser(
             contextOrganization,
-            request = userData.copy(role = User.Role.STUDENT),
+            request = userData.copy(role = UserRole.STUDENT),
         )
     }
 

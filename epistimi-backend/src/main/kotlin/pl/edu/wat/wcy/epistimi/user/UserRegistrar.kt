@@ -48,7 +48,9 @@ class UserRegistrar(
             sex = sex,
             email = email,
             phoneNumber = phoneNumber,
-            address = address,
+            street = address?.street,
+            postalCode = address?.postalCode,
+            city = address?.city,
         )
     }
 

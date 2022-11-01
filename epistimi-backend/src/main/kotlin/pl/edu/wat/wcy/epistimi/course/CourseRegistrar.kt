@@ -28,9 +28,9 @@ class CourseRegistrar(
 
     private fun CourseCreateRequest.isSchoolYearTimeFrameValid(): Boolean {
         return schoolYearBegin.isBefore(schoolYearEnd) &&
-            schoolYearBegin.isBefore(schoolYearSemesterEnd) &&
-            schoolYearSemesterEnd.isBefore(schoolYearEnd) &&
-            schoolYearBegin.year == schoolYearEnd.year - 1
+                schoolYearBegin.isBefore(schoolYearSemesterEnd) &&
+                schoolYearSemesterEnd.isBefore(schoolYearEnd) &&
+                schoolYearBegin.year == schoolYearEnd.year - 1
     }
 
     private fun saveCourse(
@@ -63,13 +63,10 @@ class CourseRegistrar(
             Course(
                 id = null,
                 organization = organization,
-                code = Course.Code(
-                    number = createRequest.codeNumber,
-                    letter = createRequest.codeLetter,
-                ),
-                schoolYear = createRequest.formattedSchoolYear,
+                codeNumber = createRequest.codeNumber,
+                codeLetter = createRequest.codeLetter,
                 classTeacher = classTeacher,
-                students = emptyList(),
+                students = emptySet(),
                 schoolYearBegin = createRequest.schoolYearBegin,
                 schoolYearSemesterEnd = createRequest.schoolYearSemesterEnd,
                 schoolYearEnd = createRequest.schoolYearEnd,
@@ -79,7 +76,4 @@ class CourseRegistrar(
             ),
         )
     }
-
-    private val CourseCreateRequest.formattedSchoolYear
-        get() = "${schoolYearBegin.year}/${schoolYearEnd.year}"
 }

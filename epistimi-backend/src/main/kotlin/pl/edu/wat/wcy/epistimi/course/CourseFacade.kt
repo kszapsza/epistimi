@@ -30,7 +30,7 @@ class CourseFacade(
         val addedStudent: Student = studentRepository.findById(studentId)
         return courseRepository.findById(courseId)
             .also { course -> if (course.schoolYearEnd.isBefore(LocalDate.now())) throw CourseUnmodifiableException() }
-            .let { it.copy(students = it.students + addedStudent) }
+            .also { it.students + addedStudent }
             .let { courseRepository.save(it) }
     }
 }

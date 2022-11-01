@@ -1,10 +1,11 @@
 package pl.edu.wat.wcy.epistimi.user.adapter.sql
 
 import org.springframework.data.jpa.repository.JpaRepository
+import pl.edu.wat.wcy.epistimi.user.User
 import java.util.UUID
 
-interface UserJpaRepository : JpaRepository<UserJpaEntity, UUID> {
-    fun findAllByRoleIn(role: Collection<String>): Collection<UserJpaEntity>
-    fun findFirstByUsername(username: String): UserJpaEntity?
-    fun findAllByUsernameStartingWith(username: String): Collection<UserJpaEntity>
+interface UserJpaRepository : JpaRepository<User, UUID> {
+    fun findAllByRoleIn(role: List<String>): List<User>
+    fun findFirstByUsername(username: String): User?
+    fun findAllByUsernameStartingWith(username: String): List<User>
 }

@@ -13,4 +13,18 @@ data class Address(
 
     @field:NotBlank
     val city: String,
-)
+) {
+    companion object {
+        fun of(
+            street: String?,
+            postalCode: String?,
+            city: String?,
+        ): Address? {
+            return if (street != null && postalCode != null && city != null) {
+                Address(street, postalCode, city)
+            } else {
+                null
+            }
+        }
+    }
+}

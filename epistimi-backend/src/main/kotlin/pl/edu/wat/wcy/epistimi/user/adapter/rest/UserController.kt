@@ -19,6 +19,7 @@ import pl.edu.wat.wcy.epistimi.user.UserAggregator
 import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
+import pl.edu.wat.wcy.epistimi.user.UserRole
 import java.net.URI
 import javax.validation.Valid
 
@@ -59,7 +60,7 @@ class UserController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun getUsers(
-        @RequestParam(required = false) role: List<User.Role>?,
+        @RequestParam(required = false) role: List<UserRole>?,
     ): ResponseEntity<UsersResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = UsersResponseMapper) {

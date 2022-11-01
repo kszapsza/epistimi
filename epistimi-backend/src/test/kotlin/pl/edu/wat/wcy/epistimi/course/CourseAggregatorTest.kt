@@ -18,7 +18,6 @@ import java.util.UUID
 
 internal class CourseAggregatorTest : ShouldSpec({
     val courseRepository = mockk<CourseRepository>()
-    val organizationContextProvider = mockk<OrganizationContextProvider>()
 
     val courseAggregator = CourseAggregator(
         courseRepository,

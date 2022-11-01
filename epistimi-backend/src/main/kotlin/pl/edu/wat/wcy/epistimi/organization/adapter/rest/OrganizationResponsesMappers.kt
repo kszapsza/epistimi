@@ -1,5 +1,7 @@
 package pl.edu.wat.wcy.epistimi.organization.adapter.rest
 
+import pl.edu.wat.wcy.epistimi.common.Address
+import pl.edu.wat.wcy.epistimi.common.Location
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.organization.OrganizationRegistrar.NewOrganization
@@ -15,8 +17,8 @@ private fun Organization.toOrganizationResponse() = OrganizationResponse(
     name = name,
     admin = UserResponseMapper.fromDomain(admin),
     status = status.toString(),
-    address = address,
-    location = location,
+    address = Address(street, postalCode, city),
+    location = if (latitude != null && longitude != null) Location(latitude, longitude) else null,
 )
 
 object OrganizationsResponseMapper : FromDomainMapper<List<Organization>, OrganizationsResponse> {
@@ -34,8 +36,8 @@ object OrganizationRegisterResponseMapper : FromDomainMapper<NewOrganization, Or
             id = organization.id!!,
             name = organization.name,
             status = organization.status.toString(),
-            address = organization.address,
-            location = organization.location,
+            address = Address(organization.street, organization.postalCode, organization.city),
+            location = Location.of(organization.latitude, organization.longitude),
         )
     }
 }

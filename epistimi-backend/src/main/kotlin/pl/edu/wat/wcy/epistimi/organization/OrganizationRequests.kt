@@ -11,7 +11,7 @@ data class OrganizationRegisterRequest(
 )
 
 data class OrganizationChangeStatusRequest(
-    val status: Organization.Status,
+    val status: OrganizationStatus,
 )
 
 data class OrganizationUpdateRequest(

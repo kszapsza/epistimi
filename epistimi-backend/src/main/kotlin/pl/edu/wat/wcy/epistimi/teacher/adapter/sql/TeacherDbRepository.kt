@@ -1,7 +1,6 @@
 package pl.edu.wat.wcy.epistimi.teacher.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
@@ -15,30 +14,20 @@ class TeacherDbRepository(
 ) : TeacherRepository {
 
     override fun findById(id: TeacherId): Teacher {
-        return DbHandlers.handleDbGet(mapper = TeacherDbBiMapper) {
-            teacherJpaRepository.findById(id.value)
-                .orElseThrow { TeacherNotFoundException(id) }
-        }
+        return teacherJpaRepository.findById(id.value)
+            .orElseThrow { TeacherNotFoundException(id) }
     }
 
     override fun findByUserId(id: UserId): Teacher {
-        return DbHandlers.handleDbGet(mapper = TeacherDbBiMapper) {
-            teacherJpaRepository.findFirstByUserId(id.value)
-                ?: throw TeacherNotFoundException()
-        }
+        return teacherJpaRepository.findFirstByUserId(id.value)
+            ?: throw TeacherNotFoundException()
     }
 
     override fun findAll(organizationId: OrganizationId): List<Teacher> {
-        return DbHandlers.handleDbMultiGet(mapper = TeacherDbBiMapper) {
-            teacherJpaRepository.findAllByUserOrganizationId(organizationId.value)
-        }
+        return teacherJpaRepository.findAllByUserOrganizationId(organizationId.value)
     }
 
     override fun save(teacher: Teacher): Teacher {
-        return DbHandlers.handleDbInsert(
-            domainObject = teacher,
-            mapper = TeacherDbBiMapper,
-            dbCall = teacherJpaRepository::save,
-        )
+        return teacherJpaRepository.save(teacher)
     }
 }
