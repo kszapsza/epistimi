@@ -94,7 +94,7 @@ class TeacherController(
             )
         }.let { newTeacher ->
             ResponseEntity
-                .created(URI.create("/api/teacher/${newTeacher.id}"))
+                .created(URI.create("/api/teacher/${newTeacher.id!!.value}"))
                 .body(newTeacher)
         }
     }

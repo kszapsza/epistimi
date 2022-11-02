@@ -26,7 +26,6 @@ class CourseDbRepository(
     override fun findById(courseId: CourseId): Course {
         return courseJpaRepository.findById(courseId.value)
             .orElseThrow { CourseNotFoundException(courseId) }
-
     }
 
     override fun findAllWithFiltering(

@@ -2,7 +2,6 @@ package pl.edu.wat.wcy.epistimi.subject
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
-import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter
 import pl.edu.wat.wcy.epistimi.user.User
 import java.time.LocalDateTime
@@ -10,41 +9,49 @@ import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Convert
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "subject_post_comments")
-data class SubjectPostComment(
+@Table(name = "subject_feed_reactions")
+class SubjectFeedReaction(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", length = 36, nullable = false, updatable = false)
-    val id: SubjectPostCommentId,
+    val id: SubjectPostReactionId,
 
     @ManyToOne
-    val post: SubjectPost,
+    val entity: SubjectFeedEntity,
 
     @ManyToOne
     val author: User,
 
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    val type: SubjectPostReactionType,
+
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "reacted_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
     @Convert(converter = LocalDateTimeConverter::class)
-    val createdAt: LocalDateTime?,
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = true, updatable = true, columnDefinition = "TIMESTAMP")
-    @Convert(converter = LocalDateTimeConverter::class)
-    val updatedAt: LocalDateTime?,
-
-    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
-    val content: String,
+    val reactedAt: LocalDateTime? = null,
 )
 
 @JvmInline
-value class SubjectPostCommentId(
+value class SubjectPostReactionId(
     val value: UUID,
 )
+
+enum class SubjectPostReactionType {
+    LIKE,
+    LOVE,
+    WOW,
+    HAHA,
+    SORRY,
+    ANGRY;
+}
+

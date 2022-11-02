@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.student.adapter.rest
+package pl.edu.wat.wcy.epistimi.subject.adapter.rest
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -11,41 +11,41 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
-import pl.edu.wat.wcy.epistimi.student.StudentRegisterRequest
-import pl.edu.wat.wcy.epistimi.student.StudentRegistrar
+import pl.edu.wat.wcy.epistimi.subject.SubjectRegisterRequest
+import pl.edu.wat.wcy.epistimi.subject.SubjectService
 import pl.edu.wat.wcy.epistimi.user.User
 import java.net.URI
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/student")
-@Tag(name = "student", description = "API for retrieving and managing students")
-class StudentController(
-    private val studentRegistrar: StudentRegistrar,
+@RequestMapping("/api/subject")
+@Tag(name = "subject", description = "API for managing subjects within courses (classes)")
+class SubjectController(
+    private val subjectService: SubjectService,
 ) {
     @Operation(
-        summary = "Register student",
-        tags = ["student"],
-        description = "Registers a new student within a course with provided id",
+        summary = "Register subject",
+        tags = ["subject"],
+        description = "Registers new subject within provided course and with provided teacher",
     )
     @PreAuthorize("hasRole('ORGANIZATION_ADMIN')")
     @PostMapping(
         path = [""],
         produces = [MediaType.APPLICATION_JSON_V1],
     )
-    fun registerStudent(
+    fun registerSubject(
         authentication: Authentication,
-        @Valid @RequestBody studentRegisterRequest: StudentRegisterRequest,
-    ): ResponseEntity<StudentRegisterResponse> {
-        return RestHandlers.handleRequest(mapper = StudentRegisterResponseMapper) {
-            studentRegistrar.registerStudent(
+        @Valid @RequestBody subjectRegisterRequest: SubjectRegisterRequest,
+    ): ResponseEntity<SubjectResponse> {
+        return RestHandlers.handleRequest(mapper = SubjectResponseMapper) {
+            subjectService.registerSubject(
                 contextOrganization = (authentication.principal as User).organization!!,
-                request = studentRegisterRequest,
+                subjectRegisterRequest = subjectRegisterRequest,
             )
-        }.let { newStudent ->
+        }.let { newSubject ->
             ResponseEntity
-                .created(URI.create("/api/organization/${newStudent.id!!.value}"))
-                .body(newStudent)
+                .created(URI.create("/api/subject/${newSubject.id.value}"))
+                .body(newSubject)
         }
     }
 }

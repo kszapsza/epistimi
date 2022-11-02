@@ -17,8 +17,8 @@ import pl.edu.wat.wcy.epistimi.user.UserId
 import java.util.UUID
 
 internal class CourseAggregatorTest : ShouldSpec({
-    val courseRepository = mockk<CourseRepository>()
 
+    val courseRepository = mockk<CourseRepository>()
     val courseAggregator = CourseAggregator(courseRepository)
 
     val teacherId = TeacherId(UUID.randomUUID())
@@ -47,11 +47,10 @@ internal class CourseAggregatorTest : ShouldSpec({
 
     should("return list of courses for organization administered by admin with provided id") {
         // given
-        val adminUserId = TestData.organization.admin.id!!
         every { courseRepository.findAllWithFiltering(TestData.organization.id!!, null) } returns listOf(courseStub)
 
         // when
-        val courses = courseAggregator.getCourses(adminUserId, null)
+        val courses = courseAggregator.getCourses(TestData.organization, null)
 
         // then
         with(courses) {
@@ -65,7 +64,7 @@ internal class CourseAggregatorTest : ShouldSpec({
         val adminUserId = UserId(UUID.randomUUID())
 
         // when
-        val courses = courseAggregator.getCourses(adminUserId, null)
+        val courses = courseAggregator.getCourses(TestData.organization, null)
 
         // then
         courses.shouldBeEmpty()
@@ -73,11 +72,10 @@ internal class CourseAggregatorTest : ShouldSpec({
 
     should("return a single course by id") {
         // given
-        val adminUserId = TestData.organization.admin.id!!
         every { courseRepository.findById(courseId) } returns courseStub
 
         // when
-        val course = courseAggregator.getCourse(courseId, adminUserId)
+        val course = courseAggregator.getCourse(TestData.organization, courseId)
 
         // then
         course shouldBe courseStub

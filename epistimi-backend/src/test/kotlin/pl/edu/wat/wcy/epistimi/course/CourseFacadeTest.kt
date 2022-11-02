@@ -31,13 +31,10 @@ internal class CourseFacadeTest : ShouldSpec({
     val courseStub = Course(
         id = courseId,
         organization = TestData.organization,
-        code = Course.Code(
-            number = 6,
-            letter = "a"
-        ),
-        schoolYear = "2012/2013",
+        codeNumber = 6,
+        codeLetter = "a",
         classTeacher = TestData.teacher,
-        students = emptyList(),
+        students = emptySet(),
         schoolYearBegin = TestUtils.parseDate("2012-09-03"),
         schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
         schoolYearEnd = TestUtils.parseDate("2013-06-28"),

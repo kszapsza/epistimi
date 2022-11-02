@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.password.PasswordEncoder
 import pl.edu.wat.wcy.epistimi.user.UserAggregator
-import pl.edu.wat.wcy.epistimi.user.UserCredentialsGenerator
+import pl.edu.wat.wcy.epistimi.user.credentials.UserCredentialsGenerator
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 

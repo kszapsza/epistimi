@@ -6,7 +6,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.springframework.security.crypto.password.PasswordEncoder
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
+import pl.edu.wat.wcy.epistimi.user.UserRole.STUDENT
+import pl.edu.wat.wcy.epistimi.user.credentials.Credentials
+import pl.edu.wat.wcy.epistimi.user.credentials.UserCredentialsGenerator
 import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 import java.util.UUID
 

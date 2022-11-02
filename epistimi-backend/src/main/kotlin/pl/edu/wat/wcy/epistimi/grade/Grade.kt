@@ -21,7 +21,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "grades")
-data class Grade(
+class Grade(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")

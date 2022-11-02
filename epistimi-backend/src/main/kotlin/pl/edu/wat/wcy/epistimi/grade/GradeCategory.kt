@@ -12,7 +12,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "grade_categories")
-data class GradeCategory(
+class GradeCategory(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")

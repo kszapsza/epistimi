@@ -1,31 +1,33 @@
 package pl.edu.wat.wcy.epistimi.subject
 
 import org.hibernate.annotations.CreationTimestamp
-import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter
 import pl.edu.wat.wcy.epistimi.user.User
 import java.time.LocalDateTime
-import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Convert
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.MapsId
+import javax.persistence.OneToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "subject_posts")
-data class SubjectPost(
+@Table(name = "subject_feed_comments")
+class SubjectFeedComment(
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", length = 36, nullable = false, updatable = false)
-    val id: SubjectPostId,
+    val id: SubjectFeedEntityId,
+
+    @OneToOne
+    @JoinColumn(name = "id")
+    @MapsId
+    val entity: SubjectFeedEntity,
 
     @ManyToOne
-    val subject: Subject,
+    val post: SubjectFeedPost,
 
     @ManyToOne
     val author: User,
@@ -42,9 +44,4 @@ data class SubjectPost(
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     val content: String,
-)
-
-@JvmInline
-value class SubjectPostId(
-    val value: UUID,
 )

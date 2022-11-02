@@ -57,7 +57,6 @@ class Course(
 
     @Column(name = "specialization")
     val specialization: String?,
-
 )
 
 @JvmInline

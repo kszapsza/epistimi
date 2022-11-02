@@ -86,7 +86,7 @@ class OrganizationController(
             )
         }.let { newOrganization ->
             ResponseEntity
-                .created(URI.create("/api/organization/${newOrganization.id}"))
+                .created(URI.create("/api/organization/${newOrganization.id.value}"))
                 .body(newOrganization)
         }
     }

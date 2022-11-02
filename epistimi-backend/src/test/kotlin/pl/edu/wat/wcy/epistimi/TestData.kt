@@ -35,7 +35,7 @@ internal object TestData {
     val organization: Organization = Organization(
         id = OrganizationId(UUID.randomUUID()),
         name = "SP7",
-        admin = Users.organizationAdmin,
+        admins = setOf(Users.organizationAdmin),
         status = ENABLED,
         street = address.street,
         city = address.city,
