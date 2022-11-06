@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.user.credentials
+package pl.edu.wat.wcy.epistimi.user
 
 import org.passay.AllowedCharacterRule
 import org.passay.CharacterData

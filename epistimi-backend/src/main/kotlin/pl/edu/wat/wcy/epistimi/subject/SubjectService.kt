@@ -12,16 +12,6 @@ class SubjectService(
     private val courseRepository: CourseRepository,
     private val teacherRepository: TeacherRepository,
 ) {
-    fun getSubject(
-        contextOrganization: Organization,
-        subjectId: SubjectId,
-    ): Subject {
-        val subject = subjectRepository.findById(subjectId)
-        if (subject.course.organization.id != contextOrganization.id) {
-            throw SubjectNotFoundException(subjectId)
-        }
-        return subject
-    }
 
     fun registerSubject(
         contextOrganization: Organization,

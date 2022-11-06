@@ -44,7 +44,7 @@ class SubjectController(
             )
         }.let { newSubject ->
             ResponseEntity
-                .created(URI.create("/api/subject/${newSubject.id.value}"))
+                .created(URI.create("/api/subject/${newSubject.id}"))
                 .body(newSubject)
         }
     }

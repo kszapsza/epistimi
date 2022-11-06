@@ -2,8 +2,6 @@ package pl.edu.wat.wcy.epistimi.user
 
 import org.springframework.security.crypto.password.PasswordEncoder
 import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.user.credentials.Credentials
-import pl.edu.wat.wcy.epistimi.user.credentials.UserCredentialsGenerator
 import pl.edu.wat.wcy.epistimi.user.port.UserRepository
 
 class UserRegistrar(

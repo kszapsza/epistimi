@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.user.credentials
+package pl.edu.wat.wcy.epistimi.user
 
 import java.text.Normalizer
 import java.util.Locale

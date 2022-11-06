@@ -23,7 +23,7 @@ class SubjectFeedReaction(
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", length = 36, nullable = false, updatable = false)
-    val id: SubjectPostReactionId,
+    val id: SubjectPostReactionId? = null,
 
     @ManyToOne
     val entity: SubjectFeedEntity,

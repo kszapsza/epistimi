@@ -19,7 +19,7 @@ import javax.persistence.Table
 @Table(name = "subject_feed_comments")
 class SubjectFeedComment(
     @Id
-    val id: SubjectFeedEntityId,
+    val id: SubjectFeedEntityId? = null,
 
     @OneToOne
     @JoinColumn(name = "id")

@@ -20,7 +20,7 @@ import javax.persistence.Table
 @Table(name = "subject_feed_posts")
 class SubjectFeedPost(
     @Id
-    val id: SubjectFeedEntityId,
+    val id: SubjectFeedEntityId? = null,
 
     @OneToOne
     @JoinColumn(name = "id")

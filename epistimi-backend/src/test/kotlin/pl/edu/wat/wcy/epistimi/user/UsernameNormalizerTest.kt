@@ -2,7 +2,6 @@ package pl.edu.wat.wcy.epistimi.user
 
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
-import pl.edu.wat.wcy.epistimi.user.credentials.UsernameNormalizer
 
 internal class UsernameNormalizerTest : ShouldSpec({
 

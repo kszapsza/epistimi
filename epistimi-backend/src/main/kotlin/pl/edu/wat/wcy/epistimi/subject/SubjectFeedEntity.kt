@@ -11,7 +11,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "subject_feed_entities")
-class SubjectFeedEntity(
+class SubjectFeedEntity private constructor(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
