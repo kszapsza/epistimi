@@ -67,6 +67,7 @@ class CourseRegistrar(
                 codeLetter = createRequest.codeLetter,
                 classTeacher = classTeacher,
                 students = emptySet(),
+                subjects = emptySet(),
                 schoolYearBegin = createRequest.schoolYearBegin,
                 schoolYearSemesterEnd = createRequest.schoolYearSemesterEnd,
                 schoolYearEnd = createRequest.schoolYearEnd,

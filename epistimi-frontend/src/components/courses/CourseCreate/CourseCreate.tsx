@@ -1,4 +1,4 @@
-import './CourseEdit.scss';
+import './CourseCreate.scss';
 import 'dayjs/locale/pl';
 import { Alert, Button, Loader, NativeSelect, NumberInput, TextInput } from '@mantine/core';
 import { CourseCreateRequest, CourseResponse } from '../../../dto/course';
@@ -11,11 +11,11 @@ import { useForm } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 import axios, { AxiosResponse } from 'axios';
 
-interface CourseEditProps {
+interface CourseCreateProps {
   submitCallback: (course: CourseResponse) => void;
 }
 
-export const CourseEdit = (props: CourseEditProps): JSX.Element => {
+export const CourseCreate = (props: CourseCreateProps): JSX.Element => {
   const CODE_LETTERS_REGEXP = /^[a-z]+$/;
   const DATE_FORMAT = 'D MMMM YYYY';
 

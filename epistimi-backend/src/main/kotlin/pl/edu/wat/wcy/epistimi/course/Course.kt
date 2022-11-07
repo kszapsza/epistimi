@@ -3,6 +3,7 @@ package pl.edu.wat.wcy.epistimi.course
 import org.hibernate.annotations.GenericGenerator
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.subject.Subject
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import java.time.LocalDate
 import java.util.UUID
@@ -39,6 +40,10 @@ class Course(
     @OneToMany
     @JoinColumn(name = "course_id")
     val students: Set<Student>,
+
+    @OneToMany
+    @JoinColumn(name = "course_id")
+    val subjects: Set<Subject>,
 
     @Column(name = "school_year_begin")
     val schoolYearBegin: LocalDate,

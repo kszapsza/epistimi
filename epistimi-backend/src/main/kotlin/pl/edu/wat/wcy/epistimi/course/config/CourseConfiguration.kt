@@ -6,7 +6,6 @@ import pl.edu.wat.wcy.epistimi.course.CourseAggregator
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.CourseRegistrar
 import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
 import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
 
 @Configuration
@@ -16,14 +15,10 @@ class CourseConfiguration {
     fun courseFacade(
         courseAggregator: CourseAggregator,
         courseRegistrar: CourseRegistrar,
-        courseRepository: CourseRepository,
-        studentRepository: StudentRepository,
     ): CourseFacade {
         return CourseFacade(
             courseAggregator,
             courseRegistrar,
-            courseRepository,
-            studentRepository,
         )
     }
 

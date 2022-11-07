@@ -1,10 +1,12 @@
 package pl.edu.wat.wcy.epistimi.student
 
+import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar
 import pl.edu.wat.wcy.epistimi.parent.ParentRegistrar.NewParent
 import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
+import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar
 import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
@@ -23,17 +25,13 @@ class StudentRegistrar(
     )
 
     fun registerStudent(
-        contextOrganization: Organization,
+        contextUser: User,
         request: StudentRegisterRequest,
     ): NewStudent {
-        val studentUser = registerStudentUser(contextOrganization, request.user)
-        val newParents = registerParents(contextOrganization, request.parents)
-        val newStudent = registerStudent(studentUser, newParents)
-
-        courseFacade.addStudent(
-            courseId = request.courseId,
-            studentId = newStudent.id!!,
-        )
+        val course = courseFacade.getCourse(contextUser, request.courseId)
+        val studentUser = registerStudentUser(contextUser.organization!!, request.user)
+        val newParents = registerParents(contextUser.organization, request.parents)
+        val newStudent = registerStudent(course, studentUser, newParents)
 
         return NewStudent(
             id = newStudent.id,
@@ -60,6 +58,7 @@ class StudentRegistrar(
     }
 
     private fun registerStudent(
+        course: Course,
         studentUser: NewUser,
         newParents: List<NewParent>,
     ): Student {
@@ -68,6 +67,7 @@ class StudentRegistrar(
                 id = null,
                 user = studentUser.user,
                 parents = newParents.map { it.parent },
+                course = course,
             ),
         )
     }

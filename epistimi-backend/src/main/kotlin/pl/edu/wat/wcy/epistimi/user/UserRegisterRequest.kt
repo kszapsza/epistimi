@@ -2,6 +2,7 @@ package pl.edu.wat.wcy.epistimi.user
 
 import org.hibernate.validator.constraints.pl.PESEL
 import pl.edu.wat.wcy.epistimi.common.Address
+import javax.validation.Valid
 import javax.validation.constraints.Email
 
 data class UserRegisterRequest(
@@ -19,5 +20,7 @@ data class UserRegisterRequest(
     val email: String? = null,
 
     val phoneNumber: String? = null,
+
+    @field:Valid
     val address: Address? = null,
 )

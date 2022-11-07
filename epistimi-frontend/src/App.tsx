@@ -119,6 +119,12 @@ const App = (): JSX.Element => {
           ),
         },
         {
+          path: 'subjects/:id',
+          element: (
+            <NotImplementedYet/>
+          ),
+        },
+        {
           path: 'timetable',
           element: (
             <NotImplementedYet/>

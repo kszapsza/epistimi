@@ -23,6 +23,17 @@ import javax.validation.Valid
 class SubjectController(
     private val subjectService: SubjectService,
 ) {
+
+    /*
+     * TODO:
+     *  On frontend we will need "multi" GET endpoint, returning subjects
+     *  within users' organization AND:
+     *   - for ORGANIZATION_ADMIN / TEACHER: subjects led by context teacher
+     *   - for STUDENT: subjects for courses attended by student
+     *   - for PARENT: subjects for courses attended by parent's child
+     *   - for EPISTIMI_ADMIN: not applicable
+     */
+
     @Operation(
         summary = "Register subject",
         tags = ["subject"],

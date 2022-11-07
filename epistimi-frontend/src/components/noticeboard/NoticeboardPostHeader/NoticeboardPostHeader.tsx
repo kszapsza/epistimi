@@ -20,7 +20,7 @@ export const NoticeboardPostHeader = (
 
   const [dateFromNow, setDateFromNow] = useState<string>('');
   const [dateTooltipLabel, setDateTooltipLabel] = useState<string>('');
-  const authorFullName = `${author.firstName} ${author.lastName}`;
+  const authorFullName = `${author.lastName} ${author.firstName}`;
 
   useEffect(() => {
     if (createdDate !== updatedDate) {

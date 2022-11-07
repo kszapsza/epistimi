@@ -97,7 +97,7 @@ class CourseController(
             )
         }.let { createdCourse ->
             ResponseEntity
-                .created(URI.create("/api/course/${createdCourse.id!!.value}"))
+                .created(URI.create("/api/course/${createdCourse.id}"))
                 .body(createdCourse)
         }
     }

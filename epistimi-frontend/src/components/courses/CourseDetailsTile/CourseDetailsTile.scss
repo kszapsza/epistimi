@@ -1,0 +1,41 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.course-details-tile {
+  align-items: center;
+  border: 1px solid $gray;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: .5rem;
+  min-width: 300px;
+  padding: .5rem;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    flex: 1;
+  }
+
+  &:hover {
+    background-color: $light-gray;
+  }
+
+  .course-details-tile-text {
+    display: flex;
+    flex-direction: column;
+
+    .course-details-tile-title {
+      font: {
+        size: 14px;
+        weight: 500;
+      }
+    }
+
+    .course-details-tile-subtitle {
+      color: rgba($black, .5);
+      font: {
+        size: 12px;
+        weight: 400;
+      }
+    }
+  }
+}

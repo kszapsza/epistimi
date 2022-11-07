@@ -21,7 +21,7 @@ export const MenuUserButton = forwardRef<HTMLButtonElement, MenuUserButtonProps>
           <UserAvatar radius={'xl'} user={user}/>
           <Box sx={{ flex: 1 }}>
             <Text size="sm" weight={500}>
-              {user.firstName} {user.lastName}
+              {user.lastName} {user.firstName}
             </Text>
             <Text color="dimmed" size="xs">
               {user.username}

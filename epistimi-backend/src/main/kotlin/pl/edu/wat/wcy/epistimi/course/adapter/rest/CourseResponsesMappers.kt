@@ -5,6 +5,7 @@ import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.parent.adapter.rest.ParentResponseMapper
 import pl.edu.wat.wcy.epistimi.student.adapter.rest.StudentResponse
+import pl.edu.wat.wcy.epistimi.subject.Subject
 import pl.edu.wat.wcy.epistimi.teacher.adapter.rest.TeacherResponseMapper
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponse
 
@@ -13,7 +14,7 @@ object CourseResponseMapper : FromDomainMapper<Course, CourseResponse> {
 }
 
 private fun Course.toCourseResponse() = CourseResponse(
-    id = id,
+    id = id!!.value.toString(),
     code = CourseResponse.Code(number = codeNumber.toString(), letter = codeLetter),
     schoolYear = "${schoolYearBegin.year}/${schoolYearEnd.year}",
     classTeacher = TeacherResponseMapper.fromDomain(classTeacher),
@@ -37,12 +38,25 @@ private fun Course.toCourseResponse() = CourseResponse(
             parents = student.parents.map { ParentResponseMapper.fromDomain(it) },
         )
     },
+    subjects = subjects.map { it.toCourseSubjectResponse() },
     schoolYearBegin = schoolYearBegin,
     schoolYearSemesterEnd = schoolYearSemesterEnd,
     schoolYearEnd = schoolYearEnd,
     profile = profile,
     profession = profession,
     specialization = specialization,
+)
+
+private fun Subject.toCourseSubjectResponse() = CourseSubjectResponse(
+    id = id!!.value.toString(),
+    name = name,
+    teacher = CourseSubjectTeacherResponse(
+        id = teacher.id!!.value.toString(),
+        academicTitle = teacher.academicTitle,
+        firstName = teacher.user.firstName,
+        lastName = teacher.user.lastName,
+        username = teacher.user.username,
+    )
 )
 
 object CoursesResponseMapper : FromDomainMapper<List<Course>, CoursesResponse> {

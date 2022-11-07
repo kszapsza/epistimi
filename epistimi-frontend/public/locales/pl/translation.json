@@ -3,6 +3,15 @@
     "notImplementedYet": "Ten komponent nie został (jeszcze) zaimplementowany."
   },
   "courses": {
+    "courseAddSubject": {
+      "couldNotCreateSubject": "Nie udało się dodać nowego przedmiotu",
+      "name": "Nazwa przedmiotu",
+      "namePlaceholder": "np. „Język polski”, „Matematyka”",
+      "requiredField": "Wymagane pole",
+      "selectSubjectTeacher": "Wybierz nauczyciela",
+      "submit": "Dodaj przedmiot",
+      "teacher": "Nauczyciel prowadzący"
+    },
     "courseAddStudent": {
       "errorAddingStudent": "Wystąpił błąd podczas dodawania ucznia do klasy",
       "invalidPesel": "Niepoprawny PESEL",
@@ -45,8 +54,8 @@
       "addStudent": "Dodaj ucznia",
       "addStudentModalTitle": "Dodawanie ucznia do klasy",
       "addSubject": "Dodaj przedmiot",
+      "addSubjectModalTitle": "Dodawanie nowego przedmiotu",
       "connectionFailed": "Nie udało połączyć się z serwerem",
-      "data": "Dane",
       "notFound": "Nie znaleziono klasy",
       "promoteClass": "Promocja klasy",
       "students": "Uczniowie",

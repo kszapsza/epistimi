@@ -9,7 +9,7 @@ interface UserAvatarProps extends AvatarProps {
 export const UserAvatar = (props: UserAvatarProps): JSX.Element => {
   return (
     <Avatar {...props} color={getUserAvatarColor(props.user.role)}>
-      {`${props.user.firstName[0]}${props.user.lastName[0]}`.toUpperCase()}
+      {`${props.user.lastName[0]}${props.user.firstName[0]}`.toUpperCase()}
     </Avatar>
   );
 };
