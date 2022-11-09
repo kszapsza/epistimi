@@ -12,8 +12,7 @@ export const CoursesListingGroup = ({ courses }: CoursesListingGroupProps): JSX.
       {courses
         .sort(({ code: codeA }, { code: codeB }) =>
           `${codeA.number}${codeA.letter}`.localeCompare(`${codeB.number}${codeB.letter}`, 'pl-PL'),
-        )
-        .map((course) =>
+        ).map((course) =>
           <CoursesListingTile
             key={course.id}
             id={course.id}

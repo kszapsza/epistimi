@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.Address
-import pl.edu.wat.wcy.epistimi.common.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.data.DummyAddress
 import pl.edu.wat.wcy.epistimi.organization.Organization.Status.DISABLED
 import pl.edu.wat.wcy.epistimi.organization.OrganizationChangeStatusRequest

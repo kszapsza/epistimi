@@ -1,5 +1,6 @@
 import './CourseDetailsTile.scss';
 import { Card } from '@mantine/core';
+import { Link } from 'react-router-dom';
 
 interface CourseDetailsTileProps {
   avatar: JSX.Element;
@@ -12,7 +13,7 @@ export const CourseDetailsTile = (
   { avatar, title, subtitle, href }: CourseDetailsTileProps,
 ): JSX.Element => {
   return (
-    <Card className={'course-details-tile'} component={'a'} href={href}>
+    <Card withBorder className={'course-details-tile'} component={Link} to={href}>
       {avatar}
       <div className={'course-details-tile-text'}>
         <div className={'course-details-tile-title'}>

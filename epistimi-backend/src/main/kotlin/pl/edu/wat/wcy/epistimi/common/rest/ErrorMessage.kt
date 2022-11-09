@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.common.api
+package pl.edu.wat.wcy.epistimi.common.rest
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.user
 
 import org.hibernate.annotations.GenericGenerator
-import pl.edu.wat.wcy.epistimi.common.api.toUuid
+import pl.edu.wat.wcy.epistimi.common.rest.toUuid
 import pl.edu.wat.wcy.epistimi.organization.Organization
 import java.util.UUID
 import javax.persistence.Column
@@ -68,7 +68,9 @@ class User(
 
     @Column(name = "city")
     val city: String?,
-)
+) {
+    infix fun hasRole(role: UserRole): Boolean = this.role == role
+}
 
 @JvmInline
 value class UserId(

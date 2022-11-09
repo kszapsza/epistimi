@@ -2,13 +2,13 @@ import './CourseDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal } from '@mantine/core';
 import { AxiosError } from 'axios';
 import { CourseAddStudent, CourseAddSubject, CourseDetailsData, CourseDetailsStudents, CourseDetailsSubjects } from '../../courses';
+import { CourseDetailsSection } from '../CourseDetailsSection';
 import { CourseResponse } from '../../../dto/course';
 import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconBook, IconSchool } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
 import { useTranslation } from 'react-i18next';
-import { CourseDetailsSection } from '../CourseDetailsSection';
 
 export const CourseDetails = (): JSX.Element => {
   const { id } = useParams();

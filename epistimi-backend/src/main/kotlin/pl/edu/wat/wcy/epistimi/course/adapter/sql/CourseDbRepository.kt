@@ -69,7 +69,7 @@ class CourseDbRepository(
         coursesRoot: Root<Course>,
         classTeacherId: TeacherId,
     ): Predicate {
-        val classTeacherJoin = coursesRoot.join<Organization, Teacher>("classTeacher", JoinType.INNER)
+        val classTeacherJoin = coursesRoot.join<Course, Teacher>("classTeacher", JoinType.INNER)
         return criteriaBuilder.equal(classTeacherJoin.get<UUID>("id"), classTeacherId.value)
     }
 

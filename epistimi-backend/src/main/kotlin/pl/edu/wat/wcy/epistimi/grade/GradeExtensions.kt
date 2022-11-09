@@ -31,8 +31,8 @@ private data class WeightedValue(
 }
 
 private fun calculateWeightedAverage(values: Collection<WeightedValue>): BigDecimal {
-    val numerator = values.sumOf { it.weight * it.value }
-    val denominator = values.sumOf { it.weight }
+    val numerator = values.sumOf { it.weight * it.value }.setScale(2, RoundingMode.HALF_UP)
+    val denominator = values.sumOf { it.weight }.setScale(2, RoundingMode.HALF_UP)
 
-    return numerator.setScale(2, RoundingMode.HALF_UP) / denominator.setScale(2, RoundingMode.HALF_UP)
+    return numerator / denominator
 }

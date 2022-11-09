@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
+import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostCreateRequest
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostId
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostService

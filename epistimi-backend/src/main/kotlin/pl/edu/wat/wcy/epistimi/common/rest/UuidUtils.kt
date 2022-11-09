@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.common.api
+package pl.edu.wat.wcy.epistimi.common.rest
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -9,7 +9,7 @@ import java.util.UUID
 
 /**
  * A wrapper around [java.util.UUID.fromString]. Maps generic [java.lang.IllegalArgumentException]
- * into [pl.edu.wat.wcy.epistimi.common.api.MalformedUuidException], which is globally
+ * into [pl.edu.wat.wcy.epistimi.common.rest.MalformedUuidException], which is globally
  * mapped into HTTP 400 response status.
  *
  * @throws MalformedUuidException if provided string was not a valid UUID.

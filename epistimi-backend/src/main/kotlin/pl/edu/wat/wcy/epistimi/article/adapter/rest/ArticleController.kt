@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.article.ArticleFacade
-import pl.edu.wat.wcy.epistimi.common.api.MediaType
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
+import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 
 @RestController
 @RequestMapping("/api/article")

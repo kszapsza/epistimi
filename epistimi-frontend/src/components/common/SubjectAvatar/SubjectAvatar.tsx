@@ -13,7 +13,7 @@ export const SubjectAvatar = ({ subjectName, ...props }: SubjectAvatarProps): JS
 };
 
 const getSubjectInitials = (name: string): string => {
-  return name.split(' ')
+  return name.split(/\s/)
     .map((word) => word[0])
     .slice(0, 3)
     .join("")

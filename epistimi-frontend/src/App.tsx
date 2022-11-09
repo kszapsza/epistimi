@@ -6,6 +6,7 @@ import { Noticeboard } from './components/noticeboard';
 import { NotImplementedYet } from './components/common';
 import { OrganizationDetails, OrganizationsListing } from './components/organizations';
 import { RequireAuth } from './router/RequireAuth';
+import { Subject } from './components/subjects';
 import { Summary } from './components/summary';
 import { TeacherDetails, TeachersListing } from './components/teachers';
 import { useAppSelector } from './store/hooks';
@@ -121,7 +122,16 @@ const App = (): JSX.Element => {
         {
           path: 'subjects/:id',
           element: (
-            <NotImplementedYet/>
+            <RequireAuth
+              element={<Subject/>}
+              auth={auth}
+              allowedRoles={[
+                UserRole.ORGANIZATION_ADMIN,
+                UserRole.TEACHER,
+                UserRole.STUDENT,
+                UserRole.PARENT,
+              ]}
+            />
           ),
         },
         {

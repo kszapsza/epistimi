@@ -7,6 +7,7 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDa
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.subject.Subject
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
+import pl.edu.wat.wcy.epistimi.user.User
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.persistence.Column
@@ -18,6 +19,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.ManyToOne
 import javax.persistence.Table
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
 
 @Entity
 @Table(name = "grades")
@@ -39,6 +42,11 @@ class Grade(
 
     @ManyToOne
     val category: GradeCategory,
+
+    @Column(name = "semester")
+    @Min(1)
+    @Max(2)
+    val semester: Int,
 
     @CreationTimestamp
     @Column(name = "issued_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
@@ -62,7 +70,10 @@ class Grade(
 
     @Column(name = "comment", columnDefinition = "TEXT")
     val comment: String?,
-)
+) {
+    infix fun isIssuedBy(user: User): Boolean = this.issuedBy.user.id == user.id
+    infix fun isIssuedFor(user: User): Boolean = this.student.user.id == user.id
+}
 
 @JvmInline
 value class GradeId(

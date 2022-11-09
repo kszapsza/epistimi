@@ -15,8 +15,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
-import pl.edu.wat.wcy.epistimi.common.api.ErrorMessage
-import pl.edu.wat.wcy.epistimi.common.api.MediaType
+import pl.edu.wat.wcy.epistimi.common.rest.ErrorMessage
+import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.user.User
 import pl.edu.wat.wcy.epistimi.user.UserId
 import pl.edu.wat.wcy.epistimi.user.UserNotFoundException

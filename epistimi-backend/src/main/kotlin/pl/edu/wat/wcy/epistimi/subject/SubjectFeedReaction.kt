@@ -54,4 +54,3 @@ enum class SubjectPostReactionType {
     SORRY,
     ANGRY;
 }
-

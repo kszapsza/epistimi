@@ -28,9 +28,9 @@ class CourseRegistrar(
 
     private fun CourseCreateRequest.isSchoolYearTimeFrameValid(): Boolean {
         return schoolYearBegin.isBefore(schoolYearEnd) &&
-                schoolYearBegin.isBefore(schoolYearSemesterEnd) &&
-                schoolYearSemesterEnd.isBefore(schoolYearEnd) &&
-                schoolYearBegin.year == schoolYearEnd.year - 1
+            schoolYearBegin.isBefore(schoolYearSemesterEnd) &&
+            schoolYearSemesterEnd.isBefore(schoolYearEnd) &&
+            schoolYearBegin.year == schoolYearEnd.year - 1
     }
 
     private fun saveCourse(

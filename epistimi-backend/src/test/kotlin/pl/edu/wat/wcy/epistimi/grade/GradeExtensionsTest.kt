@@ -18,17 +18,21 @@ internal class GradeExtensionsTest : ShouldSpec({
         color = null,
     )
 
-    val testGrade = Grade(
+    fun testGrade(
+        value: GradeValue,
+        weight: Int,
+        countTowardsAverage: Boolean = true,
+    ) = Grade(
         id = null,
         subject = TestData.subject,
         student = TestData.student,
         issuedBy = TestData.teacher,
         issuedAt = TestUtils.parseDateTime("2012-09-10 14:05"),
         updatedAt = null,
-        value = GradeValue.GOOD,
-        weight = 1,
+        value = value,
+        weight = weight,
         category = testGradeCategory,
-        countTowardsAverage = true,
+        countTowardsAverage = countTowardsAverage,
         comment = null,
     )
 
@@ -46,7 +50,7 @@ internal class GradeExtensionsTest : ShouldSpec({
     should("calculate weighted average for one element grade collection") {
         // given
         val grades = listOf(
-            testGrade.copy(value = GradeValue.SATISFACTORY, weight = 3),
+            testGrade(value = GradeValue.SATISFACTORY, weight = 3),
         )
 
         // when
@@ -59,12 +63,12 @@ internal class GradeExtensionsTest : ShouldSpec({
     should("calculate weighted average for multiple element grade collection") {
         // given
         val grades = listOf(
-            testGrade.copy(value = GradeValue.EXCELLENT, weight = 13),
-            testGrade.copy(value = GradeValue.VERY_GOOD, weight = 8),
-            testGrade.copy(value = GradeValue.GOOD, weight = 5),
-            testGrade.copy(value = GradeValue.SATISFACTORY, weight = 3),
-            testGrade.copy(value = GradeValue.ACCEPTABLE, weight = 2),
-            testGrade.copy(value = GradeValue.UNSATISFACTORY, weight = 1),
+            testGrade(value = GradeValue.EXCELLENT, weight = 13),
+            testGrade(value = GradeValue.VERY_GOOD, weight = 8),
+            testGrade(value = GradeValue.GOOD, weight = 5),
+            testGrade(value = GradeValue.SATISFACTORY, weight = 3),
+            testGrade(value = GradeValue.ACCEPTABLE, weight = 2),
+            testGrade(value = GradeValue.UNSATISFACTORY, weight = 1),
         )
 
         // when
@@ -77,9 +81,9 @@ internal class GradeExtensionsTest : ShouldSpec({
     should("calculate weighted average ignoring grades marked as not counted towards average") {
         // given
         val grades = listOf(
-            testGrade.copy(value = GradeValue.GOOD, weight = 3, countTowardsAverage = false),
-            testGrade.copy(value = GradeValue.EXCELLENT, weight = 2),
-            testGrade.copy(value = GradeValue.UNSATISFACTORY, weight = 1),
+            testGrade(value = GradeValue.GOOD, weight = 3, countTowardsAverage = false),
+            testGrade(value = GradeValue.EXCELLENT, weight = 2),
+            testGrade(value = GradeValue.UNSATISFACTORY, weight = 1),
         )
 
         // when
@@ -92,17 +96,17 @@ internal class GradeExtensionsTest : ShouldSpec({
     should("calculate weighted average ignoring grades without numeric values") {
         // given
         val grades = listOf(
-            testGrade.copy(value = GradeValue.NO_ASSIGNMENT, weight = 3),
-            testGrade.copy(value = GradeValue.UNPREPARED, weight = 3),
-            testGrade.copy(value = GradeValue.UNCLASSIFIED, weight = 3),
-            testGrade.copy(value = GradeValue.ATTENDED, weight = 3),
-            testGrade.copy(value = GradeValue.DID_NOT_ATTEND, weight = 3),
-            testGrade.copy(value = GradeValue.PASSED, weight = 3),
-            testGrade.copy(value = GradeValue.FAILED, weight = 3),
-            testGrade.copy(value = GradeValue.ABSENT, weight = 3),
-            testGrade.copy(value = GradeValue.EXEMPT, weight = 3),
-            testGrade.copy(value = GradeValue.UNSATISFACTORY, weight = 2),
-            testGrade.copy(value = GradeValue.EXCELLENT, weight = 2),
+            testGrade(value = GradeValue.NO_ASSIGNMENT, weight = 3),
+            testGrade(value = GradeValue.UNPREPARED, weight = 3),
+            testGrade(value = GradeValue.UNCLASSIFIED, weight = 3),
+            testGrade(value = GradeValue.ATTENDED, weight = 3),
+            testGrade(value = GradeValue.DID_NOT_ATTEND, weight = 3),
+            testGrade(value = GradeValue.PASSED, weight = 3),
+            testGrade(value = GradeValue.FAILED, weight = 3),
+            testGrade(value = GradeValue.ABSENT, weight = 3),
+            testGrade(value = GradeValue.EXEMPT, weight = 3),
+            testGrade(value = GradeValue.UNSATISFACTORY, weight = 2),
+            testGrade(value = GradeValue.EXCELLENT, weight = 2),
         )
 
         // when
@@ -115,16 +119,16 @@ internal class GradeExtensionsTest : ShouldSpec({
     should("calculate weighted average ignoring \"minuses\" and \"pluses\"") {
         // given
         val grades = listOf(
-            testGrade.copy(value = GradeValue.EXCELLENT, weight = 1),
-            testGrade.copy(value = GradeValue.VERY_GOOD_PLUS, weight = 2),
-            testGrade.copy(value = GradeValue.VERY_GOOD_MINUS, weight = 2),
-            testGrade.copy(value = GradeValue.GOOD_PLUS, weight = 3),
-            testGrade.copy(value = GradeValue.GOOD_MINUS, weight = 3),
-            testGrade.copy(value = GradeValue.SATISFACTORY_PLUS, weight = 5),
-            testGrade.copy(value = GradeValue.SATISFACTORY_MINUS, weight = 5),
-            testGrade.copy(value = GradeValue.ACCEPTABLE_PLUS, weight = 8),
-            testGrade.copy(value = GradeValue.ACCEPTABLE_MINUS, weight = 8),
-            testGrade.copy(value = GradeValue.UNSATISFACTORY, weight = 13),
+            testGrade(value = GradeValue.EXCELLENT, weight = 1),
+            testGrade(value = GradeValue.VERY_GOOD_PLUS, weight = 2),
+            testGrade(value = GradeValue.VERY_GOOD_MINUS, weight = 2),
+            testGrade(value = GradeValue.GOOD_PLUS, weight = 3),
+            testGrade(value = GradeValue.GOOD_MINUS, weight = 3),
+            testGrade(value = GradeValue.SATISFACTORY_PLUS, weight = 5),
+            testGrade(value = GradeValue.SATISFACTORY_MINUS, weight = 5),
+            testGrade(value = GradeValue.ACCEPTABLE_PLUS, weight = 8),
+            testGrade(value = GradeValue.ACCEPTABLE_MINUS, weight = 8),
+            testGrade(value = GradeValue.UNSATISFACTORY, weight = 13),
         )
 
         // when

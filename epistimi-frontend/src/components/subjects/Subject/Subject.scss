@@ -1,0 +1,19 @@
+@import 'src/styles/themes';
+
+.subject-head {
+  padding: .25rem .5rem 1rem;
+
+  .subject-course {
+    color: rgba($black, .5);
+    font: {
+      size: 14px;
+    };
+  }
+
+  .subject-name {
+    font: {
+      size: 36px;
+      weight: 700;
+    };
+  }
+}

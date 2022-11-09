@@ -1,5 +1,5 @@
 import './CoursesListingTile.scss';
-import { Box } from '@mantine/core';
+import { Card } from '@mantine/core';
 import { CourseCode } from '../../../dto/course';
 import { CoursesListingTileAvatars } from '../../courses';
 import { Link } from 'react-router-dom';
@@ -20,7 +20,7 @@ export const CoursesListingTile = (
   const { t } = useTranslation();
 
   return (
-    <Box className={'course-tile'} component={Link} to={`/app/courses/${id}`} role={'link'}>
+    <Card withBorder className={'course-tile'} component={Link} to={`/app/courses/${id}`} role={'link'}>
       <div className={'course-tile-icon'}>
         <CoursesListingTileAvatars students={students}/>
       </div>
@@ -33,6 +33,6 @@ export const CoursesListingTile = (
       <div className={'course-tile-students-count'}>
         {t('courses.coursesListingTile.studentsCount', { count: students.length })}
       </div>
-    </Box>
+    </Card>
   );
 };

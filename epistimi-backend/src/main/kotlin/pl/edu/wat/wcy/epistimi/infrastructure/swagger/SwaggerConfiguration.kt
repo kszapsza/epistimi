@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.common.config
+package pl.edu.wat.wcy.epistimi.infrastructure.swagger
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

@@ -4,8 +4,8 @@ import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.course.CourseId
 import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.OrganizationStatus.ENABLED
 import pl.edu.wat.wcy.epistimi.organization.OrganizationId
+import pl.edu.wat.wcy.epistimi.organization.OrganizationStatus.ENABLED
 import pl.edu.wat.wcy.epistimi.parent.Parent
 import pl.edu.wat.wcy.epistimi.parent.ParentId
 import pl.edu.wat.wcy.epistimi.student.Student
@@ -15,14 +15,14 @@ import pl.edu.wat.wcy.epistimi.subject.SubjectId
 import pl.edu.wat.wcy.epistimi.teacher.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.TeacherId
 import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.user.UserRole
 import pl.edu.wat.wcy.epistimi.user.UserRole.EPISTIMI_ADMIN
 import pl.edu.wat.wcy.epistimi.user.UserRole.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.UserRole.PARENT
 import pl.edu.wat.wcy.epistimi.user.UserRole.STUDENT
 import pl.edu.wat.wcy.epistimi.user.UserRole.TEACHER
 import pl.edu.wat.wcy.epistimi.user.UserSex.MALE
-import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserRole
 import java.util.UUID
 
 internal object TestData {

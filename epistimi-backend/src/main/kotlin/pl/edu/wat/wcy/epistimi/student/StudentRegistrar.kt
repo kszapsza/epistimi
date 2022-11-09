@@ -54,7 +54,10 @@ class StudentRegistrar(
         contextOrganization: Organization,
         parentsUserData: List<UserRegisterRequest>,
     ): List<NewParent> {
-        return parentRegistrar.registerParents(contextOrganization, parentsUserData)
+        return parentRegistrar.registerParents(
+            contextOrganization,
+            userRegisterRequests = parentsUserData
+        )
     }
 
     private fun registerStudent(
