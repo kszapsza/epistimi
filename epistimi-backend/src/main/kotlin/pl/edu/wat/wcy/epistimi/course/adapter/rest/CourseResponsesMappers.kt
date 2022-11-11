@@ -5,7 +5,7 @@ import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.course.Course
 import pl.edu.wat.wcy.epistimi.parent.adapter.rest.ParentResponseMapper
 import pl.edu.wat.wcy.epistimi.student.adapter.rest.StudentResponse
-import pl.edu.wat.wcy.epistimi.subject.Subject
+import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import pl.edu.wat.wcy.epistimi.teacher.adapter.rest.TeacherResponseMapper
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponse
 

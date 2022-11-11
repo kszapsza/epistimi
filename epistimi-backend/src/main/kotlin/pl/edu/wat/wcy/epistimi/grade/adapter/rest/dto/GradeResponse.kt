@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 data class GradeResponse(
     val id: String,
     val issuedBy: GradeTeacherResponse,
-    val category: GradeCategoryResponse,
+    val category: GradeCategorySimpleResponse,
     val semester: Int,
     val issuedAt: LocalDateTime,
     val updatedAt: LocalDateTime?,
@@ -22,7 +22,7 @@ data class GradeTeacherResponse(
     val lastName: String,
 )
 
-data class GradeCategoryResponse(
+data class GradeCategorySimpleResponse(
     val id: String,
     val name: String,
     val color: String?,

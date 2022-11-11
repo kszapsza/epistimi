@@ -14,7 +14,7 @@ class NoticeboardPostService(
         private val logger by logger()
     }
 
-    private fun getNoticeboardPost(
+    fun getNoticeboardPost(
         contextOrganization: Organization,
         noticeboardPostId: NoticeboardPostId,
     ): NoticeboardPost {

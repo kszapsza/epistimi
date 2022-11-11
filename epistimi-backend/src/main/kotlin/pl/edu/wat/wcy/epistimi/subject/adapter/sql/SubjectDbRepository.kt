@@ -1,10 +1,10 @@
 package pl.edu.wat.wcy.epistimi.subject.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.subject.Subject
-import pl.edu.wat.wcy.epistimi.subject.SubjectId
-import pl.edu.wat.wcy.epistimi.subject.SubjectNotFoundException
-import pl.edu.wat.wcy.epistimi.subject.port.SubjectRepository
+import pl.edu.wat.wcy.epistimi.subject.domain.Subject
+import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
+import pl.edu.wat.wcy.epistimi.subject.domain.SubjectNotFoundException
+import pl.edu.wat.wcy.epistimi.subject.domain.port.SubjectRepository
 
 @Repository
 class SubjectDbRepository(
@@ -12,7 +12,7 @@ class SubjectDbRepository(
 ) : SubjectRepository {
 
     override fun findById(subjectId: SubjectId): Subject {
-        return subjectJpaRepository.findById(subjectId)
+        return subjectJpaRepository.findById(subjectId.value)
             .orElseThrow { SubjectNotFoundException(subjectId) }
     }
 

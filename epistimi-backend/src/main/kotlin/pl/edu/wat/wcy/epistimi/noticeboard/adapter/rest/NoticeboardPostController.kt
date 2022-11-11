@@ -20,6 +20,7 @@ import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostId
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostService
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostUpdateRequest
 import pl.edu.wat.wcy.epistimi.user.User
+import java.net.URI
 import javax.validation.Valid
 
 @RestController
@@ -28,6 +29,30 @@ import javax.validation.Valid
 class NoticeboardPostController(
     private val noticeboardPostService: NoticeboardPostService,
 ) {
+    @Operation(
+        summary = "Get noticeboard post by id",
+        tags = ["noticeboard/post"],
+        description = "Retrieves a noticeboard post with provided id",
+    )
+    @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @GetMapping(
+        path = ["{id}"],
+        produces = [MediaType.APPLICATION_JSON_V1],
+    )
+    fun getNoticeboardPost(
+        @PathVariable(name = "id") id: NoticeboardPostId,
+        authentication: Authentication,
+    ): ResponseEntity<NoticeboardPostResponse> {
+        return ResponseEntity.ok(
+            RestHandlers.handleRequest(mapper = NoticeboardPostResponseMapper) {
+                noticeboardPostService.getNoticeboardPost(
+                    contextOrganization = (authentication.principal as User).organization!!,
+                    noticeboardPostId = id,
+                )
+            }
+        )
+    }
+
     @Operation(
         summary = "Get all noticeboard posts",
         tags = ["noticeboard/post"],
@@ -64,14 +89,16 @@ class NoticeboardPostController(
         authentication: Authentication,
         @Valid @RequestBody createRequest: NoticeboardPostCreateRequest,
     ): ResponseEntity<NoticeboardPostResponse> {
-        return ResponseEntity.ok(
-            RestHandlers.handleRequest(mapper = NoticeboardPostResponseMapper) {
-                noticeboardPostService.createNoticeboardPost(
-                    contextUser = authentication.principal as User,
-                    createRequest = createRequest,
-                )
-            }
-        )
+        return RestHandlers.handleRequest(mapper = NoticeboardPostResponseMapper) {
+            noticeboardPostService.createNoticeboardPost(
+                contextUser = authentication.principal as User,
+                createRequest = createRequest,
+            )
+        }.let { response ->
+            ResponseEntity
+                .created(URI("/api/noticeboard/post/${response.id!!.value}"))
+                .body(response)
+        }
     }
 
     @Operation(

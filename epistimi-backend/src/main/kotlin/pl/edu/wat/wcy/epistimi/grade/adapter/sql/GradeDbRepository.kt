@@ -1,15 +1,15 @@
 package pl.edu.wat.wcy.epistimi.grade.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.grade.Grade
-import pl.edu.wat.wcy.epistimi.grade.GradeFilters
-import pl.edu.wat.wcy.epistimi.grade.GradeId
-import pl.edu.wat.wcy.epistimi.grade.GradeNotFoundException
-import pl.edu.wat.wcy.epistimi.grade.port.GradeRepository
+import pl.edu.wat.wcy.epistimi.grade.domain.Grade
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeFilters
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeId
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeNotFoundException
+import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
 import pl.edu.wat.wcy.epistimi.student.Student
 import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.subject.Subject
-import pl.edu.wat.wcy.epistimi.subject.SubjectId
+import pl.edu.wat.wcy.epistimi.subject.domain.Subject
+import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import java.util.UUID
 import javax.persistence.EntityManager
 import javax.persistence.TypedQuery
@@ -24,7 +24,7 @@ class GradeDbRepository(
 ) : GradeRepository {
 
     override fun findById(gradeId: GradeId): Grade {
-        return gradeJpaRepository.findById(gradeId)
+        return gradeJpaRepository.findById(gradeId.value)
             .orElseThrow { GradeNotFoundException(gradeId) }
     }
 

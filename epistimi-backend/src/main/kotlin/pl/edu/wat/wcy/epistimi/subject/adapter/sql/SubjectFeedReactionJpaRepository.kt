@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.subject.adapter.sql
 
 import org.springframework.data.jpa.repository.JpaRepository
-import pl.edu.wat.wcy.epistimi.subject.SubjectFeedReaction
-import pl.edu.wat.wcy.epistimi.subject.SubjectPostReactionId
+import pl.edu.wat.wcy.epistimi.subject.domain.SubjectFeedReaction
+import java.util.UUID
 
-interface SubjectFeedReactionJpaRepository : JpaRepository<SubjectFeedReaction, SubjectPostReactionId>
+interface SubjectFeedReactionJpaRepository : JpaRepository<SubjectFeedReaction, UUID>

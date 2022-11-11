@@ -5,6 +5,11 @@ import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.TestUtils
+import pl.edu.wat.wcy.epistimi.grade.domain.Grade
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeValue
+import pl.edu.wat.wcy.epistimi.grade.domain.weightedAverage
 import java.math.BigDecimal
 import java.util.UUID
 

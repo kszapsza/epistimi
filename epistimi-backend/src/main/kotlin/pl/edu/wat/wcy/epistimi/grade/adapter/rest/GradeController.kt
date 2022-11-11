@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.grade.GradeAggregatorService
-import pl.edu.wat.wcy.epistimi.grade.GradeFilters
-import pl.edu.wat.wcy.epistimi.grade.GradeId
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradesWithStatisticsResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradesWithStatisticsResponseMapper
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeFilters
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeId
+import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeAggregatorService
 import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.subject.SubjectId
+import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.user.User
 import java.util.UUID
 

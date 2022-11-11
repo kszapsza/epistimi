@@ -5,14 +5,17 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.subject.SubjectRegisterRequest
-import pl.edu.wat.wcy.epistimi.subject.SubjectService
+import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
+import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
+import pl.edu.wat.wcy.epistimi.subject.domain.SubjectRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.User
 import java.net.URI
 import javax.validation.Valid
@@ -21,8 +24,31 @@ import javax.validation.Valid
 @RequestMapping("/api/subject")
 @Tag(name = "subject", description = "API for managing subjects within courses (classes)")
 class SubjectController(
-    private val subjectService: SubjectService,
+    private val subjectFacade: SubjectFacade,
 ) {
+    @Operation(
+        summary = "Get subject",
+        tags = ["subject"],
+        description = "Retrieves subject by provided id",
+    )
+    @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @GetMapping(
+        path = ["{id}"],
+        produces = [MediaType.APPLICATION_JSON_V1],
+    )
+    fun getSubjectById(
+        @PathVariable id: SubjectId,
+        authentication: Authentication,
+    ): ResponseEntity<SubjectResponse> {
+        return ResponseEntity.ok(
+            RestHandlers.handleRequest(mapper = SubjectResponseMapper) {
+                subjectFacade.getSubject(
+                    contextUser = authentication.principal as User,
+                    subjectId = id,
+                )
+            }
+        )
+    }
 
     /*
      * TODO:
@@ -49,7 +75,7 @@ class SubjectController(
         @Valid @RequestBody subjectRegisterRequest: SubjectRegisterRequest,
     ): ResponseEntity<SubjectResponse> {
         return RestHandlers.handleRequest(mapper = SubjectResponseMapper) {
-            subjectService.registerSubject(
+            subjectFacade.registerSubject(
                 contextOrganization = (authentication.principal as User).organization!!,
                 subjectRegisterRequest = subjectRegisterRequest,
             )
