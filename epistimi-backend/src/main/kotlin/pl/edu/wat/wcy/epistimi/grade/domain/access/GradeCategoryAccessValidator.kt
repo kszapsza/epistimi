@@ -1,11 +1,11 @@
 package pl.edu.wat.wcy.epistimi.grade.domain.access
 
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory
-import pl.edu.wat.wcy.epistimi.organization.Organization
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.security.ResourceAccessValidator
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserRole
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 
 class GradeCategoryAccessValidator : ResourceAccessValidator<GradeCategory> {
     override fun canRetrieve(requester: User, resource: GradeCategory): Boolean {

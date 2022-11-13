@@ -1,11 +1,17 @@
 package pl.edu.wat.wcy.epistimi.organization
 
-import pl.edu.wat.wcy.epistimi.organization.OrganizationRegistrar.NewOrganization
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.organization.domain.service.OrganizationRegistrationService.NewOrganization
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationChangeStatusRequest
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
+import pl.edu.wat.wcy.epistimi.organization.domain.service.OrganizationRegistrationService
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationUpdateRequest
+import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationLocationClient
+import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
 
 class OrganizationFacade(
-    private val organizationRegistrar: OrganizationRegistrar,
+    private val organizationRegistrationService: OrganizationRegistrationService,
     private val organizationRepository: OrganizationRepository,
     private val locationClient: OrganizationLocationClient,
 ) {
@@ -20,7 +26,7 @@ class OrganizationFacade(
     fun registerOrganization(
         registerRequest: OrganizationRegisterRequest,
     ): NewOrganization {
-        return organizationRegistrar.registerOrganizationWithAdmin(registerRequest)
+        return organizationRegistrationService.registerOrganizationWithAdmin(registerRequest)
     }
 
     fun updateOrganization(

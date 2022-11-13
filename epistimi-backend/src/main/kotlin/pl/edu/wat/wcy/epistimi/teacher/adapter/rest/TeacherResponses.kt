@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.teacher.adapter.rest
 
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponse
 
 data class TeacherResponse(

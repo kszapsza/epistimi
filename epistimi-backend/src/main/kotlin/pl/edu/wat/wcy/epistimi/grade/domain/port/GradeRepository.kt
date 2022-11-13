@@ -7,4 +7,5 @@ import pl.edu.wat.wcy.epistimi.grade.domain.GradeId
 interface GradeRepository {
     fun findById(gradeId: GradeId): Grade
     fun findAllWithFiltering(gradeFilters: GradeFilters): List<Grade>
+    fun save(grade: Grade): Grade
 }

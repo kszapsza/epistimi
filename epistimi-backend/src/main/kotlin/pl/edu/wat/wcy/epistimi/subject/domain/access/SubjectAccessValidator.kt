@@ -2,8 +2,8 @@ package pl.edu.wat.wcy.epistimi.subject.domain.access
 
 import pl.edu.wat.wcy.epistimi.security.ResourceAccessValidator
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserRole
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 
 class SubjectAccessValidator : ResourceAccessValidator<Subject> {
     override fun canRetrieve(requester: User, resource: Subject): Boolean {

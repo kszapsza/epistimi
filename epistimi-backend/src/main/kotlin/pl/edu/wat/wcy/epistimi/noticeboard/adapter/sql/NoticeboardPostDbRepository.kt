@@ -2,11 +2,11 @@ package pl.edu.wat.wcy.epistimi.noticeboard.adapter.sql
 
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPost
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostId
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostNotFoundException
-import pl.edu.wat.wcy.epistimi.noticeboard.port.NoticeboardPostRepository
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPost
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPostId
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPostNotFoundException
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.port.NoticeboardPostRepository
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
 
 @Repository
 class NoticeboardPostDbRepository(

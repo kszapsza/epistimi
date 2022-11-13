@@ -7,8 +7,9 @@ import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Sex.MALE
+import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
 import javax.validation.Validation
 import javax.validation.Validator
 import javax.validation.ValidatorFactory

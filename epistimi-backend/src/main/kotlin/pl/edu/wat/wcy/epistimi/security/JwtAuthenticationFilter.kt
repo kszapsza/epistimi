@@ -17,10 +17,10 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import pl.edu.wat.wcy.epistimi.common.rest.ErrorMessage
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
-import pl.edu.wat.wcy.epistimi.user.port.UserRepository
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
+import pl.edu.wat.wcy.epistimi.user.domain.UserNotFoundException
+import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 import java.util.regex.Pattern
 import javax.servlet.FilterChain
 import javax.servlet.http.HttpServletRequest

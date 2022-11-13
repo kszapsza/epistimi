@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.security.AuthenticationService
-import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
-import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginRequest
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginResponse
 
 @RestController
 @RequestMapping("/auth")

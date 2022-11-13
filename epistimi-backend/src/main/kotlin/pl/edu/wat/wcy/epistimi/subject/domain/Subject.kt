@@ -1,8 +1,8 @@
 package pl.edu.wat.wcy.epistimi.subject.domain
 
 import org.hibernate.annotations.GenericGenerator
-import pl.edu.wat.wcy.epistimi.course.Course
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity

@@ -104,7 +104,7 @@ export const CourseDetails = (): JSX.Element => {
 
           <CourseDetailsSection
             title={t('courses.courseDetails.students')}
-            subtitle={course.students.length}
+            badge={course.students.length}
             actionButton={
               <Button
                 fullWidth
@@ -121,7 +121,7 @@ export const CourseDetails = (): JSX.Element => {
           />
           <CourseDetailsSection
             title={t('courses.courseDetails.subjects')}
-            subtitle={course.subjects.length}
+            badge={course.subjects.length}
             actionButton={
               <Button
                 fullWidth

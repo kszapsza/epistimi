@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import pl.edu.wat.wcy.epistimi.common.rest.ErrorMessage
-import pl.edu.wat.wcy.epistimi.course.CourseBadRequestException
-import pl.edu.wat.wcy.epistimi.course.CourseNotFoundException
-import pl.edu.wat.wcy.epistimi.course.CourseUnmodifiableException
+import pl.edu.wat.wcy.epistimi.course.domain.CourseBadRequestException
+import pl.edu.wat.wcy.epistimi.course.domain.CourseNotFoundException
+import pl.edu.wat.wcy.epistimi.course.domain.CourseUnmodifiableException
 
 @RestControllerAdvice
 class CourseControllerAdvice {

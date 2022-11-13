@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserAggregator
-import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.UserRegistrar
-import pl.edu.wat.wcy.epistimi.user.UserRole
+import pl.edu.wat.wcy.epistimi.user.UserFacade
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
+import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 import java.net.URI
 import javax.validation.Valid
 
@@ -27,8 +26,7 @@ import javax.validation.Valid
 @RequestMapping("/api/user")
 @Tag(name = "user", description = "API for retrieving and managing users in Epistimi system")
 class UserController(
-    private val userAggregator: UserAggregator,
-    private val userRegistrar: UserRegistrar,
+    private val userFacade: UserFacade,
 ) {
     @Operation(
         summary = "Get current user",
@@ -44,7 +42,7 @@ class UserController(
     ): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = UserResponseMapper) {
-                userAggregator.getUserById((authentication.principal as User).id!!)
+                userFacade.getUserById((authentication.principal as User).id!!)
             }
         )
     }
@@ -64,7 +62,7 @@ class UserController(
     ): ResponseEntity<UsersResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = UsersResponseMapper) {
-                userAggregator.getUsers(role)
+                userFacade.getUsers(role)
             }
         )
     }
@@ -84,7 +82,7 @@ class UserController(
     ): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = UserResponseMapper) {
-                userAggregator.getUserById(UserId(userId))
+                userFacade.getUserById(UserId(userId))
             }
         )
     }
@@ -103,7 +101,7 @@ class UserController(
         authentication: Authentication,
         @Valid @RequestBody registerRequest: UserRegisterRequest,
     ): ResponseEntity<UserRegisterResponse> {
-        return userRegistrar.registerUser(contextOrganization = (authentication.principal as User).organization, registerRequest)
+        return userFacade.registerUser(contextOrganization = (authentication.principal as User).organization, registerRequest)
             .let { (newUser, password) -> UserRegisterResponse(newUser, password) }
             .let { ResponseEntity.created(URI("/api/user/${it.id}")).body(it) }
     }

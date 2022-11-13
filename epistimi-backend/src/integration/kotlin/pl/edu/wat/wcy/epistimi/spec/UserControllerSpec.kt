@@ -20,11 +20,11 @@ import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.EPISTIMI_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.TEACHER
 import java.util.UUID
 
 internal class UserControllerSpec(

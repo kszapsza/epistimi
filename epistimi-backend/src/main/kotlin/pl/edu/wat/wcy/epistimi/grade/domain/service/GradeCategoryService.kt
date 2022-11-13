@@ -1,5 +1,6 @@
 package pl.edu.wat.wcy.epistimi.grade.domain.service
 
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoriesForSubject
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryActionForbiddenException
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryCreateRequest
@@ -12,7 +13,7 @@ import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectNotFoundException
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 class GradeCategoryService(
     private val gradeCategoryRepository: GradeCategoryRepository,
@@ -31,6 +32,27 @@ class GradeCategoryService(
             }
     }
 
+    fun getCategoriesForSubjectId(
+        contextUser: User,
+        subjectId: SubjectId,
+    ): GradeCategoriesForSubject {
+        return GradeCategoriesForSubject(
+            subject = findSubject(contextUser, subjectId),
+            categories = gradeCategoryRepository.findAllBySubjectId(subjectId),
+        )
+    }
+
+    private fun findSubject(
+        contextUser: User,
+        subjectId: SubjectId,
+    ): Subject {
+        return try {
+            subjectFacade.getSubject(contextUser, subjectId)
+        } catch (ex: SubjectNotFoundException) {
+            throw GradeCategorySubjectNotFoundException(subjectId)
+        }
+    }
+
     fun createGradeCategory(
         contextUser: User,
         createRequest: GradeCategoryCreateRequest,
@@ -45,17 +67,6 @@ class GradeCategoryService(
             throw GradeCategoryActionForbiddenException(
                 "Insufficient permissions to create grade category for subject with id [$subjectId]"
             )
-        }
-    }
-
-    private fun findSubject(
-        contextUser: User,
-        subjectId: SubjectId,
-    ): Subject {
-        return try {
-            subjectFacade.getSubject(contextUser = contextUser, subjectId = subjectId)
-        } catch (ex: SubjectNotFoundException) {
-            throw GradeCategorySubjectNotFoundException(subjectId)
         }
     }
 }

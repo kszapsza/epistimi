@@ -16,7 +16,7 @@ import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.domain.User
 import java.net.URI
 import javax.validation.Valid
 
@@ -71,12 +71,12 @@ class SubjectController(
         produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun registerSubject(
-        authentication: Authentication,
         @Valid @RequestBody subjectRegisterRequest: SubjectRegisterRequest,
+        authentication: Authentication,
     ): ResponseEntity<SubjectResponse> {
         return RestHandlers.handleRequest(mapper = SubjectResponseMapper) {
             subjectFacade.registerSubject(
-                contextOrganization = (authentication.principal as User).organization!!,
+                contextUser = authentication.principal as User,
                 subjectRegisterRequest = subjectRegisterRequest,
             )
         }.let { newSubject ->

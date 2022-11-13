@@ -20,20 +20,20 @@ import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.data.DummyAddress
-import pl.edu.wat.wcy.epistimi.organization.Organization.Status.DISABLED
-import pl.edu.wat.wcy.epistimi.organization.OrganizationChangeStatusRequest
-import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
-import pl.edu.wat.wcy.epistimi.organization.OrganizationUpdateRequest
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization.Status.DISABLED
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationChangeStatusRequest
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationUpdateRequest
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
-import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
-import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.EPISTIMI_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.TEACHER
+import pl.edu.wat.wcy.epistimi.user.domain.User.Sex.FEMALE
+import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
 import java.util.UUID
 
 internal class OrganizationControllerSpec(

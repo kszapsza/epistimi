@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.parent.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
-import pl.edu.wat.wcy.epistimi.parent.Parent
+import pl.edu.wat.wcy.epistimi.parent.domain.Parent
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponseMapper
 
 object ParentResponseMapper : FromDomainMapper<Parent, ParentResponse> {

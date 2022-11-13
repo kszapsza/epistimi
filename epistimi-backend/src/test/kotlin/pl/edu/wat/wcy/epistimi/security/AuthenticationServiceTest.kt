@@ -7,9 +7,9 @@ import io.mockk.every
 import io.mockk.mockk
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
-import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
-import pl.edu.wat.wcy.epistimi.user.port.UserRepository
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginRequest
+import pl.edu.wat.wcy.epistimi.user.domain.UserNotFoundException
+import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 
 internal class AuthenticationServiceTest : ShouldSpec({
 

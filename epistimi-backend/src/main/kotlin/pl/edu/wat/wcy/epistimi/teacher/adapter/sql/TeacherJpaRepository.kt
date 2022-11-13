@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.teacher.adapter.sql
 
 import org.springframework.data.jpa.repository.JpaRepository
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import java.util.UUID
 
 interface TeacherJpaRepository : JpaRepository<Teacher, UUID> {

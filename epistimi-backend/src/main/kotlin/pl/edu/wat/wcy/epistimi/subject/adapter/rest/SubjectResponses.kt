@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.subject.adapter.rest
 
-import pl.edu.wat.wcy.epistimi.user.UserRole
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 
 data class SubjectResponse(
     val id: String,

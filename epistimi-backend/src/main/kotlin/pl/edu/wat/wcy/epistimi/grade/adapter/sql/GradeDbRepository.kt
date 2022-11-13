@@ -6,8 +6,8 @@ import pl.edu.wat.wcy.epistimi.grade.domain.GradeFilters
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeId
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeNotFoundException
 import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
-import pl.edu.wat.wcy.epistimi.student.Student
-import pl.edu.wat.wcy.epistimi.student.StudentId
+import pl.edu.wat.wcy.epistimi.student.domain.Student
+import pl.edu.wat.wcy.epistimi.student.domain.StudentId
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import java.util.UUID
@@ -69,5 +69,9 @@ class GradeDbRepository(
     ): Predicate {
         val studentJoin = gradesRoot.join<Grade, Student>("student", JoinType.INNER)
         return studentJoin.get<UUID>("id").`in`(studentIds.map(StudentId::value))
+    }
+
+    override fun save(grade: Grade): Grade {
+        return gradeJpaRepository.save(grade)
     }
 }

@@ -1,9 +1,9 @@
 package pl.edu.wat.wcy.epistimi.user.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.Address
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserRole
-import pl.edu.wat.wcy.epistimi.user.UserSex
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
+import pl.edu.wat.wcy.epistimi.user.domain.UserSex
 import java.util.UUID
 
 // TODO: Public model without sensitive data should be created (first/last name, role, username).

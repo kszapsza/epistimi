@@ -212,12 +212,15 @@ export const CourseAddStudent = (
         sex: formData.sex,
         email: formData.email,
         phoneNumber: formData.phoneNumber,
-        address: {
-          street: formData.street,
-          postalCode: formData.postalCode,
-          city: formData.city,
-        },
+        address: buildUserAddress(formData),
       };
+    };
+
+    const buildUserAddress = ({ street, postalCode, city }: UserFormData): Address | undefined => {
+      if (street && postalCode && city) {
+        return { street, postalCode, city };
+      }
+      return undefined;
     };
 
     return {

@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.rest.ErrorMessage
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.course.CourseCreateRequest
+import pl.edu.wat.wcy.epistimi.course.domain.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.stub.CourseStubbing
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.ParentStubbing
@@ -25,12 +25,12 @@ import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.StudentStubbing
 import pl.edu.wat.wcy.epistimi.stub.TeacherStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.EPISTIMI_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.TEACHER
 import java.time.LocalDate
 import java.util.UUID
 

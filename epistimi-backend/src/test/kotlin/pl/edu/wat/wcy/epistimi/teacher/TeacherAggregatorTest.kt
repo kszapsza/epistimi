@@ -7,12 +7,13 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherAggregatorService
+import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
 
 internal class TeacherAggregatorTest : ShouldSpec({
 
     val teacherRepository = mockk<TeacherRepository>()
-    val teacherAggregator = TeacherAggregator(teacherRepository)
+    val teacherAggregatorService = TeacherAggregatorService(teacherRepository)
 
     val organizationAdminId = TestData.Users.organizationAdmin.id!!
     val organizationId = TestData.organization.id!!
@@ -22,7 +23,7 @@ internal class TeacherAggregatorTest : ShouldSpec({
         every { teacherRepository.findAll(organizationId) } returns emptyList()
 
         // when
-        val teachers = teacherAggregator.getTeachers(organizationAdminId)
+        val teachers = teacherAggregatorService.getTeachers(organizationAdminId)
 
         // then
         teachers.shouldBeEmpty()
@@ -33,7 +34,7 @@ internal class TeacherAggregatorTest : ShouldSpec({
         every { teacherRepository.findAll(organizationId) } returns listOf(TestData.teacher)
 
         // when
-        val teachers = teacherAggregator.getTeachers(organizationAdminId)
+        val teachers = teacherAggregatorService.getTeachers(organizationAdminId)
 
         // then
         with(teachers) {

@@ -8,7 +8,7 @@ import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeValueResponse
 import pl.edu.wat.wcy.epistimi.grade.domain.Grade
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeValue
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 
 object GradeResponseMapper : FromDomainMapper<Grade, GradeResponse> {
     override fun fromDomain(domainObject: Grade) =

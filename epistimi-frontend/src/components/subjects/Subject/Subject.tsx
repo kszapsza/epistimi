@@ -50,8 +50,8 @@ export const Subject = (): JSX.Element => {
 };
 
 /*
- * Tu trzeba wziąć pod uwagę, że do tego widoku ma mieć wgląd każdy
- * (no, za wyjątkiem EPISTIMI_ADMIN):
+ * TODO: Tu trzeba wziąć pod uwagę, że do tego widoku ma mieć wgląd każdy
+ *  (no, za wyjątkiem EPISTIMI_ADMIN):
  *
  *  - ORGANIZATION_ADMIN/TEACHER:
  *     - tab GRADES: jeśli prowadzi przedmiot, wystaw i przejrzyj oceny, jeśli nie, to dostęp do przedmiotu zabroniony,

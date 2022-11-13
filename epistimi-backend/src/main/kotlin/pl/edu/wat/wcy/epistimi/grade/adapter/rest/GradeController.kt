@@ -7,28 +7,33 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
+import pl.edu.wat.wcy.epistimi.grade.GradeFacade
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradesWithStatisticsResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradesWithStatisticsResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeFilters
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeId
-import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeAggregatorService
-import pl.edu.wat.wcy.epistimi.student.StudentId
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeIssueRequest
+import pl.edu.wat.wcy.epistimi.student.domain.StudentId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import java.net.URI
 import java.util.UUID
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/grade")
 @Tag(name = "grade", description = "API for issuing and aggregating grades")
 class GradeController(
-    private val gradeAggregatorService: GradeAggregatorService,
+    private val gradeFacade: GradeFacade,
 ) {
     @Operation(
         summary = "Get grade by id",
@@ -46,7 +51,7 @@ class GradeController(
     ): ResponseEntity<GradeResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = GradeResponseMapper) {
-                gradeAggregatorService.getGradeById(
+                gradeFacade.getGradeById(
                     requester = authentication.principal as User,
                     gradeId = gradeId,
                 )
@@ -71,26 +76,36 @@ class GradeController(
     ): ResponseEntity<GradesWithStatisticsResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(GradesWithStatisticsResponseMapper) {
-                gradeAggregatorService.getGrades(
+                gradeFacade.getGrades(
                     requester = authentication.principal as User,
-                    filters = GradeFilters(SubjectId(subjectId), studentIds?.map(::StudentId)),
+                    filters = GradeFilters(subjectId = SubjectId(subjectId), studentIds = studentIds?.map(::StudentId)),
                 )
             }
         )
     }
 
-    /*
-     * TODO:
-     *   - POST /api/grade
-     *      role: ORGANIZATION_ADMIN, TEACHER
-     *       - wystaw ocenę (jaki student, subject, jaka ocena itd.)
-     *       - tylko pozwól wystawić z przedmiotu, który żądający prowadzi!
-     *       - powinno umożliwiać wystawianie tzw. seryjne (batch)
-     *          - tutaj potrzebne jest trzymanie stanu na froncie i walenie batchem
-     *       - jak określać, za który semestr wystawiana jest ocena? wg daty?
-     *       - oceny semestralne/roczne i propozycje tych ocen
-     *   Oceny niech będą na start niemutowalne. Docelowo byłby także endpoint do poprawiania ocen
-     *   - wystawia nową ocenę z poprawy, unieważnia starą, wiąże je ze ze starą jako relacja "poprawa".
-     *   I na start może niech nie będzie usuwania ocen.
-     */
+    @Operation(
+        summary = "Issue a grade",
+        tags = ["grade"],
+        description = "Issues a single grade for selected student for specific course",
+    )
+    @PreAuthorize("hasRole('TEACHER')")
+    @PostMapping(
+        path = [""],
+        produces = [MediaType.APPLICATION_JSON_V1]
+    )
+    fun issueGrade(
+        @Valid @RequestBody gradeIssueRequest: GradeIssueRequest,
+        authentication: Authentication,
+    ): ResponseEntity<GradeResponse> {
+        return RestHandlers.handleRequest(GradeResponseMapper) {
+            gradeFacade.issueGrade(
+                requester = authentication.principal as User,
+                gradeIssueRequest,
+            )
+        }.let { newGrade ->
+            ResponseEntity.created(URI("/api/grade/${newGrade.id}"))
+                .body(newGrade)
+        }
+    }
 }

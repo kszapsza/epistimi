@@ -5,7 +5,7 @@ import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectNotFoundException
 import pl.edu.wat.wcy.epistimi.subject.domain.access.SubjectAccessValidator
 import pl.edu.wat.wcy.epistimi.subject.domain.port.SubjectRepository
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 class SubjectAggregatorService(
     private val subjectRepository: SubjectRepository,

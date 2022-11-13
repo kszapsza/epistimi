@@ -2,8 +2,8 @@ package pl.edu.wat.wcy.epistimi.grade.domain.access
 
 import pl.edu.wat.wcy.epistimi.grade.domain.Grade
 import pl.edu.wat.wcy.epistimi.security.ResourceAccessValidator
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserRole
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 
 class GradeAccessValidator : ResourceAccessValidator<Grade> {
     override fun canRetrieve(requester: User, resource: Grade): Boolean {
@@ -26,5 +26,9 @@ class GradeAccessValidator : ResourceAccessValidator<Grade> {
     private fun isRequesterAdminOfGradeOrganization(requester: User, grade: Grade): Boolean {
         return requester hasRole UserRole.ORGANIZATION_ADMIN &&
             requester.organization!!.id == grade.subject.course.organization.id
+    }
+
+    override fun canCreate(requester: User, resource: Grade): Boolean {
+        return isRequesterClassTeacherOfGradeCourse(requester, resource)
     }
 }

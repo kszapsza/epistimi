@@ -5,11 +5,11 @@ import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
-import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
-import pl.edu.wat.wcy.epistimi.user.port.UserRepository
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginRequest
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginResponse
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserNotFoundException
+import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 import java.util.Date
 
 @Service

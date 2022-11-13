@@ -2,12 +2,12 @@ package pl.edu.wat.wcy.epistimi.user.adapter.sql
 
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserId
-import pl.edu.wat.wcy.epistimi.user.UserNotFoundException
-import pl.edu.wat.wcy.epistimi.user.UserRole
-import pl.edu.wat.wcy.epistimi.user.UsernameAlreadyInUseException
-import pl.edu.wat.wcy.epistimi.user.port.UserRepository
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
+import pl.edu.wat.wcy.epistimi.user.domain.UserNotFoundException
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
+import pl.edu.wat.wcy.epistimi.user.domain.UsernameAlreadyInUseException
+import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 
 @Repository
 class UserDbRepository(

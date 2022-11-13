@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.grade.domain
 
-import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.student.domain.Student
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import java.math.BigDecimal
 

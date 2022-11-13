@@ -1,12 +1,12 @@
 package pl.edu.wat.wcy.epistimi.stub
 
 import org.springframework.stereotype.Component
-import pl.edu.wat.wcy.epistimi.course.Course
-import pl.edu.wat.wcy.epistimi.course.CourseId
-import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.student.Student
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.course.domain.CourseId
+import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.student.domain.Student
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale

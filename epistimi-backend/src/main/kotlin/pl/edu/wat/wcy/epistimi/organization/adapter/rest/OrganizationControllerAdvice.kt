@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import pl.edu.wat.wcy.epistimi.common.rest.ErrorMessage
-import pl.edu.wat.wcy.epistimi.organization.AdminInsufficientPermissionsException
-import pl.edu.wat.wcy.epistimi.organization.AdminManagingOtherOrganizationException
-import pl.edu.wat.wcy.epistimi.organization.AdminNotFoundException
-import pl.edu.wat.wcy.epistimi.organization.DirectorInsufficientPermissionsException
-import pl.edu.wat.wcy.epistimi.organization.DirectorNotFoundException
-import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
+import pl.edu.wat.wcy.epistimi.organization.domain.AdminInsufficientPermissionsException
+import pl.edu.wat.wcy.epistimi.organization.domain.AdminManagingOtherOrganizationException
+import pl.edu.wat.wcy.epistimi.organization.domain.AdminNotFoundException
+import pl.edu.wat.wcy.epistimi.organization.domain.DirectorInsufficientPermissionsException
+import pl.edu.wat.wcy.epistimi.organization.domain.DirectorNotFoundException
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationNotFoundException
 
 @RestControllerAdvice
 class OrganizationControllerAdvice {

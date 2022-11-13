@@ -2,8 +2,8 @@ package pl.edu.wat.wcy.epistimi.subject.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 object SubjectResponseMapper : FromDomainMapper<Subject, SubjectResponse> {
     override fun fromDomain(domainObject: Subject) = domainObject.toSubjectResponse()

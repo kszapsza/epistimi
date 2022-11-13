@@ -1,12 +1,12 @@
 package pl.edu.wat.wcy.epistimi.teacher.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.TeacherNotFoundException
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherNotFoundException
+import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
 
 @Repository
 class TeacherDbRepository(

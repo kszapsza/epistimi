@@ -9,7 +9,7 @@ import pl.edu.wat.wcy.epistimi.grade.domain.StudentGradesWithStatistics
 import pl.edu.wat.wcy.epistimi.grade.domain.SubjectGradesWithStatistics
 import pl.edu.wat.wcy.epistimi.grade.domain.access.GradeAccessValidator
 import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 class GradeAggregatorService(
     private val gradeRepository: GradeRepository,

@@ -6,7 +6,8 @@ import io.kotest.data.row
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
+import pl.edu.wat.wcy.epistimi.course.domain.CourseCreateRequest
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
 import java.time.LocalDate
 import java.util.UUID
 import javax.validation.Validation

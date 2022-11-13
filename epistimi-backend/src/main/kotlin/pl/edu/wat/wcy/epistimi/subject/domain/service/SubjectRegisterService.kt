@@ -1,30 +1,30 @@
 package pl.edu.wat.wcy.epistimi.subject.domain.service
 
-import pl.edu.wat.wcy.epistimi.course.Course
-import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.organization.Organization
+import pl.edu.wat.wcy.epistimi.course.CourseFacade
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectBadRequestException
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectRegisterRequest
 import pl.edu.wat.wcy.epistimi.subject.domain.port.SubjectRepository
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 class SubjectRegisterService(
     private val subjectRepository: SubjectRepository,
-    private val courseRepository: CourseRepository,
-    private val teacherRepository: TeacherRepository,
+    private val courseFacade: CourseFacade,
+    private val teacherFacade: TeacherFacade,
 ) {
-
     fun registerSubject(
-        contextOrganization: Organization,
+        contextUser: User,
         subjectRegisterRequest: SubjectRegisterRequest,
     ): Subject {
         val (courseId, teacherId, name) = subjectRegisterRequest
 
-        val course = courseRepository.findById(courseId)
-        val teacher = teacherRepository.findById(teacherId)
-        validateCourseAndTeacher(contextOrganization, course, teacher)
+        val course = courseFacade.getCourse(contextUser, courseId)
+        val teacher = teacherFacade.getTeacherById(contextUser, teacherId)
+        validateCourseAndTeacher(contextUser.organization!!, course, teacher)
 
         return subjectRepository.save(
             Subject(course = course, teacher = teacher, name = name),

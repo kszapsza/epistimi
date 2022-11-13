@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.student.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.parent.adapter.rest.ParentResponse
-import pl.edu.wat.wcy.epistimi.student.StudentId
+import pl.edu.wat.wcy.epistimi.student.domain.StudentId
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponse
 
 data class StudentResponse(

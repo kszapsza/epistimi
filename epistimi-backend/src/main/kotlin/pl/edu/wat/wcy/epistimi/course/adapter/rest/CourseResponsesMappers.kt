@@ -2,7 +2,7 @@ package pl.edu.wat.wcy.epistimi.course.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
-import pl.edu.wat.wcy.epistimi.course.Course
+import pl.edu.wat.wcy.epistimi.course.domain.Course
 import pl.edu.wat.wcy.epistimi.parent.adapter.rest.ParentResponseMapper
 import pl.edu.wat.wcy.epistimi.student.adapter.rest.StudentResponse
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject

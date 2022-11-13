@@ -10,16 +10,20 @@ import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.TestUtils
-import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
+import pl.edu.wat.wcy.epistimi.course.domain.CourseId
+import pl.edu.wat.wcy.epistimi.course.domain.CourseNotFoundException
+import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
 import java.util.UUID
 
 internal class CourseAggregatorTest : ShouldSpec({
 
     val courseRepository = mockk<CourseRepository>()
-    val courseAggregator = CourseAggregator(courseRepository)
+    val courseAggregatorService = CourseAggregatorService(courseRepository)
 
     val teacherId = TeacherId(UUID.randomUUID())
     val courseId = CourseId(UUID.randomUUID())
@@ -50,7 +54,7 @@ internal class CourseAggregatorTest : ShouldSpec({
         every { courseRepository.findAllWithFiltering(TestData.organization.id!!, null) } returns listOf(courseStub)
 
         // when
-        val courses = courseAggregator.getCourses(TestData.organization, null)
+        val courses = courseAggregatorService.getCourses(TestData.organization, null)
 
         // then
         with(courses) {
@@ -64,7 +68,7 @@ internal class CourseAggregatorTest : ShouldSpec({
         val adminUserId = UserId(UUID.randomUUID())
 
         // when
-        val courses = courseAggregator.getCourses(TestData.organization, null)
+        val courses = courseAggregatorService.getCourses(TestData.organization, null)
 
         // then
         courses.shouldBeEmpty()
@@ -75,7 +79,7 @@ internal class CourseAggregatorTest : ShouldSpec({
         every { courseRepository.findById(courseId) } returns courseStub
 
         // when
-        val course = courseAggregator.getCourse(TestData.organization, courseId)
+        val course = courseAggregatorService.getCourse(TestData.organization, courseId)
 
         // then
         course shouldBe courseStub
@@ -88,7 +92,7 @@ internal class CourseAggregatorTest : ShouldSpec({
 
         // expect
         shouldThrow<CourseNotFoundException> {
-            courseAggregator.getCourse(courseId, otherAdminId)
+            courseAggregatorService.getCourse(courseId, otherAdminId)
         }
     }
 })

@@ -1,12 +1,11 @@
 package pl.edu.wat.wcy.epistimi.subject
 
-import pl.edu.wat.wcy.epistimi.organization.Organization
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectRegisterRequest
 import pl.edu.wat.wcy.epistimi.subject.domain.service.SubjectAggregatorService
 import pl.edu.wat.wcy.epistimi.subject.domain.service.SubjectRegisterService
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 class SubjectFacade(
     private val subjectAggregatorService: SubjectAggregatorService,
@@ -20,9 +19,9 @@ class SubjectFacade(
     }
 
     fun registerSubject(
-        contextOrganization: Organization,
+        contextUser: User,
         subjectRegisterRequest: SubjectRegisterRequest,
     ): Subject {
-        return subjectRegisterService.registerSubject(contextOrganization, subjectRegisterRequest)
+        return subjectRegisterService.registerSubject(contextUser, subjectRegisterRequest)
     }
 }

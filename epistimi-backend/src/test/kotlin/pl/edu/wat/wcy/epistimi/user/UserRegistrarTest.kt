@@ -6,8 +6,14 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.springframework.security.crypto.password.PasswordEncoder
-import pl.edu.wat.wcy.epistimi.user.UserRole.STUDENT
-import pl.edu.wat.wcy.epistimi.user.port.UserRepository
+import pl.edu.wat.wcy.epistimi.user.domain.service.Credentials
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserCredentialsGenerator
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
+import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 import java.util.UUID
 
 internal class UserRegistrarTest : ShouldSpec({
@@ -16,7 +22,7 @@ internal class UserRegistrarTest : ShouldSpec({
     val credentialsGenerator = mockk<UserCredentialsGenerator>()
     val passwordEncoder = mockk<PasswordEncoder>()
 
-    val userRegistrar = UserRegistrar(userRepository, credentialsGenerator, passwordEncoder)
+    val userRegistrationService = UserRegistrationService(userRepository, credentialsGenerator, passwordEncoder)
 
     should("successfully register user with provided credentials") {
         // given
@@ -24,7 +30,7 @@ internal class UserRegistrarTest : ShouldSpec({
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
 
         // when
-        val registeredUser = userRegistrar.registerUser(
+        val registeredUser = userRegistrationService.registerUser(
             UserRegisterRequest(
                 firstName = "Jan",
                 lastName = "Kowalski",
@@ -47,7 +53,7 @@ internal class UserRegistrarTest : ShouldSpec({
             Credentials("jan.kowalski", "123")
 
         // when
-        val registeredUser = userRegistrar.registerUser(
+        val registeredUser = userRegistrationService.registerUser(
             UserRegisterRequest(
                 firstName = "Jan",
                 lastName = "Kowalski",

@@ -1,21 +1,26 @@
 package pl.edu.wat.wcy.epistimi.course
 
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
+import pl.edu.wat.wcy.epistimi.course.domain.CourseCreateRequest
+import pl.edu.wat.wcy.epistimi.course.domain.CourseId
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 class CourseFacade(
-    private val courseAggregator: CourseAggregator,
-    private val courseRegistrar: CourseRegistrar,
+    private val courseAggregatorService: CourseAggregatorService,
+    private val courseRegistrationService: CourseRegistrationService,
 ) {
     fun getCourses(contextUser: User, classTeacherId: TeacherId?): List<Course> {
-        return courseAggregator.getCourses(contextUser.organization, classTeacherId)
+        return courseAggregatorService.getCourses(contextUser.organization, classTeacherId)
     }
 
     fun getCourse(contextUser: User, courseId: CourseId): Course {
-        return courseAggregator.getCourse(contextUser.organization, courseId)
+        return courseAggregatorService.getCourse(contextUser.organization, courseId)
     }
 
     fun createCourse(contextUser: User, createRequest: CourseCreateRequest): Course {
-        return courseRegistrar.createCourse(contextUser.organization, createRequest)
+        return courseRegistrationService.createCourse(contextUser.organization, createRequest)
     }
 }

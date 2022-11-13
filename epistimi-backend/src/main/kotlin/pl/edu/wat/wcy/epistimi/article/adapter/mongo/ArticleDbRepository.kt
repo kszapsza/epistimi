@@ -2,9 +2,9 @@ package pl.edu.wat.wcy.epistimi.article.adapter.mongo
 
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.article.Article
-import pl.edu.wat.wcy.epistimi.article.ArticleNotFoundException
-import pl.edu.wat.wcy.epistimi.article.port.ArticleRepository
+import pl.edu.wat.wcy.epistimi.article.domain.Article
+import pl.edu.wat.wcy.epistimi.article.domain.ArticleNotFoundException
+import pl.edu.wat.wcy.epistimi.article.domain.port.ArticleRepository
 import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
 
 @Repository

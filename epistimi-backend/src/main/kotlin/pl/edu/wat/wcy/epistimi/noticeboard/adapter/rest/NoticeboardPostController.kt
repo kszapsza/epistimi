@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostCreateRequest
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostId
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostService
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostUpdateRequest
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostFacade
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPostCreateRequest
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPostId
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPostUpdateRequest
+import pl.edu.wat.wcy.epistimi.user.domain.User
 import java.net.URI
 import javax.validation.Valid
 
@@ -27,7 +27,7 @@ import javax.validation.Valid
 @RequestMapping("/api/noticeboard/post")
 @Tag(name = "noticeboard/post", description = "API for managing organization noticeboard posts")
 class NoticeboardPostController(
-    private val noticeboardPostService: NoticeboardPostService,
+    private val noticeboardPostFacade: NoticeboardPostFacade,
 ) {
     @Operation(
         summary = "Get noticeboard post by id",
@@ -45,7 +45,7 @@ class NoticeboardPostController(
     ): ResponseEntity<NoticeboardPostResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = NoticeboardPostResponseMapper) {
-                noticeboardPostService.getNoticeboardPost(
+                noticeboardPostFacade.getNoticeboardPost(
                     contextOrganization = (authentication.principal as User).organization!!,
                     noticeboardPostId = id,
                 )
@@ -68,7 +68,7 @@ class NoticeboardPostController(
     ): ResponseEntity<NoticeboardPostsResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = NoticeboardPostsResponseMapper) {
-                noticeboardPostService.getNoticeboardPosts(
+                noticeboardPostFacade.getNoticeboardPosts(
                     contextOrganization = (authentication.principal as User).organization!!,
                 )
             }
@@ -90,7 +90,7 @@ class NoticeboardPostController(
         @Valid @RequestBody createRequest: NoticeboardPostCreateRequest,
     ): ResponseEntity<NoticeboardPostResponse> {
         return RestHandlers.handleRequest(mapper = NoticeboardPostResponseMapper) {
-            noticeboardPostService.createNoticeboardPost(
+            noticeboardPostFacade.createNoticeboardPost(
                 contextUser = authentication.principal as User,
                 createRequest = createRequest,
             )
@@ -118,7 +118,7 @@ class NoticeboardPostController(
     ): ResponseEntity<NoticeboardPostResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(mapper = NoticeboardPostResponseMapper) {
-                noticeboardPostService.updateNoticeboardPost(
+                noticeboardPostFacade.updateNoticeboardPost(
                     contextUser = authentication.principal as User,
                     updateRequest = updateRequest,
                     noticeboardPostId = noticeboardPostId,
@@ -141,7 +141,7 @@ class NoticeboardPostController(
         authentication: Authentication,
         @PathVariable noticeboardPostId: NoticeboardPostId,
     ): ResponseEntity<Unit> {
-        noticeboardPostService.deleteNoticeboardPost(
+        noticeboardPostFacade.deleteNoticeboardPost(
             contextUser = authentication.principal as User,
             noticeboardPostId = noticeboardPostId,
         )

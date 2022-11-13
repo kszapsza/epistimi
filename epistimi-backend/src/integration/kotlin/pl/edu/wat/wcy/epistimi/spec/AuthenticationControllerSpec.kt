@@ -11,11 +11,11 @@ import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
-import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginRequest
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginResponse
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.user.UserRole.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.ORGANIZATION_ADMIN
 
 internal class AuthenticationControllerSpec(
     private val restTemplate: TestRestTemplate,

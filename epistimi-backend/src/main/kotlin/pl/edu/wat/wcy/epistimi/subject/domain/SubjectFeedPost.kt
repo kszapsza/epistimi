@@ -3,7 +3,7 @@ package pl.edu.wat.wcy.epistimi.subject.domain
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.user.domain.User
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Convert

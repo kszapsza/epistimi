@@ -1,7 +1,7 @@
 package pl.edu.wat.wcy.epistimi.noticeboard.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPost
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPost
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponseMapper
 
 object NoticeboardPostResponseMapper : FromDomainMapper<NoticeboardPost, NoticeboardPostResponse> {

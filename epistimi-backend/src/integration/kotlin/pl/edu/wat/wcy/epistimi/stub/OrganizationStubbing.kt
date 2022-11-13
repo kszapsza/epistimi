@@ -4,12 +4,12 @@ import org.springframework.stereotype.Component
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.Location
 import pl.edu.wat.wcy.epistimi.data.DummyAddress
-import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.organization.OrganizationStatus
-import pl.edu.wat.wcy.epistimi.organization.OrganizationStatus.ENABLED
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationStatus
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationStatus.ENABLED
+import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 @Component
 internal class OrganizationStubbing(

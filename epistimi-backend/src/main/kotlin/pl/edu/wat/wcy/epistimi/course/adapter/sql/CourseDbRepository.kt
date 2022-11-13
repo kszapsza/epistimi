@@ -1,14 +1,14 @@
 package pl.edu.wat.wcy.epistimi.course.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.course.Course
-import pl.edu.wat.wcy.epistimi.course.CourseId
-import pl.edu.wat.wcy.epistimi.course.CourseNotFoundException
-import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.course.domain.CourseId
+import pl.edu.wat.wcy.epistimi.course.domain.CourseNotFoundException
+import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
 import java.util.UUID
 import javax.persistence.EntityManager
 import javax.persistence.TypedQuery

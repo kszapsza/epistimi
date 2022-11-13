@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.student.StudentRegisterRequest
-import pl.edu.wat.wcy.epistimi.student.StudentRegistrar
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.student.domain.StudentRegisterRequest
+import pl.edu.wat.wcy.epistimi.student.domain.service.StudentRegistrationService
+import pl.edu.wat.wcy.epistimi.user.domain.User
 import java.net.URI
 import javax.validation.Valid
 
@@ -21,7 +21,7 @@ import javax.validation.Valid
 @RequestMapping("/api/student")
 @Tag(name = "student", description = "API for retrieving and managing students")
 class StudentController(
-    private val studentRegistrar: StudentRegistrar,
+    private val studentRegistrationService: StudentRegistrationService,
 ) {
     @Operation(
         summary = "Register student",
@@ -38,7 +38,7 @@ class StudentController(
         @Valid @RequestBody studentRegisterRequest: StudentRegisterRequest,
     ): ResponseEntity<StudentRegisterResponse> {
         return RestHandlers.handleRequest(mapper = StudentRegisterResponseMapper) {
-            studentRegistrar.registerStudent(
+            studentRegistrationService.registerStudent(
                 contextUser = (authentication.principal as User),
                 request = studentRegisterRequest,
             )

@@ -8,18 +8,21 @@ import pl.edu.wat.wcy.epistimi.common.rest.ErrorMessage
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryActionForbiddenException
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryNotFoundException
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategorySubjectNotFoundException
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeIssueForbiddenException
 
 @RestControllerAdvice(basePackages = ["pl.edu.wat.wcy.epistimi.grade"])
 class GradeCategoryControllerAdvice {
-    @ExceptionHandler(GradeCategorySubjectNotFoundException::class)
-    fun handleGradeCategoryBadRequestExceptions(exception: Exception, request: WebRequest) =
-        ErrorMessage(exception, HttpStatus.BAD_REQUEST, request).toResponseEntity()
-
-    @ExceptionHandler(GradeCategoryNotFoundException::class)
+    @ExceptionHandler(
+        GradeCategorySubjectNotFoundException::class,
+        GradeCategoryNotFoundException::class,
+    )
     fun handleGradeCategoryNotFoundException(exception: Exception, request: WebRequest) =
         ErrorMessage(exception, HttpStatus.NOT_FOUND, request).toResponseEntity()
 
-    @ExceptionHandler(GradeCategoryActionForbiddenException::class)
-    fun handleGradeCategoryForbiddenExceptions(exception: Exception, request: WebRequest) =
+    @ExceptionHandler(
+        GradeCategoryActionForbiddenException::class,
+        GradeIssueForbiddenException::class,
+    )
+    fun handleGradeForbiddenExceptions(exception: Exception, request: WebRequest) =
         ErrorMessage(exception, HttpStatus.FORBIDDEN, request).toResponseEntity()
 }

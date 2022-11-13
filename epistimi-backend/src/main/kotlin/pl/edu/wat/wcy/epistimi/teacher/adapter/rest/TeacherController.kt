@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.TeacherRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.domain.User
 import java.net.URI
 import java.util.UUID
 import javax.validation.Valid

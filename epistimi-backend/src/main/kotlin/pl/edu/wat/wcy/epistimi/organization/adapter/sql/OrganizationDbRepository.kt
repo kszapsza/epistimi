@@ -1,11 +1,11 @@
 package pl.edu.wat.wcy.epistimi.organization.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.organization.OrganizationNotFoundException
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationNotFoundException
+import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
 
 @Repository
 class OrganizationDbRepository(

@@ -1,11 +1,11 @@
 package pl.edu.wat.wcy.epistimi.parent.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.parent.Parent
-import pl.edu.wat.wcy.epistimi.parent.ParentId
-import pl.edu.wat.wcy.epistimi.parent.ParentNotFoundException
-import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.parent.domain.Parent
+import pl.edu.wat.wcy.epistimi.parent.domain.ParentId
+import pl.edu.wat.wcy.epistimi.parent.domain.ParentNotFoundException
+import pl.edu.wat.wcy.epistimi.parent.domain.port.ParentRepository
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
 
 @Repository
 class ParentDbRepository(

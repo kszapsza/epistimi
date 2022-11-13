@@ -7,8 +7,8 @@ import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
-import pl.edu.wat.wcy.epistimi.article.Article
-import pl.edu.wat.wcy.epistimi.article.ArticleId
+import pl.edu.wat.wcy.epistimi.article.domain.Article
+import pl.edu.wat.wcy.epistimi.article.domain.ArticleId
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.stub.ArticleStubbing
 

@@ -3,9 +3,9 @@ package pl.edu.wat.wcy.epistimi.stub
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Component
 import pl.edu.wat.wcy.epistimi.security.AuthenticationService
-import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.UserRole
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginRequest
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 import java.util.UUID
 
 @Component

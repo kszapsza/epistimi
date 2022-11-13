@@ -4,10 +4,10 @@ import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
 import org.hibernate.annotations.UpdateTimestamp
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter
-import pl.edu.wat.wcy.epistimi.student.Student
+import pl.edu.wat.wcy.epistimi.student.domain.Student
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.user.domain.User
 import java.time.LocalDateTime
 import java.util.UUID
 import javax.persistence.Column
