@@ -1,0 +1,14 @@
+.subject-teacher-grade-cell {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .25rem;
+  justify-content: flex-start;
+  width: 100%;
+
+  .subject-teacher-grade-cell-issue {
+    display: flex;
+    flex-direction: row;
+    margin: 0 0 0 auto;
+  }
+}

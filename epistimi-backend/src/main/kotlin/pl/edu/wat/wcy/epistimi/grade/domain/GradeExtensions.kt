@@ -11,9 +11,6 @@ import java.math.RoundingMode
  * @return weighted average [BigDecimal] object, `null` in case of empty grades collection
  */
 fun Collection<Grade>.weightedAverage(): BigDecimal? {
-    if (this.isEmpty()) {
-        return null
-    }
     return this
         .filter { it.countTowardsAverage && it.value.numericValue != null }
         .map { WeightedValue(value = it.value.numericValue!!, weight = it.weight) }
@@ -30,9 +27,16 @@ private data class WeightedValue(
     )
 }
 
-private fun calculateWeightedAverage(values: Collection<WeightedValue>): BigDecimal {
+private fun calculateWeightedAverage(values: Collection<WeightedValue>): BigDecimal? {
+    if (values.isEmpty()) {
+        return null
+    }
     val numerator = values.sumOf { it.weight * it.value }.setScale(2, RoundingMode.HALF_UP)
     val denominator = values.sumOf { it.weight }.setScale(2, RoundingMode.HALF_UP)
 
-    return numerator / denominator
+    return try {
+        numerator / denominator
+    } catch (_: ArithmeticException) {
+        null
+    }
 }

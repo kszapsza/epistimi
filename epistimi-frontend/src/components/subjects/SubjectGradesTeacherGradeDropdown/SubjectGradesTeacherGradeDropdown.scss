@@ -1,0 +1,60 @@
+@import "src/styles/themes";
+
+.subject-grade-dropdown {
+  display: flex;
+  flex-direction: column;
+
+  &-head {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: .75rem;
+
+    &-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.3;
+    }
+
+    &-category {
+      font: {
+        size: 14px;
+        weight: 600;
+      }
+    }
+
+    &-value {
+      color: rgba($black, .75);
+      font: {
+        size: 12px;
+        weight: 400;
+      }
+    }
+  }
+
+  &-meta {
+    border-top: 1px solid rgba($black, .1);
+    display: flex;
+    flex-direction: column;
+    margin: .5rem 0 0 0;
+    padding: .5rem 0 0 0;
+
+    &-entry {
+      display: flex;
+      flex-direction: row;
+      font: {
+        size: 12px;
+        weight: 400;
+      }
+    }
+
+    &-key {
+      color: rgba($black, .75);
+      flex: 2;
+    }
+
+    &-value {
+      flex: 3;
+    }
+  }
+}

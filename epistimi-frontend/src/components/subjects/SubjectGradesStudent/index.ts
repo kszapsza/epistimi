@@ -1,0 +1,1 @@
+export { SubjectGradesStudent } from './SubjectGradesStudent';

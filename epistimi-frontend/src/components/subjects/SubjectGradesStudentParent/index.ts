@@ -1,1 +1,0 @@
-export { SubjectGradesStudentParent } from './SubjectGradesStudentParent';

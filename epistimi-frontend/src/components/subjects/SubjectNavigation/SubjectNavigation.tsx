@@ -1,6 +1,6 @@
 import { IconHandTwoFingers, IconSettings, IconSpeakerphone, IconStar, IconWriting } from '@tabler/icons';
-import { SubjectGradesStudentParent } from '../SubjectGradesStudentParent';
-import { SubjectGradesTeacherAdmin } from '../SubjectGradesTeacherAdmin';
+import { SubjectGradesStudent } from '../SubjectGradesStudent';
+import { SubjectGradesTeacher } from '../SubjectGradesTeacher';
 import { SubjectResponse } from '../../../dto/subject';
 import { Tabs } from '@mantine/core';
 import { useAppSelector } from '../../../store/hooks';
@@ -41,8 +41,8 @@ export const SubjectNavigation = (
                 : 'Oceny'}
             </Tabs.Tab>
             {isUserSubjectTeacherOrAdmin() &&
-              <Tabs.Tab value={'absence'} icon={<IconHandTwoFingers size={14}/>} ml={'auto'}>
-                Frekwencja
+              <Tabs.Tab value={'absence'} icon={<IconHandTwoFingers size={14}/>}>
+                Sprawdź obecność
               </Tabs.Tab>}
             <Tabs.Tab value={'feed'} icon={<IconSpeakerphone size={14}/>}>
               Aktualności
@@ -51,15 +51,15 @@ export const SubjectNavigation = (
               Zadania domowe
             </Tabs.Tab>
             {isUserSubjectTeacherOrAdmin() &&
-              <Tabs.Tab value={'grades-categories'} icon={<IconSettings size={14}/>} ml={'auto'}>
+              <Tabs.Tab value={'configuration'} icon={<IconSettings size={14}/>} ml={'auto'}>
                 Konfiguracja
               </Tabs.Tab>}
           </Tabs.List>
 
           <Tabs.Panel value={'grades'} p={'md'}>
             {isUserSubjectTeacherOrAdmin()
-              ? <SubjectGradesTeacherAdmin subject={subject} />
-              : <SubjectGradesStudentParent />}
+              ? <SubjectGradesTeacher subjectId={subject.id}/>
+              : <SubjectGradesStudent/>}
           </Tabs.Panel>
           <Tabs.Panel value={'feed'} p={'md'}>
             aktualności
@@ -67,7 +67,7 @@ export const SubjectNavigation = (
           <Tabs.Panel value={'homework'} p={'md'}>
             zadania
           </Tabs.Panel>
-          <Tabs.Panel value={'grades-categories'} p={'md'}>
+          <Tabs.Panel value={'configuration'} p={'md'}>
             no... tu będą ustawienia, no!
           </Tabs.Panel>
         </Tabs>

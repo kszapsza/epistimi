@@ -1,6 +1,9 @@
 export { Subject } from './Subject';
 export { SubjectConfiguration } from './SubjectConfiguration';
-export { SubjectGradesStudentParent } from './SubjectGradesStudentParent';
-export { SubjectGradesTeacherAdmin } from './SubjectGradesTeacherAdmin';
+export { SubjectGradesStudent } from './SubjectGradesStudent';
+export { SubjectGradesTeacher } from './SubjectGradesTeacher';
+export { SubjectGradesTeacherGrade } from './SubjectGradesTeacherGrade';
+export { SubjectGradesTeacherGradeCell } from './SubjectGradesTeacherGradeCell';
+export { SubjectGradesTeacherGradeDropdown } from './SubjectGradesTeacherGradeDropdown';
 export { SubjectHead } from './SubjectHead';
 export { SubjectNavigation } from './SubjectNavigation';
