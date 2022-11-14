@@ -6,14 +6,14 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.springframework.security.crypto.password.PasswordEncoder
-import pl.edu.wat.wcy.epistimi.user.domain.service.Credentials
 import pl.edu.wat.wcy.epistimi.user.domain.User
-import pl.edu.wat.wcy.epistimi.user.domain.service.UserCredentialsGenerator
 import pl.edu.wat.wcy.epistimi.user.domain.UserId
-import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
 import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
+import pl.edu.wat.wcy.epistimi.user.domain.service.Credentials
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserCredentialsGenerator
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 import java.util.UUID
 
 internal class UserRegistrarTest : ShouldSpec({

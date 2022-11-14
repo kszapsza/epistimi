@@ -1,9 +1,9 @@
 package pl.edu.wat.wcy.epistimi.course
 
 import pl.edu.wat.wcy.epistimi.course.domain.Course
-import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
 import pl.edu.wat.wcy.epistimi.course.domain.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.course.domain.CourseId
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
 import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
 import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
 import pl.edu.wat.wcy.epistimi.user.domain.User

@@ -8,7 +8,6 @@ import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeAggregatorService
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeCategoryService
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeIssuingService
-import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeStatisticsService
 import pl.edu.wat.wcy.epistimi.student.StudentFacade
 import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
 import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
@@ -29,21 +28,16 @@ class GradeConfiguration {
     @Bean
     fun gradeAggregatorService(
         gradeRepository: GradeRepository,
-        gradeStatisticsService: GradeStatisticsService,
         gradeAccessValidator: GradeAccessValidator,
+        studentFacade: StudentFacade,
+        subjectFacade: SubjectFacade,
     ): GradeAggregatorService {
         return GradeAggregatorService(
             gradeRepository,
-            gradeStatisticsService,
             gradeAccessValidator,
+            studentFacade,
+            subjectFacade,
         )
-    }
-
-    @Bean
-    fun gradeStatisticsService(
-        gradeRepository: GradeRepository,
-    ): GradeStatisticsService {
-        return GradeStatisticsService(gradeRepository)
     }
 
     @Bean

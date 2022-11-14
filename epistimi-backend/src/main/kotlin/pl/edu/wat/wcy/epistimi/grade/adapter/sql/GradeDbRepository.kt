@@ -40,27 +40,27 @@ class GradeDbRepository(
         return entityManager.createQuery(
             criteriaQuery
                 .select(gradesRoot)
-                .where(*createPredicates(gradesRoot, gradeFilters))
+                .where(*buildPredicates(gradesRoot, gradeFilters))
         )
     }
 
-    private fun createPredicates(
+    private fun buildPredicates(
         gradesRoot: Root<Grade>,
         gradeFilters: GradeFilters
     ): Array<Predicate> {
-        val (subjectId, studentIds) = gradeFilters
+        val (subjectIds, studentIds) = gradeFilters
         return mutableListOf<Predicate>()
-            .also { it += buildSubjectIdPredicate(gradesRoot, subjectId) }
-            .also { if (studentIds != null) it += buildStudentIdsPredicate(gradesRoot, studentIds) }
+            .also { if (!subjectIds.isNullOrEmpty()) it += buildSubjectIdPredicate(gradesRoot, subjectIds) }
+            .also { if (!studentIds.isNullOrEmpty()) it += buildStudentIdsPredicate(gradesRoot, studentIds) }
             .toTypedArray()
     }
 
     private fun buildSubjectIdPredicate(
         gradesRoot: Root<Grade>,
-        subjectId: SubjectId,
+        subjectIds: List<SubjectId>,
     ): Predicate {
         val subjectJoin = gradesRoot.join<Grade, Subject>("subject", JoinType.INNER)
-        return subjectJoin.get<UUID>("id").`in`(subjectId.value)
+        return subjectJoin.get<UUID>("id").`in`(subjectIds.map(SubjectId::value))
     }
 
     private fun buildStudentIdsPredicate(

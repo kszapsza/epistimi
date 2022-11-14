@@ -16,10 +16,11 @@ import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.grade.GradeFacade
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeResponse
-import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradesWithStatisticsResponse
+import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.StudentGradesResponse
+import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.SubjectGradesResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeResponseMapper
-import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradesWithStatisticsResponseMapper
-import pl.edu.wat.wcy.epistimi.grade.domain.GradeFilters
+import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.StudentGradesResponseMapper
+import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.SubjectGradesResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeId
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeIssueRequest
 import pl.edu.wat.wcy.epistimi.student.domain.StudentId
@@ -30,7 +31,7 @@ import java.util.UUID
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/grade")
+@RequestMapping("/api")
 @Tag(name = "grade", description = "API for issuing and aggregating grades")
 class GradeController(
     private val gradeFacade: GradeFacade,
@@ -42,7 +43,7 @@ class GradeController(
     )
     @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     @GetMapping(
-        path = ["{gradeId}"],
+        path = ["/grade/{gradeId}"],
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getGrade(
@@ -60,25 +61,52 @@ class GradeController(
     }
 
     @Operation(
-        summary = "Get grades",
-        tags = ["grade"],
-        description = "Retrieves grades for provided subject id and student id(s)",
+        summary = "Get subject grades",
+        tags = ["subject", "grade"],
+        description = "Retrieves grades for provided subject id",
     )
-    @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER')")
     @GetMapping(
-        path = [""],
+        path = ["/subject/{subjectId}/grade"],
         produces = [MediaType.APPLICATION_JSON_V1]
     )
-    fun getGrades(
-        @RequestParam(name = "subjectId", required = true) subjectId: UUID,
-        @RequestParam(name = "studentId", required = false) studentIds: List<UUID>?,
+    fun getSubjectGrades(
+        @PathVariable subjectId: SubjectId,
+        @RequestParam(required = false) studentIds: List<UUID>?,
         authentication: Authentication,
-    ): ResponseEntity<GradesWithStatisticsResponse> {
+    ): ResponseEntity<SubjectGradesResponse> {
         return ResponseEntity.ok(
-            RestHandlers.handleRequest(GradesWithStatisticsResponseMapper) {
-                gradeFacade.getGrades(
+            RestHandlers.handleRequest(SubjectGradesResponseMapper) {
+                gradeFacade.getSubjectGrades(
                     requester = authentication.principal as User,
-                    filters = GradeFilters(subjectId = SubjectId(subjectId), studentIds = studentIds?.map(::StudentId)),
+                    subjectId = subjectId,
+                    studentIds = studentIds?.map(::StudentId),
+                )
+            }
+        )
+    }
+
+    @Operation(
+        summary = "Get student grades",
+        tags = ["student", "grade"],
+        description = "Retrieves grades for provided student id",
+    )
+    @PreAuthorize("hasAnyRole('STUDENT', 'PARENT')")
+    @GetMapping(
+        path = ["/student/{studentId}/grade"],
+        produces = [MediaType.APPLICATION_JSON_V1]
+    )
+    fun getStudentGrades(
+        @PathVariable studentId: StudentId,
+        @RequestParam(required = false) subjectIds: List<UUID>?,
+        authentication: Authentication,
+    ): ResponseEntity<StudentGradesResponse> {
+        return ResponseEntity.ok(
+            RestHandlers.handleRequest(StudentGradesResponseMapper) {
+                gradeFacade.getStudentGrades(
+                    requester = authentication.principal as User,
+                    studentId = studentId,
+                    subjectIds = subjectIds?.map(::SubjectId),
                 )
             }
         )
@@ -91,7 +119,7 @@ class GradeController(
     )
     @PreAuthorize("hasRole('TEACHER')")
     @PostMapping(
-        path = [""],
+        path = ["/grade"],
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun issueGrade(

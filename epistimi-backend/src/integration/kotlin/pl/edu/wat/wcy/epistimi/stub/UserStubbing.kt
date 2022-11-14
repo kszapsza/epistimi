@@ -6,11 +6,11 @@ import pl.edu.wat.wcy.epistimi.data.DummyAddress
 import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.user.domain.User
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
 import pl.edu.wat.wcy.epistimi.user.domain.UserSex
 import pl.edu.wat.wcy.epistimi.user.domain.UserSex.MALE
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 
 @Component
 internal class UserStubbing(

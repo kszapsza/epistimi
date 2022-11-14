@@ -6,9 +6,9 @@ import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationStatus
 import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService.NewUser
-import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 
 class OrganizationRegistrationService(
     private val organizationRepository: OrganizationRepository,

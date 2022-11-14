@@ -11,8 +11,8 @@ import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.course.domain.Course
 import pl.edu.wat.wcy.epistimi.course.domain.CourseBadRequestException
 import pl.edu.wat.wcy.epistimi.course.domain.CourseCreateRequest
-import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
 import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
 import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId

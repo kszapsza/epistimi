@@ -14,11 +14,8 @@ private fun Subject.toSubjectResponse(): SubjectResponse {
         id = id!!.value.toString(),
         course = SubjectCourseResponse(
             id = course.id!!.value.toString(),
-            code = SubjectCourseResponse.Code(
-                number = course.codeNumber.toString(),
-                letter = course.codeLetter,
-            ),
-            schoolYear = "${course.schoolYearBegin.year}${course.schoolYearEnd.year}",
+            code = "${course.codeNumber}${course.codeLetter}",
+            schoolYear = "${course.schoolYearBegin.year}/${course.schoolYearEnd.year}",
             classTeacher = SubjectTeacherResponse(
                 id = course.classTeacher.id!!.value.toString(),
                 academicTitle = course.classTeacher.academicTitle,
@@ -29,7 +26,7 @@ private fun Subject.toSubjectResponse(): SubjectResponse {
                     id = student.id!!.value.toString(),
                     user = student.user.toSubjectUserResponse(),
                 )
-            }
+            }.sortedWith(compareBy({ it.user.lastName }, { it.user.firstName }))
         ),
         teacher = teacher.toSubjectTeacherResponse(),
         name = name,

@@ -27,7 +27,7 @@ class TeacherAggregatorService(
         return teacherRepository.findById(teacherId)
             .also { teacher ->
                 if (!teacherAccessValidator.canRetrieve(contextUser, teacher)) {
-                    logger.warn("Unauthorized teacher fetch attempted (requester userId=${contextUser.id!!.value}, teacherId=${teacherId}")
+                    logger.warn("Unauthorized teacher fetch attempted (requester userId=${contextUser.id!!.value}, teacherId=$teacherId")
                     throw TeacherNotFoundException(teacherId)
                 }
             }
@@ -37,7 +37,7 @@ class TeacherAggregatorService(
         return teacherRepository.findByUserId(userId)
             .also { teacher ->
                 if (!teacherAccessValidator.canRetrieve(contextUser, teacher)) {
-                    logger.warn("Unauthorized teacher fetch attempted (requester userId=${contextUser.id!!.value}, teacher userId=${userId}")
+                    logger.warn("Unauthorized teacher fetch attempted (requester userId=${contextUser.id!!.value}, teacher userId=$userId")
                     throw TeacherUserIdNotFoundException(userId)
                 }
             }

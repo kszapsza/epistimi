@@ -3,6 +3,9 @@ package pl.edu.wat.wcy.epistimi.grade.domain
 import pl.edu.wat.wcy.epistimi.student.domain.StudentId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 
+class GradeIllegalFiltersException :
+    Exception("Illegal grade filtering. Provided at least one studentId or subjectId")
+
 class GradeIssueForbiddenException(subjectId: SubjectId, studentId: StudentId) :
     Exception("User not allowed to issue grade (subjectId=${subjectId.value}, studentId=${studentId.value})")
 

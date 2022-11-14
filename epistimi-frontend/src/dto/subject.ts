@@ -9,15 +9,10 @@ export interface SubjectResponse {
 
 export interface SubjectCourseResponse {
   id: string;
-  code: SubjectCourseCodeResponse;
+  code: string;
   schoolYear: string;
   classTeacher: SubjectTeacherResponse;
   students: SubjectStudentResponse[];
-}
-
-export interface SubjectCourseCodeResponse {
-  number: string;
-  letter: string;
 }
 
 export interface SubjectTeacherResponse {

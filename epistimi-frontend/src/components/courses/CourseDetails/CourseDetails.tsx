@@ -48,10 +48,7 @@ export const CourseDetails = (): JSX.Element => {
       >
         <CourseAddStudent
           course={course}
-          onStudentRegistered={() => {
-            addStudentModalHandlers.close();
-            reload();
-          }}
+          onStudentRegistered={() => reload()}
         />
       </Modal>}
 

@@ -10,12 +10,12 @@ import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 class GradeCategoryAccessValidator : ResourceAccessValidator<GradeCategory> {
     override fun canRetrieve(requester: User, resource: GradeCategory): Boolean {
         return isOrganizationAdmin(requester, resource.subject.course.organization) ||
-                isUserSubjectTeacher(requester, resource.subject)
+            isUserSubjectTeacher(requester, resource.subject)
     }
 
     private fun isOrganizationAdmin(requester: User, organization: Organization): Boolean {
-        return requester hasRole UserRole.ORGANIZATION_ADMIN
-                && requester.organization!!.id == organization.id
+        return requester hasRole UserRole.ORGANIZATION_ADMIN &&
+            requester.organization!!.id == organization.id
     }
 
     private fun isUserSubjectTeacher(requester: User, subject: Subject): Boolean {

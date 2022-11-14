@@ -4,10 +4,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.crypto.password.PasswordEncoder
 import pl.edu.wat.wcy.epistimi.user.UserFacade
+import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserAggregatorService
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserCredentialsGenerator
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
-import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 
 @Configuration
 class UserConfiguration {

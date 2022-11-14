@@ -4,8 +4,8 @@ import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.parent.domain.Parent
 import pl.edu.wat.wcy.epistimi.parent.domain.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 
 class ParentRegistrationService(
     private val parentRepository: ParentRepository,

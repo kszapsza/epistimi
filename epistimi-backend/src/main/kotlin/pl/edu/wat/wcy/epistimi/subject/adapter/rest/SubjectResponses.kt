@@ -11,16 +11,11 @@ data class SubjectResponse(
 
 data class SubjectCourseResponse(
     val id: String,
-    val code: Code,
+    val code: String,
     val schoolYear: String,
     val classTeacher: SubjectTeacherResponse,
     val students: List<SubjectStudentResponse>,
-) {
-    data class Code(
-        val number: String,
-        val letter: String,
-    )
-}
+)
 
 data class SubjectTeacherResponse(
     val id: String,

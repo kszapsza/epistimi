@@ -7,8 +7,8 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherAggregatorService
 import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherAggregatorService
 
 internal class TeacherAggregatorTest : ShouldSpec({
 

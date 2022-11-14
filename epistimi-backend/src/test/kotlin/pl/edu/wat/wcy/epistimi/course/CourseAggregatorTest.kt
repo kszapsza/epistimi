@@ -11,10 +11,10 @@ import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.TestUtils
 import pl.edu.wat.wcy.epistimi.course.domain.Course
-import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
 import pl.edu.wat.wcy.epistimi.course.domain.CourseId
 import pl.edu.wat.wcy.epistimi.course.domain.CourseNotFoundException
 import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
 import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
 import pl.edu.wat.wcy.epistimi.user.domain.UserId

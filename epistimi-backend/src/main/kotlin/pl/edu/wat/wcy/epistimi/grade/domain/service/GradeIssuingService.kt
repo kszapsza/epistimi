@@ -65,7 +65,10 @@ class GradeIssuingService(
         return subjectFacade.getSubject(contextUser = requester, subjectId)
     }
 
-    private fun getGradeStudent(requester: User, studentId: StudentId): Student {
+    private fun getGradeStudent(
+        requester: User,
+        studentId: StudentId,
+    ): Student {
         return studentFacade.getStudent(requester, studentId)
     }
 
@@ -78,9 +81,5 @@ class GradeIssuingService(
         categoryId: GradeCategoryId,
     ): GradeCategory {
         return gradeCategoryService.getCategoryById(contextUser = requester, categoryId)
-    }
-
-    fun batchIssueGrades(): List<Grade> {
-        TODO()
     }
 }

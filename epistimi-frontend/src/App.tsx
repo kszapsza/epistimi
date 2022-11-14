@@ -120,7 +120,7 @@ const App = (): JSX.Element => {
           ),
         },
         {
-          path: 'subjects/:id',
+          path: 'subjects/:subjectId',
           element: (
             <RequireAuth
               element={<Subject/>}

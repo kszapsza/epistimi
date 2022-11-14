@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationUpdateRequest

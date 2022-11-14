@@ -1,11 +1,11 @@
 package pl.edu.wat.wcy.epistimi.teacher
 
 import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherAggregatorService
 import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherRegistrationService.NewTeacher
 import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherRegisterRequest
+import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherAggregatorService
 import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherRegistrationService
+import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherRegistrationService.NewTeacher
 import pl.edu.wat.wcy.epistimi.user.domain.User
 import pl.edu.wat.wcy.epistimi.user.domain.UserId
 

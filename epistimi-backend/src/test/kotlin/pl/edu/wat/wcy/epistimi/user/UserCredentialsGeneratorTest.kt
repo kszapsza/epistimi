@@ -9,8 +9,8 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.user.domain.service.UserCredentialsGenerator
 import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserCredentialsGenerator
 
 internal class UserCredentialsGeneratorTest : ShouldSpec({
 

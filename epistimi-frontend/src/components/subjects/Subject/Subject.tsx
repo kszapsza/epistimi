@@ -1,50 +1,32 @@
 import './Subject.scss';
-import { Badge, Tabs } from '@mantine/core';
-import { IconSpeakerphone, IconStar, IconWriting } from '@tabler/icons';
+import { LoaderBox } from '../../common';
+import { SubjectHead } from '../SubjectHead';
+import { SubjectNavigation } from '../SubjectNavigation';
+import { SubjectResponse } from '../../../dto/subject';
+import { useDocumentTitle, useFetch } from '../../../hooks';
+import { useParams } from 'react-router-dom';
 
 export const Subject = (): JSX.Element => {
+  const { subjectId } = useParams();
+
+  const {
+    data: subject,
+    loading,
+    error,
+    reload,
+  } = useFetch<SubjectResponse>(`/api/subject/${subjectId}`);
+
+  useDocumentTitle(subject && `${subject.name} – ${subject.course.code} (${subject.course.schoolYear})`);
+
   return (
     <>
-      <div className={'subject-head'}>
-        <div className={'subject-course'}>
-          6a (2012/2013) ∙ Geller Wiktor
-        </div>
-        <div className={'subject-name'}>
-          Język polski
-        </div>
-      </div>
-
-      <Tabs defaultValue={'grades'}>
-        <Tabs.List>
-          <Tabs.Tab value={'grades'} icon={<IconStar size={14}/>} rightSection={
-            <Badge
-              sx={{ width: 16, height: 16, pointerEvents: 'none' }}
-              variant={'filled'}
-              size={'xs'}
-              color={'red'}
-              p={0}
-            >
-              4
-            </Badge>
-          }>Oceny</Tabs.Tab>
-          <Tabs.Tab value={'feed'} icon={<IconSpeakerphone size={14}/>}>Aktualności</Tabs.Tab>
-          <Tabs.Tab value={'homework'} icon={<IconWriting size={14}/>} rightSection={
-            <Badge
-              sx={{ width: 16, height: 16, pointerEvents: 'none' }}
-              variant={'filled'}
-              size={'xs'}
-              color={'red'}
-              p={0}
-            >
-              6
-            </Badge>
-          }>Zadania</Tabs.Tab>
-        </Tabs.List>
-
-        <Tabs.Panel value={'grades'} p={'md'}>Twoja średnia to 1,00</Tabs.Panel>
-        <Tabs.Panel value={'feed'} p={'md'}>Wy nieuki!</Tabs.Panel>
-        <Tabs.Panel value={'homework'} p={'md'}>Brak zadanek</Tabs.Panel>
-      </Tabs>
+      {loading && <LoaderBox/>}
+      {subject && (
+        <>
+          <SubjectHead subject={subject}/>
+          <SubjectNavigation subject={subject}/>
+        </>
+      )}
     </>
   );
 };
