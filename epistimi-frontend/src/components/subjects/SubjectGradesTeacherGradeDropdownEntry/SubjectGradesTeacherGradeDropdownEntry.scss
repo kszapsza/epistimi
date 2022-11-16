@@ -1,0 +1,19 @@
+@import "src/styles/themes";
+
+.subject-grade-dropdown-meta-entry {
+  display: flex;
+  flex-direction: row;
+  font: {
+    size: 12px;
+    weight: 400;
+  }
+
+  &-key {
+    color: rgba($black, .75);
+    flex: 2;
+  }
+
+  &-value {
+    flex: 3;
+  }
+}

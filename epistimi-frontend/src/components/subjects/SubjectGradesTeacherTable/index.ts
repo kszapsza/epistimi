@@ -1,0 +1,1 @@
+export { SubjectGradesTeacherTable } from './SubjectGradesTeacherTable';

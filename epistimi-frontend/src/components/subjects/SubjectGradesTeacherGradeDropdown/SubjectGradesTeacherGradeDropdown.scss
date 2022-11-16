@@ -16,6 +16,13 @@
       line-height: 1.3;
     }
 
+    &-actions {
+      display: flex;
+      flex-direction: row;
+      gap: .125rem;
+      margin-left: auto;
+    }
+
     &-category {
       font: {
         size: 14px;
@@ -38,23 +45,5 @@
     flex-direction: column;
     margin: .5rem 0 0 0;
     padding: .5rem 0 0 0;
-
-    &-entry {
-      display: flex;
-      flex-direction: row;
-      font: {
-        size: 12px;
-        weight: 400;
-      }
-    }
-
-    &-key {
-      color: rgba($black, .75);
-      flex: 2;
-    }
-
-    &-value {
-      flex: 3;
-    }
   }
 }

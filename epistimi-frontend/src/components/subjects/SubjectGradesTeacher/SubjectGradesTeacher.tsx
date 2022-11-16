@@ -1,71 +1,72 @@
+import './SubjectGradesTeacher.scss';
+import { Alert, Modal, Title } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons';
 import { LoaderBox } from '../../common';
-import { SubjectGradesResponse, SubjectGradesStudentResponse } from '../../../dto/subject-grades';
-import { SubjectGradesTeacherGradeCell } from '../SubjectGradesTeacherGradeCell';
-import { Table } from '@mantine/core';
+import { SubjectGradesResponse } from '../../../dto/subject-grades';
+import { SubjectGradesTeacherIssueForm } from '../SubjectGradesTeacherIssueForm';
+import { SubjectGradesTeacherTable } from '../SubjectGradesTeacherTable';
+import { SubjectResponse } from '../../../dto/subject';
 import { useFetch } from '../../../hooks';
+import { useState } from 'react';
 
 interface SubjectGradesTeacherAdminProps {
-  subjectId: string;
+  subject: SubjectResponse;
+}
+
+interface SubjectGradesIssueFormState {
+  studentId: string;
+  semester: number;
 }
 
 export const SubjectGradesTeacher = (
-  { subjectId }: SubjectGradesTeacherAdminProps,
+  { subject }: SubjectGradesTeacherAdminProps,
 ): JSX.Element => {
 
+  const [issueFormContext, setIssueFormContext] = useState<SubjectGradesIssueFormState | null>(null);
+
   const {
-    data: subject,
+    data,
     loading,
     error,
     reload,
-  } = useFetch<SubjectGradesResponse>(`/api/subject/${subjectId}/grade`);
-
-  if (!subject || loading) {
-    return <LoaderBox/>;
-  }
+  } = useFetch<SubjectGradesResponse>(`/api/subject/${subject.id}/grade`);
 
   return (
-    <Table striped>
-      <thead>
-      <tr>
-        <th rowSpan={2} style={{ width: '1%' }}></th>
-        <th rowSpan={2} style={{ width: '20%' }}>Nazwisko i&nbsp;imię</th>
-        <th colSpan={2}>Semestr&nbsp;I</th>
-        <th colSpan={2}>Semestr&nbsp;II</th>
-        <th>Roczna</th>
-      </tr>
-      <tr>
-        <th style={{ width: '30%' }}>Oceny</th>
-        <th>Śr.</th>
-        <th style={{ width: '30%' }}>Oceny</th>
-        <th>Śr.</th>
-        <th>Śr.</th>
-      </tr>
-      </thead>
-      <tbody>
-      {subject.students.map((student: SubjectGradesStudentResponse, idx: number) =>
-        (
-          <tr key={student.id}>
-            <td>{idx + 1}</td>
-            <td>{student.lastName} {student.firstName}</td>
-            <td>{<SubjectGradesTeacherGradeCell grades={student.firstSemester.grades}/>}</td>
-            <td>{student.firstSemester.average || '—'}</td>
-            <td>{<SubjectGradesTeacherGradeCell grades={student.secondSemester.grades}/>}</td>
-            <td>{student.secondSemester.average || '—'}</td>
-            <td>{student.average || '—'}</td>
-          </tr>
-        ))}
-      </tbody>
-      <tfoot>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th>{subject.average.firstSemester || '—'}</th>
-        <th></th>
-        <th>{subject.average.secondSemester || '—'}</th>
-        <th>{subject.average.overall || '—'}</th>
-      </tr>
-      </tfoot>
-    </Table>
+    <div className={'subject-grades-teacher'}>
+      {loading && <LoaderBox/>}
+      {error && (
+        <Alert icon={<IconAlertCircle size={16}/>} title={'Wystąpił błąd'} color={'red'}>
+          Nie udało się załadować ocen z&nbsp;przedmiotu
+        </Alert>
+      )}
+
+      {data && issueFormContext && (
+        <Modal
+          onClose={() => setIssueFormContext(null)}
+          opened={!!issueFormContext}
+          size={'lg'}
+          title={'Wystaw ocenę'}
+        >
+          <SubjectGradesTeacherIssueForm
+            subject={subject}
+            student={data.students
+              .find((student) => student.id === issueFormContext.studentId)!
+            }
+            semester={issueFormContext.semester}/>
+        </Modal>
+      )}
+
+      {data && (
+        <>
+          <Title order={3}>
+            Wystawianie ocen
+          </Title>
+          <SubjectGradesTeacherTable
+            subjectGradesResponse={data}
+            onIssueGradeClick={(studentId, semester) => setIssueFormContext({ studentId, semester })}
+          />
+        </>
+      )}
+    </div>
   );
 };

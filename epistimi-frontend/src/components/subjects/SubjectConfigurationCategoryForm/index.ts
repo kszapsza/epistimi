@@ -1,0 +1,2 @@
+export { SubjectConfigurationCategoryForm } from './SubjectConfigurationCategoryForm';
+

@@ -1,9 +1,13 @@
 export { Subject } from './Subject';
 export { SubjectConfiguration } from './SubjectConfiguration';
+export { SubjectConfigurationCategoryForm } from './SubjectConfigurationCategoryForm';
 export { SubjectGradesStudent } from './SubjectGradesStudent';
 export { SubjectGradesTeacher } from './SubjectGradesTeacher';
 export { SubjectGradesTeacherGrade } from './SubjectGradesTeacherGrade';
-export { SubjectGradesTeacherGradeCell } from './SubjectGradesTeacherGradeCell';
 export { SubjectGradesTeacherGradeDropdown } from './SubjectGradesTeacherGradeDropdown';
+export { SubjectGradesTeacherGradeDropdownEntry } from './SubjectGradesTeacherGradeDropdownEntry';
+export { SubjectGradesTeacherGradesCell } from './SubjectGradesTeacherGradesCell';
+export { SubjectGradesTeacherIssueForm } from './SubjectGradesTeacherIssueForm';
+export { SubjectGradesTeacherTable } from './SubjectGradesTeacherTable';
 export { SubjectHead } from './SubjectHead';
 export { SubjectNavigation } from './SubjectNavigation';

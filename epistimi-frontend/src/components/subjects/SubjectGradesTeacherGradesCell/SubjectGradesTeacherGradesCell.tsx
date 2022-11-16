@@ -1,15 +1,16 @@
-import './SubjectGradesTeacherGradeCell.scss';
+import './SubjectGradesTeacherGradesCell.scss';
 import { ActionIcon } from '@mantine/core';
 import { GradeResponse } from '../../../dto/grade';
-import { IconPencil } from '@tabler/icons';
+import { IconPlus } from '@tabler/icons';
 import { SubjectGradesTeacherGrade } from '../SubjectGradesTeacherGrade';
 
-interface SubjectGradesTeacherGradeCellProps {
+interface SubjectGradesTeacherGradesCellProps {
   grades: GradeResponse[];
+  onIssueGradeClick: () => void;
 }
 
-export const SubjectGradesTeacherGradeCell = (
-  { grades }: SubjectGradesTeacherGradeCellProps,
+export const SubjectGradesTeacherGradesCell = (
+  { grades, onIssueGradeClick }: SubjectGradesTeacherGradesCellProps,
 ): JSX.Element => {
   return (
     <div className={'subject-teacher-grade-cell'}>
@@ -17,8 +18,8 @@ export const SubjectGradesTeacherGradeCell = (
         <SubjectGradesTeacherGrade key={grade.id} grade={grade}/>
       )}
       <div className={'subject-teacher-grade-cell-issue'}>
-        <ActionIcon size={24} component={'button'}>
-          <IconPencil size={16}/>
+        <ActionIcon size={24} component={'button'} onClick={onIssueGradeClick}>
+          <IconPlus size={16}/>
         </ActionIcon>
       </div>
     </div>

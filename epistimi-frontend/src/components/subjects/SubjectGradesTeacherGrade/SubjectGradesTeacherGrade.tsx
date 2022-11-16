@@ -1,5 +1,6 @@
 import './SubjectGradesTeacherGrade.scss';
 import { Badge, HoverCard } from '@mantine/core';
+import { determineTextColor } from '../../../utils/color-utils';
 import { GradeResponse } from '../../../dto/grade';
 import { SubjectGradesTeacherGradeDropdown } from '../SubjectGradesTeacherGradeDropdown';
 
@@ -14,7 +15,12 @@ export const SubjectGradesTeacherGrade = (
     <HoverCard width={300} shadow={'sm'}>
       <HoverCard.Target>
         <Badge className={'subject-grade-badge'}
-          color={'orange.6'} radius={'xs'} size={'md'} p={0} variant={'filled'}
+               radius={'xs'} size={'md'} p={0}
+               style={{
+                 backgroundColor: grade.category.color ?? '#228be6',
+                 color: grade.category.color ? determineTextColor(grade.category.color) : '#fff',
+                 fontWeight: '600',
+               }}
         >
           {grade.value.displayName}
         </Badge>

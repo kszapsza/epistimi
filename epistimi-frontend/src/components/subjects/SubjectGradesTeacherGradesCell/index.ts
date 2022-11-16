@@ -1,0 +1,1 @@
+export { SubjectGradesTeacherGradesCell } from './SubjectGradesTeacherGradesCell';
