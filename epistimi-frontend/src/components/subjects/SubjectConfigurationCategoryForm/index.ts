@@ -1,2 +1,2 @@
-export { SubjectConfigurationCategoryForm } from './SubjectConfigurationCategoryForm';
+export { SubjectConfigurationCategoryForm, SubjectConfigurationCategoryFormMode } from './SubjectConfigurationCategoryForm';
 

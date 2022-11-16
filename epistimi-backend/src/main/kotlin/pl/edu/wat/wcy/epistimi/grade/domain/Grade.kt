@@ -49,12 +49,12 @@ class Grade(
     val semester: Int,
 
     @CreationTimestamp
-    @Column(name = "issued_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "issued_at", nullable = false, insertable = true, updatable = false, columnDefinition = "TIMESTAMP")
     @Convert(converter = LocalDateTimeConverter::class)
     val issuedAt: LocalDateTime?,
 
     @UpdateTimestamp
-    @Column(name = "updated_at", nullable = true, updatable = true, columnDefinition = "TIMESTAMP")
+    @Column(name = "updated_at", nullable = true, insertable = false, updatable = true, columnDefinition = "TIMESTAMP")
     @Convert(converter = LocalDateTimeConverter::class)
     val updatedAt: LocalDateTime?,
 

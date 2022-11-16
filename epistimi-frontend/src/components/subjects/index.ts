@@ -1,6 +1,7 @@
 export { Subject } from './Subject';
 export { SubjectConfiguration } from './SubjectConfiguration';
-export { SubjectConfigurationCategoryForm } from './SubjectConfigurationCategoryForm';
+export { SubjectConfigurationCategories } from './SubjectConfigurationCategories';
+export { SubjectConfigurationCategoryForm, SubjectConfigurationCategoryFormMode } from './SubjectConfigurationCategoryForm';
 export { SubjectGradesStudent } from './SubjectGradesStudent';
 export { SubjectGradesTeacher } from './SubjectGradesTeacher';
 export { SubjectGradesTeacherGrade } from './SubjectGradesTeacherGrade';

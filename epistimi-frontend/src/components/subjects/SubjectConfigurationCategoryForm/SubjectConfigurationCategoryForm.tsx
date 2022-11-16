@@ -1,8 +1,22 @@
 import './SubjectConfigurationCategoryForm.scss';
-import { Alert, Button, Card, ColorPicker, DEFAULT_THEME, LoadingOverlay, NumberInput, TextInput, Title } from '@mantine/core';
-import { GradeCategoryCreateRequest, GradeCategoryResponse } from '../../../dto/grade-category';
+import {
+  Alert,
+  Button,
+  Card,
+  ColorPicker,
+  DEFAULT_THEME,
+  LoadingOverlay,
+  NumberInput,
+  TextInput,
+  Title,
+} from '@mantine/core';
+import {
+  GradeCategoriesResponseEntry,
+  GradeCategoryCreateRequest,
+  GradeCategoryResponse,
+} from '../../../dto/grade-category';
 import { GradeResponse } from '../../../dto/grade';
-import { IconAlertCircle, IconPlus } from '@tabler/icons';
+import { IconAlertCircle, IconDeviceFloppy, IconPlus } from '@tabler/icons';
 import { SubjectGradesTeacherGradeDropdown } from '../SubjectGradesTeacherGradeDropdown';
 import { SubjectResponse } from '../../../dto/subject';
 import { useForm } from '@mantine/form';
@@ -12,6 +26,13 @@ import axios, { AxiosResponse } from 'axios';
 interface SubjectConfigurationCategoryFormProps {
   subject: SubjectResponse;
   onSubmit: (newCategory: GradeCategoryResponse) => void;
+  mode: SubjectConfigurationCategoryFormMode;
+  existingCategory?: GradeCategoriesResponseEntry;
+}
+
+export const enum SubjectConfigurationCategoryFormMode {
+  CREATE,
+  UPDATE,
 }
 
 export const SubjectConfigurationCategoryForm = (
@@ -24,9 +45,9 @@ export const SubjectConfigurationCategoryForm = (
   const form = useForm<GradeCategoryCreateRequest>({
     initialValues: {
       subjectId: props.subject.id,
-      name: '',
-      defaultWeight: 1,
-      color: '#228be6',
+      name: props.existingCategory?.name ?? '',
+      defaultWeight: props.existingCategory?.defaultWeight ?? 1,
+      color: props.existingCategory?.color ?? DEFAULT_THEME.colors.blue[6],
     },
     validate: (values) => ({
       name: values.name.trim() === '' ? 'Wymagane pole' : null,
@@ -34,7 +55,10 @@ export const SubjectConfigurationCategoryForm = (
   });
 
   const onSubmit = (): void => {
-    axios.post<GradeCategoryResponse, AxiosResponse<GradeCategoryResponse>, GradeCategoryCreateRequest>(
+    const axiosFunc = props.mode === SubjectConfigurationCategoryFormMode.CREATE
+      ? axios.post
+      : axios.put;
+    axiosFunc<GradeCategoryResponse, AxiosResponse<GradeCategoryResponse>, GradeCategoryCreateRequest>(
       '/api/grade/category', form.values)
       .then((response) => {
         setSendingRequest(false);
@@ -80,7 +104,9 @@ export const SubjectConfigurationCategoryForm = (
 
       {submitError &&
         <Alert icon={<IconAlertCircle size={16}/>} color={'red'} title={'Błąd'}>
-          Nie udało się utworzyć nowej kategorii
+          {props.mode === SubjectConfigurationCategoryFormMode.CREATE
+            ? 'Nie udało się utworzyć nowej kategorii'
+            : 'Nie udało się zaktualizować kategorii'}
         </Alert>}
 
       <TextInput
@@ -125,12 +151,20 @@ export const SubjectConfigurationCategoryForm = (
         </Card>
       </div>
 
-      <Button
-        leftIcon={<IconPlus size={18}/>}
-        type={'submit'}
-      >
-        Utwórz kategorię
-      </Button>
+      {props.mode === SubjectConfigurationCategoryFormMode.CREATE && (
+        <Button
+          leftIcon={<IconPlus size={18}/>}
+          type={'submit'}
+        >
+          Utwórz kategorię
+        </Button>)}
+      {props.mode === SubjectConfigurationCategoryFormMode.UPDATE && (
+        <Button
+          leftIcon={<IconDeviceFloppy size={18}/>}
+          type={'submit'}
+        >
+          Zaktualizuj kategorię
+        </Button>)}
     </form>
   );
 };

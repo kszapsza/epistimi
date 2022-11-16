@@ -35,12 +35,12 @@ class NoticeboardPost(
     val author: User,
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "created_at", nullable = false, insertable = true, updatable = false, columnDefinition = "TIMESTAMP")
     @Convert(converter = LocalDateTimeConverter::class)
     val createdAt: LocalDateTime?,
 
     @UpdateTimestamp
-    @Column(name = "updated_at", nullable = true, updatable = true, columnDefinition = "TIMESTAMP")
+    @Column(name = "updated_at", nullable = true, insertable = false, updatable = true, columnDefinition = "TIMESTAMP")
     @Convert(converter = LocalDateTimeConverter::class)
     val updatedAt: LocalDateTime?,
 

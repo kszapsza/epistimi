@@ -33,7 +33,10 @@ class GradeIssuingService(
         if (gradeAccessValidator.canCreate(requester, grade)) {
             return gradeRepository.save(grade)
         }
-        throw GradeIssueForbiddenException(gradeIssueRequest.subjectId, gradeIssueRequest.studentId)
+        throw GradeIssueForbiddenException(
+            subjectId = gradeIssueRequest.subjectId,
+            studentId = gradeIssueRequest.studentId,
+        )
     }
 
     private fun buildGrade(
@@ -42,7 +45,6 @@ class GradeIssuingService(
     ): Grade {
         return with(gradeIssueRequest) {
             Grade(
-                id = null,
                 subject = getGradeSubject(requester, subjectId),
                 student = getGradeStudent(requester, studentId),
                 issuedBy = getGradeTeacher(requester),

@@ -7,10 +7,10 @@ class GradeIllegalFiltersException :
     Exception("Illegal grade filtering. Provided at least one studentId or subjectId")
 
 class GradeIssueForbiddenException(subjectId: SubjectId, studentId: StudentId) :
-    Exception("User not allowed to issue grade (subjectId=${subjectId.value}, studentId=${studentId.value})")
+    Exception("User not allowed to issue grade (subjectId=[${subjectId.value}], studentId=[${studentId.value}])")
 
 class GradeNotFoundException(id: GradeId) :
-    Exception("Grade with id ${id.value} not found")
+    Exception("Grade with id [${id.value}] not found")
 
 class GradeCategoryActionForbiddenException(message: String) :
     Exception(message)

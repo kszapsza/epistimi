@@ -1,7 +1,6 @@
 import './SubjectGradesTeacher.scss';
-import { Alert, Modal, Title } from '@mantine/core';
+import { Alert, LoadingOverlay, Modal, Title } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons';
-import { LoaderBox } from '../../common';
 import { SubjectGradesResponse } from '../../../dto/subject-grades';
 import { SubjectGradesTeacherIssueForm } from '../SubjectGradesTeacherIssueForm';
 import { SubjectGradesTeacherTable } from '../SubjectGradesTeacherTable';
@@ -33,7 +32,6 @@ export const SubjectGradesTeacher = (
 
   return (
     <div className={'subject-grades-teacher'}>
-      {loading && <LoaderBox/>}
       {error && (
         <Alert icon={<IconAlertCircle size={16}/>} title={'Wystąpił błąd'} color={'red'}>
           Nie udało się załadować ocen z&nbsp;przedmiotu
@@ -52,12 +50,18 @@ export const SubjectGradesTeacher = (
             student={data.students
               .find((student) => student.id === issueFormContext.studentId)!
             }
-            semester={issueFormContext.semester}/>
+            semester={issueFormContext.semester}
+            onNewGradeIssued={() => {
+              setIssueFormContext(null);
+              reload();
+            }}
+          />
         </Modal>
       )}
 
       {data && (
         <>
+          <LoadingOverlay visible={loading}/>
           <Title order={3}>
             Wystawianie ocen
           </Title>
