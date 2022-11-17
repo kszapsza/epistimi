@@ -6,6 +6,7 @@ import { Noticeboard } from './components/noticeboard';
 import { NotImplementedYet } from './components/common';
 import { OrganizationDetails, OrganizationsListing } from './components/organizations';
 import { RequireAuth } from './router/RequireAuth';
+import { StudentGrades } from './components/grades';
 import { Subject } from './components/subjects';
 import { Summary } from './components/summary';
 import { TeacherDetails, TeachersListing } from './components/teachers';
@@ -207,7 +208,11 @@ const App = (): JSX.Element => {
         {
           path: 'grades',
           element: (
-            <NotImplementedYet/>
+            <RequireAuth
+              element={<StudentGrades/>}
+              auth={auth}
+              allowedRoles={[UserRole.STUDENT, UserRole.PARENT]}
+            />
           ),
         },
         {

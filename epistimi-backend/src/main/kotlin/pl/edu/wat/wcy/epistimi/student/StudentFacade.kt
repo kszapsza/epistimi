@@ -6,6 +6,7 @@ import pl.edu.wat.wcy.epistimi.student.domain.StudentRegisterRequest
 import pl.edu.wat.wcy.epistimi.student.domain.service.StudentAggregatorService
 import pl.edu.wat.wcy.epistimi.student.domain.service.StudentRegistrationService
 import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
 
 class StudentFacade(
     private val studentAggregatorService: StudentAggregatorService,
@@ -16,6 +17,13 @@ class StudentFacade(
         studentId: StudentId,
     ): Student {
         return studentAggregatorService.getStudent(contextUser, studentId)
+    }
+
+    fun getStudentByUserId(
+        contextUser: User,
+        userId: UserId,
+    ): Student {
+        return studentAggregatorService.getStudentByUserId(contextUser, userId)
     }
 
     fun registerStudent(

@@ -10,14 +10,15 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { GradeBadgeDropdown } from '../../grades';
 import {
   GradeCategoriesResponseEntry,
   GradeCategoryCreateRequest,
   GradeCategoryResponse,
+  GradeCategoryUpdateRequest,
 } from '../../../dto/grade-category';
 import { GradeResponse } from '../../../dto/grade';
 import { IconAlertCircle, IconDeviceFloppy, IconPlus } from '@tabler/icons';
-import { SubjectGradesTeacherGradeDropdown } from '../SubjectGradesTeacherGradeDropdown';
 import { SubjectResponse } from '../../../dto/subject';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
@@ -55,11 +56,7 @@ export const SubjectConfigurationCategoryForm = (
   });
 
   const onSubmit = (): void => {
-    const axiosFunc = props.mode === SubjectConfigurationCategoryFormMode.CREATE
-      ? axios.post
-      : axios.put;
-    axiosFunc<GradeCategoryResponse, AxiosResponse<GradeCategoryResponse>, GradeCategoryCreateRequest>(
-      '/api/grade/category', form.values)
+    sendAxiosRequest()
       .then((response) => {
         setSendingRequest(false);
         props.onSubmit(response.data);
@@ -68,6 +65,23 @@ export const SubjectConfigurationCategoryForm = (
         setSendingRequest(false);
         setSubmitError(true);
       });
+  };
+
+  const sendAxiosRequest = async (): Promise<AxiosResponse<GradeCategoryResponse>> => {
+    if (props.existingCategory &&
+      props.mode === SubjectConfigurationCategoryFormMode.UPDATE) {
+      return axios.put<
+        GradeCategoryResponse,
+        AxiosResponse<GradeCategoryResponse>,
+        GradeCategoryUpdateRequest>(
+        '/api/grade/category', { ...form.values, categoryId: props.existingCategory.id });
+    } else {
+      return axios.post<
+        GradeCategoryResponse,
+        AxiosResponse<GradeCategoryResponse>,
+        GradeCategoryCreateRequest>(
+        '/api/grade/category', form.values);
+    }
   };
 
   const gradeSample: GradeResponse = {
@@ -147,7 +161,7 @@ export const SubjectConfigurationCategoryForm = (
           onChange={(value) => form.setFieldValue('color', value)}
         />
         <Card style={{ width: '300px' }}>
-          <SubjectGradesTeacherGradeDropdown grade={gradeSample} showActions={false}/>
+          <GradeBadgeDropdown grade={gradeSample} showActions={false}/>
         </Card>
       </div>
 

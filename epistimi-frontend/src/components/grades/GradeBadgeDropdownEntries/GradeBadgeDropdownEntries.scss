@@ -1,0 +1,9 @@
+@import "src/styles/themes";
+
+.grade-dropdown-entries {
+  border-top: 1px solid rgba($black, .1);
+  display: flex;
+  flex-direction: column;
+  margin: .5rem 0 0 0;
+  padding: .5rem 0 0 0;
+}

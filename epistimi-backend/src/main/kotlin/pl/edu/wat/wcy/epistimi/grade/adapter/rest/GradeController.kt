@@ -91,13 +91,12 @@ class GradeController(
         tags = ["student", "grade"],
         description = "Retrieves grades for provided student id",
     )
-    @PreAuthorize("hasAnyRole('STUDENT', 'PARENT')")
+    @PreAuthorize("hasAnyRole('STUDENT')") // TODO: parent - fetching multiple students' grades?
     @GetMapping(
-        path = ["/student/{studentId}/grade"],
+        path = ["/student/grade"],
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getStudentGrades(
-        @PathVariable studentId: StudentId,
         @RequestParam(required = false) subjectIds: List<UUID>?,
         authentication: Authentication,
     ): ResponseEntity<StudentGradesResponse> {
@@ -105,7 +104,6 @@ class GradeController(
             RestHandlers.handleRequest(StudentGradesResponseMapper) {
                 gradeFacade.getStudentGrades(
                     requester = authentication.principal as User,
-                    studentId = studentId,
                     subjectIds = subjectIds?.map(::SubjectId),
                 )
             }
@@ -138,5 +136,4 @@ class GradeController(
     }
 
     // TODO: PUT - update grade
-    // TODO: DELETE - delete grade
 }

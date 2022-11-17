@@ -7,6 +7,7 @@ import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryCreateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryNotFoundException
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategorySubjectNotFoundException
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryUpdateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.access.GradeCategoryAccessValidator
 import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeCategoryRepository
 import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
@@ -38,7 +39,7 @@ class GradeCategoryService(
     ): GradeCategoriesForSubject {
         return GradeCategoriesForSubject(
             subject = findSubject(contextUser, subjectId),
-            categories = gradeCategoryRepository.findAllBySubjectId(subjectId),
+            categories = gradeCategoryRepository.findAllBySubjectId(subjectId).sortedBy { it.createdAt },
         )
     }
 
@@ -59,13 +60,46 @@ class GradeCategoryService(
     ): GradeCategory {
         val (subjectId, name, defaultWeight, color) = createRequest
         val subject = findSubject(contextUser = contextUser, subjectId = subjectId)
-        val gradeCategory = GradeCategory(id = null, subject, name, defaultWeight, color)
 
+        val gradeCategory = GradeCategory(
+            id = null,
+            subject = subject,
+            name = name,
+            defaultWeight = defaultWeight,
+            color = color,
+            createdAt = null,
+            updatedAt = null
+        )
         return if (gradeCategoryAccessValidator.canCreate(contextUser, gradeCategory)) {
             gradeCategoryRepository.save(gradeCategory)
         } else {
             throw GradeCategoryActionForbiddenException(
                 "Insufficient permissions to create grade category for subject with id [$subjectId]"
+            )
+        }
+    }
+
+    fun updateGradeCategory(
+        contextUser: User,
+        updateRequest: GradeCategoryUpdateRequest,
+    ): GradeCategory {
+        val updatedCategory = getCategoryById(contextUser, updateRequest.categoryId)
+
+        return if (gradeCategoryAccessValidator.canModify(contextUser, updatedCategory)) {
+            gradeCategoryRepository.save(
+                GradeCategory(
+                    id = updateRequest.categoryId,
+                    subject = updatedCategory.subject,
+                    name = updateRequest.name,
+                    defaultWeight = updateRequest.defaultWeight,
+                    color = updateRequest.color,
+                    createdAt = updatedCategory.createdAt,
+                    updatedAt = null,
+                )
+            )
+        } else {
+            throw GradeCategoryActionForbiddenException(
+                "Insufficient permissions to update grade category with id [${updateRequest.categoryId}]"
             )
         }
     }

@@ -4,10 +4,6 @@ export { SubjectConfigurationCategories } from './SubjectConfigurationCategories
 export { SubjectConfigurationCategoryForm, SubjectConfigurationCategoryFormMode } from './SubjectConfigurationCategoryForm';
 export { SubjectGradesStudent } from './SubjectGradesStudent';
 export { SubjectGradesTeacher } from './SubjectGradesTeacher';
-export { SubjectGradesTeacherGrade } from './SubjectGradesTeacherGrade';
-export { SubjectGradesTeacherGradeDropdown } from './SubjectGradesTeacherGradeDropdown';
-export { SubjectGradesTeacherGradeDropdownEntry } from './SubjectGradesTeacherGradeDropdownEntry';
-export { SubjectGradesTeacherGradesCell } from './SubjectGradesTeacherGradesCell';
 export { SubjectGradesTeacherIssueForm } from './SubjectGradesTeacherIssueForm';
 export { SubjectGradesTeacherTable } from './SubjectGradesTeacherTable';
 export { SubjectHead } from './SubjectHead';

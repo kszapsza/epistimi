@@ -4,7 +4,7 @@ export interface StudentGradesResponse {
   id: string;
   firstName: string;
   lastName: string;
-  subjects: StudentGradesSubjectResponse;
+  subjects: StudentGradesSubjectResponse[];
 }
 
 export interface StudentGradesSubjectResponse {

@@ -1,6 +1,6 @@
 @import "src/styles/themes";
 
-.subject-grade-dropdown-meta-entry {
+.grade-dropdown-meta-entry {
   display: flex;
   flex-direction: row;
   font: {
@@ -15,5 +15,6 @@
 
   &-value {
     flex: 3;
+    line-height: 1.3;
   }
 }

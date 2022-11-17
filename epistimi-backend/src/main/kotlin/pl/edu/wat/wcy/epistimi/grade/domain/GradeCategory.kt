@@ -1,9 +1,14 @@
 package pl.edu.wat.wcy.epistimi.grade.domain
 
+import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.UpdateTimestamp
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateTimeConverter
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
+import java.time.LocalDateTime
 import java.util.UUID
 import javax.persistence.Column
+import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
@@ -34,6 +39,16 @@ class GradeCategory(
 
     @Column(name = "color")
     val color: String? = null,
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, insertable = true, updatable = false, columnDefinition = "TIMESTAMP")
+    @Convert(converter = LocalDateTimeConverter::class)
+    val createdAt: LocalDateTime?,
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = true, insertable = false, updatable = true, columnDefinition = "TIMESTAMP")
+    @Convert(converter = LocalDateTimeConverter::class)
+    val updatedAt: LocalDateTime?,
 )
 
 @JvmInline

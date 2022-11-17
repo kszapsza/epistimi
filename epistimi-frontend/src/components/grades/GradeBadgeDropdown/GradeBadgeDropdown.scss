@@ -1,6 +1,6 @@
 @import "src/styles/themes";
 
-.subject-grade-dropdown {
+.grade-dropdown {
   display: flex;
   flex-direction: column;
 
@@ -37,13 +37,5 @@
         weight: 400;
       }
     }
-  }
-
-  &-meta {
-    border-top: 1px solid rgba($black, .1);
-    display: flex;
-    flex-direction: column;
-    margin: .5rem 0 0 0;
-    padding: .5rem 0 0 0;
   }
 }

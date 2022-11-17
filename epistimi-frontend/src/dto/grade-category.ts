@@ -29,3 +29,10 @@ export interface GradeCategoryCreateRequest {
   defaultWeight: number;
   color?: string;
 }
+
+export interface GradeCategoryUpdateRequest {
+  categoryId: string;
+  name: string;
+  defaultWeight: number;
+  color?: string;
+}

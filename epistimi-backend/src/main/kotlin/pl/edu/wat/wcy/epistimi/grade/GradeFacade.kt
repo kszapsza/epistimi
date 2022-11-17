@@ -24,10 +24,9 @@ class GradeFacade(
 
     fun getStudentGrades(
         requester: User,
-        studentId: StudentId,
         subjectIds: List<SubjectId>?,
     ): StudentGrades {
-        return gradeAggregatorService.getStudentGrades(requester, studentId, subjectIds)
+        return gradeAggregatorService.getStudentGrades(requester, subjectIds)
     }
 
     fun getSubjectGrades(

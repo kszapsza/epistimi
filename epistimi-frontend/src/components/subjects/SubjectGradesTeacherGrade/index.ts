@@ -1,1 +1,0 @@
-export { SubjectGradesTeacherGrade } from './SubjectGradesTeacherGrade';

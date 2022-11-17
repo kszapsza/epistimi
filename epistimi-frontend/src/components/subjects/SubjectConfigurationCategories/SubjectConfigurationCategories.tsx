@@ -1,11 +1,25 @@
 import './SubjectConfigurationCategories.scss';
-import { ActionIcon, Button, ColorSwatch, Modal, Table, Title } from '@mantine/core';
+import {
+  ActionIcon,
+  Alert,
+  Button,
+  ColorSwatch,
+  LoadingOverlay,
+  Modal,
+  Table,
+  Title,
+} from '@mantine/core';
 import { GradeCategoriesResponse, GradeCategoriesResponseEntry } from '../../../dto/grade-category';
-import { IconPencil, IconPlus } from '@tabler/icons';
-import { SubjectConfigurationCategoryForm, SubjectConfigurationCategoryFormMode } from '../SubjectConfigurationCategoryForm';
+import { IconAlertCircle, IconPencil, IconPlus } from '@tabler/icons';
+import {
+  SubjectConfigurationCategoryForm,
+  SubjectConfigurationCategoryFormMode,
+} from '../SubjectConfigurationCategoryForm';
 import { SubjectResponse } from '../../../dto/subject';
+import { useAppSelector } from '../../../store/hooks';
 import { useDisclosure } from '@mantine/hooks';
 import { useFetch } from '../../../hooks';
+import { UserRole } from '../../../dto/user';
 import { useState } from 'react';
 
 interface SubjectConfigurationCategoriesProps {
@@ -15,6 +29,8 @@ interface SubjectConfigurationCategoriesProps {
 export const SubjectConfigurationCategories = (
   { subject }: SubjectConfigurationCategoriesProps,
 ): JSX.Element => {
+
+  const { user } = useAppSelector((state) => state.auth);
   const {
     data,
     loading,
@@ -37,7 +53,7 @@ export const SubjectConfigurationCategories = (
         onClose={createGradeCategoryModalHandlers.close}
         opened={createGradeCategoryModalOpened}
         size={'lg'}
-        title={`Tworzenie kategorii oceny dla: ${subject.name} (${subject.course.code}, ${subject.course.schoolYear})`}
+        title={`Tworzenie kategorii oceny: ${subject.name} (${subject.course.code}, ${subject.course.schoolYear})`}
       >
         <SubjectConfigurationCategoryForm
           subject={subject}
@@ -66,11 +82,20 @@ export const SubjectConfigurationCategories = (
           />
         </Modal>
       )}
+
+      <LoadingOverlay visible={loading}/>
+
+      {error &&
+        <Alert icon={<IconAlertCircle size={16}/>} color={'red'} title={'Błąd'}>
+          Nie udało się załadować listy kategorii ocen
+        </Alert>}
+
       <div className={'subject-configuration-section-head'}>
         <Title order={3}>
           Kategorie ocen
         </Title>
         <Button
+          disabled={!user || user.role != UserRole.TEACHER}
           leftIcon={<IconPlus size={18}/>}
           variant={'default'}
           onClick={createGradeCategoryModalHandlers.open}
@@ -98,7 +123,10 @@ export const SubjectConfigurationCategories = (
                 <td>{category.defaultWeight}</td>
                 <td>{category.color ? <ColorSwatch color={category.color} size={20}/> : '–'}</td>
                 <td>
-                  <ActionIcon onClick={() => onCategoryEdit(category)}>
+                  <ActionIcon
+                    onClick={() => onCategoryEdit(category)}
+                    disabled={!user || user.role != UserRole.TEACHER}
+                  >
                     <IconPencil size={16}/>
                   </ActionIcon>
                 </td>

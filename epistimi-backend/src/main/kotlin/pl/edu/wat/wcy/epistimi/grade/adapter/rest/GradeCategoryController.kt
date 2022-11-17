@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -20,6 +21,7 @@ import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeCategoriesResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeCategoryResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryCreateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryUpdateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeCategoryService
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.user.domain.User
@@ -106,5 +108,27 @@ class GradeCategoryController(
         }
     }
 
-    // TODO: PUT – update category
+    @Operation(
+        summary = "Update grade category",
+        tags = ["grade/category"],
+        description = "Updates grade category with provided id",
+    )
+    @PreAuthorize("hasRole('TEACHER')")
+    @PutMapping(
+        path = [""],
+        produces = [MediaType.APPLICATION_JSON_V1],
+    )
+    fun updateGradeCategory(
+        @Valid @RequestBody updateRequest: GradeCategoryUpdateRequest,
+        authentication: Authentication,
+    ): ResponseEntity<GradeCategoryResponse> {
+        return ResponseEntity.ok(
+            RestHandlers.handleRequest(GradeCategoryResponseMapper) {
+                gradeCategoryService.updateGradeCategory(
+                    contextUser = authentication.principal as User,
+                    updateRequest = updateRequest,
+                )
+            }
+        )
+    }
 }

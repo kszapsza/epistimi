@@ -40,19 +40,19 @@ class GradeAggregatorService(
 
     fun getStudentGrades(
         requester: User,
-        studentId: StudentId,
         subjectIds: List<SubjectId>?,
     ): StudentGrades {
-        val student = studentFacade.getStudent(requester, studentId)
+        // TODO: parent retrieves students' grades!
+        val student = studentFacade.getStudentByUserId(requester, requester.id!!)
         val studentSubjectsGrades = retrieveStudentSubjectGrades(requester, student, subjectIds)
 
         return StudentGrades(
-            id = studentId,
+            id = student.id!!,
             firstName = student.user.firstName,
             lastName = student.user.lastName,
             subjects = studentSubjectsGrades
                 .map(::buildSubjectGradesSummary)
-                .sortedBy { it.name }
+                .sortedBy(StudentSubjectGradesSummary::name)
         )
     }
 
@@ -84,7 +84,7 @@ class GradeAggregatorService(
     ): List<Grade> {
         return gradeRepository.findAllWithFiltering(filters)
             .filter { grade -> gradeAccessValidator.canRetrieve(requester, grade) }
-            .sortedBy { it.issuedAt }
+            .sortedBy(Grade::issuedAt)
     }
 
     private fun buildSubjectGradesSummary(

@@ -25,4 +25,8 @@ class GradeCategoryAccessValidator : ResourceAccessValidator<GradeCategory> {
     override fun canCreate(requester: User, resource: GradeCategory): Boolean {
         return isUserSubjectTeacher(requester, resource.subject)
     }
+
+    override fun canModify(requester: User, resource: GradeCategory): Boolean {
+        return isUserSubjectTeacher(requester, resource.subject)
+    }
 }
