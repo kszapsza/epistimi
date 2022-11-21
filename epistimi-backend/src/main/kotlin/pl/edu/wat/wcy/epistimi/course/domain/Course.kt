@@ -62,7 +62,10 @@ class Course(
 
     @Column(name = "specialization")
     val specialization: String?,
-)
+) {
+    val schoolYear
+        get() = "${schoolYearBegin.year}/${schoolYearEnd.year}"
+}
 
 @JvmInline
 value class CourseId(

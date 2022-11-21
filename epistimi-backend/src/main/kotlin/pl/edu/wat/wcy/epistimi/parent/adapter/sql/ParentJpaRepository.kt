@@ -5,5 +5,5 @@ import pl.edu.wat.wcy.epistimi.parent.domain.Parent
 import java.util.UUID
 
 interface ParentJpaRepository : JpaRepository<Parent, UUID> {
-    fun findFirstByUserId(userId: UUID): Parent?
+    fun findByUserId(userId: UUID): Parent?
 }

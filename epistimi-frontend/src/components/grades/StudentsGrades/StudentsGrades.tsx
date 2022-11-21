@@ -10,7 +10,6 @@ import { useFetch } from '../../../hooks';
 import { UserRole } from '../../../dto/user';
 
 export const StudentsGrades = (): JSX.Element => {
-
   const { user } = useAppSelector((state) => state.auth);
   const { data, loading, error } = useFetch<StudentsGradesResponse>(`/api/student/grade`);
 

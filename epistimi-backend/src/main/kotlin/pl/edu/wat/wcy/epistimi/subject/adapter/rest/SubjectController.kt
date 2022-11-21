@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.dto.SubjectResponse
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.dto.SubjectsResponse
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.mapper.SubjectResponseMapper
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.mapper.SubjectsResponseMapper
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.domain.User
@@ -50,15 +54,31 @@ class SubjectController(
         )
     }
 
-    /*
-     * TODO:
-     *  On frontend we will need "multi" GET endpoint, returning subjects
-     *  within users' organization AND:
-     *   - for ORGANIZATION_ADMIN / TEACHER: subjects led by context teacher
-     *   - for STUDENT: subjects for courses attended by student
-     *   - for PARENT: subjects for courses attended by parent's child
-     *   - for EPISTIMI_ADMIN: not applicable
-     */
+    @Operation(
+        summary = "Get all subjects",
+        tags = ["subject"],
+        description = "Retrieves all subjects for authorized user: " +
+            "ORGANIZATION_ADMIN - all subjects in organization, " +
+            "TEACHER – all subjects led by teacher, " +
+            "STUDENT - all subjects attended by the student, " +
+            "PARENT - all subject attended by parent's children."
+    )
+    @PreAuthorize("hasAnyRole('ORGANIZATION_ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
+    @GetMapping(
+        path = [""],
+        produces = [MediaType.APPLICATION_JSON_V1],
+    )
+    fun getSubjects(
+        authentication: Authentication,
+    ): ResponseEntity<SubjectsResponse> {
+        return ResponseEntity.ok(
+            RestHandlers.handleRequest(SubjectsResponseMapper) {
+                subjectFacade.getSubjects(
+                    contextUser = authentication.principal as User,
+                )
+            }
+        )
+    }
 
     @Operation(
         summary = "Register subject",

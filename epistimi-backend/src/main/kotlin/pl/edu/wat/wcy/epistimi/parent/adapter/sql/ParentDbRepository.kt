@@ -13,7 +13,7 @@ class ParentDbRepository(
 ) : ParentRepository {
 
     override fun findByUserId(id: UserId): Parent {
-        return parentJpaRepository.findFirstByUserId(id.value)
+        return parentJpaRepository.findByUserId(id.value)
             ?: throw ParentNotFoundException()
     }
 

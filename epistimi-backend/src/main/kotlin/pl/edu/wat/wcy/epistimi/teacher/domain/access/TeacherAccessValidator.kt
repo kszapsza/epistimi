@@ -7,12 +7,12 @@ import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 
 class TeacherAccessValidator : ResourceAccessValidator<Teacher> {
     override fun canRetrieve(requester: User, resource: Teacher): Boolean {
-        return requester.id == resource.user.id
-                || isUserAnOrganizationAdmin(requester, resource)
+        return requester.id == resource.user.id ||
+            isUserAnOrganizationAdmin(requester, resource)
     }
 
     private fun isUserAnOrganizationAdmin(requester: User, resource: Teacher): Boolean {
         return requester hasRole UserRole.ORGANIZATION_ADMIN &&
-                requester.organization!!.id == resource.user.organization!!.id
+            requester.organization!!.id == resource.user.organization!!.id
     }
 }

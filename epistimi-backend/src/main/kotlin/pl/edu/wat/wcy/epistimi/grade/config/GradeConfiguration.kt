@@ -8,6 +8,8 @@ import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeAggregatorService
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeCategoryService
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeIssuingService
+import pl.edu.wat.wcy.epistimi.grade.domain.service.StudentGradeAggregatorService
+import pl.edu.wat.wcy.epistimi.grade.domain.service.SubjectGradeAggregatorService
 import pl.edu.wat.wcy.epistimi.parent.ParentFacade
 import pl.edu.wat.wcy.epistimi.student.StudentFacade
 import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
@@ -30,16 +32,42 @@ class GradeConfiguration {
     fun gradeAggregatorService(
         gradeRepository: GradeRepository,
         gradeAccessValidator: GradeAccessValidator,
-        studentFacade: StudentFacade,
-        subjectFacade: SubjectFacade,
-        parentFacade: ParentFacade,
+        studentGradeAggregatorService: StudentGradeAggregatorService,
+        subjectGradeAggregatorService: SubjectGradeAggregatorService,
     ): GradeAggregatorService {
         return GradeAggregatorService(
             gradeRepository,
             gradeAccessValidator,
+            studentGradeAggregatorService,
+            subjectGradeAggregatorService,
+        )
+    }
+
+    @Bean
+    fun studentGradeAggregatorService(
+        gradeRepository: GradeRepository,
+        gradeAccessValidator: GradeAccessValidator,
+        studentFacade: StudentFacade,
+        parentFacade: ParentFacade,
+    ): StudentGradeAggregatorService {
+        return StudentGradeAggregatorService(
+            gradeRepository,
+            gradeAccessValidator,
             studentFacade,
-            subjectFacade,
             parentFacade,
+        )
+    }
+
+    @Bean
+    fun subjectGradeAggregatorService(
+        subjectFacade: SubjectFacade,
+        gradeRepository: GradeRepository,
+        gradeAccessValidator: GradeAccessValidator,
+    ): SubjectGradeAggregatorService {
+        return SubjectGradeAggregatorService(
+            subjectFacade,
+            gradeRepository,
+            gradeAccessValidator,
         )
     }
 

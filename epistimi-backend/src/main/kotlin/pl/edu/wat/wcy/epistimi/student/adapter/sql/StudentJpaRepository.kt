@@ -5,5 +5,5 @@ import pl.edu.wat.wcy.epistimi.student.domain.Student
 import java.util.UUID
 
 interface StudentJpaRepository : JpaRepository<Student, UUID> {
-    fun findFirstByUserId(userId: UUID): Student?
+    fun findByUserId(userId: UUID): Student?
 }

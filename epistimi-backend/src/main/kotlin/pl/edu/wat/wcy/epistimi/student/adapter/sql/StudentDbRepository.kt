@@ -17,7 +17,7 @@ class StudentDbRepository(
     }
 
     override fun findByUserId(id: UserId): Student {
-        return studentJpaRepository.findFirstByUserId(id.value) ?: throw StudentNotFoundException()
+        return studentJpaRepository.findByUserId(id.value) ?: throw StudentNotFoundException()
     }
 
     override fun findByIds(ids: List<StudentId>): List<Student> {

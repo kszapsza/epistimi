@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.subject.adapter.rest
+package pl.edu.wat.wcy.epistimi.subject.adapter.rest.dto
 
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 

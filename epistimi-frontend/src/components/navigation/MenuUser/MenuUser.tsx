@@ -1,14 +1,12 @@
 import './MenuUser.scss';
-import { Divider, Menu } from '@mantine/core';
-import { IconCheck, IconLogout, IconSettings } from '@tabler/icons';
+import { IconLogout, IconSettings } from '@tabler/icons';
+import { Menu } from '@mantine/core';
 import { MenuUserButton } from '../../navigation';
 import { removeCurrentUser, TOKEN_KEY } from '../../../store/slices/authSlice';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { UserRole } from '../../../dto/user';
+import { useAppDispatch } from '../../../store/hooks';
 import { useTranslation } from 'react-i18next';
 
 export const MenuUser = (): JSX.Element => {
-  const { user } = useAppSelector((state) => state.auth);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 

@@ -1,6 +1,11 @@
-package pl.edu.wat.wcy.epistimi.subject.adapter.rest
+package pl.edu.wat.wcy.epistimi.subject.adapter.rest.mapper
 
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.dto.SubjectCourseResponse
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.dto.SubjectResponse
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.dto.SubjectStudentResponse
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.dto.SubjectTeacherResponse
+import pl.edu.wat.wcy.epistimi.subject.adapter.rest.dto.SubjectUserResponse
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import pl.edu.wat.wcy.epistimi.user.domain.User
