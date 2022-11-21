@@ -1,2 +1,0 @@
-export { StudentGrades } from './StudentGrades';
-

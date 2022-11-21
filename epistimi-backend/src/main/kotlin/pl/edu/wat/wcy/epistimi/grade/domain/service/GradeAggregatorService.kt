@@ -8,6 +8,7 @@ import pl.edu.wat.wcy.epistimi.grade.domain.StudentGrades
 import pl.edu.wat.wcy.epistimi.grade.domain.StudentGradesAverage
 import pl.edu.wat.wcy.epistimi.grade.domain.StudentSubjectGradesSummary
 import pl.edu.wat.wcy.epistimi.grade.domain.StudentSubjectSemesterGradesSummary
+import pl.edu.wat.wcy.epistimi.grade.domain.StudentsGrades
 import pl.edu.wat.wcy.epistimi.grade.domain.SubjectGrades
 import pl.edu.wat.wcy.epistimi.grade.domain.SubjectGradesAverageSummary
 import pl.edu.wat.wcy.epistimi.grade.domain.SubjectStudentGradesSummary
@@ -15,6 +16,7 @@ import pl.edu.wat.wcy.epistimi.grade.domain.SubjectStudentSemesterGradesSummary
 import pl.edu.wat.wcy.epistimi.grade.domain.access.GradeAccessValidator
 import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
 import pl.edu.wat.wcy.epistimi.grade.domain.weightedAverage
+import pl.edu.wat.wcy.epistimi.parent.ParentFacade
 import pl.edu.wat.wcy.epistimi.student.StudentFacade
 import pl.edu.wat.wcy.epistimi.student.domain.Student
 import pl.edu.wat.wcy.epistimi.student.domain.StudentId
@@ -22,12 +24,14 @@ import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
 import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 
 class GradeAggregatorService(
     private val gradeRepository: GradeRepository,
     private val gradeAccessValidator: GradeAccessValidator,
     private val studentFacade: StudentFacade,
     private val subjectFacade: SubjectFacade,
+    private val parentFacade: ParentFacade,
 ) {
     fun getGradeById(requester: User, gradeId: GradeId): Grade {
         return gradeRepository.findById(gradeId)
@@ -41,22 +45,33 @@ class GradeAggregatorService(
     fun getStudentGrades(
         requester: User,
         subjectIds: List<SubjectId>?,
-    ): StudentGrades {
-        // TODO: parent retrieves students' grades!
-        val student = studentFacade.getStudentByUserId(requester, requester.id!!)
-        val studentSubjectsGrades = retrieveStudentSubjectGrades(requester, student, subjectIds)
+    ): StudentsGrades {
+        val students = getContextStudents(requester)
+        val studentsGrades = students.map { student -> retrieveStudentSubjectsGrades(requester, student, subjectIds) }
 
-        return StudentGrades(
-            id = student.id!!,
-            firstName = student.user.firstName,
-            lastName = student.user.lastName,
-            subjects = studentSubjectsGrades
-                .map(::buildSubjectGradesSummary)
-                .sortedBy(StudentSubjectGradesSummary::name)
-        )
+        return students.zip(studentsGrades)
+            .map { (student, studentSubjectsGrades) ->
+                StudentGrades(
+                    id = student.id!!,
+                    firstName = student.user.firstName,
+                    lastName = student.user.lastName,
+                    subjects = studentSubjectsGrades
+                        .map(::buildSubjectGradesSummary)
+                        .sortedBy(StudentSubjectGradesSummary::name)
+                )
+            }
+            .let(::StudentsGrades)
     }
 
-    private fun retrieveStudentSubjectGrades(
+    private fun getContextStudents(requester: User): List<Student> {
+        return when (requester.role) {
+            UserRole.STUDENT -> listOf(studentFacade.getStudentByUserId(requester, requester.id!!))
+            UserRole.PARENT -> parentFacade.getByUserId(requester.id!!).students
+            else -> emptyList()
+        }
+    }
+
+    private fun retrieveStudentSubjectsGrades(
         requester: User,
         student: Student,
         subjectIds: List<SubjectId>?,

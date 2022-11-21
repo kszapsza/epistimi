@@ -10,6 +10,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
+import javax.persistence.JoinTable
 import javax.persistence.ManyToMany
 import javax.persistence.ManyToOne
 import javax.persistence.OneToOne
@@ -32,6 +33,11 @@ class Student(
     val user: User,
 
     @ManyToMany
+    @JoinTable(
+        name = "students_parents",
+        joinColumns = [ JoinColumn(name = "student_id") ],
+        inverseJoinColumns = [ JoinColumn(name = "parent_id") ],
+    )
     val parents: List<Parent>,
 )
 

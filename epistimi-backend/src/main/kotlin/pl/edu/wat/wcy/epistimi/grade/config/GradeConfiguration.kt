@@ -8,6 +8,7 @@ import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeAggregatorService
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeCategoryService
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeIssuingService
+import pl.edu.wat.wcy.epistimi.parent.ParentFacade
 import pl.edu.wat.wcy.epistimi.student.StudentFacade
 import pl.edu.wat.wcy.epistimi.subject.SubjectFacade
 import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
@@ -31,12 +32,14 @@ class GradeConfiguration {
         gradeAccessValidator: GradeAccessValidator,
         studentFacade: StudentFacade,
         subjectFacade: SubjectFacade,
+        parentFacade: ParentFacade,
     ): GradeAggregatorService {
         return GradeAggregatorService(
             gradeRepository,
             gradeAccessValidator,
             studentFacade,
             subjectFacade,
+            parentFacade,
         )
     }
 

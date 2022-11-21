@@ -5,15 +5,22 @@ import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.StudentGradesAverageRespon
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.StudentGradesResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.StudentGradesSubjectResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.StudentGradesSubjectSemesterResponse
+import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.StudentsGradesResponse
 import pl.edu.wat.wcy.epistimi.grade.domain.StudentGrades
 import pl.edu.wat.wcy.epistimi.grade.domain.StudentGradesAverage
 import pl.edu.wat.wcy.epistimi.grade.domain.StudentSubjectGradesSummary
 import pl.edu.wat.wcy.epistimi.grade.domain.StudentSubjectSemesterGradesSummary
+import pl.edu.wat.wcy.epistimi.grade.domain.StudentsGrades
 
-object StudentGradesResponseMapper : FromDomainMapper<StudentGrades, StudentGradesResponse> {
-    override fun fromDomain(domainObject: StudentGrades) =
-        domainObject.toStudentGradesResponse()
+object StudentGradesResponseMapper : FromDomainMapper<StudentsGrades, StudentsGradesResponse> {
+    override fun fromDomain(domainObject: StudentsGrades) =
+        domainObject.toStudentsGradesResponse()
 }
+
+private fun StudentsGrades.toStudentsGradesResponse() =
+    StudentsGradesResponse(
+        students = students.map { it.toStudentGradesResponse() }
+    )
 
 private fun StudentGrades.toStudentGradesResponse() =
     StudentGradesResponse(

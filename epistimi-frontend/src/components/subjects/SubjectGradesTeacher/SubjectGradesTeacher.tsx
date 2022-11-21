@@ -21,7 +21,7 @@ export const SubjectGradesTeacher = (
   { subject }: SubjectGradesTeacherAdminProps,
 ): JSX.Element => {
 
-  const [issueFormContext, setIssueFormContext] = useState<SubjectGradesIssueFormState | null>(null);
+  const [issueFormInitialData, setIssueFormInitialData] = useState<SubjectGradesIssueFormState | null>(null);
 
   const {
     data,
@@ -38,21 +38,21 @@ export const SubjectGradesTeacher = (
         </Alert>
       )}
 
-      {data && issueFormContext && (
+      {data && issueFormInitialData && (
         <Modal
-          onClose={() => setIssueFormContext(null)}
-          opened={!!issueFormContext}
+          onClose={() => setIssueFormInitialData(null)}
+          opened={!!issueFormInitialData}
           size={'lg'}
           title={'Wystaw ocenę'}
         >
           <SubjectGradesTeacherIssueForm
             subject={subject}
             student={data.students
-              .find((student) => student.id === issueFormContext.studentId)!
+              .find((student) => student.id === issueFormInitialData.studentId)!
             }
-            semester={issueFormContext.semester}
+            semester={issueFormInitialData.semester}
             onNewGradeIssued={() => {
-              setIssueFormContext(null);
+              setIssueFormInitialData(null);
               reload();
             }}
           />
@@ -67,7 +67,7 @@ export const SubjectGradesTeacher = (
           </Title>
           <SubjectGradesTeacherTable
             subjectGradesResponse={data}
-            onIssueGradeClick={(studentId, semester) => setIssueFormContext({ studentId, semester })}
+            onIssueGradeClick={(studentId, semester) => setIssueFormInitialData({ studentId, semester })}
           />
         </>
       )}

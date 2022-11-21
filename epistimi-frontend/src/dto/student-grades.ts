@@ -1,5 +1,9 @@
 import { GradeResponse } from './grade';
 
+export interface StudentsGradesResponse {
+  students: StudentGradesResponse[];
+}
+
 export interface StudentGradesResponse {
   id: string;
   firstName: string;

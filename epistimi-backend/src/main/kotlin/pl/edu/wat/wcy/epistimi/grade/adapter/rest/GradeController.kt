@@ -16,7 +16,7 @@ import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.grade.GradeFacade
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeResponse
-import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.StudentGradesResponse
+import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.StudentsGradesResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.SubjectGradesResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.StudentGradesResponseMapper
@@ -89,9 +89,9 @@ class GradeController(
     @Operation(
         summary = "Get student grades",
         tags = ["student", "grade"],
-        description = "Retrieves grades for provided student id",
+        description = "Retrieves grades for authorized student or authorized parent's students",
     )
-    @PreAuthorize("hasAnyRole('STUDENT')") // TODO: parent - fetching multiple students' grades?
+    @PreAuthorize("hasAnyRole('STUDENT', 'PARENT')")
     @GetMapping(
         path = ["/student/grade"],
         produces = [MediaType.APPLICATION_JSON_V1]
@@ -99,7 +99,7 @@ class GradeController(
     fun getStudentGrades(
         @RequestParam(required = false) subjectIds: List<UUID>?,
         authentication: Authentication,
-    ): ResponseEntity<StudentGradesResponse> {
+    ): ResponseEntity<StudentsGradesResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(StudentGradesResponseMapper) {
                 gradeFacade.getStudentGrades(

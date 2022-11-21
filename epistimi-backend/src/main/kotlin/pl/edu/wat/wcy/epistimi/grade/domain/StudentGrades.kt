@@ -4,6 +4,10 @@ import pl.edu.wat.wcy.epistimi.student.domain.StudentId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import java.math.BigDecimal
 
+data class StudentsGrades(
+    val students: List<StudentGrades>,
+)
+
 data class StudentGrades(
     val id: StudentId,
     val firstName: String,

@@ -1,5 +1,9 @@
 package pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto
 
+data class StudentsGradesResponse(
+    val students: List<StudentGradesResponse>,
+)
+
 data class StudentGradesResponse(
     val id: String,
     val firstName: String,
