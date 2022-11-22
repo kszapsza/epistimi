@@ -1,20 +1,8 @@
 import './SubjectConfigurationCategories.scss';
-import {
-  ActionIcon,
-  Alert,
-  Button,
-  ColorSwatch,
-  LoadingOverlay,
-  Modal,
-  Table,
-  Title,
-} from '@mantine/core';
+import { ActionIcon, Alert, Button, ColorSwatch, LoadingOverlay, Modal, Table, Title, } from '@mantine/core';
 import { GradeCategoriesResponse, GradeCategoriesResponseEntry } from '../../../dto/grade-category';
 import { IconAlertCircle, IconPencil, IconPlus } from '@tabler/icons';
-import {
-  SubjectConfigurationCategoryForm,
-  SubjectConfigurationCategoryFormMode,
-} from '../SubjectConfigurationCategoryForm';
+import { SubjectConfigurationCategoryForm, SubjectConfigurationCategoryFormMode, } from '../SubjectConfigurationCategoryForm';
 import { SubjectResponse } from '../../../dto/subject';
 import { useAppSelector } from '../../../store/hooks';
 import { useDisclosure } from '@mantine/hooks';
@@ -103,7 +91,12 @@ export const SubjectConfigurationCategories = (
           Dodaj kategorię
         </Button>
       </div>
-      {data && (
+      {data && data.categories.length === 0 && (
+        <Alert icon={<IconAlertCircle size={16}/>} color={'blue'}>
+          Dla tego przedmiotu nie zdefiniowano jeszcze żadnych kategorii ocen.
+        </Alert>
+      )}
+      {data && data.categories.length !== 0 && (
         <Table striped>
           <thead>
           <tr>

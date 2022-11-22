@@ -1,0 +1,2 @@
+export { SubjectsListing } from './SubjectsListing';
+

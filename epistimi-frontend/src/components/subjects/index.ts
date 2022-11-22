@@ -8,3 +8,5 @@ export { SubjectGradesTeacherIssueForm } from './SubjectGradesTeacherIssueForm';
 export { SubjectGradesTeacherTable } from './SubjectGradesTeacherTable';
 export { SubjectHead } from './SubjectHead';
 export { SubjectNavigation } from './SubjectNavigation';
+export { SubjectsListing } from './SubjectsListing';
+export { SubjectsListingCourseSection } from './SubjectsListingCourseSection';

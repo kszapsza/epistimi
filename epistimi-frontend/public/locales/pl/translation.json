@@ -63,9 +63,12 @@
     },
     "courseDetailsData": {
       "classTeacher": "Wychowawca klasy",
+      "profession": "Zawód",
+      "profile": "Profil",
       "schoolYearBegin": "Rozpoczęcie roku szkolnego",
       "schoolYearEnd": "Zakończenie roku szkolnego",
-      "schoolYearSemesterEnd": "Zakończenie semestru"
+      "schoolYearSemesterEnd": "Zakończenie semestru",
+      "specialization": "Specjalność"
     },
     "courseDetailsStudents": {
       "noStudents": "Brak uczniów"

@@ -6,7 +6,7 @@ interface SubjectAvatarProps extends AvatarProps {
 
 export const SubjectAvatar = ({ subjectName, ...props }: SubjectAvatarProps): JSX.Element => {
   return (
-    <Avatar {...props} color={'gray'}>
+    <Avatar {...props} sx={{ whiteSpace: 'nowrap' }} color={'pink'}>
       {getSubjectInitials(subjectName)}
     </Avatar>
   );

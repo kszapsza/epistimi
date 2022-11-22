@@ -53,9 +53,12 @@
     },
     "courseDetailsData": {
       "classTeacher": "Class teacher",
+      "profession": "Profession",
+      "profile": "Profile",
       "schoolYearBegin": "School year beginning",
       "schoolYearEnd": "School year end",
-      "schoolYearSemesterEnd": "School year semester end"
+      "schoolYearSemesterEnd": "School year semester end",
+      "specialization": "Specialization"
     },
     "courseDetailsStudents": {
       "noStudents": "No students"

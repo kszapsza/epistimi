@@ -1,0 +1,79 @@
+@import 'src/styles/dimensions';
+@import 'src/styles/themes';
+
+.subject-listing-course-section {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  margin: 1rem 0;
+  overflow: auto;
+
+  &:first-child {
+    margin: 0;
+  }
+
+  .subject-listing-course-tile {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 300px;
+    max-width: 300px;
+    padding: .75rem;
+    width: 100%;
+
+    .subject-listing-course-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .subject-listing-course-badges {
+      display: flex;
+      flex-direction: row;
+      gap: .25rem;
+    }
+  }
+
+  .subject-listing-subject-tiles {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: .25rem;
+
+    .subject-listing-subject-tile {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: .5rem;
+      min-width: 300px;
+      padding: .5rem;
+
+      @media screen and (max-width: $mobile-breakpoint) {
+        flex: 1;
+      }
+
+      &:hover {
+        background-color: $light-gray;
+      }
+
+      &-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &-title {
+        font: {
+          size: 14px;
+          weight: 450;
+        }
+      }
+
+      &-teacher {
+        color: rgba($black, .5);
+        font: {
+          size: 12px;
+          weight: 400;
+        }
+      }
+    }
+  }
+}

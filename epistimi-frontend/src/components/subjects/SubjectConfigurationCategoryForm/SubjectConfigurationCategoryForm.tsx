@@ -127,6 +127,7 @@ export const SubjectConfigurationCategoryForm = (
         autoFocus
         required
         label={'Nazwa kategorii'}
+        maxLength={30}
         {...form.getInputProps('name')}
       />
       <NumberInput

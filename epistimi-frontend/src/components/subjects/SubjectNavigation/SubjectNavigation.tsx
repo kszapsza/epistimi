@@ -70,9 +70,10 @@ export const SubjectNavigation = (
           <Tabs.Panel value={'homework'} p={'md'}>
             <NotImplementedYet/>
           </Tabs.Panel>
-          <Tabs.Panel value={'configuration'} p={'md'}>
-            <SubjectConfiguration subject={subject}/>
-          </Tabs.Panel>
+          {isUserSubjectTeacherOrAdmin() &&
+            <Tabs.Panel value={'configuration'} p={'md'}>
+              <SubjectConfiguration subject={subject}/>
+            </Tabs.Panel>}
         </Tabs>
       )}
     </>

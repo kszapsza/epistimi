@@ -53,6 +53,7 @@ class SubjectAggregatorService(
                     courses = schoolYearSubjects.groupByCourse(),
                 )
             }
+            .sortedByDescending { it.schoolYear }
     }
 
     private fun List<Subject>.groupByCourse(): List<CourseSubjects> {
@@ -66,8 +67,9 @@ class SubjectAggregatorService(
                     schoolYear = course.schoolYear,
                     classTeacher = course.classTeacher,
                     students = course.students.toList(),
-                    subjects = courseSubjects.toList(), // user accessible subjects
+                    subjects = courseSubjects.toList().sortedBy { it.name }, // note: user accessible subjects
                 )
             }
+            .sortedWith(compareBy(CourseSubjects::codeNumber, CourseSubjects::codeLetter))
     }
 }

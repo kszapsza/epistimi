@@ -1,5 +1,6 @@
 import './SubjectHead.scss';
 import { Link } from 'react-router-dom';
+import { SubjectAvatar } from '../../common';
 import { SubjectResponse } from '../../../dto/subject';
 import { Title } from '@mantine/core';
 
@@ -18,13 +19,16 @@ export const SubjectHead = (props: SubjectHeadProps): JSX.Element => {
 
   return (
     <div className={'subject-head'}>
-      <div className={'subject-course'}>
-        <Link to={`/courses/${course.id}`}>{course.code} ({course.schoolYear})</Link>
-        &ensp;∙&ensp;{teacher.academicTitle} {teacher.user.lastName} {teacher.user.firstName}
+      <SubjectAvatar subjectName={name} size={'lg'}/>
+      <div>
+        <div className={'subject-course'}>
+          <Link to={`/app/courses/${course.id}`}>{course.code} ({course.schoolYear})</Link>
+          &ensp;∙&ensp;{teacher.academicTitle} {teacher.user.lastName} {teacher.user.firstName}
+        </div>
+        <Title order={2} className={'subject-name'}>
+          {name}
+        </Title>
       </div>
-      <Title order={2} className={'subject-name'}>
-        {name}
-      </Title>
     </div>
   );
 };

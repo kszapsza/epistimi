@@ -27,5 +27,7 @@ enum class GradeValue(
     PASSED("zl", "zaliczył", null),
     FAILED("nz", "nie zaliczył", null),
     ABSENT("nb", "nieobecny", null),
-    EXEMPT("zw", "zwolniony", null);
+    EXEMPT("zw", "zwolniony", null),
+    PLUS("+", "plus", null),
+    MINUS("-", "minus", null);
 }
