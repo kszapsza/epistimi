@@ -14,7 +14,7 @@ import {
   IconSchool,
   IconSettings,
   IconSpeakerphone,
-  IconStar,
+  IconStars,
   IconUsers,
   IconWriting,
   IconZoomQuestion,
@@ -81,7 +81,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={t('navigation.menu.summary')} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBook/>} label={t('navigation.menu.subjects')} href={'/app/subjects'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconStar/>} label={t('navigation.menu.grades')} href={'/app/grades'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconStars/>} label={t('navigation.menu.grades')} href={'/app/grades'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHandTwoFingers/>} label={t('navigation.menu.absence')} href={'/app/absence'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconWriting/>} label={t('navigation.menu.assignments')} href={'/app/assignments'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconZoomQuestion/>} label={t('navigation.menu.exams')} href={'/app/exams'}/>
@@ -95,7 +95,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
       menu = (
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={t('navigation.menu.summary')} href={'/app/summary'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconStar/>} label={t('navigation.menu.grades')} href={'/app/grades'}/>
+          <MenuItem onClick={props.onMenuItemClick} icon={<IconStars/>} label={t('navigation.menu.grades')} href={'/app/grades'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHandTwoFingers/>} label={t('navigation.menu.absence')} href={'/app/absence'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconWriting/>} label={t('navigation.menu.assignments')} href={'/app/assignments'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconMessages/>} label={t('navigation.menu.chat')} href={'/app/chat'}/>

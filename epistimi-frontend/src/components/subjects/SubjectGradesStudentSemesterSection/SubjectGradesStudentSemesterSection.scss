@@ -1,0 +1,35 @@
+@import 'src/styles/dimensions';
+
+.subject-grades-student-section {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+
+  &-summary {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: .25rem;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      flex-direction: column;
+    }
+
+    div {
+      flex: 1;
+    }
+  }
+
+  &-grades {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: .25rem;
+    margin: .5rem 0 0;
+    overflow: auto;
+
+    @media screen and (max-width: $mobile-breakpoint) {
+      flex-direction: column;
+    }
+  }
+}

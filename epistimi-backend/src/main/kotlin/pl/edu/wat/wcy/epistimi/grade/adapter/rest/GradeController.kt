@@ -97,7 +97,7 @@ class GradeController(
         produces = [MediaType.APPLICATION_JSON_V1]
     )
     fun getStudentGrades(
-        @RequestParam(required = false) subjectIds: List<UUID>?,
+        @RequestParam(name = "subjectId", required = false) subjectIds: List<UUID>?,
         authentication: Authentication,
     ): ResponseEntity<StudentsGradesResponse> {
         return ResponseEntity.ok(

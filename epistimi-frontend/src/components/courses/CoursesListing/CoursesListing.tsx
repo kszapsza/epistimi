@@ -65,7 +65,7 @@ export const CoursesListing = (): JSX.Element => {
             {t('courses.coursesListing.createdNewCourse')}
           </Alert>}
         {error &&
-          <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
+          <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
             {t('courses.coursesListing.couldNotLoadCourses')}
           </Alert>}
         {coursesBySchoolYear?.length === 0 &&

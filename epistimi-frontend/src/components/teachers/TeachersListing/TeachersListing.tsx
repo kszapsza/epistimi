@@ -43,7 +43,7 @@ export const TeachersListing = (): JSX.Element => {
         {loading && <Loader style={{ width: '100%' }}/>}
 
         {error &&
-          <Alert icon={<IconAlertCircle size={16}/>} color="red">
+          <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
             {t('teachers.teachersListing.couldNotLoad')}
           </Alert>}
 

@@ -1,5 +1,6 @@
 import './StudentsGradesTable.scss';
 import { GradeBadgesTableCell } from '../GradeBadgesTableCell';
+import { Link } from 'react-router-dom';
 import { StudentGradesResponse } from '../../../dto/student-grades';
 import { Table } from '@mantine/core';
 
@@ -42,7 +43,7 @@ export const StudentsGradesTable = (
                 {idx + 1}
               </td>
               <td>
-                {subject.name}
+                <Link to={`/app/subjects/${subject.id}`}>{subject.name}</Link>
               </td>
               <td>
                 {<GradeBadgesTableCell grades={subject.firstSemester.grades}/>}

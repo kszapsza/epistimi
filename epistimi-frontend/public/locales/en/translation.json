@@ -1,5 +1,6 @@
 {
   "common": {
+    "error": "Error",
     "notImplementedYet": "This component was not implemented (yet)."
   },
   "courses": {
@@ -69,6 +70,7 @@
       "codeLetterRegexpFail": "Lowercase letters only, no Polish characters",
       "codeNumber": "Course code number",
       "couldNotCreateCourse": "Could not create course!",
+      "couldNotLoadForm": "Could not load form",
       "create": "Create",
       "error": "Error",
       "profession": "Profession",
@@ -166,7 +168,7 @@
   },
   "noticeboard": {
     "noticeboard": {
-      "couldNotLoadPosts": "Could not load noticeboard posts!",
+      "couldNotLoadPosts": "Could not load noticeboard posts",
       "createPost": "Create post",
       "createNewPostModalTitle": "Creating new noticeboard post",
       "deletePostModalTitle": "Deleting noticeboard post",

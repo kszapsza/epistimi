@@ -1,0 +1,2 @@
+export { SubjectGradesStudentGradeTile } from './SubjectGradesStudentGradeTile';
+

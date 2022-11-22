@@ -1,4 +1,6 @@
 import './Subject.scss';
+import { Alert } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons';
 import { LoaderBox } from '../../common';
 import { SubjectHead } from '../SubjectHead';
 import { SubjectNavigation } from '../SubjectNavigation';
@@ -13,7 +15,6 @@ export const Subject = (): JSX.Element => {
     data: subject,
     loading,
     error,
-    reload,
   } = useFetch<SubjectResponse>(`/api/subject/${subjectId}`);
 
   useDocumentTitle(subject && `${subject.name} – ${subject.course.code} (${subject.course.schoolYear})`);
@@ -21,6 +22,11 @@ export const Subject = (): JSX.Element => {
   return (
     <>
       {loading && <LoaderBox/>}
+      {error && (
+        <Alert icon={<IconAlertCircle size={16}/>} title={'Wystąpił błąd'} color={'red'}>
+          Nie udało się załadować widoku przedmiotu
+        </Alert>
+      )}
       {subject && (
         <>
           <SubjectHead subject={subject}/>
@@ -30,18 +36,3 @@ export const Subject = (): JSX.Element => {
     </>
   );
 };
-
-/*
- * TODO: Tu trzeba wziąć pod uwagę, że do tego widoku ma mieć wgląd każdy
- *  (no, za wyjątkiem EPISTIMI_ADMIN):
- *
- *  - ORGANIZATION_ADMIN/TEACHER:
- *     - tab GRADES: jeśli prowadzi przedmiot, wystaw i przejrzyj oceny, jeśli nie, to dostęp do przedmiotu zabroniony,
- *     - tab FEED: dodawaj aktualności, reaguj, komentuj,
- *     - tab HOMEWORK: dodawaj i sprawdzaj zadania domowe,
- *
- *  - STUDENT/PARENT:
- *     - tab GRADES: przejrzyj oceny swoje lub swojego kida,
- *     - tab FEED: przeglądaj aktualności od nauczyciela, reaguj, komentuj,
- *     - tab HOMEWORK: przejrzyj zadania domowe swojego dziecka (rodzic) lub rozwiązuj (kid).
- */

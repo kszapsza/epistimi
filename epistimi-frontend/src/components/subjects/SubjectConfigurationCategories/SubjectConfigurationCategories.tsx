@@ -1,8 +1,8 @@
 import './SubjectConfigurationCategories.scss';
-import { ActionIcon, Alert, Button, ColorSwatch, LoadingOverlay, Modal, Table, Title, } from '@mantine/core';
+import { ActionIcon, Alert, Button, ColorSwatch, LoadingOverlay, Modal, Table, Title } from '@mantine/core';
 import { GradeCategoriesResponse, GradeCategoriesResponseEntry } from '../../../dto/grade-category';
 import { IconAlertCircle, IconPencil, IconPlus } from '@tabler/icons';
-import { SubjectConfigurationCategoryForm, SubjectConfigurationCategoryFormMode, } from '../SubjectConfigurationCategoryForm';
+import { SubjectConfigurationCategoryForm, SubjectConfigurationCategoryFormMode } from '../SubjectConfigurationCategoryForm';
 import { SubjectResponse } from '../../../dto/subject';
 import { useAppSelector } from '../../../store/hooks';
 import { useDisclosure } from '@mantine/hooks';

@@ -19,7 +19,7 @@ export const CourseCreate = (props: CourseCreateProps): JSX.Element => {
   const CODE_LETTERS_REGEXP = /^[a-z]+$/;
   const DATE_FORMAT = 'D MMMM YYYY';
 
-  const { data, loading } = useFetch<TeachersResponse>('api/teacher');
+  const { data, loading, error } = useFetch<TeachersResponse>('api/teacher');
   const [errorMessageOpened, errorMessageHandlers] = useDisclosure(false);
 
   const { t } = useTranslation();
@@ -111,8 +111,12 @@ export const CourseCreate = (props: CourseCreateProps): JSX.Element => {
   return (
     <div className={'course-edit'}>
       {loading && <Loader/>}
-      {errorMessageOpened &&
-        <Alert icon={<IconAlertCircle size={16}/>} title={t('courses.courseEdit.error')} color={'red'}>
+      {error &&
+        <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
+          {t('courses.courseEdit.couldNotLoadForm')}
+        </Alert>
+      }{errorMessageOpened &&
+        <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
           {t('courses.courseEdit.couldNotCreateCourse')}
         </Alert>
       }

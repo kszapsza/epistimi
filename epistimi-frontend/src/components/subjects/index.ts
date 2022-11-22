@@ -10,3 +10,11 @@ export { SubjectHead } from './SubjectHead';
 export { SubjectNavigation } from './SubjectNavigation';
 export { SubjectsListing } from './SubjectsListing';
 export { SubjectsListingCourseSection } from './SubjectsListingCourseSection';
+
+export { SubjectGradesStudentStatsTile } from './SubjectGradesStudentStatsTile';
+
+export { SubjectGradesStudentSemesterSection } from './SubjectGradesStudentSemesterSection';
+
+export { SubjectGradesStudentYearSection } from './SubjectGradesStudentYearSection';
+
+export { SubjectGradesStudentGradeTile } from './SubjectGradesStudentGradeTile';

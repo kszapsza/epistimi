@@ -48,5 +48,5 @@ private fun StudentSubjectSemesterGradesSummary.toStudentGradesSubjectSemesterRe
 private fun StudentGradesAverage.toStudentGradesAverageResponse() =
     StudentGradesAverageResponse(
         student = student?.toString(),
-        subject = student?.toString(),
+        subject = subject?.toString(),
     )

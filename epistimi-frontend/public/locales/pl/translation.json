@@ -1,5 +1,6 @@
 {
   "common": {
+    "error": "Błąd",
     "notImplementedYet": "Ten komponent nie został (jeszcze) zaimplementowany."
   },
   "courses": {
@@ -79,6 +80,7 @@
       "codeLetterRegexpFail": "Tylko małe litery, bez polskich znaków",
       "codeNumber": "Numer klasy",
       "couldNotCreateCourse": "Nie udało się utworzyć klasy!",
+      "couldNotLoadForm": "Wystąpił błąd podczas ładowania formularza. Spróbuj ponownie",
       "create": "Utwórz",
       "profession": "Zawód",
       "professionPlaceholder": "np. „technik informatyk”",
@@ -177,7 +179,7 @@
   },
   "noticeboard": {
     "noticeboard": {
-      "couldNotLoadPosts": "Nie udało się załadować ogłoszeń!",
+      "couldNotLoadPosts": "Nie udało się załadować ogłoszeń",
       "createPost": "Dodaj ogłoszenie",
       "createNewPostModalTitle": "Dodawanie nowego ogłoszenia",
       "deletePostModalTitle": "Usuwanie ogłoszenia",

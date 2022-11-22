@@ -98,7 +98,7 @@ export const NoticeboardPostForm = (props: NoticeboardPostFormProps): JSX.Elemen
         onSubmit={form.onSubmit(handleSubmit)}
       >
         {error && (
-          <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
+          <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
             {props.variant === NoticeboardPostFormVariant.CREATE &&
               t('noticeboard.noticeboardPostForm.couldNotCreate')}
             {props.variant === NoticeboardPostFormVariant.UPDATE &&

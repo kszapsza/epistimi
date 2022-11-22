@@ -58,7 +58,9 @@ class StudentGradeAggregatorService(
         student: Student,
         subjectIds: List<SubjectId>?,
     ): Map<Subject, List<Grade>> {
-        return student.course.subjects.associateWith { emptyList<Grade>() }
+        return student.course.subjects
+            .filter { subject -> if (subjectIds != null) subject.id in subjectIds else true }
+            .associateWith { emptyList<Grade>() }
             .plus(retrieveStudentSubjectsWithGrades(requester, student, subjectIds))
     }
 
