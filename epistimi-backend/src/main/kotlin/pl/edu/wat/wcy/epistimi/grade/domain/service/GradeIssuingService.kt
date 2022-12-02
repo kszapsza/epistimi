@@ -4,9 +4,10 @@ import pl.edu.wat.wcy.epistimi.grade.domain.Grade
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeIssueForbiddenException
-import pl.edu.wat.wcy.epistimi.grade.domain.GradeIssueRequest
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeIssueRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.access.GradeAccessValidator
 import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
+import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.student.StudentFacade
 import pl.edu.wat.wcy.epistimi.student.domain.Student
 import pl.edu.wat.wcy.epistimi.student.domain.StudentId
@@ -25,6 +26,10 @@ class GradeIssuingService(
     private val studentFacade: StudentFacade,
     private val teacherFacade: TeacherFacade,
 ) {
+    companion object {
+        private val logger by logger()
+    }
+
     fun issueGrade(
         requester: User,
         gradeIssueRequest: GradeIssueRequest,
@@ -33,6 +38,10 @@ class GradeIssuingService(
         if (gradeAccessValidator.canCreate(requester, grade)) {
             return gradeRepository.save(grade)
         }
+        logger.warn(
+            "User with id [${requester.id!!}] attempted to issue grade " +
+                "(subjectId=[${grade.subject.id!!.value}], studentId=[${grade.student.id!!.value}]). Access was denied."
+        )
         throw GradeIssueForbiddenException(
             subjectId = gradeIssueRequest.subjectId,
             studentId = gradeIssueRequest.studentId,

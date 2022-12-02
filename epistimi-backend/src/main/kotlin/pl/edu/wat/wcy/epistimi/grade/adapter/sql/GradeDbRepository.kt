@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.grade.adapter.sql
 
 import org.springframework.stereotype.Repository
+import pl.edu.wat.wcy.epistimi.grade.adapter.sql.jpa.GradeJpaRepository
 import pl.edu.wat.wcy.epistimi.grade.domain.Grade
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeFilters
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeId

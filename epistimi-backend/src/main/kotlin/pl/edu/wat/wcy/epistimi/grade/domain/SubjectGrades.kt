@@ -18,11 +18,18 @@ data class SubjectStudentGradesSummary(
     val firstSemester: SubjectStudentSemesterGradesSummary,
     val secondSemester: SubjectStudentSemesterGradesSummary,
     val average: BigDecimal?,
+    val classification: SubjectStudentClassification,
+)
+
+data class SubjectStudentClassification(
+    val proposal: ClassificationGrade?,
+    val final: ClassificationGrade?,
 )
 
 data class SubjectStudentSemesterGradesSummary(
     val grades: List<Grade>,
     val average: BigDecimal?,
+    val classification: SubjectStudentClassification,
 )
 
 data class SubjectGradesAverageSummary(

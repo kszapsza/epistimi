@@ -9,6 +9,9 @@ class GradeIllegalFiltersException :
 class GradeIssueForbiddenException(subjectId: SubjectId, studentId: StudentId) :
     Exception("User not allowed to issue grade (subjectId=[${subjectId.value}], studentId=[${studentId.value}])")
 
+class ClassificationGradeIssueForbiddenException(subjectId: SubjectId, studentId: StudentId) :
+    Exception("User not allowed to issue classification grade (subjectId=[${subjectId.value}], studentId=[${studentId.value}])")
+
 class GradeNotFoundException(id: GradeId) :
     Exception("Grade with id [${id.value}] not found")
 

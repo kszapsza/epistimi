@@ -63,6 +63,9 @@ class Course(
     @Column(name = "specialization")
     val specialization: String?,
 ) {
+    val code
+        get() = "$codeNumber$codeLetter"
+
     val schoolYear
         get() = "${schoolYearBegin.year}/${schoolYearEnd.year}"
 }

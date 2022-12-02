@@ -1,5 +1,7 @@
-package pl.edu.wat.wcy.epistimi.grade.domain
+package pl.edu.wat.wcy.epistimi.grade.domain.request
 
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeValue
 import pl.edu.wat.wcy.epistimi.student.domain.StudentId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import javax.validation.constraints.Max

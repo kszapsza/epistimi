@@ -51,7 +51,7 @@ export const SubjectNavigation = (
               Zadania domowe
             </Tabs.Tab>
             {isUserSubjectTeacherOrAdmin() &&
-              <Tabs.Tab value={'configuration'} icon={<IconSettings size={14}/>} ml={'auto'}>
+              <Tabs.Tab value={'configuration'} icon={<IconSettings size={14}/>}>
                 Konfiguracja
               </Tabs.Tab>}
           </Tabs.List>

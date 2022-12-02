@@ -18,3 +18,7 @@ export { SubjectGradesStudentSemesterSection } from './SubjectGradesStudentSemes
 export { SubjectGradesStudentYearSection } from './SubjectGradesStudentYearSection';
 
 export { SubjectGradesStudentGradeTile } from './SubjectGradesStudentGradeTile';
+
+export { SubjectGradesTeacherIssueGradeForm } from './SubjectGradesTeacherIssueGradeForm';
+
+export { SubjectGradesTeacherIssueClassificationGradeForm } from './SubjectGradesTeacherIssueClassificationGradeForm';

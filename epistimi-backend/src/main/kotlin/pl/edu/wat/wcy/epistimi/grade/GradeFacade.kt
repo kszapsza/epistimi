@@ -2,7 +2,7 @@ package pl.edu.wat.wcy.epistimi.grade
 
 import pl.edu.wat.wcy.epistimi.grade.domain.Grade
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeId
-import pl.edu.wat.wcy.epistimi.grade.domain.GradeIssueRequest
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeIssueRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.StudentsGrades
 import pl.edu.wat.wcy.epistimi.grade.domain.SubjectGrades
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeAggregatorService

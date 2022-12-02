@@ -6,8 +6,6 @@ import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 import pl.edu.wat.wcy.epistimi.user.domain.UserSex
 import java.util.UUID
 
-// TODO: Public model without sensitive data should be created (first/last name, role, username).
-//  Full data (with pesel, email, address etc.) should only be served on admin endpoints.
 data class UserResponse(
     val id: UUID,
     val firstName: String,

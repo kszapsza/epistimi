@@ -3,11 +3,11 @@ package pl.edu.wat.wcy.epistimi.grade.domain.service
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoriesForSubject
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryActionForbiddenException
-import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryCreateRequest
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryCreateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryNotFoundException
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategorySubjectNotFoundException
-import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryUpdateRequest
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryUpdateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.access.GradeCategoryAccessValidator
 import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeCategoryRepository
 import pl.edu.wat.wcy.epistimi.subject.SubjectFacade

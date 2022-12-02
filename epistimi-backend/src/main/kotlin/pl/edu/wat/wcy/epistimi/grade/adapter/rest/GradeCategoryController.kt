@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
+import pl.edu.wat.wcy.epistimi.grade.GradeCategoryFacade
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeCategoriesResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeCategoryResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeCategoriesResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeCategoryResponseMapper
-import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryCreateRequest
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryCreateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
-import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryUpdateRequest
-import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeCategoryService
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryUpdateRequest
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.user.domain.User
 import java.net.URI
@@ -32,7 +32,7 @@ import javax.validation.Valid
 @RequestMapping("/api/grade/category")
 @Tag(name = "grade/category", description = "API for retrieving, defining and editing grade categories")
 class GradeCategoryController(
-    private val gradeCategoryService: GradeCategoryService,
+    private val gradeCategoryFacade: GradeCategoryFacade,
 ) {
     @Operation(
         summary = "Get grade category",
@@ -50,7 +50,7 @@ class GradeCategoryController(
     ): ResponseEntity<GradeCategoryResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(GradeCategoryResponseMapper) {
-                gradeCategoryService.getCategoryById(
+                gradeCategoryFacade.getCategoryById(
                     contextUser = authentication.principal as User,
                     gradeCategoryId = id,
                 )
@@ -74,7 +74,7 @@ class GradeCategoryController(
     ): ResponseEntity<GradeCategoriesResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(GradeCategoriesResponseMapper) {
-                gradeCategoryService.getCategoriesForSubjectId(
+                gradeCategoryFacade.getCategoriesForSubjectId(
                     contextUser = authentication.principal as User,
                     subjectId = subjectId,
                 )
@@ -97,7 +97,7 @@ class GradeCategoryController(
         authentication: Authentication,
     ): ResponseEntity<GradeCategoryResponse> {
         return RestHandlers.handleRequest(GradeCategoryResponseMapper) {
-            gradeCategoryService.createGradeCategory(
+            gradeCategoryFacade.createGradeCategory(
                 contextUser = authentication.principal as User,
                 createRequest = createRequest,
             )
@@ -124,7 +124,7 @@ class GradeCategoryController(
     ): ResponseEntity<GradeCategoryResponse> {
         return ResponseEntity.ok(
             RestHandlers.handleRequest(GradeCategoryResponseMapper) {
-                gradeCategoryService.updateGradeCategory(
+                gradeCategoryFacade.updateGradeCategory(
                     contextUser = authentication.principal as User,
                     updateRequest = updateRequest,
                 )

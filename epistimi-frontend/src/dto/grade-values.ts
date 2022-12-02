@@ -53,3 +53,18 @@ export const GRADE_SELECT_VALUES = [
   { value: GradeValue.PLUS, label: 'plus (+)', group: 'Specjalne' },
   { value: GradeValue.MINUS, label: 'minus (-)', group: 'Specjalne' },
 ];
+
+export const CLASSIFICATION_GRADE_SELECT_VALUES = [
+  { value: GradeValue.EXCELLENT, label: 'celujący (cel, 6)', group: 'Standardowe' },
+  { value: GradeValue.VERY_GOOD, label: 'bardzo dobry (bdb, 5)', group: 'Standardowe' },
+  { value: GradeValue.GOOD, label: 'dobry (db, 4)', group: 'Standardowe' },
+  { value: GradeValue.SATISFACTORY, label: 'dostateczny (dst, 3)', group: 'Standardowe' },
+  { value: GradeValue.ACCEPTABLE, label: 'dopuszczający (dop, 2)', group: 'Standardowe' },
+  { value: GradeValue.UNSATISFACTORY, label: 'niedostateczny (ndst, 1)', group: 'Standardowe' },
+  { value: GradeValue.UNCLASSIFIED, label: 'nieklasyfikowany (nk)', group: 'Specjalne' },
+  { value: GradeValue.ATTENDED, label: 'uczęszczał (uc)', group: 'Specjalne' },
+  { value: GradeValue.DID_NOT_ATTEND, label: 'nie uczęszczał (nu)', group: 'Specjalne' },
+  { value: GradeValue.PASSED, label: 'zaliczył (zl)', group: 'Specjalne' },
+  { value: GradeValue.FAILED, label: 'nie zaliczył (nz)', group: 'Specjalne' },
+  { value: GradeValue.EXEMPT, label: 'zwolniony (zw)', group: 'Specjalne' },
+];

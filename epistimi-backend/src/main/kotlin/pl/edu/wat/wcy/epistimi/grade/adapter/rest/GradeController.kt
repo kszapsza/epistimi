@@ -22,7 +22,7 @@ import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.StudentGradesResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.SubjectGradesResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeId
-import pl.edu.wat.wcy.epistimi.grade.domain.GradeIssueRequest
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeIssueRequest
 import pl.edu.wat.wcy.epistimi.student.domain.StudentId
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.user.domain.User

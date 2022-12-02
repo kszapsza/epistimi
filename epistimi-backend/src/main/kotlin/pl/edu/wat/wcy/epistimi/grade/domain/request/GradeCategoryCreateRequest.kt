@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.grade.domain
+package pl.edu.wat.wcy.epistimi.grade.domain.request
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import pl.edu.wat.wcy.epistimi.common.validation.HexColorCodeOrNull

@@ -1,4 +1,4 @@
-package pl.edu.wat.wcy.epistimi.grade.adapter.sql
+package pl.edu.wat.wcy.epistimi.grade.adapter.sql.jpa
 
 import org.springframework.data.jpa.repository.JpaRepository
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory

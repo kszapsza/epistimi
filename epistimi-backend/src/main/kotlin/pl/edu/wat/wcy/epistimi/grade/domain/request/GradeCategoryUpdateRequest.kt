@@ -1,7 +1,8 @@
-package pl.edu.wat.wcy.epistimi.grade.domain
+package pl.edu.wat.wcy.epistimi.grade.domain.request
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import pl.edu.wat.wcy.epistimi.common.validation.HexColorCodeOrNull
+import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 import javax.validation.constraints.NotBlank
