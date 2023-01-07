@@ -85,16 +85,6 @@ const App = (): JSX.Element => {
           ),
         },
         {
-          path: 'students/:id',
-          element: (
-            <RequireAuth
-              element={<NotImplementedYet/>}
-              auth={auth}
-              allowedRoles={[UserRole.ORGANIZATION_ADMIN]}
-            />
-          ),
-        },
-        {
           path: 'teachers',
           element: (
             <RequireAuth
@@ -144,36 +134,6 @@ const App = (): JSX.Element => {
           ),
         },
         {
-          path: 'timetable',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'students',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'chat',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'calendar',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'organization-config',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
           path: 'users',
           element: (
             <RequireAuth
@@ -185,26 +145,6 @@ const App = (): JSX.Element => {
         },
         {
           path: 'articles',
-          element: (
-            <RequireAuth
-              element={<NotImplementedYet/>}
-              auth={auth}
-              allowedRoles={[UserRole.EPISTIMI_ADMIN]}
-            />
-          ),
-        },
-        {
-          path: 'analytics',
-          element: (
-            <RequireAuth
-              element={<NotImplementedYet/>}
-              auth={auth}
-              allowedRoles={[UserRole.EPISTIMI_ADMIN]}
-            />
-          ),
-        },
-        {
-          path: 'config',
           element: (
             <RequireAuth
               element={<NotImplementedYet/>}

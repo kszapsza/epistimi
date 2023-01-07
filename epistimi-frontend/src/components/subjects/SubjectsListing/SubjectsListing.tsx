@@ -1,16 +1,18 @@
 import './SubjectsListing.scss';
 import { Accordion, Alert, Badge, Text, Title } from '@mantine/core';
-import { IconAlertCircle, IconBook } from '@tabler/icons';
+import { IconAlertCircle, IconBook, IconInfoCircle } from '@tabler/icons';
 import { LoaderBox } from '../../common';
 import { SubjectsListingCourseSection } from '../SubjectsListingCourseSection';
 import { SubjectsResponse } from '../../../dto/subject-multi';
 import { useAppSelector } from '../../../store/hooks';
 import { useFetch } from '../../../hooks';
 import { UserRole } from '../../../dto/user';
+import { useTranslation } from 'react-i18next';
 
 export const SubjectsListing = (): JSX.Element => {
   const { user } = useAppSelector((state) => state.auth);
   const { data, loading, error } = useFetch<SubjectsResponse>('/api/subject');
+  const { t } = useTranslation();
 
   return (
     <div className={'subjects-listing'}>
@@ -24,6 +26,11 @@ export const SubjectsListing = (): JSX.Element => {
       {error &&
         <Alert icon={<IconAlertCircle size={16}/>} color={'red'} title={'Błąd'}>
           Wystąpił błąd podczas pobierania listy przedmiotów
+        </Alert>}
+
+      {data?.schoolYears?.length === 0 &&
+        <Alert icon={<IconInfoCircle size={16}/>} color={'blue'}>
+          {t('subjects.subjectsListing.noSubjects')}
         </Alert>}
 
       {data && data.schoolYears.length > 0 && (
@@ -41,7 +48,7 @@ export const SubjectsListing = (): JSX.Element => {
               </Accordion.Control>
               <Accordion.Panel>
                 {courses.map((course) => (
-                  <SubjectsListingCourseSection courseSubjectsResponse={course}/>
+                  <SubjectsListingCourseSection key={course.courseId} courseSubjectsResponse={course}/>
                 ))}
               </Accordion.Panel>
             </Accordion.Item>

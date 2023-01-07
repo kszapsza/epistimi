@@ -1,5 +1,4 @@
-import { IconHandTwoFingers, IconSettings, IconSpeakerphone, IconStar, IconWriting } from '@tabler/icons';
-import { NotImplementedYet } from '../../common';
+import { IconSettings, IconStar } from '@tabler/icons';
 import { SubjectConfiguration } from '../SubjectConfiguration';
 import { SubjectGradesStudent } from '../SubjectGradesStudent';
 import { SubjectGradesTeacher } from '../SubjectGradesTeacher';
@@ -41,16 +40,6 @@ export const SubjectNavigation = (
               Oceny
             </Tabs.Tab>
             {isUserSubjectTeacherOrAdmin() &&
-              <Tabs.Tab value={'absence'} icon={<IconHandTwoFingers size={14}/>}>
-                Realizacja zajęć
-              </Tabs.Tab>}
-            <Tabs.Tab value={'feed'} icon={<IconSpeakerphone size={14}/>}>
-              Aktualności
-            </Tabs.Tab>
-            <Tabs.Tab value={'homework'} icon={<IconWriting size={14}/>}>
-              Zadania domowe
-            </Tabs.Tab>
-            {isUserSubjectTeacherOrAdmin() &&
               <Tabs.Tab value={'configuration'} icon={<IconSettings size={14}/>}>
                 Konfiguracja
               </Tabs.Tab>}
@@ -60,15 +49,6 @@ export const SubjectNavigation = (
             {isUserSubjectTeacherOrAdmin()
               ? <SubjectGradesTeacher subject={subject}/>
               : <SubjectGradesStudent/>}
-          </Tabs.Panel>
-          <Tabs.Panel value={'absence'} p={'md'}>
-            <NotImplementedYet/>
-          </Tabs.Panel>
-          <Tabs.Panel value={'feed'} p={'md'}>
-            <NotImplementedYet/>
-          </Tabs.Panel>
-          <Tabs.Panel value={'homework'} p={'md'}>
-            <NotImplementedYet/>
           </Tabs.Panel>
           {isUserSubjectTeacherOrAdmin() &&
             <Tabs.Panel value={'configuration'} p={'md'}>

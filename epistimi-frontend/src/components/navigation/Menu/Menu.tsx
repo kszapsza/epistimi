@@ -3,20 +3,12 @@ import {
   IconBook,
   IconBriefcase,
   IconBuilding,
-  IconCalendar,
-  IconClock,
-  IconDeviceDesktopAnalytics,
   IconFileText,
   IconHandTwoFingers,
   IconHome,
-  IconMessageDots,
-  IconMessages,
-  IconSchool,
-  IconSettings,
   IconSpeakerphone,
   IconStars,
   IconUsers,
-  IconWriting,
   IconZoomQuestion,
 } from '@tabler/icons';
 import { MenuItem, MenuUser } from '../../navigation';
@@ -43,8 +35,6 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBuilding/>} label={t('navigation.menu.organizations')} href={'/app/organizations'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconUsers/>} label={t('navigation.menu.users')} href={'/app/users'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconFileText/>} label={t('navigation.menu.articles')} href={'/app/articles'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconDeviceDesktopAnalytics/>} label={t('navigation.menu.analytics')} href={'/app/analytics'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconSettings/>} label={t('navigation.menu.config')} href={'/app/config'}/>
         </div>
       );
       break;
@@ -53,14 +43,9 @@ export const Menu = (props: MenuProps): JSX.Element => {
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={t('navigation.menu.summary')} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBook/>} label={t('navigation.menu.subjects')} href={'/app/subjects'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconClock/>} label={t('navigation.menu.timetable')} href={'/app/timetable'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconSchool/>} label={t('navigation.menu.students')} href={'/app/students'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconUsers/>} label={t('navigation.menu.courses')} href={'/app/courses'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBriefcase/>} label={t('navigation.menu.teachers')} href={'/app/teachers'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconMessageDots/>} label={t('navigation.menu.chat')} href={'/app/chat'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={t('navigation.menu.calendar')} href={'/app/calendar'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={t('navigation.menu.noticeboard')} href={'/app/noticeboard'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconSettings/>} label={t('navigation.menu.config')} href={'/app/organization-config'}/>
         </div>
       );
       break;
@@ -69,10 +54,6 @@ export const Menu = (props: MenuProps): JSX.Element => {
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={t('navigation.menu.summary')} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBook/>} label={t('navigation.menu.subjects')} href={'/app/subjects'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconWriting/>} label={t('navigation.menu.assignments')} href={'/app/assignments'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconZoomQuestion/>} label={t('navigation.menu.exams')} href={'/app/exams'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconMessages/>} label={t('navigation.menu.chat')} href={'/app/chat'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={t('navigation.menu.calendar')} href={'/app/calendar'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={t('navigation.menu.noticeboard')} href={'/app/noticeboard'}/>
         </div>;
       break;
@@ -83,10 +64,6 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBook/>} label={t('navigation.menu.subjects')} href={'/app/subjects'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconStars/>} label={t('navigation.menu.grades')} href={'/app/grades'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHandTwoFingers/>} label={t('navigation.menu.absence')} href={'/app/absence'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconWriting/>} label={t('navigation.menu.assignments')} href={'/app/assignments'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconZoomQuestion/>} label={t('navigation.menu.exams')} href={'/app/exams'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconMessages/>} label={t('navigation.menu.chat')} href={'/app/chat'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={t('navigation.menu.calendar')} href={'/app/calendar'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={t('navigation.menu.noticeboard')} href={'/app/noticeboard'}/>
         </div>
       );
@@ -97,9 +74,6 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={t('navigation.menu.summary')} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconStars/>} label={t('navigation.menu.grades')} href={'/app/grades'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHandTwoFingers/>} label={t('navigation.menu.absence')} href={'/app/absence'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconWriting/>} label={t('navigation.menu.assignments')} href={'/app/assignments'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconMessages/>} label={t('navigation.menu.chat')} href={'/app/chat'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconCalendar/>} label={t('navigation.menu.calendar')} href={'/app/calendar'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={t('navigation.menu.noticeboard')} href={'/app/noticeboard'}/>
         </div>
       );

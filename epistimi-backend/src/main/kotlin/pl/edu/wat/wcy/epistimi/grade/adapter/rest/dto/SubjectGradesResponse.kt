@@ -1,7 +1,5 @@
 package pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto
 
-import java.time.LocalDateTime
-
 data class SubjectGradesResponse(
     val id: String,
     val name: String,
@@ -16,26 +14,11 @@ data class SubjectGradesStudentResponse(
     val firstSemester: SubjectGradesStudentSemesterResponse,
     val secondSemester: SubjectGradesStudentSemesterResponse,
     val average: String?,
-    val classification: SubjectStudentClassificationResponse,
 )
 
 data class SubjectGradesStudentSemesterResponse(
     val grades: List<GradeResponse>,
     val average: String?,
-    val classification: SubjectStudentClassificationResponse,
-)
-
-data class SubjectStudentClassificationResponse(
-    val proposal: SubjectGradesStudentClassificationGradeResponse?,
-    val final: SubjectGradesStudentClassificationGradeResponse?,
-)
-
-data class SubjectGradesStudentClassificationGradeResponse(
-    val id: String,
-    val issuedBy: ClassificationGradeTeacherResponse,
-    val issuedAt: LocalDateTime,
-    val updatedAt: LocalDateTime?,
-    val value: ClassificationGradeValueResponse,
 )
 
 data class SubjectGradesAverageResponse(

@@ -74,6 +74,9 @@
     "courseDetailsStudents": {
       "noStudents": "Brak uczniów"
     },
+    "courseDetailsSubjects": {
+      "noSubjects": "Brak przedmiotów prowadzonych dla tej klasy"
+    },
     "courseEdit": {
       "classTeacher": "Wychowawca klasy",
       "codeLetter": "Oznaczenie literowe klasy",
@@ -149,22 +152,14 @@
     },
     "menu": {
       "absence": "Absencja",
-      "analytics": "Analityka",
       "articles": "Artykuły",
-      "assignments": "Zadania domowe",
-      "calendar": "Kalendarz",
-      "chat": "Wiadomości",
-      "config": "Konfiguracja",
       "courses": "Klasy",
-      "exams": "Sprawdziany",
       "grades": "Oceny",
       "noticeboard": "Tablica ogłoszeń",
       "organizations": "Placówki",
-      "students": "Uczniowie",
       "subjects": "Przedmioty",
       "summary": "Strona główna",
       "teachers": "Nauczyciele",
-      "timetable": "Plan lekcji",
       "users": "Użytkownicy"
     },
     "menuUser": {
@@ -309,6 +304,11 @@
       "serverError": "Błąd serwera"
     }
   },
+  "subjects": {
+    "subjectsListing": {
+      "noSubjects": "Nie prowadzisz jeszcze żadnych przedmiotów"
+    }
+  },
   "summary": {
     "greeting": "Witaj, {{name}}!",
     "pageTitle": "Strona główna"
@@ -354,6 +354,7 @@
       "addingNewTeacher": "Dodawanie nowego nauczyciela",
       "addTeacher": "Dodaj nauczyciela",
       "couldNotLoad": "Nie udało się załadować listy nauczycieli",
+      "noTeachers": "W placówce nie zarejestrowano jeszcze żadnego konta nauczyciela",
       "teachers": "Nauczyciele"
     }
   }

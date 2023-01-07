@@ -52,14 +52,14 @@ export const fetchCurrentUser = createAsyncThunk(
   'auth/login',
   async (): Promise<UserResponse> => {
     if (!localStorage.getItem(TOKEN_KEY)) {
-      return Promise.reject('not authenticated'); // TODO: Not covered in tests
+      return Promise.reject('not authenticated');
     }
     return axios.get<UserResponse>('api/user/current')
       .then((response: AxiosResponse<UserResponse>) => {
         return response.data;
       })
       .catch((e) => {
-        return Promise.reject(e.response.data); // TODO: Not covered in tests
+        return Promise.reject(e.response.data);
       });
   },
 );

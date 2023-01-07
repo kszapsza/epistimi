@@ -37,7 +37,6 @@ export const CourseDetailsStudents = (
           <CourseDetailsTile
             key={id}
             avatar={<UserAvatar user={user} size={'md'} radius={'xl'}/>}
-            href={`/app/students/${id}`}
             title={`${user.lastName} ${user.firstName}`}
             subtitle={user.username}
           />

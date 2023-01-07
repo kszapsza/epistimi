@@ -1,6 +1,8 @@
 import './CourseDetailsSubjects.scss';
+import { Alert } from '@mantine/core';
 import { CourseDetailsTile } from '../CourseDetailsTile';
 import { CourseSubjectResponse } from '../../../dto/course';
+import { IconInfoCircle } from '@tabler/icons';
 import { SubjectAvatar } from '../../common';
 import { useTranslation } from 'react-i18next';
 
@@ -16,9 +18,9 @@ export const CourseDetailsSubjects = (
 
   if (subjects.length === 0) {
     return (
-      <div className={'course-no-subjects'}>
+      <Alert icon={<IconInfoCircle size={16}/>} color={'blue'}>
         {t('courses.courseDetailsSubjects.noSubjects')}
-      </div>
+      </Alert>
     );
   }
 

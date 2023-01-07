@@ -64,6 +64,9 @@
     "courseDetailsStudents": {
       "noStudents": "No students"
     },
+    "courseDetailsSubjects": {
+      "noSubjects": "No subjects within this course"
+    },
     "courseEdit": {
       "classTeacher": "Class teacher",
       "codeLetter": "Course code letter",
@@ -140,20 +143,15 @@
       "absence": "Absence",
       "analytics": "Analytics",
       "articles": "Articles",
-      "assignments": "Assignments",
-      "calendar": "Calendar",
-      "chat": "Chat",
       "config": "Configuration",
       "courses": "Courses",
       "exams": "Exams",
       "grades": "Grades",
       "noticeboard": "Noticeboard",
       "organizations": "Organizations",
-      "students": "Students",
       "subjects": "Subjects",
       "summary": "Home page",
       "teachers": "Teachers",
-      "timetable": "Timetable",
       "users": "Users"
     },
     "menuUser": {
@@ -298,6 +296,11 @@
       "serverError": "Server error"
     }
   },
+  "subjects": {
+    "subjectsListing": {
+      "noSubjects": "You don't lead any subjects yet"
+    }
+  },
   "summary": {
     "greeting": "Hello, {{name}}!",
     "pageTitle": "Home page"
@@ -343,6 +346,7 @@
       "addingNewTeacher": "Adding a new teacher",
       "addTeacher": "Add teacher",
       "couldNotLoad": "Could not load a list of teachers",
+      "noTeachers": "No teacher accounts registered in this organization yet",
       "teachers": "Teachers"
     }
   }
