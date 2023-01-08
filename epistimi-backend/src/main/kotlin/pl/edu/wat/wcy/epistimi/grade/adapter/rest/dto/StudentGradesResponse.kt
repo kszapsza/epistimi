@@ -19,11 +19,26 @@ data class StudentGradesSubjectResponse(
     val firstSemester: StudentGradesSubjectSemesterResponse,
     val secondSemester: StudentGradesSubjectSemesterResponse,
     val average: StudentGradesAverageResponse,
+    val classification: StudentSubjectClassificationResponse,
+)
+
+data class StudentSubjectClassificationResponse(
+    val proposal: StudentSubjectClassificationGradeResponse?,
+    val final: StudentSubjectClassificationGradeResponse?,
+)
+
+data class StudentSubjectClassificationGradeResponse(
+    val id: String,
+    val issuedBy: ClassificationGradeTeacherResponse,
+    val issuedAt: LocalDateTime,
+    val updatedAt: LocalDateTime?,
+    val value: ClassificationGradeValueResponse,
 )
 
 data class StudentGradesSubjectSemesterResponse(
     val grades: List<GradeResponse>,
     val average: StudentGradesAverageResponse,
+    val classification: StudentSubjectClassificationResponse,
 )
 
 data class StudentGradesAverageResponse(

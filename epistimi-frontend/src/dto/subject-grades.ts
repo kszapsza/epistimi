@@ -1,3 +1,4 @@
+import { ClassificationGradeTeacherResponse, ClassificationGradeValueResponse } from './classification-grade';
 import { GradeResponse } from './grade';
 
 export interface SubjectGradesResponse {
@@ -14,11 +15,25 @@ export interface SubjectGradesStudentResponse {
   firstSemester: SubjectGradesStudentSemesterResponse;
   secondSemester: SubjectGradesStudentSemesterResponse;
   average?: string;
+  classification: SubjectStudentClassificationResponse;
 }
 
 export interface SubjectGradesStudentSemesterResponse {
   grades: GradeResponse[];
   average?: string;
+}
+
+export interface SubjectStudentClassificationResponse {
+  proposal?: SubjectStudentClassificationGradeResponse;
+  final?: SubjectStudentClassificationGradeResponse;
+}
+
+export interface SubjectStudentClassificationGradeResponse {
+  id: string;
+  issuedBy: ClassificationGradeTeacherResponse;
+  issuedAt: Date;
+  updatedAt?: Date;
+  value: ClassificationGradeValueResponse;
 }
 
 export interface SubjectGradesAverageResponse {

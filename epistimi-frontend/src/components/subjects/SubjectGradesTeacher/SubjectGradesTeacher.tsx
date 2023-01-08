@@ -55,6 +55,10 @@ export const SubjectGradesTeacher = (
               setIssueFormInitialData(null);
               reload();
             }}
+            onNewClassificationGradeIssued={() => {
+              setIssueFormInitialData(null);
+              reload();
+            }}
           />
         </Modal>
       )}

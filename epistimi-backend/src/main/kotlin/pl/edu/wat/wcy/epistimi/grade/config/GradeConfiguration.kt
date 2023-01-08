@@ -3,7 +3,9 @@ package pl.edu.wat.wcy.epistimi.grade.config
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import pl.edu.wat.wcy.epistimi.grade.GradeFacade
+import pl.edu.wat.wcy.epistimi.grade.domain.access.ClassificationGradeAccessValidator
 import pl.edu.wat.wcy.epistimi.grade.domain.access.GradeAccessValidator
+import pl.edu.wat.wcy.epistimi.grade.domain.port.ClassificationGradeRepository
 import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeAggregatorService
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeCategoryService
@@ -47,12 +49,16 @@ class GradeConfiguration {
     fun studentGradeAggregatorService(
         gradeRepository: GradeRepository,
         gradeAccessValidator: GradeAccessValidator,
+        classificationGradeRepository: ClassificationGradeRepository,
+        classificationGradeAccessValidator: ClassificationGradeAccessValidator,
         studentFacade: StudentFacade,
         parentFacade: ParentFacade,
     ): StudentGradeAggregatorService {
         return StudentGradeAggregatorService(
             gradeRepository,
             gradeAccessValidator,
+            classificationGradeRepository,
+            classificationGradeAccessValidator,
             studentFacade,
             parentFacade,
         )
@@ -63,11 +69,15 @@ class GradeConfiguration {
         subjectFacade: SubjectFacade,
         gradeRepository: GradeRepository,
         gradeAccessValidator: GradeAccessValidator,
+        classificationGradeRepository: ClassificationGradeRepository,
+        classificationGradeAccessValidator: ClassificationGradeAccessValidator,
     ): SubjectGradeAggregatorService {
         return SubjectGradeAggregatorService(
             subjectFacade,
             gradeRepository,
             gradeAccessValidator,
+            classificationGradeRepository,
+            classificationGradeAccessValidator,
         )
     }
 

@@ -1,4 +1,5 @@
 import './SubjectGradesTeacherIssueForm.scss';
+import { ClassificationGradeResponse } from '../../../dto/classification-grade';
 import { GradeResponse } from '../../../dto/grade';
 import { IconStar, IconStars } from '@tabler/icons';
 import { SubjectGradesStudentResponse } from '../../../dto/subject-grades';
@@ -12,6 +13,7 @@ interface SubjectGradesTeacherIssueFormProps {
   student: SubjectGradesStudentResponse;
   semester: number;
   onNewGradeIssued: (response: GradeResponse) => void;
+  onNewClassificationGradeIssued: (response: ClassificationGradeResponse) => void;
 }
 
 export const SubjectGradesTeacherIssueForm = (
@@ -30,10 +32,20 @@ export const SubjectGradesTeacherIssueForm = (
         </Tabs.List>
 
         <Tabs.Panel value={'grade'} pt={'sm'}>
-          <SubjectGradesTeacherIssueGradeForm {...props} />
+          <SubjectGradesTeacherIssueGradeForm
+            onNewGradeIssued={props.onNewGradeIssued}
+            subject={props.subject}
+            student={props.student}
+            semester={props.semester}
+          />
         </Tabs.Panel>
         <Tabs.Panel value={'classification-grade'} pt={'sm'}>
-          <SubjectGradesTeacherIssueClassificationGradeForm {...props} />
+          <SubjectGradesTeacherIssueClassificationGradeForm
+            onNewClassificationGradeIssued={props.onNewClassificationGradeIssued}
+            subject={props.subject}
+            student={props.student}
+            semester={props.semester}
+          />
         </Tabs.Panel>
       </Tabs>
     </>

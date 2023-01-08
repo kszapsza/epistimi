@@ -71,5 +71,15 @@ value class ClassificationGradeId(
 enum class ClassificationGradePeriod {
     FIRST_SEMESTER,
     SECOND_SEMESTER,
-    SCHOOL_YEAR,
+    SCHOOL_YEAR;
+
+    companion object {
+        fun fromSemesterNumber(semester: Int): ClassificationGradePeriod {
+            return when (semester) {
+                1 -> FIRST_SEMESTER
+                2 -> SECOND_SEMESTER
+                else -> SCHOOL_YEAR
+            }
+        }
+    }
 }
