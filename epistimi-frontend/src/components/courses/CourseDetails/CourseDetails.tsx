@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { CourseAddStudent, CourseAddSubject, CourseDetailsData, CourseDetailsStudents, CourseDetailsSubjects } from '../../courses';
 import { CourseDetailsSection } from '../CourseDetailsSection';
 import { CourseResponse } from '../../../dto/course';
-import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconBook, IconSchool } from '@tabler/icons';
+import { IconAlertCircle, IconArrowBack, IconBook, IconSchool } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
@@ -73,17 +73,6 @@ export const CourseDetails = (): JSX.Element => {
             <ActionIcon variant={'transparent'} component={Link} to={'./..'}>
               <IconArrowBack size={18}/>
             </ActionIcon>
-
-            <div className={'course-action-group'}>
-              <Button
-                leftIcon={<IconArrowBigUpLines size={16}/>}
-                // onClick={editModalHandlers.open}
-                variant={'default'}
-                disabled={true} // TODO
-              >
-                {t('courses.courseDetails.promoteClass')}
-              </Button>
-            </div>
           </div>
 
           <div className={'course-details-head'}>

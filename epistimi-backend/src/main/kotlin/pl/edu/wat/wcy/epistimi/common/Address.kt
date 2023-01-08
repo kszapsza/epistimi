@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.epistimi.common
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Pattern
 
-// TODO: should address be required?
 data class Address(
     @field:NotBlank
     val street: String,

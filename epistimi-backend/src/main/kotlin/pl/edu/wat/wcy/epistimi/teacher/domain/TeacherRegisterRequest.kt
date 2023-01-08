@@ -4,6 +4,6 @@ import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
 import javax.validation.Valid
 
 data class TeacherRegisterRequest(
-    @Valid val user: UserRegisterRequest, // TODO: consistent validation on frontend!
+    @Valid val user: UserRegisterRequest,
     val academicTitle: String?,
 )

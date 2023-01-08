@@ -195,7 +195,6 @@ export const CourseAddStudent = (
       onStudentRegistered(response.data);
     }).catch((): void => {
       dispatch({ type: 'SUBMIT_ERROR' });
-      // TODO: handle failures!
     });
   };
 
@@ -240,7 +239,6 @@ export const CourseAddStudent = (
           {t('courses.courseAddStudent.errorAddingStudent')}
         </Alert>}
 
-      {/* TODO: edit already added parent */}
       {step === CourseAddStudentStep.EDIT_PARENTS
         && parentList.length > 0 && (
           <CourseAddStudentParentsList

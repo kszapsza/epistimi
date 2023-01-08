@@ -14,27 +14,26 @@ export const NoticeboardPostActions = (
   const { t } = useTranslation();
   return (
     <div className={'noticeboard-post-actions'}>
-      {/* TODO: organization admin can update/delete everything? */}
-        <Button.Group>
-          <Button
-            leftIcon={<IconEdit size={16}/>}
-            size={'xs'}
-            color={'dark'}
-            variant={'default'}
-            onClick={onEditClick}
-          >
-            {t('noticeboard.noticeboardPostActions.edit')}
-          </Button>
-          <Button
-            leftIcon={<IconTrash size={16}/>}
-            size={'xs'}
-            color={'red'}
-            variant={'default'}
-            onClick={onDeleteClick}
-          >
-            {t('noticeboard.noticeboardPostActions.delete')}
-          </Button>
-        </Button.Group>
+      <Button.Group>
+        <Button
+          leftIcon={<IconEdit size={16}/>}
+          size={'xs'}
+          color={'dark'}
+          variant={'default'}
+          onClick={onEditClick}
+        >
+          {t('noticeboard.noticeboardPostActions.edit')}
+        </Button>
+        <Button
+          leftIcon={<IconTrash size={16}/>}
+          size={'xs'}
+          color={'red'}
+          variant={'default'}
+          onClick={onDeleteClick}
+        >
+          {t('noticeboard.noticeboardPostActions.delete')}
+        </Button>
+      </Button.Group>
     </div>
   );
 };

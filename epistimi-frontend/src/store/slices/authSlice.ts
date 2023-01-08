@@ -2,10 +2,6 @@ import { createAsyncThunk, createSlice, Draft } from '@reduxjs/toolkit';
 import { UserResponse } from '../../dto/user';
 import axios, { AxiosResponse } from 'axios';
 
-/*
- * TODO: Use React context instead of Redux
- */
-
 export interface AuthState {
   user: UserResponse | null;
   isAuthenticated: boolean;

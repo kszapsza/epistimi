@@ -19,7 +19,6 @@ class NoticeboardPostDbRepository(
     }
 
     override fun getAllPosts(organizationId: OrganizationId): List<NoticeboardPost> {
-        // TODO: implement pagination
         return noticeboardPostJpaRepository.findAllByOrganizationId(
             organizationId = organizationId.value,
             sort = Sort.by(Sort.Direction.DESC, "createdAt"),

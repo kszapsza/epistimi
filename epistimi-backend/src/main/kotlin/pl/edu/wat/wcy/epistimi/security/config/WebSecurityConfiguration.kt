@@ -26,7 +26,7 @@ class WebSecurityConfiguration(
 
     override fun configure(http: HttpSecurity?) {
         http?.cors()?.and()
-            ?.csrf()?.disable() // TODO
+            ?.csrf()?.disable()
             ?.sessionManagement {
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }?.authorizeRequests {

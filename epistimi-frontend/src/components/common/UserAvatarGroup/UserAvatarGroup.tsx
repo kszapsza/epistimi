@@ -8,7 +8,6 @@ interface UserAvatarGroupProps {
 }
 
 export const UserAvatarGroup = ({ users, limit }: UserAvatarGroupProps): JSX.Element => {
-  // TODO: sort users by lastName+firstName
   return (
     <Avatar.Group>
       {users

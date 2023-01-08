@@ -43,8 +43,6 @@ internal class OrganizationControllerSpec(
     private val userStubbing: UserStubbing,
 ) : BaseIntegrationSpec({
 
-    // TODO: Use WireMock to stub OpenStreetMap Nominatim responses!
-
     val stubOrganizationAdmin = {
         userStubbing.userExists(
             role = ORGANIZATION_ADMIN,

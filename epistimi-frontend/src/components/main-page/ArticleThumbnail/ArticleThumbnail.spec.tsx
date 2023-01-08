@@ -28,7 +28,6 @@ describe('ArticleThumbnail component', () => {
 
     const { getByRole } = render(<ArticleThumbnail {...props} />);
 
-    // TODO: test links!
     expect(getByRole('img')).toHaveAttribute('src', '/images/article-default.jpg');
     expect(getByRole('heading')).toHaveTextContent('Article');
     expect(getByRole('definition')).toHaveTextContent('Description');

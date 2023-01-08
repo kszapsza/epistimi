@@ -7,8 +7,6 @@ data class Article(
     val description: String,
 )
 
-// TODO: article (cover) images storage in MongoDB
-
 @JvmInline
 value class ArticleId(
     val value: String,
