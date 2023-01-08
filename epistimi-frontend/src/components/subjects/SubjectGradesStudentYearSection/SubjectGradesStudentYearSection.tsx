@@ -25,12 +25,12 @@ export const SubjectGradesStudentYearSection = (
         />
         <SubjectGradesStudentStatsTile
           title={'Propozycja oceny rocznej'}
-          value={undefined}
+          value={subjectGrades.classification.proposal?.value.displayName}
           icon={<IconStarHalf size={18} color={'gray'}/>}
         />
         <SubjectGradesStudentStatsTile
           title={'Ocena roczna'}
-          value={undefined}
+          value={subjectGrades.classification.final?.value.displayName}
           icon={<IconStar size={18} color={'gray'}/>}
         />
       </div>

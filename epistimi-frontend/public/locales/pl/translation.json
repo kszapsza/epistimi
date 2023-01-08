@@ -151,7 +151,6 @@
       "termsAndConditions": "Regulamin"
     },
     "menu": {
-      "absence": "Absencja",
       "articles": "Artykuły",
       "courses": "Klasy",
       "grades": "Oceny",
@@ -165,8 +164,7 @@
     "menuUser": {
       "account": "Konto",
       "logOut": "Wyloguj się",
-      "selectStudent": "Wybierz ucznia",
-      "settings": "Ustawienia"
+      "selectStudent": "Wybierz ucznia"
     },
     "notFound": {
       "desc": "Strona o podanym adresie nie istnieje"

@@ -4,12 +4,10 @@ import {
   IconBriefcase,
   IconBuilding,
   IconFileText,
-  IconHandTwoFingers,
   IconHome,
   IconSpeakerphone,
   IconStars,
   IconUsers,
-  IconZoomQuestion,
 } from '@tabler/icons';
 import { MenuItem, MenuUser } from '../../navigation';
 import { Navbar, ScrollArea } from '@mantine/core';
@@ -63,7 +61,6 @@ export const Menu = (props: MenuProps): JSX.Element => {
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={t('navigation.menu.summary')} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBook/>} label={t('navigation.menu.subjects')} href={'/app/subjects'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconStars/>} label={t('navigation.menu.grades')} href={'/app/grades'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconHandTwoFingers/>} label={t('navigation.menu.absence')} href={'/app/absence'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={t('navigation.menu.noticeboard')} href={'/app/noticeboard'}/>
         </div>
       );
@@ -73,7 +70,6 @@ export const Menu = (props: MenuProps): JSX.Element => {
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={t('navigation.menu.summary')} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconStars/>} label={t('navigation.menu.grades')} href={'/app/grades'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconHandTwoFingers/>} label={t('navigation.menu.absence')} href={'/app/absence'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconSpeakerphone/>} label={t('navigation.menu.noticeboard')} href={'/app/noticeboard'}/>
         </div>
       );

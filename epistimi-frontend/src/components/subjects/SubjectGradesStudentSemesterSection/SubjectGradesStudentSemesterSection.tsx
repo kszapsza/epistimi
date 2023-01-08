@@ -32,12 +32,12 @@ export const SubjectGradesStudentSemesterSection = (
         />
         <SubjectGradesStudentStatsTile
           title={'Propozycja oceny'}
-          value={undefined}
+          value={semesterData.classification.proposal?.value.displayName}
           icon={<IconStarHalf size={18} color={'gray'}/>}
         />
         <SubjectGradesStudentStatsTile
           title={'Ocena'}
-          value={undefined}
+          value={semesterData.classification.final?.value.displayName}
           icon={<IconStar size={18} color={'gray'}/>}
         />
       </div>

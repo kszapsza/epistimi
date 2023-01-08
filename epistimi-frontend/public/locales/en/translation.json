@@ -157,8 +157,7 @@
     "menuUser": {
       "account": "Account",
       "logOut": "Log out",
-      "selectStudent": "Select student",
-      "settings": "Settings"
+      "selectStudent": "Select student"
     },
     "notFound": {
       "desc": "The page with the given address does not exist"

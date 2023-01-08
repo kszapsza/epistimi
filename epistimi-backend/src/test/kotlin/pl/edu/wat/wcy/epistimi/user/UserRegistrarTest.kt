@@ -6,6 +6,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.springframework.security.crypto.password.PasswordEncoder
+import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.user.domain.User
 import pl.edu.wat.wcy.epistimi.user.domain.UserId
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
@@ -31,6 +32,7 @@ internal class UserRegistrarTest : ShouldSpec({
 
         // when
         val registeredUser = userRegistrationService.registerUser(
+            TestData.organization,
             UserRegisterRequest(
                 firstName = "Jan",
                 lastName = "Kowalski",
@@ -54,6 +56,7 @@ internal class UserRegistrarTest : ShouldSpec({
 
         // when
         val registeredUser = userRegistrationService.registerUser(
+            TestData.organization,
             UserRegisterRequest(
                 firstName = "Jan",
                 lastName = "Kowalski",

@@ -11,6 +11,7 @@ import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeValue
 import pl.edu.wat.wcy.epistimi.grade.domain.weightedAverage
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import java.util.UUID
 
 internal class GradeExtensionsTest : ShouldSpec({
@@ -21,12 +22,15 @@ internal class GradeExtensionsTest : ShouldSpec({
         name = "Sprawdzian",
         defaultWeight = 2,
         color = null,
+        createdAt = LocalDateTime.now(),
+        updatedAt = null,
     )
 
     fun testGrade(
         value: GradeValue,
         weight: Int,
         countTowardsAverage: Boolean = true,
+        semester: Int = 1,
     ) = Grade(
         id = null,
         subject = TestData.subject,
@@ -39,6 +43,7 @@ internal class GradeExtensionsTest : ShouldSpec({
         category = testGradeCategory,
         countTowardsAverage = countTowardsAverage,
         comment = null,
+        semester = semester,
     )
 
     should("return null BigDecimal reference for empty grades collection") {

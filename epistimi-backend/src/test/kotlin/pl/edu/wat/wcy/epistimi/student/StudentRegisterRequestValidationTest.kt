@@ -8,11 +8,11 @@ import io.kotest.matchers.shouldBe
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.course.domain.CourseId
 import pl.edu.wat.wcy.epistimi.student.domain.StudentRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.domain.User.Sex.FEMALE
-import pl.edu.wat.wcy.epistimi.user.domain.User.Sex.MALE
-import pl.edu.wat.wcy.epistimi.user.domain.User.Sex.OTHER
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserSex.FEMALE
+import pl.edu.wat.wcy.epistimi.user.domain.UserSex.MALE
+import pl.edu.wat.wcy.epistimi.user.domain.UserSex.OTHER
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
 import java.util.UUID
 import javax.validation.Validation

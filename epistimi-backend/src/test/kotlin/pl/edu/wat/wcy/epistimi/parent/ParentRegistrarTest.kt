@@ -11,7 +11,7 @@ import pl.edu.wat.wcy.epistimi.parent.domain.ParentId
 import pl.edu.wat.wcy.epistimi.parent.domain.port.ParentRepository
 import pl.edu.wat.wcy.epistimi.parent.domain.service.ParentRegistrationService
 import pl.edu.wat.wcy.epistimi.user.domain.User
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.PARENT
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService.NewUser

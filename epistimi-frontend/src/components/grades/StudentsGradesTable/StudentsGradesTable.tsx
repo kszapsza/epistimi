@@ -1,4 +1,5 @@
 import './StudentsGradesTable.scss';
+import { ClassificationGradeBadge } from '../ClassificationGradeBadge';
 import { GradeBadgesTableCell } from '../GradeBadgesTableCell';
 import { Link } from 'react-router-dom';
 import { StudentGradesResponse } from '../../../dto/student-grades';
@@ -51,17 +52,51 @@ export const StudentsGradesTable = (
               <td>
                 {subject.firstSemester.average.student || '—'}
               </td>
-              <td>—</td>
-              <td>—</td>
+              <td>
+                <ClassificationGradeBadge
+                  grade={subject.firstSemester.classification.proposal}
+                  header={'Ocena – semestr I (prop.)'}
+                />
+              </td>
+              <td>
+                <ClassificationGradeBadge
+                  grade={subject.firstSemester.classification.final}
+                  header={'Ocena – semestr I'}
+                />
+              </td>
               <td>
                 {<GradeBadgesTableCell grades={subject.secondSemester.grades}/>}
               </td>
-              <td>{subject.secondSemester.average.student || '—'}</td>
-              <td>—</td>
-              <td>—</td>
-              <td>{subject.average.student || '—'}</td>
-              <td>—</td>
-              <td>—</td>
+              <td>
+                {subject.secondSemester.average.student || '—'}
+              </td>
+              <td>
+                <ClassificationGradeBadge
+                  grade={subject.secondSemester.classification.proposal}
+                  header={'Ocena – semestr II (prop.)'}
+                />
+              </td>
+              <td>
+                <ClassificationGradeBadge
+                  grade={subject.secondSemester.classification.proposal}
+                  header={'Ocena – semestr II'}
+                />
+              </td>
+              <td>
+                {subject.average.student || '—'}
+              </td>
+              <td>
+                <ClassificationGradeBadge
+                  grade={subject.classification.proposal}
+                  header={'Ocena roczna (prop.)'}
+                />
+              </td>
+              <td>
+                <ClassificationGradeBadge
+                  grade={subject.classification.final}
+                  header={'Ocena roczna'}
+                />
+              </td>
             </tr>
           ))}
       </tbody>

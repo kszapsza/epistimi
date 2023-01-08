@@ -7,13 +7,15 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.mockk.every
 import io.mockk.mockk
 import pl.edu.wat.wcy.epistimi.TestData
+import pl.edu.wat.wcy.epistimi.teacher.domain.access.TeacherAccessValidator
 import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherAggregatorService
 
 internal class TeacherAggregatorTest : ShouldSpec({
 
     val teacherRepository = mockk<TeacherRepository>()
-    val teacherAggregatorService = TeacherAggregatorService(teacherRepository)
+    val teacherAccessValidator = mockk<TeacherAccessValidator>()
+    val teacherAggregatorService = TeacherAggregatorService(teacherRepository, teacherAccessValidator)
 
     val organizationAdminId = TestData.Users.organizationAdmin.id!!
     val organizationId = TestData.organization.id!!

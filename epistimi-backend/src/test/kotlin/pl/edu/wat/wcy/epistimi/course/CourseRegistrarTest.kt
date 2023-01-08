@@ -24,12 +24,10 @@ import java.util.UUID
 internal class CourseRegistrarTest : ShouldSpec({
     val courseRepository = mockk<CourseRepository>()
     val teacherRepository = mockk<TeacherRepository>()
-    val organizationContextProvider = mockk<OrganizationContextProvider>()
 
     val courseRegistrationService = CourseRegistrationService(
         courseRepository,
         teacherRepository,
-        organizationContextProvider,
     )
 
     val validCourseCreateRequest = CourseCreateRequest(
@@ -117,7 +115,6 @@ internal class CourseRegistrarTest : ShouldSpec({
         val userContextId = TestData.organization.admin.id!!
         val teacherFromOtherOrganizationId = TeacherId(UUID.randomUUID())
 
-        every { organizationContextProvider.provide(userContextId) } returns TestData.organization
         every { teacherRepository.findById(teacherFromOtherOrganizationId) } returns Teacher(
             id = teacherFromOtherOrganizationId,
             user = TestData.Users.teacher.copy(id = UserId(UUID.randomUUID())),
@@ -143,7 +140,6 @@ internal class CourseRegistrarTest : ShouldSpec({
         // given
         val userContextId = TestData.organization.admin.id!!
 
-        every { organizationContextProvider.provide(userContextId) } returns TestData.organization
         every { teacherRepository.findById(TestData.teacher.id!!) } returns TestData.teacher
         every { courseRepository.save(any()) } returnsArgument 0
 

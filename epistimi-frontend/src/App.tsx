@@ -164,12 +164,6 @@ const App = (): JSX.Element => {
           ),
         },
         {
-          path: 'absence',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
           path: 'assignments',
           element: (
             <NotImplementedYet/>
