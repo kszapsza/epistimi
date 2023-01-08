@@ -21,6 +21,7 @@ export interface SubjectGradesStudentResponse {
 export interface SubjectGradesStudentSemesterResponse {
   grades: GradeResponse[];
   average?: string;
+  classification: SubjectStudentClassificationResponse;
 }
 
 export interface SubjectStudentClassificationResponse {

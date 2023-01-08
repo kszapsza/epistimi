@@ -1,3 +1,4 @@
+import { ClassificationGradeBadge } from '../../grades/ClassificationGradeBadge';
 import { GradeBadgesTableCell } from '../../grades';
 import { SubjectGradesResponse } from '../../../dto/subject-grades';
 import { Table } from '@mantine/core';
@@ -53,20 +54,54 @@ export const SubjectGradesTeacherTable = (
             <td>
               {student.firstSemester.average || '—'}
             </td>
-            <td>—</td>
-            <td>—</td>
+            <td>
+              <ClassificationGradeBadge
+                grade={student.firstSemester.classification.proposal}
+                header={'Ocena – semestr I (prop.)'}
+              />
+            </td>
+            <td>
+              <ClassificationGradeBadge
+                grade={student.firstSemester.classification.final}
+                header={'Ocena – semestr I'}
+              />
+            </td>
             <td>
               {<GradeBadgesTableCell
                 grades={student.secondSemester.grades}
                 onIssueGradeClick={() => onIssueGradeClick(student.id, 2)}
               />}
             </td>
-            <td>{student.secondSemester.average || '—'}</td>
-            <td>—</td>
-            <td>—</td>
-            <td>{student.average || '—'}</td>
-            <td>—</td>
-            <td>—</td>
+            <td>
+              {student.secondSemester.average || '—'}
+            </td>
+            <td>
+              <ClassificationGradeBadge
+                grade={student.secondSemester.classification.proposal}
+                header={'Ocena – semestr II (prop.)'}
+              />
+            </td>
+            <td>
+              <ClassificationGradeBadge
+                grade={student.secondSemester.classification.final}
+                header={'Ocena – semestr II'}
+              />
+            </td>
+            <td>
+              {student.average || '—'}
+            </td>
+            <td>
+              <ClassificationGradeBadge
+                grade={student.classification.proposal}
+                header={'Ocena roczna (prop.)'}
+              />
+            </td>
+            <td>
+              <ClassificationGradeBadge
+                grade={student.classification.final}
+                header={'Ocena roczna'}
+              />
+            </td>
           </tr>
         ))}
       </tbody>
