@@ -27,6 +27,7 @@ class ClassificationGradeIssuingService(
         issueRequest: ClassificationGradeIssueRequest,
     ): ClassificationGrade {
         val classificationGrade = buildClassificationGrade(contextUser, issueRequest)
+        // TODO: check if classification grade does not already exist
         if (classificationGradeAccessValidator.canCreate(contextUser, classificationGrade)) {
             return classificationGradeRepository.save(classificationGrade)
         }

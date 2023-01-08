@@ -47,6 +47,7 @@ internal class CourseAggregatorTest : ShouldSpec({
         profession = null,
         profile = null,
         specialization = null,
+        subjects = emptySet(),
     )
 
     should("return list of courses for organization administered by admin with provided id") {

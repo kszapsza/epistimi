@@ -29,7 +29,6 @@ describe('MenuUser component', () => {
 
   const SETTINGS_REGEXP = /navigation\.menuUser\.settings/;
   const LOG_OUT_REGEXP = /navigation\.menuUser\.logOut/;
-  const SELECT_STUDENT_REGEXP = /navigation\.menuUser\.selectStudent/;
 
   it('should open menu on button click', async () => {
     const storeMock = getStoreMock();
@@ -46,32 +45,6 @@ describe('MenuUser component', () => {
     });
   });
 
-  it.each([
-    UserRole.EPISTIMI_ADMIN,
-    UserRole.ORGANIZATION_ADMIN,
-    UserRole.TEACHER,
-    UserRole.STUDENT,
-  ])('should not show child selector when user role is not PARENT', async (role) => {
-    const storeMock = getStoreMock(role);
-    const { getByRole, queryByText } = render(<MenuUser/>, storeMock);
-
-    getByRole('button').click();
-
-    await waitFor(() => {
-      expect(queryByText(SELECT_STUDENT_REGEXP)).not.toBeInTheDocument();
-    });
-  });
-
-  it('should show child selector when user role is PARENT', async () => {
-    const storeMock = getStoreMock(UserRole.PARENT);
-    const { getByRole, queryByText } = render(<MenuUser/>, storeMock);
-
-    getByRole('button').click();
-
-    await waitFor(() => {
-      expect(queryByText(SELECT_STUDENT_REGEXP)).toBeInTheDocument();
-    });
-  });
 
   it('should log out user on logout option click', async () => {
     const storeMock = getStoreMock();

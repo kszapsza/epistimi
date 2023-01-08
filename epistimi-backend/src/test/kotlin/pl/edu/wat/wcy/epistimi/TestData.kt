@@ -161,12 +161,6 @@ internal object TestData {
         academicTitle = null,
     )
 
-    val student = Student(
-        id = StudentId(UUID.randomUUID()),
-        user = Users.student,
-        parents = emptyList(),
-    )
-
     val parent = Parent(
         id = ParentId(UUID.randomUUID()),
         user = Users.parent,
@@ -178,13 +172,21 @@ internal object TestData {
         codeNumber = 6,
         codeLetter = "a",
         classTeacher = teacher,
-        students = setOf(student),
+        students = emptySet(),
         schoolYearBegin = TestUtils.parseDate("2012-09-03"),
         schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
         schoolYearEnd = TestUtils.parseDate("2013-06-28"),
         profession = null,
         profile = null,
         specialization = null,
+        subjects = emptySet(),
+    )
+
+    val student = Student(
+        id = StudentId(UUID.randomUUID()),
+        user = Users.student,
+        parents = emptyList(),
+        course = course,
     )
 
     val subject = Subject(
