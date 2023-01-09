@@ -16,7 +16,7 @@ internal class SecurityStubbing(
 ) {
     fun authorizationHeaderFor(
         role: UserRole,
-        organization: Organization,
+        organization: Organization?,
     ): HttpHeaders {
         return userStubbing.userExists(
             role = role,

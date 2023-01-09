@@ -15,7 +15,6 @@ import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginRequest
 import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginResponse
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.user.domain.UserRole.ORGANIZATION_ADMIN
 
 internal class AuthenticationControllerSpec(
     private val restTemplate: TestRestTemplate,
@@ -40,10 +39,9 @@ internal class AuthenticationControllerSpec(
 
     should("reject with HTTP 401 if username exists but password is not valid") {
         // given
-        val adminUser = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "admin_user", organization = )
-        val organization = organizationStubbing.organizationExists(admin = adminUser, name = "SP7")
-
+        val organization = organizationStubbing.organizationExists(name = "SP7")
         userStubbing.userExists(username = "foo", password = "24", organization = organization)
+
         val body = LoginRequest(username = "foo", password = "42")
 
         // when
@@ -59,7 +57,9 @@ internal class AuthenticationControllerSpec(
 
     should("issue a Bearer token if provided username and password are valid") {
         // given
-        userStubbing.userExists(username = "foo", password = "42")
+        val organization = organizationStubbing.organizationExists(name = "SP7")
+        userStubbing.userExists(username = "foo", password = "42", organization = organization)
+
         val body = LoginRequest(username = "foo", password = "42")
 
         // when

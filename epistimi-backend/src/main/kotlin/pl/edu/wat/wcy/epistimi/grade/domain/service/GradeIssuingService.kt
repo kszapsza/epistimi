@@ -4,9 +4,9 @@ import pl.edu.wat.wcy.epistimi.grade.domain.Grade
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeIssueForbiddenException
-import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeIssueRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.access.GradeAccessValidator
 import pl.edu.wat.wcy.epistimi.grade.domain.port.GradeRepository
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeIssueRequest
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.student.StudentFacade
 import pl.edu.wat.wcy.epistimi.student.domain.Student

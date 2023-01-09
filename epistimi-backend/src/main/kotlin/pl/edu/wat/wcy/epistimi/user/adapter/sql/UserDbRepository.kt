@@ -19,7 +19,7 @@ class UserDbRepository(
     }
 
     override fun findAllByRoleIn(roles: List<UserRole>): List<User> {
-        return userJpaRepository.findAllByRoleIn(roles.map { it.toString() })
+        return userJpaRepository.findAllByRoleIn(roles)
     }
 
     override fun findById(userId: UserId): User {

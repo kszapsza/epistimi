@@ -2,8 +2,8 @@ package pl.edu.wat.wcy.epistimi.grade
 
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoriesForSubject
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategory
-import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryCreateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryCreateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryUpdateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.service.GradeCategoryService
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId

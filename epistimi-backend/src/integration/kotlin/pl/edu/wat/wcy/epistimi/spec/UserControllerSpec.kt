@@ -18,19 +18,21 @@ import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
+import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.EPISTIMI_ADMIN
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.ORGANIZATION_ADMIN
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.TEACHER
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.EPISTIMI_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.TEACHER
 import java.util.UUID
 
 internal class UserControllerSpec(
     private val restTemplate: TestRestTemplate,
     private val userStubbing: UserStubbing,
     private val securityStubbing: SecurityStubbing,
+    private val organizationStubbing: OrganizationStubbing,
 ) : BaseIntegrationSpec({
 
     context("get current user") {
@@ -47,7 +49,8 @@ internal class UserControllerSpec(
 
         should("return current user") {
             // given
-            val user = userStubbing.userExists()
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val user = userStubbing.userExists(organization = organization)
             val headers = securityStubbing.authorizationHeaderFor(user)
 
             // when
@@ -102,7 +105,8 @@ internal class UserControllerSpec(
         ) { role ->
             should("return HTTP 403 on get all users endpoint if user is unauthorized ($role)") {
                 // given
-                val headers = securityStubbing.authorizationHeaderFor(role)
+                val organization = organizationStubbing.organizationExists(name = "sp7")
+                val headers = securityStubbing.authorizationHeaderFor(role = role, organization = organization)
 
                 // when
                 val response = restTemplate.exchange<String>(
@@ -118,7 +122,7 @@ internal class UserControllerSpec(
 
         should("return all users") {
             // given
-            val user = userStubbing.userExists(role = EPISTIMI_ADMIN)
+            val user = userStubbing.userExists(role = EPISTIMI_ADMIN, organization = null)
             val headers = securityStubbing.authorizationHeaderFor(user)
 
             // when
@@ -158,10 +162,11 @@ internal class UserControllerSpec(
 
         should("return all users with provided role") {
             // given
-            val user = userStubbing.userExists(username = "organization_admin", role = ORGANIZATION_ADMIN)
-            userStubbing.userExists(username = "teacher", role = TEACHER)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val user = userStubbing.userExists(username = "organization_admin", role = ORGANIZATION_ADMIN, organization = organization)
+            userStubbing.userExists(username = "teacher", role = TEACHER, organization = organization)
 
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = null)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -200,13 +205,14 @@ internal class UserControllerSpec(
 
         should("return all users with one of provided roles") {
             // given
-            val organizationAdmin = userStubbing.userExists(username = "organization_admin", role = ORGANIZATION_ADMIN)
-            val teacher = userStubbing.userExists(username = "teacher", role = TEACHER)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
 
-            userStubbing.userExists(username = "student", role = STUDENT)
-            userStubbing.userExists(username = "parent", role = PARENT)
+            val organizationAdmin = userStubbing.userExists(username = "oa", role = ORGANIZATION_ADMIN, organization = organization)
+            val teacher = userStubbing.userExists(username = "teacher", role = TEACHER, organization = organization)
+            userStubbing.userExists(username = "student", role = STUDENT, organization = organization)
+            userStubbing.userExists(username = "parent", role = PARENT, organization = organization)
 
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -227,7 +233,7 @@ internal class UserControllerSpec(
                       "firstName": "Jan",
                       "lastName": "Kowalski",
                       "role": "ORGANIZATION_ADMIN",
-                      "username": "organization_admin",
+                      "username": "oa",
                       "pesel": "10210155874",
                       "sex": "MALE",
                       "email": "j.kowalski@gmail.com",
@@ -261,7 +267,8 @@ internal class UserControllerSpec(
 
         should("return fail looking for users if provided role is invalid") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -278,7 +285,8 @@ internal class UserControllerSpec(
     context("get user by id") {
         should("return HTTP 401 on get by id endpoint if user is not authenticated") {
             // given
-            val user = userStubbing.userExists(role = EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val user = userStubbing.userExists(role = EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -297,7 +305,8 @@ internal class UserControllerSpec(
         ) { role ->
             should("return HTTP 403 on get by id endpoint if user is unauthorized (role=$role)") {
                 // given
-                val user = userStubbing.userExists(role = role)
+                val organization = organizationStubbing.organizationExists(name = "sp7")
+                val user = userStubbing.userExists(role = role, organization = organization)
                 val headers = securityStubbing.authorizationHeaderFor(user)
 
                 // when
@@ -314,7 +323,8 @@ internal class UserControllerSpec(
 
         should("return HTTP 404 if user with provided id doesn't exist") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -329,7 +339,8 @@ internal class UserControllerSpec(
 
         should("return user with provided id") {
             // given
-            val user = userStubbing.userExists(role = ORGANIZATION_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val user = userStubbing.userExists(role = ORGANIZATION_ADMIN, organization = organization)
             val headers = securityStubbing.authorizationHeaderFor(user)
 
             // when
@@ -384,8 +395,9 @@ internal class UserControllerSpec(
                 row(TEACHER),
             ) { role ->
                 // given
+                val organization = organizationStubbing.organizationExists(name = "sp7")
                 val body = userStubbing.registerRequest
-                val headers = securityStubbing.authorizationHeaderFor(role)
+                val headers = securityStubbing.authorizationHeaderFor(role = role, organization = organization)
 
                 // when
                 val response = restTemplate.exchange<String>(
@@ -401,7 +413,8 @@ internal class UserControllerSpec(
 
         should("return HTTP 400 on register user endpoint if request body is empty") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -416,8 +429,9 @@ internal class UserControllerSpec(
 
         should("register new user") {
             // given
+            val organization = organizationStubbing.organizationExists(name = "sp7")
             val body = userStubbing.registerRequest
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
