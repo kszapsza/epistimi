@@ -3,12 +3,11 @@ package pl.edu.wat.wcy.epistimi.stub
 import org.springframework.stereotype.Component
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.Location
-import pl.edu.wat.wcy.epistimi.data.DummyAddress
-import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.organization.Organization.Status.ENABLED
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.fake.fakeAddress
 
 @Component
 internal class OrganizationStubbing(
@@ -18,18 +17,19 @@ internal class OrganizationStubbing(
         id: OrganizationId? = null,
         name: String,
         admin: User,
-        status: Organization.Status = ENABLED,
-        address: Address = DummyAddress(),
+        address: Address = fakeAddress,
         location: Location? = null,
     ): Organization {
         return organizationRepository.save(
             Organization(
                 id = id,
                 name = name,
-                admin = admin,
-                status = status,
-                address = address,
-                location = location,
+                admins = setOf(admin),
+                street = address.street,
+                city = address.city,
+                postalCode = address.postalCode,
+                latitude = location?.latitude,
+                longitude = location?.longitude,
             )
         )
     }

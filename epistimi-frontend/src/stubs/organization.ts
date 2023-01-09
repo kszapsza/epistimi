@@ -1,7 +1,6 @@
-import { OrganizationResponse, OrganizationStatus } from '../dto/organization';
 import { UserRole, UserSex } from '../dto/user';
 
-const organization = {
+export const organization = {
   id: '42',
   name: 'SP7',
   admin: {
@@ -25,16 +24,4 @@ const organization = {
     postalCode: '15-644',
     city: 'Białystok',
   },
-};
-
-export const enabledOrganization: OrganizationResponse = {
-  ...organization,
-  id: '43',
-  status: OrganizationStatus.ENABLED,
-};
-
-export const disabledOrganization: OrganizationResponse = {
-  ...organization,
-  id: '44',
-  status: OrganizationStatus.DISABLED,
 };

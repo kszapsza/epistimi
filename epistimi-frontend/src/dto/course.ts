@@ -7,6 +7,7 @@ export interface CourseResponse {
   schoolYear: string;
   classTeacher: TeacherResponse;
   students: StudentResponse[];
+  subjects: CourseSubjectResponse[];
   schoolYearBegin: Date;
   schoolYearSemesterEnd: Date;
   schoolYearEnd: Date;
@@ -18,6 +19,20 @@ export interface CourseResponse {
 export interface CourseCode {
   number: string;
   letter: string;
+}
+
+export interface CourseSubjectResponse {
+  id: string;
+  teacher: CourseSubjectTeacherResponse;
+  name: string;
+}
+
+export interface CourseSubjectTeacherResponse {
+  id: string;
+  academicTitle: string | null;
+  firstName: string;
+  lastName: string;
+  username: string;
 }
 
 export interface CoursesResponse {

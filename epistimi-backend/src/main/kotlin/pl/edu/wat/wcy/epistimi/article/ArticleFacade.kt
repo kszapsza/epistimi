@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.article
 
-import pl.edu.wat.wcy.epistimi.article.port.ArticleRepository
+import pl.edu.wat.wcy.epistimi.article.domain.Article
+import pl.edu.wat.wcy.epistimi.article.domain.port.ArticleRepository
 
 class ArticleFacade(
     private val articleRepository: ArticleRepository,

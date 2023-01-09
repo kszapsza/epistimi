@@ -1,1 +1,0 @@
-export { TeacherDetailsSubjects } from './TeacherDetailsSubjects';

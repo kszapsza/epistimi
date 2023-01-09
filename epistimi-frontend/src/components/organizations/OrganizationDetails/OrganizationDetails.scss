@@ -48,16 +48,4 @@
       width: 100%;
     }
   }
-
-  .organization-stats {
-    display: flex;
-    flex-direction: row;
-    gap: .5rem;
-    margin: .5rem 0 0;
-    width: 100%;
-
-    @media screen and (max-width: $mobile-breakpoint) {
-      flex-direction: column;
-    }
-  }
 }

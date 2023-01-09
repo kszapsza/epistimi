@@ -1,5 +1,5 @@
 import './CoursesListingTile.scss';
-import { Box } from '@mantine/core';
+import { Card } from '@mantine/core';
 import { CourseCode } from '../../../dto/course';
 import { CoursesListingTileAvatars } from '../../courses';
 import { Link } from 'react-router-dom';
@@ -14,23 +14,25 @@ interface CoursesListingTileProps {
   students: StudentResponse[];
 }
 
-export const CoursesListingTile = (props: CoursesListingTileProps): JSX.Element => {
+export const CoursesListingTile = (
+  { classTeacher: { user }, code: { letter, number }, id, students }: CoursesListingTileProps,
+): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <Box className={'course-tile'} component={Link} to={`/app/courses/${props.id}`} role={'link'}>
+    <Card withBorder className={'course-tile'} component={Link} to={`/app/courses/${id}`} role={'link'}>
       <div className={'course-tile-icon'}>
-        <CoursesListingTileAvatars students={props.students}/>
+        <CoursesListingTileAvatars students={students}/>
       </div>
       <div className={'course-tile-name'}>
-        {props.code.number}{props.code.letter}
+        {number}{letter}
       </div>
       <div className={'course-tile-class-teacher'}>
-        {props.classTeacher.user.firstName} {props.classTeacher.user.lastName}
+        {user.lastName} {user.firstName}
       </div>
       <div className={'course-tile-students-count'}>
-        {t('courses.coursesListingTile.studentsCount', { count: props.students.length })}
+        {t('courses.coursesListingTile.studentsCount', { count: students.length })}
       </div>
-    </Box>
+    </Card>
   );
 };

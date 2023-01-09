@@ -10,13 +10,16 @@ import org.springframework.http.HttpMethod.POST
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
-import pl.edu.wat.wcy.epistimi.common.api.MediaType
-import pl.edu.wat.wcy.epistimi.security.dto.LoginRequest
-import pl.edu.wat.wcy.epistimi.security.dto.LoginResponse
+import pl.edu.wat.wcy.epistimi.common.rest.MediaType
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginRequest
+import pl.edu.wat.wcy.epistimi.security.adapter.rest.dto.LoginResponse
+import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.ORGANIZATION_ADMIN
 
 internal class AuthenticationControllerSpec(
     private val restTemplate: TestRestTemplate,
+    private val organizationStubbing: OrganizationStubbing,
     private val userStubbing: UserStubbing,
 ) : BaseIntegrationSpec({
 
@@ -37,7 +40,10 @@ internal class AuthenticationControllerSpec(
 
     should("reject with HTTP 401 if username exists but password is not valid") {
         // given
-        userStubbing.userExists(username = "foo", password = "24")
+        val adminUser = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "admin_user", organization = )
+        val organization = organizationStubbing.organizationExists(admin = adminUser, name = "SP7")
+
+        userStubbing.userExists(username = "foo", password = "24", organization = organization)
         val body = LoginRequest(username = "foo", password = "42")
 
         // when

@@ -1,0 +1,1 @@
+export { CourseDetailsTile } from './CourseDetailsTile';

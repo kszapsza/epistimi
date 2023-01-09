@@ -1,0 +1,1 @@
+export { SubjectHead } from './SubjectHead';

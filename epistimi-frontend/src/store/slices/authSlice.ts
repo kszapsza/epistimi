@@ -2,10 +2,6 @@ import { createAsyncThunk, createSlice, Draft } from '@reduxjs/toolkit';
 import { UserResponse } from '../../dto/user';
 import axios, { AxiosResponse } from 'axios';
 
-/*
- * TODO: Use React context instead of Redux
- */
-
 export interface AuthState {
   user: UserResponse | null;
   isAuthenticated: boolean;
@@ -52,14 +48,14 @@ export const fetchCurrentUser = createAsyncThunk(
   'auth/login',
   async (): Promise<UserResponse> => {
     if (!localStorage.getItem(TOKEN_KEY)) {
-      return Promise.reject('not authenticated'); // TODO: Not covered in tests
+      return Promise.reject('not authenticated');
     }
     return axios.get<UserResponse>('api/user/current')
       .then((response: AxiosResponse<UserResponse>) => {
         return response.data;
       })
       .catch((e) => {
-        return Promise.reject(e.response.data); // TODO: Not covered in tests
+        return Promise.reject(e.response.data);
       });
   },
 );

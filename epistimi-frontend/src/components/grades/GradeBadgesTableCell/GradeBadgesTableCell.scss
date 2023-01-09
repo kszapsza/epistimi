@@ -1,0 +1,21 @@
+@import 'src/styles/themes';
+
+.grade-badges-table-cell {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: .25rem;
+  justify-content: flex-start;
+  width: 100%;
+
+  &-issue {
+    display: flex;
+    flex-direction: row;
+    margin: 0 0 0 auto;
+  }
+
+  &-no-grades {
+    color: rgba($black, .75);
+    font-style: italic;
+  }
+}

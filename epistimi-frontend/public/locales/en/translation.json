@@ -1,5 +1,6 @@
 {
   "common": {
+    "error": "Error",
     "notImplementedYet": "This component was not implemented (yet)."
   },
   "courses": {
@@ -46,7 +47,6 @@
       "addStudentModalTitle": "Add student to the class",
       "addSubject": "Add subject",
       "connectionFailed": "Could not connect to the server",
-      "data": "Data",
       "notFound": "A course was not found",
       "promoteClass": "Promote class",
       "students": "Students",
@@ -54,12 +54,18 @@
     },
     "courseDetailsData": {
       "classTeacher": "Class teacher",
+      "profession": "Profession",
+      "profile": "Profile",
       "schoolYearBegin": "School year beginning",
       "schoolYearEnd": "School year end",
-      "schoolYearSemesterEnd": "School year semester end"
+      "schoolYearSemesterEnd": "School year semester end",
+      "specialization": "Specialization"
     },
     "courseDetailsStudents": {
       "noStudents": "No students"
+    },
+    "courseDetailsSubjects": {
+      "noSubjects": "No subjects within this course"
     },
     "courseEdit": {
       "classTeacher": "Class teacher",
@@ -67,6 +73,7 @@
       "codeLetterRegexpFail": "Lowercase letters only, no Polish characters",
       "codeNumber": "Course code number",
       "couldNotCreateCourse": "Could not create course!",
+      "couldNotLoadForm": "Could not load form",
       "create": "Create",
       "error": "Error",
       "profession": "Profession",
@@ -135,28 +142,20 @@
     "menu": {
       "absence": "Absence",
       "analytics": "Analytics",
-      "articles": "Articles",
-      "assignments": "Assignments",
-      "calendar": "Calendar",
-      "chat": "Chat",
       "config": "Configuration",
       "courses": "Courses",
       "exams": "Exams",
       "grades": "Grades",
       "noticeboard": "Noticeboard",
       "organizations": "Organizations",
-      "students": "Students",
       "subjects": "Subjects",
       "summary": "Home page",
-      "teachers": "Teachers",
-      "timetable": "Timetable",
-      "users": "Users"
+      "teachers": "Teachers"
     },
     "menuUser": {
       "account": "Account",
       "logOut": "Log out",
-      "selectStudent": "Select student",
-      "settings": "Settings"
+      "selectStudent": "Select student"
     },
     "notFound": {
       "desc": "The page with the given address does not exist"
@@ -164,7 +163,7 @@
   },
   "noticeboard": {
     "noticeboard": {
-      "couldNotLoadPosts": "Could not load noticeboard posts!",
+      "couldNotLoadPosts": "Could not load noticeboard posts",
       "createPost": "Create post",
       "createNewPostModalTitle": "Creating new noticeboard post",
       "deletePostModalTitle": "Deleting noticeboard post",
@@ -219,10 +218,6 @@
       "sexOther": "Other",
       "street": "Street"
     },
-    "organizationColorStatus": {
-      "disabled": "Disabled",
-      "enabled": "Enabled"
-    },
     "organizationCreate": {
       "adminAlreadyManagingOtherOrganization": "Selected administrator is already managing other organization",
       "error": "Error",
@@ -245,19 +240,13 @@
       "username": "Username"
     },
     "organizationDetails": {
-      "activeCourses": "Active courses",
-      "activeStudents": "Active students",
-      "activeTeachers": "Active teachers",
       "admin": "Admin",
-      "changingOrganizationStatus": "Changing organization status",
       "couldNotLoadDetails": "Could not load organization details",
       "dataUpdated": "Successfully updated organization data",
-      "disableOrganization": "Disable organization",
       "editData": "Edit data",
       "editingOrganization": "Editing organization data",
       "enableOrganization": "Enable organization",
-      "id": "Id",
-      "status": "Status"
+      "id": "Id"
     },
     "organizationDetailsLocation": {
       "addressAndContact": "Address and contact",
@@ -280,18 +269,17 @@
       "creatingNewOrganization": "Creating new organization",
       "noOrganizationsRegistered": "No organizations registered in the system yet",
       "organizations": "Organizations",
-      "summary": "Total: {{total}}, active: {{active}}."
-    },
-    "organizationStatusChange": {
-      "areYouSureYouWantToDisable": "Are you sure you want to disable organization {{name}}?",
-      "areYouSureYouWantToEnable": "Are you sure you want to re-enable organization {{name}}?",
-      "disable": "Disable",
-      "enable": "Enable"
+      "summary": "Total: {{total}}"
     },
     "organizationUpdate": {
       "couldNotUpdateOrganization": "Could not update organization",
       "requiredField": "Required field",
       "serverError": "Server error"
+    }
+  },
+  "subjects": {
+    "subjectsListing": {
+      "noSubjects": "You don't lead any subjects yet"
     }
   },
   "summary": {
@@ -339,6 +327,7 @@
       "addingNewTeacher": "Adding a new teacher",
       "addTeacher": "Add teacher",
       "couldNotLoad": "Could not load a list of teachers",
+      "noTeachers": "No teacher accounts registered in this organization yet",
       "teachers": "Teachers"
     }
   }

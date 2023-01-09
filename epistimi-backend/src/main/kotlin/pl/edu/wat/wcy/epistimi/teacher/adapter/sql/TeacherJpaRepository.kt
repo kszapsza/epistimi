@@ -1,9 +1,10 @@
 package pl.edu.wat.wcy.epistimi.teacher.adapter.sql
 
 import org.springframework.data.jpa.repository.JpaRepository
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import java.util.UUID
 
-interface TeacherJpaRepository : JpaRepository<TeacherJpaEntity, UUID> {
-    fun findFirstByUserId(userId: UUID): TeacherJpaEntity?
-    fun findAllByOrganizationId(organizationId: UUID): Collection<TeacherJpaEntity>
+interface TeacherJpaRepository : JpaRepository<Teacher, UUID> {
+    fun findFirstByUserId(userId: UUID): Teacher?
+    fun findAllByUserOrganizationId(organizationId: UUID): List<Teacher>
 }

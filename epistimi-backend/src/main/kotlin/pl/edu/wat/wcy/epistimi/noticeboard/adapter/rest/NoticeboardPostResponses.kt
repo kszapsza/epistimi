@@ -1,6 +1,6 @@
 package pl.edu.wat.wcy.epistimi.noticeboard.adapter.rest
 
-import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostId
+import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPostId
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponse
 import java.time.LocalDateTime
 

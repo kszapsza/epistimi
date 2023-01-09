@@ -1,13 +1,12 @@
 package pl.edu.wat.wcy.epistimi.teacher.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.TeacherNotFoundException
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherNotFoundException
+import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
 
 @Repository
 class TeacherDbRepository(
@@ -15,30 +14,20 @@ class TeacherDbRepository(
 ) : TeacherRepository {
 
     override fun findById(id: TeacherId): Teacher {
-        return DbHandlers.handleDbGet(mapper = TeacherDbBiMapper) {
-            teacherJpaRepository.findById(id.value)
-                .orElseThrow { TeacherNotFoundException(id) }
-        }
+        return teacherJpaRepository.findById(id.value)
+            .orElseThrow { TeacherNotFoundException(id) }
     }
 
     override fun findByUserId(id: UserId): Teacher {
-        return DbHandlers.handleDbGet(mapper = TeacherDbBiMapper) {
-            teacherJpaRepository.findFirstByUserId(id.value)
-                ?: throw TeacherNotFoundException()
-        }
+        return teacherJpaRepository.findFirstByUserId(id.value)
+            ?: throw TeacherNotFoundException()
     }
 
     override fun findAll(organizationId: OrganizationId): List<Teacher> {
-        return DbHandlers.handleDbMultiGet(mapper = TeacherDbBiMapper) {
-            teacherJpaRepository.findAllByOrganizationId(organizationId.value)
-        }
+        return teacherJpaRepository.findAllByUserOrganizationId(organizationId.value)
     }
 
     override fun save(teacher: Teacher): Teacher {
-        return DbHandlers.handleDbInsert(
-            domainObject = teacher,
-            mapper = TeacherDbBiMapper,
-            dbCall = teacherJpaRepository::save,
-        )
+        return teacherJpaRepository.save(teacher)
     }
 }

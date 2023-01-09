@@ -6,40 +6,34 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.UserRegistrar
-import pl.edu.wat.wcy.epistimi.user.UserRegistrar.NewUser
+import pl.edu.wat.wcy.epistimi.parent.domain.Parent
+import pl.edu.wat.wcy.epistimi.parent.domain.ParentId
+import pl.edu.wat.wcy.epistimi.parent.domain.port.ParentRepository
+import pl.edu.wat.wcy.epistimi.parent.domain.service.ParentRegistrationService
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService.NewUser
 import java.util.UUID
 
 internal class ParentRegistrarTest : ShouldSpec({
 
     val parentRepository = mockk<ParentRepository>()
-    val userRegistrar = mockk<UserRegistrar>()
-    val organizationContextProvider = mockk<OrganizationContextProvider>()
+    val userRegistrationService = mockk<UserRegistrationService>()
 
-    val parentRegistrar = ParentRegistrar(
+    val parentRegistrationService = ParentRegistrationService(
         parentRepository,
-        userRegistrar,
-        organizationContextProvider,
+        userRegistrationService,
     )
 
     val organizationAdminId = TestData.organization.admin.id!!
     val parentUserId = TestData.Users.parent.id!!
     val parentId = ParentId(UUID.randomUUID())
 
-    fun stubOrganizationContextProvider() {
-        every {
-            organizationContextProvider.provide(organizationAdminId)
-        } returns TestData.organization
-    }
-
     fun stubUserRegistrar() {
         every {
-            userRegistrar.registerUsers(any())
+            userRegistrationService.registerUsers(any())
         } answers {
             firstArg<List<UserRegisterRequest>>().map { request ->
                 NewUser(
@@ -67,7 +61,6 @@ internal class ParentRegistrarTest : ShouldSpec({
 
     should("register parent along with underlying user profile") {
         // given
-        stubOrganizationContextProvider()
         stubUserRegistrar()
         stubParentRepository()
 
@@ -79,7 +72,7 @@ internal class ParentRegistrarTest : ShouldSpec({
         )
 
         // when
-        val (parent, password) = parentRegistrar.registerParents(
+        val (parent, password) = parentRegistrationService.registerParents(
             requesterUserId = organizationAdminId,
             userRegisterRequests = listOf(userRegisterRequest),
         )[0]
@@ -102,8 +95,7 @@ internal class ParentRegistrarTest : ShouldSpec({
         password shouldBe "123456"
 
         // and
-        verify { organizationContextProvider.provide(organizationAdminId) }
-        verify { userRegistrar.registerUsers(listOf(userRegisterRequest)) }
+        verify { userRegistrationService.registerUsers(listOf(userRegisterRequest)) }
         verify {
             parentRepository.saveAll(
                 listOf(

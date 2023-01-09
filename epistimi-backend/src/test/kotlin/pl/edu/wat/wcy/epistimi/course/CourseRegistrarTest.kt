@@ -8,25 +8,26 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
-import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.UserId
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.course.domain.CourseBadRequestException
+import pl.edu.wat.wcy.epistimi.course.domain.CourseCreateRequest
+import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
+import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.user.domain.UserId
 import java.time.LocalDate
 import java.util.UUID
 
 internal class CourseRegistrarTest : ShouldSpec({
     val courseRepository = mockk<CourseRepository>()
     val teacherRepository = mockk<TeacherRepository>()
-    val organizationContextProvider = mockk<OrganizationContextProvider>()
 
-    val courseRegistrar = CourseRegistrar(
+    val courseRegistrationService = CourseRegistrationService(
         courseRepository,
         teacherRepository,
-        organizationContextProvider,
     )
 
     val validCourseCreateRequest = CourseCreateRequest(
@@ -44,7 +45,7 @@ internal class CourseRegistrarTest : ShouldSpec({
     should("throw an exception when registering new course if semester end date is before school year begin date") {
         // when
         val exception = shouldThrow<CourseBadRequestException> {
-            courseRegistrar.createCourse(
+            courseRegistrationService.createCourse(
                 userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
@@ -61,7 +62,7 @@ internal class CourseRegistrarTest : ShouldSpec({
     should("throw an exception when registering new course if school year end date is before school year begin date") {
         // when
         val exception = shouldThrow<CourseBadRequestException> {
-            courseRegistrar.createCourse(
+            courseRegistrationService.createCourse(
                 userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
@@ -78,7 +79,7 @@ internal class CourseRegistrarTest : ShouldSpec({
     should("throw an exception when registering new course if school year end date is before semester end date") {
         // when
         val exception = shouldThrow<CourseBadRequestException> {
-            courseRegistrar.createCourse(
+            courseRegistrationService.createCourse(
                 userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
@@ -95,7 +96,7 @@ internal class CourseRegistrarTest : ShouldSpec({
     should("throw an exception when registering new course if school year doesn't end in next calendar year after the beginning") {
         // when
         val exception = shouldThrow<CourseBadRequestException> {
-            courseRegistrar.createCourse(
+            courseRegistrationService.createCourse(
                 userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
@@ -114,7 +115,6 @@ internal class CourseRegistrarTest : ShouldSpec({
         val userContextId = TestData.organization.admin.id!!
         val teacherFromOtherOrganizationId = TeacherId(UUID.randomUUID())
 
-        every { organizationContextProvider.provide(userContextId) } returns TestData.organization
         every { teacherRepository.findById(teacherFromOtherOrganizationId) } returns Teacher(
             id = teacherFromOtherOrganizationId,
             user = TestData.Users.teacher.copy(id = UserId(UUID.randomUUID())),
@@ -124,7 +124,7 @@ internal class CourseRegistrarTest : ShouldSpec({
 
         // when
         val exception = shouldThrow<CourseBadRequestException> {
-            courseRegistrar.createCourse(
+            courseRegistrationService.createCourse(
                 userId = userContextId,
                 createRequest = validCourseCreateRequest.copy(
                     classTeacherId = teacherFromOtherOrganizationId,
@@ -140,13 +140,12 @@ internal class CourseRegistrarTest : ShouldSpec({
         // given
         val userContextId = TestData.organization.admin.id!!
 
-        every { organizationContextProvider.provide(userContextId) } returns TestData.organization
         every { teacherRepository.findById(TestData.teacher.id!!) } returns TestData.teacher
         every { courseRepository.save(any()) } returnsArgument 0
 
         // expect
         shouldNotThrow<CourseBadRequestException> {
-            courseRegistrar.createCourse(
+            courseRegistrationService.createCourse(
                 userId = userContextId,
                 createRequest = validCourseCreateRequest,
             )

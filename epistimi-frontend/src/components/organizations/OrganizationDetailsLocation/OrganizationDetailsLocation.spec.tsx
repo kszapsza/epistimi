@@ -30,6 +30,4 @@ describe('OrganizationDetailsLocation component', () => {
       expect(getByText(CITY_LABEL_REGEXP).parentElement).toHaveTextContent(/Białystok/);
     });
   });
-
-  // TODO: check if map is hidden if there are no coordinates
 });

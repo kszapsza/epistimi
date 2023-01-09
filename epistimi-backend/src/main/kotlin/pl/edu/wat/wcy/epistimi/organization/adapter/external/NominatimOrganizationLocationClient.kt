@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.Location
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
+import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationLocationClient
 import java.net.URI
 
 @Component

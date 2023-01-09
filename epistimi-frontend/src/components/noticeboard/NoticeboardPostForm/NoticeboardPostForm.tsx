@@ -37,7 +37,6 @@ export const NoticeboardPostForm = (props: NoticeboardPostFormProps): JSX.Elemen
 
   const { t } = useTranslation();
 
-  // TODO: check if new @mantine/form version now supports nested form model (for forms with address)
   const form = useForm<NoticeboardPostRequest>({
     initialValues: (
       (props.variant === NoticeboardPostFormVariant.UPDATE)
@@ -98,7 +97,7 @@ export const NoticeboardPostForm = (props: NoticeboardPostFormProps): JSX.Elemen
         onSubmit={form.onSubmit(handleSubmit)}
       >
         {error && (
-          <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
+          <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
             {props.variant === NoticeboardPostFormVariant.CREATE &&
               t('noticeboard.noticeboardPostForm.couldNotCreate')}
             {props.variant === NoticeboardPostFormVariant.UPDATE &&

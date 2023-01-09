@@ -87,7 +87,6 @@ export const TeacherCreate = (
       onTeacherRegistered(response.data);
     }).catch(() => {
       setSendingRequest(false);
-      // TODO: handle failures!
     });
   };
 

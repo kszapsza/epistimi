@@ -41,6 +41,7 @@ export const LoginForm = (): JSX.Element => {
       dispatch(fetchCurrentUser());
     }).catch((error) => {
       if (error?.response?.status === 401) {
+        form.reset();
         setServerUnauthorized(true);
         setServerFailed(false);
       } else {

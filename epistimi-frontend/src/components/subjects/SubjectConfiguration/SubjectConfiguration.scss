@@ -1,0 +1,12 @@
+.subject-configuration {
+  display: flex;
+  flex-direction: column;
+
+  &-section-head {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: .5rem 0;
+  }
+}

@@ -3,9 +3,10 @@ import { CourseDetails, CoursesListing } from './components/courses';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { NotFound, Shell } from './components/navigation';
 import { Noticeboard } from './components/noticeboard';
-import { NotImplementedYet } from './components/common';
 import { OrganizationDetails, OrganizationsListing } from './components/organizations';
 import { RequireAuth } from './router/RequireAuth';
+import { StudentsGrades } from './components/grades';
+import { Subject, SubjectsListing } from './components/subjects';
 import { Summary } from './components/summary';
 import { TeacherDetails, TeachersListing } from './components/teachers';
 import { useAppSelector } from './store/hooks';
@@ -83,16 +84,6 @@ const App = (): JSX.Element => {
           ),
         },
         {
-          path: 'students/:id',
-          element: (
-            <RequireAuth
-              element={<NotImplementedYet/>}
-              auth={auth}
-              allowedRoles={[UserRole.ORGANIZATION_ADMIN]}
-            />
-          ),
-        },
-        {
           path: 'teachers',
           element: (
             <RequireAuth
@@ -115,101 +106,40 @@ const App = (): JSX.Element => {
         {
           path: 'subjects',
           element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'timetable',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'students',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'chat',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'calendar',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'organization-config',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'users',
-          element: (
             <RequireAuth
-              element={<NotImplementedYet/>}
+              element={<SubjectsListing/>}
               auth={auth}
-              allowedRoles={[UserRole.EPISTIMI_ADMIN]}
+              allowedRoles={[
+                UserRole.ORGANIZATION_ADMIN,
+                UserRole.TEACHER,
+                UserRole.STUDENT,
+              ]}
             />
           ),
         },
         {
-          path: 'articles',
+          path: 'subjects/:subjectId',
           element: (
             <RequireAuth
-              element={<NotImplementedYet/>}
+              element={<Subject/>}
               auth={auth}
-              allowedRoles={[UserRole.EPISTIMI_ADMIN]}
-            />
-          ),
-        },
-        {
-          path: 'analytics',
-          element: (
-            <RequireAuth
-              element={<NotImplementedYet/>}
-              auth={auth}
-              allowedRoles={[UserRole.EPISTIMI_ADMIN]}
-            />
-          ),
-        },
-        {
-          path: 'config',
-          element: (
-            <RequireAuth
-              element={<NotImplementedYet/>}
-              auth={auth}
-              allowedRoles={[UserRole.EPISTIMI_ADMIN]}
+              allowedRoles={[
+                UserRole.ORGANIZATION_ADMIN,
+                UserRole.TEACHER,
+                UserRole.STUDENT,
+                UserRole.PARENT,
+              ]}
             />
           ),
         },
         {
           path: 'grades',
           element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'absence',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'assignments',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'exams',
-          element: (
-            <NotImplementedYet/>
+            <RequireAuth
+              element={<StudentsGrades/>}
+              auth={auth}
+              allowedRoles={[UserRole.STUDENT, UserRole.PARENT]}
+            />
           ),
         },
         {

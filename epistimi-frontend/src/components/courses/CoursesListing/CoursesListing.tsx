@@ -1,6 +1,6 @@
 import './CoursesListing.scss';
 import { Accordion, Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { CourseEdit, CoursesListingGroup } from '../../courses';
+import { CourseCreate, CoursesListingGroup } from '../../courses';
 import { CourseResponse, CoursesResponse } from '../../../dto/course';
 import { IconAlertCircle, IconCheck, IconInfoCircle, IconPlus } from '@tabler/icons';
 import { useDisclosure } from '@mantine/hooks';
@@ -27,6 +27,10 @@ export const CoursesListing = (): JSX.Element => {
       }, {} as { [schoolYear: string]: CourseResponse[] }),
   );
 
+  const defaultSchoolYear = data && data.courses
+    .map((course) => course.schoolYear)
+    .sort((a, b) => b.localeCompare(a, 'pl-PL'))[0];
+
   const onCourseCreate = (course: CourseResponse): void => {
     data?.courses.push(course);
     createModalHandlers.close();
@@ -41,7 +45,7 @@ export const CoursesListing = (): JSX.Element => {
         size={'lg'}
         title={t('courses.coursesListing.createNewCourseModalTitle')}
       >
-        <CourseEdit submitCallback={onCourseCreate}/>
+        <CourseCreate submitCallback={onCourseCreate}/>
       </Modal>
       <div className={'courses'}>
         <div className={'courses-actions'}>
@@ -61,7 +65,7 @@ export const CoursesListing = (): JSX.Element => {
             {t('courses.coursesListing.createdNewCourse')}
           </Alert>}
         {error &&
-          <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
+          <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
             {t('courses.coursesListing.couldNotLoadCourses')}
           </Alert>}
         {coursesBySchoolYear?.length === 0 &&
@@ -69,9 +73,8 @@ export const CoursesListing = (): JSX.Element => {
             {t('courses.coursesListing.noCoursesRegistered')}
           </Alert>}
 
-        {/* TODO: expand first accordion as it was before Mantine UI bump */}
         {coursesBySchoolYear && coursesBySchoolYear?.length > 0 &&
-          <Accordion>
+          <Accordion defaultValue={defaultSchoolYear}>
             {coursesBySchoolYear
               .sort(([schoolYearA], [schoolYearB]) =>
                 schoolYearB.localeCompare(schoolYearA, 'pl-PL'))

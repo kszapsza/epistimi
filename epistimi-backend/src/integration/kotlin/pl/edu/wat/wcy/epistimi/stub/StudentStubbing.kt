@@ -1,12 +1,12 @@
 package pl.edu.wat.wcy.epistimi.stub
 
 import org.springframework.stereotype.Component
-import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.parent.Parent
-import pl.edu.wat.wcy.epistimi.student.Student
-import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.parent.domain.Parent
+import pl.edu.wat.wcy.epistimi.student.domain.Student
+import pl.edu.wat.wcy.epistimi.student.domain.StudentId
+import pl.edu.wat.wcy.epistimi.student.domain.port.StudentRepository
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 @Component
 internal class StudentStubbing(
@@ -15,15 +15,15 @@ internal class StudentStubbing(
     fun studentExists(
         id: StudentId? = null,
         user: User,
-        organization: Organization,
         parents: List<Parent> = emptyList(),
+        course: Course,
     ): Student {
         return studentRepository.save(
             Student(
                 id = id,
                 user = user,
-                organization = organization,
                 parents = parents,
+                course = course,
             )
         )
     }

@@ -2,30 +2,35 @@ package pl.edu.wat.wcy.epistimi.stub
 
 import org.springframework.stereotype.Component
 import pl.edu.wat.wcy.epistimi.common.Address
-import pl.edu.wat.wcy.epistimi.data.DummyAddress
-import pl.edu.wat.wcy.epistimi.user.User
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.User.Sex.MALE
-import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
-import pl.edu.wat.wcy.epistimi.user.UserRegistrar
+import pl.edu.wat.wcy.epistimi.fake.fakeAddress
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.user.domain.User
+import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserSex
+import pl.edu.wat.wcy.epistimi.user.domain.UserSex.MALE
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 
 @Component
 internal class UserStubbing(
-    private val userRegistrar: UserRegistrar,
+    private val userRegistrationService: UserRegistrationService,
 ) {
     fun userExists(
+        organization: Organization,
         firstName: String = "Jan",
         lastName: String = "Kowalski",
-        role: User.Role = STUDENT,
+        role: UserRole = STUDENT,
         username: String = "j.kowalski",
         password: String = "123456",
         pesel: String? = "10210155874",
-        sex: User.Sex? = MALE,
+        sex: UserSex? = MALE,
         email: String? = "j.kowalski@gmail.com",
         phoneNumber: String? = "+48123456789",
-        address: Address? = DummyAddress(),
+        address: Address? = fakeAddress,
     ): User {
-        return userRegistrar.registerUser(
+        return userRegistrationService.registerUser(
+            organization,
             UserRegisterRequest(firstName, lastName, role, username, password, pesel, sex, email, phoneNumber, address)
         ).user
     }
@@ -41,6 +46,6 @@ internal class UserStubbing(
             sex = MALE,
             email = "j.kowalski@gmail.com",
             phoneNumber = "+48123456789",
-            address = DummyAddress(),
+            address = fakeAddress,
         )
 }

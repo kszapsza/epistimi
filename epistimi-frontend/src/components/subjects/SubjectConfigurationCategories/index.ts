@@ -1,0 +1,2 @@
+export { SubjectConfigurationCategories } from './SubjectConfigurationCategories';
+

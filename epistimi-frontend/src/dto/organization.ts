@@ -6,18 +6,12 @@ export interface OrganizationResponse {
   id: string;
   name: string;
   admin: UserResponse;
-  status: OrganizationStatus;
   address: Address;
   location?: Location;
 }
 
 export interface OrganizationsResponse {
   organizations: OrganizationResponse[];
-}
-
-export const enum OrganizationStatus {
-  ENABLED = 'ENABLED',
-  DISABLED = 'DISABLED',
 }
 
 export interface OrganizationRegisterRequest {
@@ -30,7 +24,6 @@ export interface OrganizationRegisterResponse {
   id: string;
   name: string;
   admin: NewUserResponse;
-  status: OrganizationStatus;
   address: Address;
   location?: Location;
 }
@@ -38,10 +31,6 @@ export interface OrganizationRegisterResponse {
 interface NewUserResponse {
   user: UserResponse;
   password: string;
-}
-
-export interface OrganizationChangeStatusRequest {
-  status: OrganizationStatus;
 }
 
 export interface OrganizationUpdateRequest {

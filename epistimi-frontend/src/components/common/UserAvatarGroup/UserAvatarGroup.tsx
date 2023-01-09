@@ -14,7 +14,7 @@ export const UserAvatarGroup = ({ users, limit }: UserAvatarGroupProps): JSX.Ele
         .slice(0, limit)
         .map((user, idx) =>
           <Avatar radius={'xl'} key={idx} color={getUserAvatarColor(user.role)}>
-            {`${user.firstName[0]}${user.lastName[0]}`.toUpperCase()}
+            {`${user.lastName[0]}${user.firstName[0]}`.toUpperCase()}
           </Avatar>
         )}
       {

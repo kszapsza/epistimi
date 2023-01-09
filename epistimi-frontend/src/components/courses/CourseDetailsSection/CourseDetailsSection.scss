@@ -1,0 +1,33 @@
+@import 'src/styles/themes';
+
+.course-details-section {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  justify-content: center;
+  padding: .75rem;
+
+  .course-details-section-head {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .course-details-section-heading {
+      align-items: center;
+      display: flex;
+      flex: 5;
+      flex-direction: row;
+      gap: .5rem;
+      justify-content: flex-start;
+
+      .course-details-section-subtitle {
+        color: rgba($black, .75);
+      }
+    }
+
+    .course-details-section-action {
+      flex: 1;
+    }
+  }
+}

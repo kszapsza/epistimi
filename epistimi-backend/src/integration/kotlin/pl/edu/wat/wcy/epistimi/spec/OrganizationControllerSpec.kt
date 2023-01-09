@@ -18,22 +18,21 @@ import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.Address
-import pl.edu.wat.wcy.epistimi.common.api.MediaType
-import pl.edu.wat.wcy.epistimi.data.DummyAddress
-import pl.edu.wat.wcy.epistimi.organization.Organization.Status.DISABLED
-import pl.edu.wat.wcy.epistimi.organization.OrganizationChangeStatusRequest
-import pl.edu.wat.wcy.epistimi.organization.OrganizationRegisterRequest
-import pl.edu.wat.wcy.epistimi.organization.OrganizationUpdateRequest
+import pl.edu.wat.wcy.epistimi.common.rest.MediaType
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization.Status.DISABLED
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationChangeStatusRequest
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationUpdateRequest
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.user.User.Role.EPISTIMI_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.ORGANIZATION_ADMIN
-import pl.edu.wat.wcy.epistimi.user.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.User.Role.TEACHER
-import pl.edu.wat.wcy.epistimi.user.User.Sex.FEMALE
-import pl.edu.wat.wcy.epistimi.user.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.EPISTIMI_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.User.Role.TEACHER
+import pl.edu.wat.wcy.epistimi.user.domain.User.Sex.FEMALE
+import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
 import java.util.UUID
 
 internal class OrganizationControllerSpec(
@@ -42,8 +41,6 @@ internal class OrganizationControllerSpec(
     private val securityStubbing: SecurityStubbing,
     private val userStubbing: UserStubbing,
 ) : BaseIntegrationSpec({
-
-    // TODO: Use WireMock to stub OpenStreetMap Nominatim responses!
 
     val stubOrganizationAdmin = {
         userStubbing.userExists(
@@ -55,7 +52,7 @@ internal class OrganizationControllerSpec(
             sex = FEMALE,
             email = "a.nowak@gmail.com",
             phoneNumber = "+48987654321",
-            address = DummyAddress().copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+            address = dummyAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
         )
     }
 
@@ -68,7 +65,7 @@ internal class OrganizationControllerSpec(
         sex = FEMALE,
         email = "a.nowak@gmail.com",
         phoneNumber = "+48987654321",
-        address = DummyAddress().copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+        address = dummyAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
     )
 
     context("get organization by id") {
@@ -312,7 +309,7 @@ internal class OrganizationControllerSpec(
             val body = OrganizationRegisterRequest(
                 name = "Gimnazjum nr 2",
                 admin = adminUserCreateRequest,
-                address = DummyAddress(),
+                address = dummyAddress,
             )
 
             // when
@@ -479,7 +476,7 @@ internal class OrganizationControllerSpec(
             // given
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = DummyAddress(),
+                address = dummyAddress,
             )
 
             // when
@@ -506,7 +503,7 @@ internal class OrganizationControllerSpec(
                 val headers = securityStubbing.authorizationHeaderFor(role)
                 val body = OrganizationUpdateRequest(
                     name = "Changed Name",
-                    address = DummyAddress(),
+                    address = dummyAddress,
                 )
 
                 // when
@@ -526,7 +523,7 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = DummyAddress(),
+                address = dummyAddress,
             )
 
             // when
@@ -550,7 +547,7 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = DummyAddress(),
+                address = dummyAddress,
             )
 
             // when

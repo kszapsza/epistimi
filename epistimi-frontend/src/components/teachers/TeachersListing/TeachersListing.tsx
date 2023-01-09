@@ -1,6 +1,6 @@
 import './TeachersListing.scss';
 import { Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { IconAlertCircle, IconPlus } from '@tabler/icons';
+import { IconAlertCircle, IconInfoCircle, IconPlus } from '@tabler/icons';
 import { TeacherCreate, TeachersListingTile } from '../../teachers';
 import { TeachersResponse } from '../../../dto/teacher';
 import { useDisclosure } from '@mantine/hooks';
@@ -43,14 +43,19 @@ export const TeachersListing = (): JSX.Element => {
         {loading && <Loader style={{ width: '100%' }}/>}
 
         {error &&
-          <Alert icon={<IconAlertCircle size={16}/>} color="red">
+          <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
             {t('teachers.teachersListing.couldNotLoad')}
+          </Alert>}
+
+        {data?.teachers.length === 0 &&
+          <Alert icon={<IconInfoCircle size={16}/>} color={'blue'}>
+            {t('teachers.teachersListing.noTeachers')}
           </Alert>}
 
         {data &&
           <div className={'teachers-entries'}>
             {data.teachers.map((teacher) => (
-              <TeachersListingTile teacher={teacher}/>
+              <TeachersListingTile key={teacher.id} teacher={teacher}/>
             ))}
           </div>
         }

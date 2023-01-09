@@ -1,0 +1,1 @@
+export { SubjectConfiguration } from './SubjectConfiguration';

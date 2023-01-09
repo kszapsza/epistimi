@@ -1,9 +1,9 @@
 package pl.edu.wat.wcy.epistimi.teacher.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
-import pl.edu.wat.wcy.epistimi.teacher.Teacher
-import pl.edu.wat.wcy.epistimi.teacher.TeacherRegistrar.NewTeacher
 import pl.edu.wat.wcy.epistimi.teacher.adapter.rest.TeacherRegisterResponse.NewUserResponse
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherRegistrationService.NewTeacher
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponseMapper
 
 object TeacherResponseMapper : FromDomainMapper<Teacher, TeacherResponse> {

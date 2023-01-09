@@ -2,53 +2,42 @@ package pl.edu.wat.wcy.epistimi.course.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import pl.edu.wat.wcy.epistimi.course.CourseAggregator
 import pl.edu.wat.wcy.epistimi.course.CourseFacade
-import pl.edu.wat.wcy.epistimi.course.CourseRegistrar
-import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
+import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
 
 @Configuration
 class CourseConfiguration {
-
     @Bean
     fun courseFacade(
-        courseAggregator: CourseAggregator,
-        courseRegistrar: CourseRegistrar,
-        courseRepository: CourseRepository,
-        studentRepository: StudentRepository,
+        courseAggregatorService: CourseAggregatorService,
+        courseRegistrationService: CourseRegistrationService,
     ): CourseFacade {
         return CourseFacade(
-            courseAggregator,
-            courseRegistrar,
-            courseRepository,
-            studentRepository,
+            courseAggregatorService,
+            courseRegistrationService,
         )
     }
 
     @Bean
-    fun courseAggregator(
+    fun courseAggregatorService(
         courseRepository: CourseRepository,
-        organizationContextProvider: OrganizationContextProvider,
-    ): CourseAggregator {
-        return CourseAggregator(
+    ): CourseAggregatorService {
+        return CourseAggregatorService(
             courseRepository,
-            organizationContextProvider,
         )
     }
 
     @Bean
-    fun courseRegistrar(
+    fun courseRegistrationService(
         courseRepository: CourseRepository,
         teacherRepository: TeacherRepository,
-        organizationContextProvider: OrganizationContextProvider,
-    ): CourseRegistrar {
-        return CourseRegistrar(
+    ): CourseRegistrationService {
+        return CourseRegistrationService(
             courseRepository,
             teacherRepository,
-            organizationContextProvider,
         )
     }
 }

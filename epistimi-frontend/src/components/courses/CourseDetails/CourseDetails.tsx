@@ -1,9 +1,10 @@
 import './CourseDetails.scss';
-import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
+import { ActionIcon, Alert, Button, Loader, Modal } from '@mantine/core';
 import { AxiosError } from 'axios';
-import { CourseAddStudent, CourseDetailsData, CourseDetailsStudents } from '../../courses';
+import { CourseAddStudent, CourseAddSubject, CourseDetailsData, CourseDetailsStudents, CourseDetailsSubjects } from '../../courses';
+import { CourseDetailsSection } from '../CourseDetailsSection';
 import { CourseResponse } from '../../../dto/course';
-import { IconAlertCircle, IconArrowBack, IconArrowBigUpLines, IconBook, IconSchool } from '@tabler/icons';
+import { IconAlertCircle, IconArrowBack, IconBook, IconSchool } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
@@ -21,6 +22,7 @@ export const CourseDetails = (): JSX.Element => {
   } = useFetch<CourseResponse>(`/api/course/${id}`);
 
   const [addStudentModalOpened, addStudentModalHandlers] = useDisclosure(false);
+  const [addSubjectModalOpened, addSubjectModalHandlers] = useDisclosure(false);
 
   useDocumentTitle(course && `${course.code.number}${course.code.letter} (${course.schoolYear})`);
 
@@ -46,7 +48,22 @@ export const CourseDetails = (): JSX.Element => {
       >
         <CourseAddStudent
           course={course}
-          onStudentRegistered={reload}
+          onStudentRegistered={() => reload()}
+        />
+      </Modal>}
+
+      {course && <Modal
+        onClose={addSubjectModalHandlers.close}
+        opened={addSubjectModalOpened}
+        size={'xl'}
+        title={t('courses.courseDetails.addSubjectModalTitle')}
+      >
+        <CourseAddSubject
+          courseId={course.id}
+          onCourseCreated={() => {
+            addSubjectModalHandlers.close();
+            reload();
+          }}
         />
       </Modal>}
 
@@ -56,36 +73,9 @@ export const CourseDetails = (): JSX.Element => {
             <ActionIcon variant={'transparent'} component={Link} to={'./..'}>
               <IconArrowBack size={18}/>
             </ActionIcon>
-
-            <div className={'course-action-group'}>
-              <Button
-                leftIcon={<IconSchool size={16}/>}
-                onClick={addStudentModalHandlers.open}
-                variant={'default'}
-              >
-                {t('courses.courseDetails.addStudent')}
-              </Button>
-              <Button
-                leftIcon={<IconBook size={16}/>}
-                // onClick={editModalHandlers.open}
-                variant={'default'}
-                disabled={true} // TODO
-              >
-                {t('courses.courseDetails.addSubject')}
-              </Button>
-              <Button
-                leftIcon={<IconArrowBigUpLines size={16}/>}
-                // onClick={editModalHandlers.open}
-                variant={'default'}
-                disabled={true} // TODO
-              >
-                {t('courses.courseDetails.promoteClass')}
-              </Button>
-            </div>
           </div>
 
-
-          <div className={'course-details-box'}>
+          <div className={'course-details-head'}>
             <div className={'course-school-year'}>
               {course.schoolYear}
             </div>
@@ -94,21 +84,44 @@ export const CourseDetails = (): JSX.Element => {
             </div>
           </div>
 
-          <div className={'course-details-box'}>
-            <Title order={4}>{t('courses.courseDetails.data')}</Title>
+          <div className={'course-details-meta'}>
             <CourseDetailsData course={course}/>
           </div>
 
-          <div className={'course-details-box'}>
-            <Title order={4}>{t('courses.courseDetails.students')}</Title> ({course.students.length})
-            <CourseDetailsStudents students={course.students}/>
-          </div>
-
-          <div className={'course-details-box'}>
-            <div>
-              <Title order={4}>{t('courses.courseDetails.subjects')}</Title>
-            </div>
-          </div>
+          <CourseDetailsSection
+            title={t('courses.courseDetails.students')}
+            badge={course.students.length}
+            actionButton={
+              <Button
+                fullWidth
+                leftIcon={<IconSchool size={16}/>}
+                onClick={addStudentModalHandlers.open}
+                variant={'default'}
+              >
+                {t('courses.courseDetails.addStudent')}
+              </Button>
+            }
+            content={
+              <CourseDetailsStudents students={course.students}/>
+            }
+          />
+          <CourseDetailsSection
+            title={t('courses.courseDetails.subjects')}
+            badge={course.subjects.length}
+            actionButton={
+              <Button
+                fullWidth
+                leftIcon={<IconBook size={16}/>}
+                onClick={addSubjectModalHandlers.open}
+                variant={'default'}
+              >
+                {t('courses.courseDetails.addSubject')}
+              </Button>
+            }
+            content={
+              <CourseDetailsSubjects subjects={course.subjects}/>
+            }
+          />
         </div>
       }
     </>

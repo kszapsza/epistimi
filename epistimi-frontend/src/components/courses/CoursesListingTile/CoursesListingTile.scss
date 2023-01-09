@@ -2,19 +2,15 @@
 @import 'src/styles/themes';
 
 .course-tile {
-  background-color: $white;
-  border: 1px solid $dark-gray;
-  border-radius: $subtle-radius;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 1rem;
   text-align: center;
-  width: 200px;
+  width: 250px;
 
   &:hover {
-    background-color: $gray;
+    background-color: $light-gray;
   }
 
   .course-tile-icon {

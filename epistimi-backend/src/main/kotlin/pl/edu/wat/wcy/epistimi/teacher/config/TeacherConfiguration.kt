@@ -2,48 +2,51 @@ package pl.edu.wat.wcy.epistimi.teacher.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
-import pl.edu.wat.wcy.epistimi.teacher.TeacherAggregator
 import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
-import pl.edu.wat.wcy.epistimi.teacher.TeacherRegistrar
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.UserRegistrar
+import pl.edu.wat.wcy.epistimi.teacher.domain.access.TeacherAccessValidator
+import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherAggregatorService
+import pl.edu.wat.wcy.epistimi.teacher.domain.service.TeacherRegistrationService
+import pl.edu.wat.wcy.epistimi.user.UserFacade
 
 @Configuration
 class TeacherConfiguration {
 
     @Bean
     fun teacherFacade(
-        teacherAggregator: TeacherAggregator,
-        teacherRegistrar: TeacherRegistrar,
+        teacherAggregatorService: TeacherAggregatorService,
+        teacherRegistrationService: TeacherRegistrationService,
     ): TeacherFacade {
         return TeacherFacade(
-            teacherAggregator,
-            teacherRegistrar,
+            teacherAggregatorService,
+            teacherRegistrationService,
         )
     }
 
     @Bean
-    fun teacherAggregator(
-        organizationContextProvider: OrganizationContextProvider,
+    fun teacherAggregatorService(
         teacherRepository: TeacherRepository,
-    ): TeacherAggregator {
-        return TeacherAggregator(
-            organizationContextProvider,
+        teacherAccessValidator: TeacherAccessValidator,
+    ): TeacherAggregatorService {
+        return TeacherAggregatorService(
             teacherRepository,
+            teacherAccessValidator,
         )
     }
 
     @Bean
-    fun teacherRegistrar(
+    fun teacherRegistrationService(
         teacherRepository: TeacherRepository,
-        userRegistrar: UserRegistrar,
-        organizationContextProvider: OrganizationContextProvider,
-    ): TeacherRegistrar {
-        return TeacherRegistrar(
+        userFacade: UserFacade,
+    ): TeacherRegistrationService {
+        return TeacherRegistrationService(
             teacherRepository,
-            userRegistrar,
-            organizationContextProvider,
+            userFacade,
         )
+    }
+
+    @Bean
+    fun teacherAccessValidator(): TeacherAccessValidator {
+        return TeacherAccessValidator()
     }
 }

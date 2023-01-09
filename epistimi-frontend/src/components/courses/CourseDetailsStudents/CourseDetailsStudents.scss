@@ -16,30 +16,4 @@
     wrap: wrap;
   }
   gap: .25rem;
-
-  .course-student {
-    align-items: center;
-    border: 1px solid $gray;
-    cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    gap: .5rem;
-    min-width: 250px;
-    padding: .5rem;
-
-    @media screen and (max-width: $mobile-breakpoint) {
-      flex: 1;
-    }
-
-    &:hover {
-      background-color: $light-gray;
-    }
-
-    .course-student-name {
-      font: {
-        size: 16px;
-        weight: 400;
-      }
-    }
-  }
 }

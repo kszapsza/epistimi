@@ -1,1 +1,0 @@
-export { CourseEdit } from './CourseEdit';

@@ -1,8 +1,18 @@
 {
   "common": {
+    "error": "Błąd",
     "notImplementedYet": "Ten komponent nie został (jeszcze) zaimplementowany."
   },
   "courses": {
+    "courseAddSubject": {
+      "couldNotCreateSubject": "Nie udało się dodać nowego przedmiotu",
+      "name": "Nazwa przedmiotu",
+      "namePlaceholder": "np. „Język polski”, „Matematyka”",
+      "requiredField": "Wymagane pole",
+      "selectSubjectTeacher": "Wybierz nauczyciela",
+      "submit": "Dodaj przedmiot",
+      "teacher": "Nauczyciel prowadzący"
+    },
     "courseAddStudent": {
       "errorAddingStudent": "Wystąpił błąd podczas dodawania ucznia do klasy",
       "invalidPesel": "Niepoprawny PESEL",
@@ -45,8 +55,8 @@
       "addStudent": "Dodaj ucznia",
       "addStudentModalTitle": "Dodawanie ucznia do klasy",
       "addSubject": "Dodaj przedmiot",
+      "addSubjectModalTitle": "Dodawanie nowego przedmiotu",
       "connectionFailed": "Nie udało połączyć się z serwerem",
-      "data": "Dane",
       "notFound": "Nie znaleziono klasy",
       "promoteClass": "Promocja klasy",
       "students": "Uczniowie",
@@ -54,12 +64,18 @@
     },
     "courseDetailsData": {
       "classTeacher": "Wychowawca klasy",
+      "profession": "Zawód",
+      "profile": "Profil",
       "schoolYearBegin": "Rozpoczęcie roku szkolnego",
       "schoolYearEnd": "Zakończenie roku szkolnego",
-      "schoolYearSemesterEnd": "Zakończenie semestru"
+      "schoolYearSemesterEnd": "Zakończenie semestru",
+      "specialization": "Specjalność"
     },
     "courseDetailsStudents": {
       "noStudents": "Brak uczniów"
+    },
+    "courseDetailsSubjects": {
+      "noSubjects": "Brak przedmiotów prowadzonych dla tej klasy"
     },
     "courseEdit": {
       "classTeacher": "Wychowawca klasy",
@@ -67,6 +83,7 @@
       "codeLetterRegexpFail": "Tylko małe litery, bez polskich znaków",
       "codeNumber": "Numer klasy",
       "couldNotCreateCourse": "Nie udało się utworzyć klasy!",
+      "couldNotLoadForm": "Wystąpił błąd podczas ładowania formularza. Spróbuj ponownie",
       "create": "Utwórz",
       "profession": "Zawód",
       "professionPlaceholder": "np. „technik informatyk”",
@@ -115,7 +132,7 @@
       "password": "Hasło",
       "username": "Nazwa użytkownika"
     },
-    "promo": "Zintegrowany system wspomagający dydaktykę, także w kształceniu zdalnym. Zaprojektowany z myślą o uczniach, rodzicach i nauczycielach.",
+    "promo": "Zintegrowany system wspomagający dydaktykę, także w kształceniu zdalnym. Zaprojektowany z myślą o uczniach, rodzicach i nauczycielach.",
     "welcomeToEpistimi": "Platforma edukacyjna Epistimi — zapraszamy!"
   },
   "navigation": {
@@ -134,30 +151,18 @@
       "termsAndConditions": "Regulamin"
     },
     "menu": {
-      "absence": "Absencja",
-      "analytics": "Analityka",
-      "articles": "Artykuły",
-      "assignments": "Zadania domowe",
-      "calendar": "Kalendarz",
-      "chat": "Wiadomości",
-      "config": "Konfiguracja",
       "courses": "Klasy",
-      "exams": "Sprawdziany",
       "grades": "Oceny",
       "noticeboard": "Tablica ogłoszeń",
       "organizations": "Placówki",
-      "students": "Uczniowie",
       "subjects": "Przedmioty",
       "summary": "Strona główna",
-      "teachers": "Nauczyciele",
-      "timetable": "Plan lekcji",
-      "users": "Użytkownicy"
+      "teachers": "Nauczyciele"
     },
     "menuUser": {
       "account": "Konto",
       "logOut": "Wyloguj się",
-      "selectStudent": "Wybierz ucznia",
-      "settings": "Ustawienia"
+      "selectStudent": "Wybierz ucznia"
     },
     "notFound": {
       "desc": "Strona o podanym adresie nie istnieje"
@@ -165,7 +170,7 @@
   },
   "noticeboard": {
     "noticeboard": {
-      "couldNotLoadPosts": "Nie udało się załadować ogłoszeń!",
+      "couldNotLoadPosts": "Nie udało się załadować ogłoszeń",
       "createPost": "Dodaj ogłoszenie",
       "createNewPostModalTitle": "Dodawanie nowego ogłoszenia",
       "deletePostModalTitle": "Usuwanie ogłoszenia",
@@ -220,10 +225,6 @@
       "sexOther": "Inna",
       "street": "Ulica"
     },
-    "organizationColorStatus": {
-      "disabled": "Nieaktywna",
-      "enabled": "Aktywna"
-    },
     "organizationCreate": {
       "adminAlreadyManagingOtherOrganization": "Wybrany administrator zarządza już inną placówką",
       "error": "Błąd",
@@ -246,19 +247,12 @@
       "username": "Nazwa użytkownika"
     },
     "organizationDetails": {
-      "activeCourses": "Aktywnych klas",
-      "activeStudents": "Aktywnych uczniów",
-      "activeTeachers": "Aktywnych nauczycieli",
       "admin": "Administrator",
-      "changingOrganizationStatus": "Zmiana statusu placówki",
       "couldNotLoadDetails": "Nie udało się załadować szczegółów placówki",
       "dataUpdated": "Pomyślnie zaktualizowano dane placówki",
-      "disableOrganization": "Dezaktywuj placówkę",
       "editData": "Edytuj dane",
       "editingOrganization": "Edycja danych placówki",
-      "enableOrganization": "Aktywuj placówkę",
-      "id": "Id",
-      "status": "Status"
+      "id": "Id"
     },
     "organizationDetailsLocation": {
       "addressAndContact": "Adres i kontakt",
@@ -281,18 +275,17 @@
       "creatingNewOrganization": "Tworzenie nowej placówki",
       "noOrganizationsRegistered": "W systemie nie zarejestrowano jeszcze żadnych placówek",
       "organizations": "Placówki",
-      "summary": "Łącznie: {{total}}, w tym aktywnych: {{active}}."
-    },
-    "organizationStatusChange": {
-      "areYouSureYouWantToDisable": "Czy na pewno chcesz dezaktywować placówkę {{name}}?",
-      "areYouSureYouWantToEnable": "Czy na pewno chcesz ponownie aktywować placówkę {{name}}?",
-      "disable": "Dezaktywuj",
-      "enable": "Aktywuj"
+      "summary": "Łącznie: {{total}}"
     },
     "organizationUpdate": {
       "couldNotUpdateOrganization": "Nie udało się zaktualizować placówki",
       "requiredField": "Wymagane pole",
       "serverError": "Błąd serwera"
+    }
+  },
+  "subjects": {
+    "subjectsListing": {
+      "noSubjects": "Nie prowadzisz jeszcze żadnych przedmiotów"
     }
   },
   "summary": {
@@ -340,6 +333,7 @@
       "addingNewTeacher": "Dodawanie nowego nauczyciela",
       "addTeacher": "Dodaj nauczyciela",
       "couldNotLoad": "Nie udało się załadować listy nauczycieli",
+      "noTeachers": "W placówce nie zarejestrowano jeszcze żadnego konta nauczyciela",
       "teachers": "Nauczyciele"
     }
   }

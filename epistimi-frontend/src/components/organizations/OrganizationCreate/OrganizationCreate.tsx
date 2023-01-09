@@ -103,9 +103,9 @@ export const OrganizationCreate = ({ submitCallback }: OrganizationEditProps): J
         submitCallback(response.data);
       }).catch(({ response }) => {
       setSubmitError(
-        response?.data?.message == 'Provided admin is already managing other organization' // TODO: should this be some enum value?
+        response?.data?.message == 'Provided admin is already managing other organization'
           ? t('organizations.organizationCreate.adminAlreadyManagingOtherOrganization')
-          : t('organizations.organizationCreate.serverError'), // TODO: update same as in organization update
+          : t('organizations.organizationCreate.serverError'),
       );
     });
   };

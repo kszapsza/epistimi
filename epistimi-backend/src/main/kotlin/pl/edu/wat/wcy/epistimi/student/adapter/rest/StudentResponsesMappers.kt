@@ -2,7 +2,7 @@ package pl.edu.wat.wcy.epistimi.student.adapter.rest
 
 import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.parent.adapter.rest.ParentResponseMapper
-import pl.edu.wat.wcy.epistimi.student.StudentRegistrar.NewStudent
+import pl.edu.wat.wcy.epistimi.student.domain.service.StudentRegistrationService.NewStudent
 import pl.edu.wat.wcy.epistimi.user.adapter.rest.UserResponseMapper
 
 object StudentRegisterResponseMapper : FromDomainMapper<NewStudent, StudentRegisterResponse> {

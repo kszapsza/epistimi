@@ -2,60 +2,38 @@ package pl.edu.wat.wcy.epistimi.organization.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import pl.edu.wat.wcy.epistimi.organization.OrganizationContextProvider
 import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
-import pl.edu.wat.wcy.epistimi.organization.OrganizationRegistrar
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationLocationClient
-import pl.edu.wat.wcy.epistimi.organization.port.OrganizationRepository
-import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
-import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
-import pl.edu.wat.wcy.epistimi.teacher.port.TeacherRepository
-import pl.edu.wat.wcy.epistimi.user.UserRegistrar
-import pl.edu.wat.wcy.epistimi.user.port.UserRepository
+import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationLocationClient
+import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.organization.domain.service.OrganizationRegistrationService
+import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 
 @Configuration
 class OrganizationConfiguration {
 
     @Bean
     fun organizationFacade(
-        organizationRegistrar: OrganizationRegistrar,
+        organizationRegistrationService: OrganizationRegistrationService,
         organizationRepository: OrganizationRepository,
         locationClient: OrganizationLocationClient,
     ): OrganizationFacade {
         return OrganizationFacade(
-            organizationRegistrar,
+            organizationRegistrationService,
             organizationRepository,
             locationClient,
         )
     }
 
     @Bean
-    fun organizationRegistrar(
+    fun organizationRegistrationService(
         organizationRepository: OrganizationRepository,
-        userRegistrar: UserRegistrar,
+        userRegistrationService: UserRegistrationService,
         locationClient: OrganizationLocationClient,
-    ): OrganizationRegistrar {
-        return OrganizationRegistrar(
+    ): OrganizationRegistrationService {
+        return OrganizationRegistrationService(
             organizationRepository,
-            userRegistrar,
+            userRegistrationService,
             locationClient,
-        )
-    }
-
-    @Bean
-    fun organizationContextProvider(
-        organizationRepository: OrganizationRepository,
-        userRepository: UserRepository,
-        teacherRepository: TeacherRepository,
-        studentRepository: StudentRepository,
-        parentRepository: ParentRepository,
-    ): OrganizationContextProvider {
-        return OrganizationContextProvider(
-            organizationRepository,
-            userRepository,
-            teacherRepository,
-            studentRepository,
-            parentRepository,
         )
     }
 }

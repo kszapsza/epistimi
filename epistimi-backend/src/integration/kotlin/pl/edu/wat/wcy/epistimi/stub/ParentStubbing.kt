@@ -1,11 +1,10 @@
 package pl.edu.wat.wcy.epistimi.stub
 
 import org.springframework.stereotype.Component
-import pl.edu.wat.wcy.epistimi.organization.Organization
-import pl.edu.wat.wcy.epistimi.parent.Parent
-import pl.edu.wat.wcy.epistimi.parent.ParentId
-import pl.edu.wat.wcy.epistimi.parent.port.ParentRepository
-import pl.edu.wat.wcy.epistimi.user.User
+import pl.edu.wat.wcy.epistimi.parent.domain.Parent
+import pl.edu.wat.wcy.epistimi.parent.domain.ParentId
+import pl.edu.wat.wcy.epistimi.parent.domain.port.ParentRepository
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 @Component
 internal class ParentStubbing(
@@ -14,13 +13,11 @@ internal class ParentStubbing(
     fun parentExists(
         id: ParentId? = null,
         user: User,
-        organization: Organization,
     ): Parent {
         return parentRepository.save(
             Parent(
                 id = id,
                 user = user,
-                organization = organization,
             )
         )
     }

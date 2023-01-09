@@ -1,0 +1,1 @@
+export { ClassificationGradeBadge } from './ClassificationGradeBadge';

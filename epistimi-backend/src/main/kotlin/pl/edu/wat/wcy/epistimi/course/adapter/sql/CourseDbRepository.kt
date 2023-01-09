@@ -1,15 +1,14 @@
 package pl.edu.wat.wcy.epistimi.course.adapter.sql
 
 import org.springframework.stereotype.Repository
-import pl.edu.wat.wcy.epistimi.common.mapper.DbHandlers
-import pl.edu.wat.wcy.epistimi.course.Course
-import pl.edu.wat.wcy.epistimi.course.CourseId
-import pl.edu.wat.wcy.epistimi.course.CourseNotFoundException
-import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.organization.OrganizationId
-import pl.edu.wat.wcy.epistimi.organization.adapter.sql.OrganizationJpaEntity
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.adapter.sql.TeacherJpaEntity
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.course.domain.CourseId
+import pl.edu.wat.wcy.epistimi.course.domain.CourseNotFoundException
+import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
 import java.util.UUID
 import javax.persistence.EntityManager
 import javax.persistence.TypedQuery
@@ -25,32 +24,28 @@ class CourseDbRepository(
 ) : CourseRepository {
 
     override fun findById(courseId: CourseId): Course {
-        return DbHandlers.handleDbGet(mapper = CourseDbBiMapper) {
-            courseJpaRepository.findById(courseId.value)
-                .orElseThrow { CourseNotFoundException(courseId) }
-        }
+        return courseJpaRepository.findById(courseId.value)
+            .orElseThrow { CourseNotFoundException(courseId) }
     }
 
     override fun findAllWithFiltering(
         organizationId: OrganizationId,
         classTeacherId: TeacherId?,
     ): List<Course> {
-        return DbHandlers.handleDbMultiGet(mapper = CourseDbBiMapper) {
-            createTypedQuery(organizationId, classTeacherId).resultList
-        }
+        return createFindAllWithFilteringQuery(organizationId, classTeacherId).resultList
     }
 
-    private fun createTypedQuery(
+    private fun createFindAllWithFilteringQuery(
         organizationId: OrganizationId?,
         classTeacherId: TeacherId?,
-    ): TypedQuery<CourseJpaEntity> {
+    ): TypedQuery<Course> {
         val criteriaBuilder = entityManager.criteriaBuilder
-        val criteriaQuery = criteriaBuilder.createQuery(CourseJpaEntity::class.java)
-        val coursesRoot = criteriaQuery.from(CourseJpaEntity::class.java)
+        val criteriaQuery = criteriaBuilder.createQuery(Course::class.java)
+        val coursesRoot = criteriaQuery.from(Course::class.java)
 
         val predicates = mutableListOf<Predicate>()
-            .also { if (organizationId != null) it += buildOrganizationPredicate(criteriaBuilder, coursesRoot, organizationId) }
-            .also { if (classTeacherId != null) it += buildClassTeacherPredicate(criteriaBuilder, coursesRoot, classTeacherId) }
+            .also { if (organizationId != null) it += buildOrganizationIdPredicate(criteriaBuilder, coursesRoot, organizationId) }
+            .also { if (classTeacherId != null) it += buildClassTeacherIdPredicate(criteriaBuilder, coursesRoot, classTeacherId) }
             .toTypedArray()
 
         return entityManager.createQuery(
@@ -60,29 +55,25 @@ class CourseDbRepository(
         )
     }
 
-    private fun buildOrganizationPredicate(
+    private fun buildOrganizationIdPredicate(
         criteriaBuilder: CriteriaBuilder,
-        coursesRoot: Root<CourseJpaEntity>,
+        coursesRoot: Root<Course>,
         organizationId: OrganizationId,
     ): Predicate {
-        val organizationJoin = coursesRoot.join<CourseJpaEntity, OrganizationJpaEntity>("organization", JoinType.INNER)
+        val organizationJoin = coursesRoot.join<Course, Organization>("organization", JoinType.INNER)
         return criteriaBuilder.equal(organizationJoin.get<UUID>("id"), organizationId.value)
     }
 
-    private fun buildClassTeacherPredicate(
+    private fun buildClassTeacherIdPredicate(
         criteriaBuilder: CriteriaBuilder,
-        coursesRoot: Root<CourseJpaEntity>,
+        coursesRoot: Root<Course>,
         classTeacherId: TeacherId,
     ): Predicate {
-        val classTeacherJoin = coursesRoot.join<OrganizationJpaEntity, TeacherJpaEntity>("classTeacher", JoinType.INNER)
+        val classTeacherJoin = coursesRoot.join<Course, Teacher>("classTeacher", JoinType.INNER)
         return criteriaBuilder.equal(classTeacherJoin.get<UUID>("id"), classTeacherId.value)
     }
 
     override fun save(course: Course): Course {
-        return DbHandlers.handleDbInsert(
-            domainObject = course,
-            mapper = CourseDbBiMapper,
-            dbCall = courseJpaRepository::save,
-        )
+        return courseJpaRepository.save(course)
     }
 }

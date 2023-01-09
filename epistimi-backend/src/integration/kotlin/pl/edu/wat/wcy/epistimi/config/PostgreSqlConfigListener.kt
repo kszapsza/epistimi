@@ -19,21 +19,25 @@ internal class PostgreSqlConfigListener :
         const val POSTGRESQL_USERNAME = "epistimi"
         const val POSTGRESQL_PASSWORD = "123456"
 
-        // TODO: retrieve table names instead of hardcoding?
         private val TABLE_NAMES = listOf(
+            "classification_grades",
             "courses",
             "epistimi_users",
+            "grade_categories",
+            "grades",
+            "noticeboard_posts",
             "organizations",
             "parents",
             "students",
             "students_parents",
+            "subjects",
             "teachers",
         )
     }
 
     lateinit var container: PostgreSQLContainer<*>
-    lateinit var dataSource: DataSource
-    lateinit var jdbcTemplate: JdbcTemplate
+    private lateinit var dataSource: DataSource
+    private lateinit var jdbcTemplate: JdbcTemplate
 
     override suspend fun beforeProject() {
         container = PostgreSQLContainer(POSTGRESQL_IMAGE)

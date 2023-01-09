@@ -1,36 +1,26 @@
 package pl.edu.wat.wcy.epistimi.course
 
-import pl.edu.wat.wcy.epistimi.course.port.CourseRepository
-import pl.edu.wat.wcy.epistimi.student.Student
-import pl.edu.wat.wcy.epistimi.student.StudentId
-import pl.edu.wat.wcy.epistimi.student.port.StudentRepository
-import pl.edu.wat.wcy.epistimi.teacher.TeacherId
-import pl.edu.wat.wcy.epistimi.user.UserId
-import java.time.LocalDate
+import pl.edu.wat.wcy.epistimi.course.domain.Course
+import pl.edu.wat.wcy.epistimi.course.domain.CourseCreateRequest
+import pl.edu.wat.wcy.epistimi.course.domain.CourseId
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
+import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
+import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
+import pl.edu.wat.wcy.epistimi.user.domain.User
 
 class CourseFacade(
-    private val courseAggregator: CourseAggregator,
-    private val courseRegistrar: CourseRegistrar,
-    private val courseRepository: CourseRepository,
-    private val studentRepository: StudentRepository,
+    private val courseAggregatorService: CourseAggregatorService,
+    private val courseRegistrationService: CourseRegistrationService,
 ) {
-    fun getCourses(requesterUserId: UserId, classTeacherId: TeacherId?): List<Course> {
-        return courseAggregator.getCourses(requesterUserId, classTeacherId)
+    fun getCourses(contextUser: User, classTeacherId: TeacherId?): List<Course> {
+        return courseAggregatorService.getCourses(contextUser.organization, classTeacherId)
     }
 
-    fun getCourse(courseId: CourseId, userId: UserId): Course {
-        return courseAggregator.getCourse(courseId, userId)
+    fun getCourse(contextUser: User, courseId: CourseId): Course {
+        return courseAggregatorService.getCourse(contextUser.organization, courseId)
     }
 
-    fun createCourse(userId: UserId, createRequest: CourseCreateRequest): Course {
-        return courseRegistrar.createCourse(userId, createRequest)
-    }
-
-    fun addStudent(courseId: CourseId, studentId: StudentId): Course {
-        val addedStudent: Student = studentRepository.findById(studentId)
-        return courseRepository.findById(courseId)
-            .also { course -> if (course.schoolYearEnd.isBefore(LocalDate.now())) throw CourseUnmodifiableException() }
-            .let { it.copy(students = it.students + addedStudent) }
-            .let { courseRepository.save(it) }
+    fun createCourse(contextUser: User, createRequest: CourseCreateRequest): Course {
+        return courseRegistrationService.createCourse(contextUser.organization, createRequest)
     }
 }

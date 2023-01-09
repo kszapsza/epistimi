@@ -160,7 +160,7 @@ export const Noticeboard = (): JSX.Element => {
         />
 
         {error && (
-          <Alert icon={<IconAlertCircle size={16}/>} color={'red'}>
+          <Alert icon={<IconAlertCircle size={16}/>} title={t('common.error')} color={'red'}>
             {t('noticeboard.noticeboard.couldNotLoadPosts')}
           </Alert>
         )}
