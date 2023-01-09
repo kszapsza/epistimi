@@ -16,7 +16,6 @@ private fun Organization.toOrganizationResponse() = OrganizationResponse(
     id = id!!,
     name = name,
     admin = UserResponseMapper.fromDomain(admins.first()),
-    status = status.toString(),
     address = Address(street, postalCode, city),
     location = if (latitude != null && longitude != null) Location(latitude, longitude) else null,
 )
@@ -35,7 +34,6 @@ object OrganizationRegisterResponseMapper : FromDomainMapper<NewOrganization, Or
             ),
             id = organization.id!!,
             name = organization.name,
-            status = organization.status.toString(),
             address = Address(organization.street, organization.postalCode, organization.city),
             location = Location.of(organization.latitude, organization.longitude),
         )

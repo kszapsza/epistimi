@@ -220,10 +220,6 @@
       "sexOther": "Other",
       "street": "Street"
     },
-    "organizationColorStatus": {
-      "disabled": "Disabled",
-      "enabled": "Enabled"
-    },
     "organizationCreate": {
       "adminAlreadyManagingOtherOrganization": "Selected administrator is already managing other organization",
       "error": "Error",
@@ -246,19 +242,14 @@
       "username": "Username"
     },
     "organizationDetails": {
-      "activeCourses": "Active courses",
-      "activeStudents": "Active students",
-      "activeTeachers": "Active teachers",
       "admin": "Admin",
       "changingOrganizationStatus": "Changing organization status",
       "couldNotLoadDetails": "Could not load organization details",
       "dataUpdated": "Successfully updated organization data",
-      "disableOrganization": "Disable organization",
       "editData": "Edit data",
       "editingOrganization": "Editing organization data",
       "enableOrganization": "Enable organization",
-      "id": "Id",
-      "status": "Status"
+      "id": "Id"
     },
     "organizationDetailsLocation": {
       "addressAndContact": "Address and contact",
@@ -282,12 +273,6 @@
       "noOrganizationsRegistered": "No organizations registered in the system yet",
       "organizations": "Organizations",
       "summary": "Total: {{total}}, active: {{active}}."
-    },
-    "organizationStatusChange": {
-      "areYouSureYouWantToDisable": "Are you sure you want to disable organization {{name}}?",
-      "areYouSureYouWantToEnable": "Are you sure you want to re-enable organization {{name}}?",
-      "disable": "Disable",
-      "enable": "Enable"
     },
     "organizationUpdate": {
       "couldNotUpdateOrganization": "Could not update organization",

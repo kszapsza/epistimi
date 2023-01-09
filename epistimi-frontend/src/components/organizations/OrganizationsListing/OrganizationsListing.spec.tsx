@@ -16,8 +16,6 @@ describe('OrganizationsListing component', () => {
 
   const DOCUMENT_TITLE_REGEXP = /organizations\.organizationsListing\.organizations – Epistimi/;
   const COULD_NOT_LOAD_REGEXP = /organizations\.organizationsListing\.couldNotLoadOrganizationsList/;
-  const ENABLED_LABEL_REGEXP = /organizations\.organizationColorStatus\.enabled/i;
-  const DISABLED_LABEL_REGEXP = /organizations\.organizationColorStatus\.disabled/i;
   const CREATE_NEW_BUTTON_REGEXP = /organizations\.organizationsListing\.createNew/;
   const CREATING_NEW_HEADER_REGEXP = /organizations\.organizationsListing\.creatingNewOrganization/;
 
@@ -54,9 +52,7 @@ describe('OrganizationsListing component', () => {
       expect(axiosMock.get).toHaveBeenCalledWith('api/organization');
       expect(rows).toHaveLength(2);
       expect(rows[0]).toHaveTextContent(/sp7/i);
-      expect(rows[0]).toHaveTextContent(DISABLED_LABEL_REGEXP);
       expect(rows[1]).toHaveTextContent(/sp7/i);
-      expect(rows[1]).toHaveTextContent(ENABLED_LABEL_REGEXP);
     });
   });
 

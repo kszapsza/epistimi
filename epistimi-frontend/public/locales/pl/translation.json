@@ -227,10 +227,6 @@
       "sexOther": "Inna",
       "street": "Ulica"
     },
-    "organizationColorStatus": {
-      "disabled": "Nieaktywna",
-      "enabled": "Aktywna"
-    },
     "organizationCreate": {
       "adminAlreadyManagingOtherOrganization": "Wybrany administrator zarządza już inną placówką",
       "error": "Błąd",
@@ -253,19 +249,13 @@
       "username": "Nazwa użytkownika"
     },
     "organizationDetails": {
-      "activeCourses": "Aktywnych klas",
-      "activeStudents": "Aktywnych uczniów",
-      "activeTeachers": "Aktywnych nauczycieli",
       "admin": "Administrator",
       "changingOrganizationStatus": "Zmiana statusu placówki",
       "couldNotLoadDetails": "Nie udało się załadować szczegółów placówki",
       "dataUpdated": "Pomyślnie zaktualizowano dane placówki",
-      "disableOrganization": "Dezaktywuj placówkę",
       "editData": "Edytuj dane",
       "editingOrganization": "Edycja danych placówki",
-      "enableOrganization": "Aktywuj placówkę",
-      "id": "Id",
-      "status": "Status"
+      "id": "Id"
     },
     "organizationDetailsLocation": {
       "addressAndContact": "Adres i kontakt",
@@ -289,12 +279,6 @@
       "noOrganizationsRegistered": "W systemie nie zarejestrowano jeszcze żadnych placówek",
       "organizations": "Placówki",
       "summary": "Łącznie: {{total}}, w tym aktywnych: {{active}}."
-    },
-    "organizationStatusChange": {
-      "areYouSureYouWantToDisable": "Czy na pewno chcesz dezaktywować placówkę {{name}}?",
-      "areYouSureYouWantToEnable": "Czy na pewno chcesz ponownie aktywować placówkę {{name}}?",
-      "disable": "Dezaktywuj",
-      "enable": "Aktywuj"
     },
     "organizationUpdate": {
       "couldNotUpdateOrganization": "Nie udało się zaktualizować placówki",

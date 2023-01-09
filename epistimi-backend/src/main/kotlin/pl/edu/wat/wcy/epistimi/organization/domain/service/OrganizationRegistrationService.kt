@@ -3,7 +3,6 @@ package pl.edu.wat.wcy.epistimi.organization.domain.service
 import pl.edu.wat.wcy.epistimi.common.Location
 import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
-import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationStatus
 import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole
@@ -46,7 +45,6 @@ class OrganizationRegistrationService(
             Organization(
                 id = null,
                 name = registerRequest.name,
-                status = OrganizationStatus.ENABLED,
                 admins = emptySet(),
                 street = registerRequest.address.street,
                 postalCode = registerRequest.address.postalCode,

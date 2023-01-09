@@ -10,10 +10,6 @@ data class OrganizationRegisterRequest(
     val address: Address,
 )
 
-data class OrganizationChangeStatusRequest(
-    val status: OrganizationStatus,
-)
-
 data class OrganizationUpdateRequest(
     @field:NotBlank val name: String,
     val address: Address,

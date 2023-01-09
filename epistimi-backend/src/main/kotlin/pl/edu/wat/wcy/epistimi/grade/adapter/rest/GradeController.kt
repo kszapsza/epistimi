@@ -134,6 +134,4 @@ class GradeController(
                 .body(newGrade)
         }
     }
-
-    // TODO: PUT - update grade
 }

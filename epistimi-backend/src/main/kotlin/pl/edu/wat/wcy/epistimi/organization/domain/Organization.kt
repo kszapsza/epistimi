@@ -6,8 +6,6 @@ import pl.edu.wat.wcy.epistimi.user.domain.User
 import java.util.UUID
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
@@ -24,10 +22,6 @@ class Organization(
 
     @Column(name = "name", nullable = false)
     val name: String,
-
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    val status: OrganizationStatus,
 
     @OneToMany(mappedBy = "organization")
     @Where(clause = "role = 'ORGANIZATION_ADMIN'")
@@ -48,11 +42,6 @@ class Organization(
     @Column(name = "longitude")
     val longitude: Double?,
 )
-
-enum class OrganizationStatus {
-    ENABLED,
-    DISABLED;
-}
 
 @JvmInline
 value class OrganizationId(

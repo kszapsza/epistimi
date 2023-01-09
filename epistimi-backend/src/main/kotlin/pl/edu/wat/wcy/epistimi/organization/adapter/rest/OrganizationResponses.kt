@@ -9,7 +9,6 @@ data class OrganizationResponse(
     val id: OrganizationId,
     val name: String,
     val admin: UserResponse,
-    val status: String,
     val address: Address,
     val location: Location?,
 )
@@ -22,7 +21,6 @@ data class OrganizationRegisterResponse(
     val id: OrganizationId,
     val name: String,
     val admin: NewUserResponse,
-    val status: String,
     val address: Address,
     val location: Location?,
 ) {

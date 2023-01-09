@@ -1,6 +1,5 @@
 import './OrganizationsListingTile.scss';
 import { Card } from '@mantine/core';
-import { OrganizationColorStatus } from '../../organizations';
 import { OrganizationStatus } from '../../../dto/organization';
 
 interface OrganizationsListingTileProps {
@@ -23,9 +22,6 @@ export const OrganizationsListingTile = (
         <div className={'organizations-tile-subtitle'}>
           <samp>{props.id}</samp> ∙ {props.admin}
         </div>
-      </div>
-      <div className={'organizations-tile-status'}>
-        <OrganizationColorStatus status={props.status}/>
       </div>
     </Card>
   );

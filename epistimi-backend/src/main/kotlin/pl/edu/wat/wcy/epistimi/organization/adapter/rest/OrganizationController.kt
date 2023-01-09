@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 import pl.edu.wat.wcy.epistimi.common.mapper.RestHandlers
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
 import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
-import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationUpdateRequest
@@ -89,30 +88,6 @@ class OrganizationController(
                 .created(URI.create("/api/organization/${newOrganization.id.value}"))
                 .body(newOrganization)
         }
-    }
-
-    @Operation(
-        summary = "Change organization status",
-        tags = ["organization"],
-        description = "Enables/disables organization with provided id",
-    )
-    @PreAuthorize("hasRole('EPISTIMI_ADMIN')")
-    @PutMapping(
-        path = ["/{organizationId}/status"],
-        produces = [MediaType.APPLICATION_JSON_V1]
-    )
-    fun changeOrganizationStatus(
-        @PathVariable organizationId: OrganizationId,
-        @RequestBody organizationChangeStatusRequest: OrganizationChangeStatusRequest,
-    ): ResponseEntity<OrganizationResponse> {
-        return ResponseEntity.ok(
-            RestHandlers.handleRequest(mapper = OrganizationResponseMapper) {
-                organizationFacade.changeOrganizationStatus(
-                    organizationId = organizationId,
-                    changeStatusRequest = organizationChangeStatusRequest,
-                )
-            }
-        )
     }
 
     @Operation(

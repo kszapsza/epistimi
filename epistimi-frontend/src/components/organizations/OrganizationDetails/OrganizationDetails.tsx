@@ -3,11 +3,8 @@ import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
 import { IconAlertCircle, IconArrowBack, IconBan, IconCheck, IconPencil } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import {
-  OrganizationColorStatus,
   OrganizationDetailsKeyValue,
   OrganizationDetailsLocation,
-  OrganizationDetailsStatsTile,
-  OrganizationStatusChange,
   OrganizationUpdate,
 } from '../../organizations';
 import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
@@ -36,11 +33,6 @@ export const OrganizationDetails = (): JSX.Element => {
     return <Loader/>;
   }
 
-  const onOrganizationStatusChange = (updatedOrganization: OrganizationResponse): void => {
-    organization && (organization.status = updatedOrganization.status);
-    statusChangeModalHandlers.close();
-  };
-
   const onOrganizationUpdate = (): void => {
     reload();
     editModalHandlers.close();
@@ -63,17 +55,6 @@ export const OrganizationDetails = (): JSX.Element => {
         </div>}
       {organization && <>
         <Modal
-          onClose={statusChangeModalHandlers.close}
-          opened={statusChangeModalOpened}
-          size={'md'}
-          title={t('organizations.organizationDetails.changingOrganizationStatus')}
-        >
-          <OrganizationStatusChange
-            organization={organization}
-            onStatusChange={onOrganizationStatusChange}
-          />
-        </Modal>
-        <Modal
           onClose={editModalHandlers.close}
           opened={editModalOpened}
           size={'lg'}
@@ -91,20 +72,6 @@ export const OrganizationDetails = (): JSX.Element => {
             </ActionIcon>
           </div>
           <div className={'organization-header-group'}>
-            {organization.status === OrganizationStatus.ENABLED &&
-              <Button
-                leftIcon={<IconBan size={16}/>}
-                onClick={statusChangeModalHandlers.open}
-                variant={'default'}>
-                {t('organizations.organizationDetails.disableOrganization')}
-              </Button>}
-            {organization.status === OrganizationStatus.DISABLED &&
-              <Button
-                leftIcon={<IconCheck size={16}/>}
-                onClick={statusChangeModalHandlers.open}
-                variant={'default'}>
-                {t('organizations.organizationDetails.enableOrganization')}
-              </Button>}
             <Button
               leftIcon={<IconPencil size={16}/>}
               onClick={editModalHandlers.open}
@@ -126,16 +93,7 @@ export const OrganizationDetails = (): JSX.Element => {
               label={t('organizations.organizationDetails.admin')}
               value={`${organization.admin.lastName} ${organization.admin.firstName} (${organization.admin.username})`}
             />
-            <OrganizationDetailsKeyValue
-              label={t('organizations.organizationDetails.status')}
-              value={<OrganizationColorStatus status={organization.status}/>}
-            />
           </div>
-        </div>
-        <div className={'organization-stats'}>
-          <OrganizationDetailsStatsTile label={t('organizations.organizationDetails.activeCourses')} value={'N/A'}/>
-          <OrganizationDetailsStatsTile label={t('organizations.organizationDetails.activeStudents')} value={'N/A'}/>
-          <OrganizationDetailsStatsTile label={t('organizations.organizationDetails.activeTeachers')} value={'N/A'}/>
         </div>
         <OrganizationDetailsLocation
           address={organization.address}

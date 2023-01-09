@@ -162,7 +162,7 @@ export const SubjectConfigurationCategoryForm = (
           onChange={(value) => form.setFieldValue('color', value)}
         />
         <Card style={{ width: '300px' }}>
-          <GradeBadgeDropdown grade={gradeSample} showActions={false}/>
+          <GradeBadgeDropdown grade={gradeSample}/>
         </Card>
       </div>
 

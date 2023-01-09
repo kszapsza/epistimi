@@ -27,20 +27,17 @@ describe('MenuUser component', () => {
     },
   );
 
-  const SETTINGS_REGEXP = /navigation\.menuUser\.settings/;
   const LOG_OUT_REGEXP = /navigation\.menuUser\.logOut/;
 
   it('should open menu on button click', async () => {
     const storeMock = getStoreMock();
     const { getByRole, queryByText } = render(<MenuUser/>, storeMock);
 
-    expect(queryByText(SETTINGS_REGEXP)).not.toBeInTheDocument();
     expect(queryByText(LOG_OUT_REGEXP)).not.toBeInTheDocument();
 
     getByRole('button').click();
 
     await waitFor(() => {
-      expect(queryByText(SETTINGS_REGEXP)).toBeInTheDocument();
       expect(queryByText(LOG_OUT_REGEXP)).toBeInTheDocument();
     });
   });
