@@ -151,15 +151,13 @@
       "termsAndConditions": "Regulamin"
     },
     "menu": {
-      "articles": "Artykuły",
       "courses": "Klasy",
       "grades": "Oceny",
       "noticeboard": "Tablica ogłoszeń",
       "organizations": "Placówki",
       "subjects": "Przedmioty",
       "summary": "Strona główna",
-      "teachers": "Nauczyciele",
-      "users": "Użytkownicy"
+      "teachers": "Nauczyciele"
     },
     "menuUser": {
       "account": "Konto",
@@ -250,7 +248,6 @@
     },
     "organizationDetails": {
       "admin": "Administrator",
-      "changingOrganizationStatus": "Zmiana statusu placówki",
       "couldNotLoadDetails": "Nie udało się załadować szczegółów placówki",
       "dataUpdated": "Pomyślnie zaktualizowano dane placówki",
       "editData": "Edytuj dane",
@@ -278,7 +275,7 @@
       "creatingNewOrganization": "Tworzenie nowej placówki",
       "noOrganizationsRegistered": "W systemie nie zarejestrowano jeszcze żadnych placówek",
       "organizations": "Placówki",
-      "summary": "Łącznie: {{total}}, w tym aktywnych: {{active}}."
+      "summary": "Łącznie: {{total}}"
     },
     "organizationUpdate": {
       "couldNotUpdateOrganization": "Nie udało się zaktualizować placówki",

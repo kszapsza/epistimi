@@ -1,4 +1,6 @@
 import './SubjectGradesStudent.scss';
+import { Alert, LoadingOverlay } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons';
 import { StudentsGradesResponse } from '../../../dto/student-grades';
 import { SubjectGradesStudentSemesterSection } from '../SubjectGradesStudentSemesterSection';
 import { SubjectGradesStudentYearSection } from '../SubjectGradesStudentYearSection';
@@ -11,6 +13,12 @@ export const SubjectGradesStudent = (): JSX.Element => {
 
   return (
     <div className={'subject-grades-student'}>
+      <LoadingOverlay visible={loading}/>
+      {error && (
+        <Alert icon={<IconAlertCircle size={16}/>} title={'Wystąpił błąd'} color={'red'}>
+          Nie udało się załadować widoku ocen
+        </Alert>
+      )}
       {data && (
         <>
           <SubjectGradesStudentYearSection

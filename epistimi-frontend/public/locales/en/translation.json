@@ -142,7 +142,6 @@
     "menu": {
       "absence": "Absence",
       "analytics": "Analytics",
-      "articles": "Articles",
       "config": "Configuration",
       "courses": "Courses",
       "exams": "Exams",
@@ -151,8 +150,7 @@
       "organizations": "Organizations",
       "subjects": "Subjects",
       "summary": "Home page",
-      "teachers": "Teachers",
-      "users": "Users"
+      "teachers": "Teachers"
     },
     "menuUser": {
       "account": "Account",
@@ -243,7 +241,6 @@
     },
     "organizationDetails": {
       "admin": "Admin",
-      "changingOrganizationStatus": "Changing organization status",
       "couldNotLoadDetails": "Could not load organization details",
       "dataUpdated": "Successfully updated organization data",
       "editData": "Edit data",
@@ -272,7 +269,7 @@
       "creatingNewOrganization": "Creating new organization",
       "noOrganizationsRegistered": "No organizations registered in the system yet",
       "organizations": "Organizations",
-      "summary": "Total: {{total}}, active: {{active}}."
+      "summary": "Total: {{total}}"
     },
     "organizationUpdate": {
       "couldNotUpdateOrganization": "Could not update organization",

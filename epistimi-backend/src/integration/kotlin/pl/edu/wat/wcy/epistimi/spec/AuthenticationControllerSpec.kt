@@ -40,7 +40,7 @@ internal class AuthenticationControllerSpec(
 
     should("reject with HTTP 401 if username exists but password is not valid") {
         // given
-        val adminUser = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "admin_user")
+        val adminUser = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "admin_user", organization = )
         val organization = organizationStubbing.organizationExists(admin = adminUser, name = "SP7")
 
         userStubbing.userExists(username = "foo", password = "24", organization = organization)

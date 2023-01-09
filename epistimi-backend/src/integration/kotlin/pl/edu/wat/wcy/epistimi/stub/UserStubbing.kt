@@ -2,7 +2,7 @@ package pl.edu.wat.wcy.epistimi.stub
 
 import org.springframework.stereotype.Component
 import pl.edu.wat.wcy.epistimi.common.Address
-import pl.edu.wat.wcy.epistimi.data.DummyAddress
+import pl.edu.wat.wcy.epistimi.fake.fakeAddress
 import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.user.domain.User
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
@@ -27,7 +27,7 @@ internal class UserStubbing(
         sex: UserSex? = MALE,
         email: String? = "j.kowalski@gmail.com",
         phoneNumber: String? = "+48123456789",
-        address: Address? = DummyAddress(),
+        address: Address? = fakeAddress,
     ): User {
         return userRegistrationService.registerUser(
             organization,
@@ -46,6 +46,6 @@ internal class UserStubbing(
             sex = MALE,
             email = "j.kowalski@gmail.com",
             phoneNumber = "+48123456789",
-            address = DummyAddress(),
+            address = fakeAddress,
         )
 }

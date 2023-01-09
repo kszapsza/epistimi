@@ -1,5 +1,4 @@
 import { OrganizationsListingTile } from './OrganizationsListingTile';
-import { OrganizationStatus } from '../../../dto/organization';
 import { render } from '../../../utils/test-render';
 
 describe('OrganizationsListingTile component', () => {
@@ -8,7 +7,6 @@ describe('OrganizationsListingTile component', () => {
       id: '123',
       name: 'I LO',
       admin: 'Jan Muchomorek',
-      status: OrganizationStatus.ENABLED,
     };
 
     const { queryByText } = render(<OrganizationsListingTile {...props}/>);

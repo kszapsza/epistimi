@@ -5,7 +5,6 @@ import pl.edu.wat.wcy.epistimi.course.domain.Course
 import pl.edu.wat.wcy.epistimi.course.domain.CourseId
 import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
-import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationStatus.ENABLED
 import pl.edu.wat.wcy.epistimi.parent.domain.Parent
 import pl.edu.wat.wcy.epistimi.parent.domain.ParentId
 import pl.edu.wat.wcy.epistimi.student.domain.Student

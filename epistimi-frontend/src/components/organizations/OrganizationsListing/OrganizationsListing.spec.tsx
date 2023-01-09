@@ -1,5 +1,5 @@
-import { disabledOrganization, enabledOrganization } from '../../../stubs/organization';
 import { fireEvent, waitFor } from '@testing-library/react';
+import { organization } from '../../../stubs/organization';
 import { OrganizationsListing } from './OrganizationsListing';
 import { OrganizationsResponse } from '../../../dto/organization';
 import { render } from '../../../utils/test-render';
@@ -50,9 +50,8 @@ describe('OrganizationsListing component', () => {
       const rows = queryAllByRole('row');
 
       expect(axiosMock.get).toHaveBeenCalledWith('api/organization');
-      expect(rows).toHaveLength(2);
+      expect(rows).toHaveLength(1);
       expect(rows[0]).toHaveTextContent(/sp7/i);
-      expect(rows[1]).toHaveTextContent(/sp7/i);
     });
   });
 
@@ -74,8 +73,7 @@ describe('OrganizationsListing component', () => {
 
   const organizationsResponse: OrganizationsResponse = {
     organizations: [
-      disabledOrganization,
-      enabledOrganization,
+      organization,
     ],
   };
 

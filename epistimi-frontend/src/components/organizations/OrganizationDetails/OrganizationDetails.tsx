@@ -1,13 +1,13 @@
 import './OrganizationDetails.scss';
 import { ActionIcon, Alert, Button, Loader, Modal, Title } from '@mantine/core';
-import { IconAlertCircle, IconArrowBack, IconBan, IconCheck, IconPencil } from '@tabler/icons';
+import { IconAlertCircle, IconArrowBack, IconCheck, IconPencil } from '@tabler/icons';
 import { Link, useParams } from 'react-router-dom';
 import {
   OrganizationDetailsKeyValue,
   OrganizationDetailsLocation,
   OrganizationUpdate,
 } from '../../organizations';
-import { OrganizationResponse, OrganizationStatus } from '../../../dto/organization';
+import { OrganizationResponse } from '../../../dto/organization';
 import { useDisclosure } from '@mantine/hooks';
 import { useDocumentTitle, useFetch } from '../../../hooks';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,6 @@ export const OrganizationDetails = (): JSX.Element => {
     reload,
   } = useFetch<OrganizationResponse>(`/api/organization/${id}`);
 
-  const [statusChangeModalOpened, statusChangeModalHandlers] = useDisclosure(false);
   const [editModalOpened, editModalHandlers] = useDisclosure(false);
   const [updatedMessageOpened, updatedMessageHandlers] = useDisclosure(false);
 

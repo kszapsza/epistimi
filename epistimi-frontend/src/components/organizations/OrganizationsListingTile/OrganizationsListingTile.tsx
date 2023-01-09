@@ -1,12 +1,10 @@
 import './OrganizationsListingTile.scss';
 import { Card } from '@mantine/core';
-import { OrganizationStatus } from '../../../dto/organization';
 
 interface OrganizationsListingTileProps {
   id: string;
   name: string;
   admin: string;
-  status: OrganizationStatus;
 }
 
 export const OrganizationsListingTile = (

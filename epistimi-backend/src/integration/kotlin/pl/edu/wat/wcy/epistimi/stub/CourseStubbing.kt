@@ -6,6 +6,7 @@ import pl.edu.wat.wcy.epistimi.course.domain.CourseId
 import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.student.domain.Student
+import pl.edu.wat.wcy.epistimi.subject.domain.Subject
 import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -33,6 +34,7 @@ internal class CourseStubbing(
         profile: String? = "matematyczno-fizyczny",
         profession: String? = "technik informatyk",
         specialization: String? = "zarządzanie projektami w IT",
+        subjects: Set<Subject> = emptySet(),
     ): Course {
         return courseRepository.save(
             Course(
@@ -48,6 +50,7 @@ internal class CourseStubbing(
                 profile = profile,
                 profession = profession,
                 specialization = specialization,
+                subjects = subjects,
             )
         )
     }

@@ -3,7 +3,6 @@ import { CourseDetails, CoursesListing } from './components/courses';
 import { Navigate, useRoutes } from 'react-router-dom';
 import { NotFound, Shell } from './components/navigation';
 import { Noticeboard } from './components/noticeboard';
-import { NotImplementedYet } from './components/common';
 import { OrganizationDetails, OrganizationsListing } from './components/organizations';
 import { RequireAuth } from './router/RequireAuth';
 import { StudentsGrades } from './components/grades';
@@ -134,26 +133,6 @@ const App = (): JSX.Element => {
           ),
         },
         {
-          path: 'users',
-          element: (
-            <RequireAuth
-              element={<NotImplementedYet/>}
-              auth={auth}
-              allowedRoles={[UserRole.EPISTIMI_ADMIN]}
-            />
-          ),
-        },
-        {
-          path: 'articles',
-          element: (
-            <RequireAuth
-              element={<NotImplementedYet/>}
-              auth={auth}
-              allowedRoles={[UserRole.EPISTIMI_ADMIN]}
-            />
-          ),
-        },
-        {
           path: 'grades',
           element: (
             <RequireAuth
@@ -161,18 +140,6 @@ const App = (): JSX.Element => {
               auth={auth}
               allowedRoles={[UserRole.STUDENT, UserRole.PARENT]}
             />
-          ),
-        },
-        {
-          path: 'assignments',
-          element: (
-            <NotImplementedYet/>
-          ),
-        },
-        {
-          path: 'exams',
-          element: (
-            <NotImplementedYet/>
           ),
         },
         {

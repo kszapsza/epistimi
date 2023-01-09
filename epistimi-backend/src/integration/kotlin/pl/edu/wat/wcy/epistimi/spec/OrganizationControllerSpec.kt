@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.data.DummyAddress
 import pl.edu.wat.wcy.epistimi.organization.domain.Organization.Status.DISABLED
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationChangeStatusRequest
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
@@ -53,7 +52,7 @@ internal class OrganizationControllerSpec(
             sex = FEMALE,
             email = "a.nowak@gmail.com",
             phoneNumber = "+48987654321",
-            address = DummyAddress().copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+            address = dummyAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
         )
     }
 
@@ -66,7 +65,7 @@ internal class OrganizationControllerSpec(
         sex = FEMALE,
         email = "a.nowak@gmail.com",
         phoneNumber = "+48987654321",
-        address = DummyAddress().copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+        address = dummyAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
     )
 
     context("get organization by id") {
@@ -310,7 +309,7 @@ internal class OrganizationControllerSpec(
             val body = OrganizationRegisterRequest(
                 name = "Gimnazjum nr 2",
                 admin = adminUserCreateRequest,
-                address = DummyAddress(),
+                address = dummyAddress,
             )
 
             // when
@@ -477,7 +476,7 @@ internal class OrganizationControllerSpec(
             // given
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = DummyAddress(),
+                address = dummyAddress,
             )
 
             // when
@@ -504,7 +503,7 @@ internal class OrganizationControllerSpec(
                 val headers = securityStubbing.authorizationHeaderFor(role)
                 val body = OrganizationUpdateRequest(
                     name = "Changed Name",
-                    address = DummyAddress(),
+                    address = dummyAddress,
                 )
 
                 // when
@@ -524,7 +523,7 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = DummyAddress(),
+                address = dummyAddress,
             )
 
             // when
@@ -548,7 +547,7 @@ internal class OrganizationControllerSpec(
             val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = DummyAddress(),
+                address = dummyAddress,
             )
 
             // when

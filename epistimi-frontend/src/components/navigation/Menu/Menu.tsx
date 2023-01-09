@@ -3,7 +3,6 @@ import {
   IconBook,
   IconBriefcase,
   IconBuilding,
-  IconFileText,
   IconHome,
   IconSpeakerphone,
   IconStars,
@@ -31,8 +30,6 @@ export const Menu = (props: MenuProps): JSX.Element => {
         <div>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconHome/>} label={t('navigation.menu.summary')} href={'/app/summary'}/>
           <MenuItem onClick={props.onMenuItemClick} icon={<IconBuilding/>} label={t('navigation.menu.organizations')} href={'/app/organizations'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconUsers/>} label={t('navigation.menu.users')} href={'/app/users'}/>
-          <MenuItem onClick={props.onMenuItemClick} icon={<IconFileText/>} label={t('navigation.menu.articles')} href={'/app/articles'}/>
         </div>
       );
       break;

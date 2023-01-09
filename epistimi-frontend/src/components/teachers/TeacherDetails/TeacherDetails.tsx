@@ -1,7 +1,7 @@
 import './TeacherDetails.scss';
 import { Alert, Loader, Title } from '@mantine/core';
 import { IconAlertCircle } from '@tabler/icons';
-import { TeacherDetailsCoursesLed, TeacherDetailsSubjects } from '../../teachers';
+import { TeacherDetailsCoursesLed } from '../../teachers';
 import { TeacherResponse } from '../../../dto/teacher';
 import { useDocumentTitle, useFetch } from '../../../hooks';
 import { useParams } from 'react-router-dom';
@@ -27,12 +27,6 @@ export const TeacherDetails = (): JSX.Element => {
             <Title order={2}>
               {`${teacher.academicTitle ?? ''} ${teacher.user.firstName} ${teacher.user.lastName}`.trim()}
             </Title>
-          </div>
-          <div className={'teacher-details-section'}>
-            <Title order={3}>
-              {t('teachers.teacherDetails.subjectsLed')}
-            </Title>
-            <TeacherDetailsSubjects/>
           </div>
           <div className={'teacher-details-section'}>
             <Title order={3}>

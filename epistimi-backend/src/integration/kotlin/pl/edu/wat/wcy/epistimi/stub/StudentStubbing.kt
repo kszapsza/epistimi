@@ -1,6 +1,7 @@
 package pl.edu.wat.wcy.epistimi.stub
 
 import org.springframework.stereotype.Component
+import pl.edu.wat.wcy.epistimi.course.domain.Course
 import pl.edu.wat.wcy.epistimi.parent.domain.Parent
 import pl.edu.wat.wcy.epistimi.student.domain.Student
 import pl.edu.wat.wcy.epistimi.student.domain.StudentId
@@ -15,12 +16,14 @@ internal class StudentStubbing(
         id: StudentId? = null,
         user: User,
         parents: List<Parent> = emptyList(),
+        course: Course,
     ): Student {
         return studentRepository.save(
             Student(
                 id = id,
                 user = user,
                 parents = parents,
+                course = course,
             )
         )
     }

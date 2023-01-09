@@ -1,4 +1,4 @@
-import { enabledOrganization } from '../../../stubs/organization';
+import { organization } from '../../../stubs/organization';
 import { OrganizationDetails } from './OrganizationDetails';
 import { render } from '../../../utils/test-render';
 import { waitFor } from '@testing-library/react';
@@ -13,7 +13,7 @@ describe('OrganizationDetails component', () => {
   const COULD_NOT_LOAD_REGEXP = /organizations\.organizationDetails\.couldNotLoadDetails/;
 
   it('should render status change button (%s)', async () => {
-    axiosMock.get.mockResolvedValue({ data: enabledOrganization });
+    axiosMock.get.mockResolvedValue({ data: organization });
 
     const { queryAllByRole } = render(<OrganizationDetails/>);
 
