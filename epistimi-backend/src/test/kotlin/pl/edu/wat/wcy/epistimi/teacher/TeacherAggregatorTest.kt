@@ -17,15 +17,14 @@ internal class TeacherAggregatorTest : ShouldSpec({
     val teacherAccessValidator = mockk<TeacherAccessValidator>()
     val teacherAggregatorService = TeacherAggregatorService(teacherRepository, teacherAccessValidator)
 
-    val organizationAdminId = TestData.Users.organizationAdmin.id!!
-    val organizationId = TestData.organization.id!!
+    val contextOrganization = TestData.organization()
 
     should("return empty list of teachers if there are no teachers in school administered by provided admin") {
         // given
-        every { teacherRepository.findAll(organizationId) } returns emptyList()
+        every { teacherRepository.findAll(contextOrganization.id!!) } returns emptyList()
 
         // when
-        val teachers = teacherAggregatorService.getTeachers(organizationAdminId)
+        val teachers = teacherAggregatorService.getTeachers(contextOrganization)
 
         // then
         teachers.shouldBeEmpty()
@@ -33,15 +32,16 @@ internal class TeacherAggregatorTest : ShouldSpec({
 
     should("return list of teachers in school administered by provided admin") {
         // given
-        every { teacherRepository.findAll(organizationId) } returns listOf(TestData.teacher)
+        val teacher = TestData.teacher()
+        every { teacherRepository.findAll(contextOrganization.id!!) } returns listOf(teacher)
 
         // when
-        val teachers = teacherAggregatorService.getTeachers(organizationAdminId)
+        val teachers = teacherAggregatorService.getTeachers(contextOrganization)
 
         // then
         with(teachers) {
             shouldHaveSize(1)
-            shouldContain(TestData.teacher)
+            shouldContain(teacher)
         }
     }
 })

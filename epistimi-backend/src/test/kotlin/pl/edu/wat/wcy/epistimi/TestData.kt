@@ -21,7 +21,9 @@ import pl.edu.wat.wcy.epistimi.user.domain.UserRole.ORGANIZATION_ADMIN
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole.PARENT
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole.TEACHER
+import pl.edu.wat.wcy.epistimi.user.domain.UserSex
 import pl.edu.wat.wcy.epistimi.user.domain.UserSex.MALE
+import java.time.LocalDate
 import java.util.UUID
 
 internal object TestData {
@@ -31,16 +33,24 @@ internal object TestData {
         city = "Białystok",
     )
 
-    val organization: Organization = Organization(
-        id = OrganizationId(UUID.randomUUID()),
-        name = "SP7",
-        admins = setOf(Users.organizationAdmin),
-        status = ENABLED,
-        street = address.street,
-        city = address.city,
-        postalCode = address.postalCode,
-        latitude = null,
-        longitude = null,
+    fun organization(
+        id: OrganizationId = OrganizationId(UUID.randomUUID()),
+        name: String = "SP7",
+        admins: Set<User> = emptySet(),
+        street: String = address.street,
+        city: String = address.city,
+        postalCode: String = address.postalCode,
+        latitude: Double? = null,
+        longitude: Double? = null,
+    ) = Organization(
+        id = id,
+        name = name,
+        admins = admins,
+        street = street,
+        city = city,
+        postalCode = postalCode,
+        latitude = latitude,
+        longitude = longitude,
     )
 
     internal object Users {
@@ -58,7 +68,7 @@ internal object TestData {
                 username = username ?: roleName,
                 passwordHash = "123456",
                 sex = MALE,
-                organization = organization,
+                organization = organization(),
                 pesel = null,
                 email = null,
                 phoneNumber = null,
@@ -68,129 +78,230 @@ internal object TestData {
             )
         }
 
-        val epistimiAdmin = User(
-            id = UserId(UUID.randomUUID()),
-            firstName = "Jan",
-            lastName = "Kowalski",
+        fun epistimiAdmin(
+            id: UserId = UserId(UUID.randomUUID()),
+            firstName: String = "Jan",
+            lastName: String = "Kowalski",
+            username: String = "epistimi_admin",
+            passwordHash: String = "123456",
+            sex: UserSex = MALE,
+            organization: Organization = organization(),
+            pesel: String? = null,
+            email: String? = null,
+            phoneNumber: String? = null,
+            street: String? = null,
+            postalCode: String? = null,
+            city: String? = null,
+        ) = User(
+            id = id,
+            firstName = firstName,
+            lastName = lastName,
             role = EPISTIMI_ADMIN,
-            username = "epistimi_admin",
-            passwordHash = "123456",
-            sex = MALE,
+            username = username,
+            passwordHash = passwordHash,
+            sex = sex,
             organization = organization,
-            pesel = null,
-            email = null,
-            phoneNumber = null,
-            street = null,
-            postalCode = null,
-            city = null,
+            pesel = pesel,
+            email = email,
+            phoneNumber = phoneNumber,
+            street = street,
+            postalCode = postalCode,
+            city = city,
         )
 
-        val organizationAdmin = User(
-            id = UserId(UUID.randomUUID()),
-            firstName = "Jan",
-            lastName = "Kowalski",
+        fun organizationAdmin(
+            id: UserId = UserId(UUID.randomUUID()),
+            firstName: String = "Jan",
+            lastName: String = "Kowalski",
+            username: String = "organization_admin",
+            passwordHash: String = "123456",
+            sex: UserSex = MALE,
+            organization: Organization = organization(),
+            pesel: String? = null,
+            email: String? = null,
+            phoneNumber: String? = null,
+            street: String? = null,
+            postalCode: String? = null,
+            city: String? = null,
+        ) = User(
+            id = id,
+            organization = organization,
+            firstName = firstName,
+            lastName = lastName,
             role = ORGANIZATION_ADMIN,
-            username = "organization_admin",
-            passwordHash = "123456",
-            sex = MALE,
-            organization = organization,
-            pesel = null,
-            email = null,
-            phoneNumber = null,
-            street = null,
-            postalCode = null,
-            city = null,
+            username = username,
+            passwordHash = passwordHash,
+            pesel = pesel,
+            sex = sex,
+            email = email,
+            phoneNumber = phoneNumber,
+            street = street,
+            postalCode = postalCode,
+            city = city
         )
 
-        val teacher = User(
-            id = UserId(UUID.randomUUID()),
-            firstName = "Jan",
-            lastName = "Kowalski",
+        fun teacher(
+            id: UserId = UserId(UUID.randomUUID()),
+            firstName: String = "Jan",
+            lastName: String = "Kowalski",
+            username: String = "teacher",
+            passwordHash: String = "123456",
+            sex: UserSex = MALE,
+            organization: Organization = organization(),
+            pesel: String? = null,
+            email: String? = null,
+            phoneNumber: String? = null,
+            street: String? = null,
+            postalCode: String? = null,
+            city: String? = null,
+        ) = User(
+            id = id,
+            organization = organization,
+            firstName = firstName,
+            lastName = lastName,
             role = TEACHER,
-            username = "teacher",
-            passwordHash = "123456",
-            sex = MALE,
-            organization = organization,
-            pesel = null,
-            email = null,
-            phoneNumber = null,
-            street = null,
-            postalCode = null,
-            city = null,
+            username = username,
+            passwordHash = passwordHash,
+            pesel = pesel,
+            sex = sex,
+            email = email,
+            phoneNumber = phoneNumber,
+            street = street,
+            postalCode = postalCode,
+            city = city
         )
 
-        val student = User(
-            id = UserId(UUID.randomUUID()),
-            firstName = "Jan",
-            lastName = "Kowalski",
+        fun student(
+            id: UserId = UserId(UUID.randomUUID()),
+            firstName: String = "Jan",
+            lastName: String = "Kowalski",
+            username: String = "student",
+            passwordHash: String = "123456",
+            sex: UserSex = MALE,
+            organization: Organization = organization(),
+            pesel: String? = null,
+            email: String? = null,
+            phoneNumber: String? = null,
+            street: String? = null,
+            postalCode: String? = null,
+            city: String? = null,
+        ) = User(
+            id = id,
+            firstName = firstName,
+            lastName = lastName,
             role = STUDENT,
-            username = "student",
-            passwordHash = "123456",
-            sex = MALE,
+            username = username,
+            passwordHash = passwordHash,
+            sex = sex,
             organization = organization,
-            pesel = null,
-            email = null,
-            phoneNumber = null,
-            street = null,
-            postalCode = null,
-            city = null,
+            pesel = pesel,
+            email = email,
+            phoneNumber = phoneNumber,
+            street = street,
+            postalCode = postalCode,
+            city = city,
         )
 
-        val parent = User(
-            id = UserId(UUID.randomUUID()),
-            firstName = "Jan",
-            lastName = "Kowalski",
+        fun parent(
+            id: UserId = UserId(UUID.randomUUID()),
+            firstName: String = "Jan",
+            lastName: String = "Kowalski",
+            username: String = "parent",
+            passwordHash: String = "123456",
+            sex: UserSex = MALE,
+            organization: Organization = organization(),
+            pesel: String? = null,
+            email: String? = null,
+            phoneNumber: String? = null,
+            street: String? = null,
+            postalCode: String? = null,
+            city: String? = null,
+        ) = User(
+            id = id,
+            firstName = firstName,
+            lastName = lastName,
             role = PARENT,
-            username = "parent",
-            passwordHash = "123456",
-            sex = MALE,
+            username = username,
+            passwordHash = passwordHash,
+            sex = sex,
             organization = organization,
-            pesel = null,
-            email = null,
-            phoneNumber = null,
-            street = null,
-            postalCode = null,
-            city = null,
+            pesel = pesel,
+            email = email,
+            phoneNumber = phoneNumber,
+            street = street,
+            postalCode = postalCode,
+            city = city,
         )
     }
 
-    val teacher = Teacher(
-        id = TeacherId(UUID.randomUUID()),
-        user = Users.teacher,
-        academicTitle = null,
+    fun teacher(
+        id: TeacherId = TeacherId(UUID.randomUUID()),
+        user: User = Users.teacher(),
+        academicTitle: String? = null,
+    ) = Teacher(
+        id = id,
+        user = user,
+        academicTitle = academicTitle,
     )
 
-    val parent = Parent(
-        id = ParentId(UUID.randomUUID()),
-        user = Users.parent,
+    fun parent(
+        id: ParentId = ParentId(UUID.randomUUID()),
+        user: User = Users.parent()
+    ) = Parent(
+        id = id,
+        user = user,
     )
 
-    val course = Course(
-        id = CourseId(UUID.randomUUID()),
+    fun course(
+        id: CourseId = CourseId(UUID.randomUUID()),
+        organization: Organization = organization(),
+        codeNumber: Int = 6,
+        codeLetter: String = "a",
+        classTeacher: Teacher = teacher(),
+        students: Set<Student> = emptySet(),
+        schoolYearBegin: LocalDate = TestUtils.parseDate("2012-09-03"),
+        schoolYearSemesterEnd: LocalDate = TestUtils.parseDate("2013-01-18"),
+        schoolYearEnd: LocalDate = TestUtils.parseDate("2013-06-28"),
+        profession: String? = null,
+        profile: String? = null,
+        specialization: String? = null,
+        subjects: Set<Subject> = emptySet(),
+    ) = Course(
+        id = id,
         organization = organization,
-        codeNumber = 6,
-        codeLetter = "a",
-        classTeacher = teacher,
-        students = emptySet(),
-        schoolYearBegin = TestUtils.parseDate("2012-09-03"),
-        schoolYearSemesterEnd = TestUtils.parseDate("2013-01-18"),
-        schoolYearEnd = TestUtils.parseDate("2013-06-28"),
-        profession = null,
-        profile = null,
-        specialization = null,
-        subjects = emptySet(),
+        codeNumber = codeNumber,
+        codeLetter = codeLetter,
+        classTeacher = classTeacher,
+        students = students,
+        schoolYearBegin = schoolYearBegin,
+        schoolYearSemesterEnd = schoolYearSemesterEnd,
+        schoolYearEnd = schoolYearEnd,
+        profession = profession,
+        profile = profile,
+        specialization = specialization,
+        subjects = subjects,
     )
 
-    val student = Student(
-        id = StudentId(UUID.randomUUID()),
-        user = Users.student,
-        parents = emptyList(),
+    fun student(
+        id: StudentId = StudentId(UUID.randomUUID()),
+        user: User = Users.student(),
+        parents: List<Parent> = emptyList(),
+        course: Course = course(),
+    ) = Student(
+        id = id,
+        user = user,
+        parents = parents,
         course = course,
     )
 
-    val subject = Subject(
-        id = SubjectId(UUID.randomUUID()),
-        name = "Język polski",
+    fun subject(
+        id: SubjectId = SubjectId(UUID.randomUUID()),
+        name: String = "Język polski",
+        course: Course = course(),
+        teacher: Teacher = teacher(),
+    ) = Subject(
+        id = id,
+        name = name,
         course = course,
         teacher = teacher,
     )
