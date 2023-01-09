@@ -8,14 +8,12 @@ import io.mockk.verify
 import org.springframework.security.crypto.password.PasswordEncoder
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.user.domain.User
-import pl.edu.wat.wcy.epistimi.user.domain.UserId
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
 import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 import pl.edu.wat.wcy.epistimi.user.domain.service.Credentials
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserCredentialsGenerator
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
-import java.util.UUID
 
 internal class UserRegistrarTest : ShouldSpec({
 
@@ -27,12 +25,12 @@ internal class UserRegistrarTest : ShouldSpec({
 
     should("successfully register user with provided credentials") {
         // given
-        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>().copy(id = UserId(UUID.randomUUID())) }
+        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>() }
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
 
         // when
         val registeredUser = userRegistrationService.registerUser(
-            TestData.organization,
+            TestData.organization(),
             UserRegisterRequest(
                 firstName = "Jan",
                 lastName = "Kowalski",
@@ -49,14 +47,14 @@ internal class UserRegistrarTest : ShouldSpec({
 
     should("successfully register user with generated credentials if not provided") {
         // given
-        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>().copy(id = UserId(UUID.randomUUID())) }
+        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>() }
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
         every { credentialsGenerator.generate("Jan", "Kowalski") } returns
             Credentials("jan.kowalski", "123")
 
         // when
         val registeredUser = userRegistrationService.registerUser(
-            TestData.organization,
+            TestData.organization(),
             UserRegisterRequest(
                 firstName = "Jan",
                 lastName = "Kowalski",

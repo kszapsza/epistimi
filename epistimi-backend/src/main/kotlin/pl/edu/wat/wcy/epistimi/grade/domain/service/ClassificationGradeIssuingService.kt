@@ -2,9 +2,9 @@ package pl.edu.wat.wcy.epistimi.grade.domain.service
 
 import pl.edu.wat.wcy.epistimi.grade.domain.ClassificationGrade
 import pl.edu.wat.wcy.epistimi.grade.domain.ClassificationGradeIssueForbiddenException
-import pl.edu.wat.wcy.epistimi.grade.domain.request.ClassificationGradeIssueRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.access.ClassificationGradeAccessValidator
 import pl.edu.wat.wcy.epistimi.grade.domain.port.ClassificationGradeRepository
+import pl.edu.wat.wcy.epistimi.grade.domain.request.ClassificationGradeIssueRequest
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.student.StudentFacade
 import pl.edu.wat.wcy.epistimi.subject.SubjectFacade

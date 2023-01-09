@@ -4,8 +4,8 @@ import pl.edu.wat.wcy.epistimi.common.mapper.FromDomainMapper
 import pl.edu.wat.wcy.epistimi.course.domain.Course
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.ClassificationGradeCourseResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.ClassificationGradeResponse
-import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.ClassificationGradeSubjectResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.ClassificationGradeStudentResponse
+import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.ClassificationGradeSubjectResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.ClassificationGradeTeacherResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.ClassificationGradeValueResponse
 import pl.edu.wat.wcy.epistimi.grade.domain.ClassificationGrade

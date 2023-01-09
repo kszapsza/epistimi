@@ -17,11 +17,11 @@ import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.TeacherStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.EPISTIMI_ADMIN
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.ORGANIZATION_ADMIN
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.TEACHER
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.EPISTIMI_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.TEACHER
 
 internal class TeacherControllerSpec(
     private val restTemplate: TestRestTemplate,
@@ -34,7 +34,8 @@ internal class TeacherControllerSpec(
     context("get teachers") {
         should("return empty list of teachers if no teachers exist in db") {
             // given
-            val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "SP7")
+            val organizationAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, organization = organization)
             val headers = securityStubbing.authorizationHeaderFor(organizationAdmin)
 
             // when
@@ -56,36 +57,38 @@ internal class TeacherControllerSpec(
         }
 
         should("return empty list of teachers if no teachers exist in school administered by admin being logged in") {
-            // given
-            val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "u1")
-            organizationStubbing.organizationExists(name = "SP1", admin = admin)
+            // given: "organization exists"
+            val organization = organizationStubbing.organizationExists(name = "SP1")
+            val admin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "u1", organization = organization)
 
-            val otherAdmin = userStubbing.userExists(role = ORGANIZATION_ADMIN, username = "u2")
-            val otherOrganization = organizationStubbing.organizationExists(name = "SP2", admin = otherAdmin)
+            // and: "another organization exists"
+            val otherOrganization = organizationStubbing.organizationExists(name = "SP2")
 
+            // and: "teacher is registered in another organization"
             val teacherUser = userStubbing.userExists(
                 role = TEACHER,
                 username = "a.nowak",
                 firstName = "Adrian",
                 lastName = "Nowak",
-                email = "a.nowak@wp.pl"
+                email = "a.nowak@wp.pl",
+                organization = otherOrganization,
             )
             teacherStubbing.teacherExists(
                 user = teacherUser,
-                organization = otherOrganization,
                 academicTitle = "dr hab."
             )
 
+            // and: "authorization for first organization admin is provided"
             val headers = securityStubbing.authorizationHeaderFor(admin)
 
-            // when
+            // when: "first organization admin fetches list of teachers"
             val response = restTemplate.exchange<String>(
                 url = "/api/teacher",
                 method = HttpMethod.GET,
                 requestEntity = HttpEntity(null, headers),
             )
 
-            // then
+            // then: "empty list is returned"
             response.statusCode shouldBe HttpStatus.OK
             response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
             //language=JSON
@@ -98,24 +101,19 @@ internal class TeacherControllerSpec(
 
         should("return list of teachers in school administered by admin being logged in") {
             // given
-            val organizationAdminUser = userStubbing.userExists(
-                role = ORGANIZATION_ADMIN,
-            )
-            val organization = organizationStubbing.organizationExists(
-                name = "SP7",
-                admin = organizationAdminUser,
-            )
+            val organization = organizationStubbing.organizationExists(name = "SP7")
+            val organizationAdminUser = userStubbing.userExists(role = ORGANIZATION_ADMIN, organization = organization)
 
             val teacherUser = userStubbing.userExists(
                 role = TEACHER,
                 username = "a.nowak",
                 firstName = "Adrian",
                 lastName = "Nowak",
-                email = "a.nowak@wp.pl"
+                email = "a.nowak@wp.pl",
+                organization = organization,
             )
             val teacher = teacherStubbing.teacherExists(
                 user = teacherUser,
-                organization = organization,
                 academicTitle = "dr hab."
             )
 
@@ -179,7 +177,8 @@ internal class TeacherControllerSpec(
                 row(TEACHER),
             ) { role ->
                 // given
-                val headers = securityStubbing.authorizationHeaderFor(role)
+                val organization = organizationStubbing.organizationExists(name = "SP7")
+                val headers = securityStubbing.authorizationHeaderFor(role = role, organization = organization)
 
                 // when
                 val response = restTemplate.exchange<String>(

@@ -20,8 +20,8 @@ import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeCategoriesResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.dto.GradeCategoryResponse
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeCategoriesResponseMapper
 import pl.edu.wat.wcy.epistimi.grade.adapter.rest.mapper.GradeCategoryResponseMapper
-import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryCreateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.GradeCategoryId
+import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryCreateRequest
 import pl.edu.wat.wcy.epistimi.grade.domain.request.GradeCategoryUpdateRequest
 import pl.edu.wat.wcy.epistimi.subject.domain.SubjectId
 import pl.edu.wat.wcy.epistimi.user.domain.User

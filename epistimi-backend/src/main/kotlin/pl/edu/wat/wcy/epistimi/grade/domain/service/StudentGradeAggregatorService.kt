@@ -145,8 +145,8 @@ class StudentGradeAggregatorService(
     private fun buildSubjectGradesSummary(
         subject: Subject,
         grades: List<Grade>,
-        classificationGrades
-        : List<ClassificationGrade>,
+        classificationGrades:
+            List<ClassificationGrade>,
     ): StudentSubjectGradesSummary {
         val allSubjectGrades = retrieveSubjectAllStudentsGrades(subject.id!!)
         val classificationProposal = classificationGrades.firstOrNull { it.isProposal && it.period == SCHOOL_YEAR }

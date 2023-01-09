@@ -18,7 +18,7 @@ internal class GradeExtensionsTest : ShouldSpec({
 
     val testGradeCategory = GradeCategory(
         id = GradeCategoryId(UUID.randomUUID()),
-        subject = TestData.subject,
+        subject = TestData.subject(),
         name = "Sprawdzian",
         defaultWeight = 2,
         color = null,
@@ -33,9 +33,9 @@ internal class GradeExtensionsTest : ShouldSpec({
         semester: Int = 1,
     ) = Grade(
         id = null,
-        subject = TestData.subject,
-        student = TestData.student,
-        issuedBy = TestData.teacher,
+        subject = TestData.subject(),
+        student = TestData.student(),
+        issuedBy = TestData.teacher(),
         issuedAt = TestUtils.parseDateTime("2012-09-10 14:05"),
         updatedAt = null,
         value = value,

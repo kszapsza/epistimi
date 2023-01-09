@@ -36,9 +36,9 @@ internal class UserCredentialsGeneratorTest : ShouldSpec({
     should("generate a username with number suffix if needed") {
         // given
         every { userRepository.findByUsernameStartingWith("jan.kowalski") } returns listOf(
-            TestData.Users.student.copy(username = "jan.kowalski"),
-            TestData.Users.student.copy(username = "jan.kowalski.1"),
-            TestData.Users.student.copy(username = "jan.kowalski.2"),
+            TestData.Users.student(username = "jan.kowalski"),
+            TestData.Users.student(username = "jan.kowalski.1"),
+            TestData.Users.student(username = "jan.kowalski.2"),
         )
 
         // when

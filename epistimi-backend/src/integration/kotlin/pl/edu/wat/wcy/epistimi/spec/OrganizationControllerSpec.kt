@@ -19,20 +19,21 @@ import org.springframework.http.HttpStatus.UNAUTHORIZED
 import pl.edu.wat.wcy.epistimi.BaseIntegrationSpec
 import pl.edu.wat.wcy.epistimi.common.Address
 import pl.edu.wat.wcy.epistimi.common.rest.MediaType
-import pl.edu.wat.wcy.epistimi.organization.domain.Organization.Status.DISABLED
-import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationChangeStatusRequest
+import pl.edu.wat.wcy.epistimi.fake.fakeAddress
+import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationUpdateRequest
 import pl.edu.wat.wcy.epistimi.stub.OrganizationStubbing
 import pl.edu.wat.wcy.epistimi.stub.SecurityStubbing
 import pl.edu.wat.wcy.epistimi.stub.UserStubbing
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.EPISTIMI_ADMIN
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.ORGANIZATION_ADMIN
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.PARENT
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.STUDENT
-import pl.edu.wat.wcy.epistimi.user.domain.User.Role.TEACHER
-import pl.edu.wat.wcy.epistimi.user.domain.User.Sex.FEMALE
+import pl.edu.wat.wcy.epistimi.user.domain.User
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.EPISTIMI_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.ORGANIZATION_ADMIN
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.PARENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.STUDENT
+import pl.edu.wat.wcy.epistimi.user.domain.UserRole.TEACHER
+import pl.edu.wat.wcy.epistimi.user.domain.UserSex.FEMALE
 import java.util.UUID
 
 internal class OrganizationControllerSpec(
@@ -42,8 +43,8 @@ internal class OrganizationControllerSpec(
     private val userStubbing: UserStubbing,
 ) : BaseIntegrationSpec({
 
-    val stubOrganizationAdmin = {
-        userStubbing.userExists(
+    val stubOrganizationAdmin = fun(organization: Organization): User {
+        return userStubbing.userExists(
             role = ORGANIZATION_ADMIN,
             username = "sp7_admin",
             firstName = "Adrianna",
@@ -52,7 +53,8 @@ internal class OrganizationControllerSpec(
             sex = FEMALE,
             email = "a.nowak@gmail.com",
             phoneNumber = "+48987654321",
-            address = dummyAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+            address = fakeAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+            organization = organization,
         )
     }
 
@@ -65,18 +67,15 @@ internal class OrganizationControllerSpec(
         sex = FEMALE,
         email = "a.nowak@gmail.com",
         phoneNumber = "+48987654321",
-        address = dummyAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+        address = fakeAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
     )
 
     context("get organization by id") {
         should("return single organization") {
             // given
-            val organizationAdmin = stubOrganizationAdmin()
-            val organization = organizationStubbing.organizationExists(
-                name = "SP7",
-                admin = organizationAdmin,
-            )
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "SP7")
+            val organizationAdmin = stubOrganizationAdmin(organization)
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -113,15 +112,15 @@ internal class OrganizationControllerSpec(
                       "street": "Szkolna 17",
                       "postalCode": "15-640",
                       "city": "Białystok"
-                  },
-                  "status": "ENABLED"
+                  }
                 }
             """.trimIndent()
         }
 
         should("return HTTP 404 if organization with provided id does not exist") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "SP7")
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -155,7 +154,8 @@ internal class OrganizationControllerSpec(
                 row(TEACHER),
             ) { role ->
                 // given
-                val headers = securityStubbing.authorizationHeaderFor(role)
+                val organization = organizationStubbing.organizationExists(name = "SP7")
+                val headers = securityStubbing.authorizationHeaderFor(role = role, organization = organization)
 
                 // when
                 val response = restTemplate.exchange<String>(
@@ -171,7 +171,7 @@ internal class OrganizationControllerSpec(
 
         should("return an empty list of all organizations") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = null)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -193,12 +193,9 @@ internal class OrganizationControllerSpec(
 
         should("return list of organizations") {
             // given
-            val organizationAdmin = stubOrganizationAdmin()
-            val organization = organizationStubbing.organizationExists(
-                name = "SP7",
-                admin = organizationAdmin,
-            )
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "SP7")
+            val organizationAdmin = stubOrganizationAdmin(organization)
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
 
             // when
             val response = restTemplate.exchange<String>(
@@ -237,8 +234,7 @@ internal class OrganizationControllerSpec(
                           "street": "Szkolna 17",
                           "postalCode": "15-640",
                           "city": "Białystok"
-                      },
-                      "status": "ENABLED"
+                      }
                     }
                   ]
                 }
@@ -278,7 +274,8 @@ internal class OrganizationControllerSpec(
                 row(TEACHER),
             ) { role ->
                 // given
-                val headers = securityStubbing.authorizationHeaderFor(role)
+                val organization = organizationStubbing.organizationExists(name = "sp7")
+                val headers = securityStubbing.authorizationHeaderFor(role = role, organization = organization)
 
                 val body = OrganizationRegisterRequest(
                     name = "Gimnazjum nr 2",
@@ -304,12 +301,13 @@ internal class OrganizationControllerSpec(
 
         should("successfully register new organization") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
 
             val body = OrganizationRegisterRequest(
                 name = "Gimnazjum nr 2",
                 admin = adminUserCreateRequest,
-                address = dummyAddress,
+                address = fakeAddress,
             )
 
             // when
@@ -348,124 +346,7 @@ internal class OrganizationControllerSpec(
                       "street": "Szkolna 17",
                       "postalCode": "15-640",
                       "city": "Białystok"
-                  },
-                  "status": "ENABLED"
-                }
-            """.trimIndent()
-        }
-    }
-
-    context("change organization status") {
-        should("fail changing organization status with HTTP 401 if user is not authenticated") {
-            // given
-            val organizationAdmin = stubOrganizationAdmin()
-            val organization = organizationStubbing.organizationExists(
-                name = "SP7",
-                admin = organizationAdmin,
-            )
-            val body = OrganizationChangeStatusRequest(status = DISABLED)
-
-            // when
-            val response = restTemplate.exchange<String>(
-                url = "/api/organization/${organization.id!!.value}",
-                method = PUT,
-                requestEntity = HttpEntity(body)
-            )
-
-            // then
-            response.statusCode shouldBe UNAUTHORIZED
-        }
-
-        forAll(
-            row(ORGANIZATION_ADMIN),
-            row(PARENT),
-            row(STUDENT),
-            row(TEACHER),
-        ) { role ->
-            should("fail changing organization status with HTTP 403 if user is unauthorized (role=$role)") {
-                // given
-                val organizationAdmin = stubOrganizationAdmin()
-                val organization = organizationStubbing.organizationExists(
-                    name = "SP7",
-                    admin = organizationAdmin,
-                )
-                val headers = securityStubbing.authorizationHeaderFor(role)
-                val body = OrganizationChangeStatusRequest(status = DISABLED)
-
-                // when
-                val response = restTemplate.exchange<String>(
-                    url = "/api/organization/${organization.id!!.value}/status",
-                    method = PUT,
-                    requestEntity = HttpEntity(body, headers)
-                )
-
-                // then
-                response.statusCode shouldBe FORBIDDEN
-            }
-        }
-
-        should("fail changing organization status with HTTP 404 if organization with provided id doesn't exist") {
-            // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-            val body = OrganizationChangeStatusRequest(status = DISABLED)
-
-            // when
-            val response = restTemplate.exchange<String>(
-                url = "/api/organization/${UUID.randomUUID()}/status",
-                method = PUT,
-                requestEntity = HttpEntity(body, headers)
-            )
-
-            // then
-            response.statusCode shouldBe NOT_FOUND
-        }
-
-        should("successfully change organization status") {
-            // given
-            val organizationAdmin = stubOrganizationAdmin()
-            val organization = organizationStubbing.organizationExists(
-                name = "SP7",
-                admin = organizationAdmin,
-            )
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
-            val body = OrganizationChangeStatusRequest(status = DISABLED)
-
-            // when
-            val response = restTemplate.exchange<String>(
-                url = "/api/organization/${organization.id!!.value}/status",
-                method = PUT,
-                requestEntity = HttpEntity(body, headers)
-            )
-
-            // then
-            response.statusCode shouldBe OK
-            response.headers.contentType.toString() shouldBe MediaType.APPLICATION_JSON_V1
-            //language=JSON
-            response.body!! shouldEqualSpecifiedJson """
-                {
-                  "name": "SP7",
-                  "admin": {
-                    "id": "${organizationAdmin.id!!.value}",
-                    "firstName": "Adrianna",
-                    "lastName": "Nowak",
-                    "role": "ORGANIZATION_ADMIN",
-                    "username": "sp7_admin",
-                    "pesel": "58030515441",
-                    "sex": "FEMALE",
-                    "email": "a.nowak@gmail.com",
-                    "phoneNumber": "+48987654321",
-                    "address": {
-                      "street": "Świętego Andrzeja Boboli 10",
-                      "postalCode": "15-649",
-                      "city": "Białystok"
-                    }
-                  },
-                  "address": {
-                      "street": "Szkolna 17",
-                      "postalCode": "15-640",
-                      "city": "Białystok"
-                  },
-                  "status": "DISABLED"
+                  }
                 }
             """.trimIndent()
         }
@@ -476,7 +357,7 @@ internal class OrganizationControllerSpec(
             // given
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = dummyAddress,
+                address = fakeAddress,
             )
 
             // when
@@ -498,12 +379,12 @@ internal class OrganizationControllerSpec(
         ) { role ->
             should("fail updating organization with HTTP 403 if user is unauthorized (role=$role)") {
                 // given
-                stubOrganizationAdmin()
+                val organization = organizationStubbing.organizationExists(name = "SP7")
+                val headers = securityStubbing.authorizationHeaderFor(role = role, organization = organization)
 
-                val headers = securityStubbing.authorizationHeaderFor(role)
                 val body = OrganizationUpdateRequest(
                     name = "Changed Name",
-                    address = dummyAddress,
+                    address = fakeAddress,
                 )
 
                 // when
@@ -520,10 +401,12 @@ internal class OrganizationControllerSpec(
 
         should("fail updating organization with HTTP 404 if organization with provided id does not exist") {
             // given
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "sp7")
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
+
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = dummyAddress,
+                address = fakeAddress,
             )
 
             // when
@@ -539,15 +422,13 @@ internal class OrganizationControllerSpec(
 
         should("successfully update organization") {
             // given
-            val organizationAdmin = stubOrganizationAdmin()
-            val organization = organizationStubbing.organizationExists(
-                name = "SP7",
-                admin = organizationAdmin,
-            )
-            val headers = securityStubbing.authorizationHeaderFor(EPISTIMI_ADMIN)
+            val organization = organizationStubbing.organizationExists(name = "SP7")
+            val organizationAdmin = stubOrganizationAdmin(organization)
+            val headers = securityStubbing.authorizationHeaderFor(role = EPISTIMI_ADMIN, organization = organization)
+
             val body = OrganizationUpdateRequest(
                 name = "Changed Name",
-                address = dummyAddress,
+                address = fakeAddress,
             )
 
             // when
@@ -584,8 +465,7 @@ internal class OrganizationControllerSpec(
                       "street": "Szkolna 17",
                       "postalCode": "15-640",
                       "city": "Białystok"
-                  },
-                  "status": "ENABLED"              
+                  }             
                 }
             """.trimIndent()
         }

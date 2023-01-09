@@ -48,7 +48,7 @@ internal class AuthenticationServiceTest : ShouldSpec({
         // given
         every {
             userRepository.findByUsername("username")
-        } returns TestData.Users.student.copy(
+        } returns TestData.Users.student(
             username = "username",
             passwordHash = passwordEncoder.encode("123456"),
         )

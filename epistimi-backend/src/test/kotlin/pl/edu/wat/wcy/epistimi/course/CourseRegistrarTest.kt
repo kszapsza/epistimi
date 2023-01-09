@@ -1,12 +1,11 @@
 package pl.edu.wat.wcy.epistimi.course
 
-import io.kotest.assertions.throwables.shouldNotThrow
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
+import io.kotest.matchers.equality.shouldBeEqualToComparingFields
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import pl.edu.wat.wcy.epistimi.TestData
 import pl.edu.wat.wcy.epistimi.course.domain.Course
 import pl.edu.wat.wcy.epistimi.course.domain.CourseBadRequestException
@@ -30,13 +29,21 @@ internal class CourseRegistrarTest : ShouldSpec({
         teacherRepository,
     )
 
+    val contextOrganization = TestData.organization()
+
+    val teacher = TestData.teacher(
+        user = TestData.Users.teacher(
+            organization = contextOrganization,
+        ),
+    )
+
     val validCourseCreateRequest = CourseCreateRequest(
         codeNumber = 1,
         codeLetter = "b",
         schoolYearBegin = LocalDate.of(2010, 9, 1),
         schoolYearSemesterEnd = LocalDate.of(2011, 2, 1),
         schoolYearEnd = LocalDate.of(2011, 6, 30),
-        classTeacherId = TestData.teacher.id!!,
+        classTeacherId = teacher.id!!,
         profile = null,
         profession = null,
         specialization = null,
@@ -46,12 +53,12 @@ internal class CourseRegistrarTest : ShouldSpec({
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrationService.createCourse(
-                userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2010, 7, 1),
                     schoolYearEnd = LocalDate.of(2011, 6, 30),
                 ),
+                contextOrganization = contextOrganization,
             )
         }
 
@@ -63,12 +70,12 @@ internal class CourseRegistrarTest : ShouldSpec({
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrationService.createCourse(
-                userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2011, 2, 10),
                     schoolYearEnd = LocalDate.of(2009, 6, 30),
                 ),
+                contextOrganization = contextOrganization,
             )
         }
 
@@ -80,12 +87,12 @@ internal class CourseRegistrarTest : ShouldSpec({
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrationService.createCourse(
-                userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2011, 2, 10),
                     schoolYearEnd = LocalDate.of(2011, 1, 28),
                 ),
+                contextOrganization = contextOrganization,
             )
         }
 
@@ -97,12 +104,12 @@ internal class CourseRegistrarTest : ShouldSpec({
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrationService.createCourse(
-                userId = UserId(UUID.randomUUID()),
                 createRequest = validCourseCreateRequest.copy(
                     schoolYearBegin = LocalDate.of(2010, 9, 1),
                     schoolYearSemesterEnd = LocalDate.of(2010, 10, 1),
                     schoolYearEnd = LocalDate.of(2010, 11, 1),
                 ),
+                contextOrganization = contextOrganization,
             )
         }
 
@@ -112,23 +119,24 @@ internal class CourseRegistrarTest : ShouldSpec({
 
     should("throw an exception when registering new course if provided teacher is connected with other organization") {
         // given
-        val userContextId = TestData.organization.admin.id!!
         val teacherFromOtherOrganizationId = TeacherId(UUID.randomUUID())
 
         every { teacherRepository.findById(teacherFromOtherOrganizationId) } returns Teacher(
             id = teacherFromOtherOrganizationId,
-            user = TestData.Users.teacher.copy(id = UserId(UUID.randomUUID())),
-            organization = TestData.organization.copy(id = OrganizationId(UUID.randomUUID())),
+            user = TestData.Users.teacher(
+                id = UserId(UUID.randomUUID()),
+                organization = TestData.organization(id = OrganizationId(UUID.randomUUID()))
+            ),
             academicTitle = null,
         )
 
         // when
         val exception = shouldThrow<CourseBadRequestException> {
             courseRegistrationService.createCourse(
-                userId = userContextId,
                 createRequest = validCourseCreateRequest.copy(
                     classTeacherId = teacherFromOtherOrganizationId,
                 ),
+                contextOrganization = contextOrganization,
             )
         }
 
@@ -138,40 +146,30 @@ internal class CourseRegistrarTest : ShouldSpec({
 
     should("successfully register new course") {
         // given
-        val userContextId = TestData.organization.admin.id!!
-
-        every { teacherRepository.findById(TestData.teacher.id!!) } returns TestData.teacher
+        every { teacherRepository.findById(teacher.id!!) } returns teacher
         every { courseRepository.save(any()) } returnsArgument 0
 
-        // expect
-        shouldNotThrow<CourseBadRequestException> {
-            courseRegistrationService.createCourse(
-                userId = userContextId,
-                createRequest = validCourseCreateRequest,
-            )
-        }
+        // when
+        val newCourse = courseRegistrationService.createCourse(
+            createRequest = validCourseCreateRequest,
+            contextOrganization = contextOrganization,
+        )
 
-        // and
-        verify {
-            courseRepository.save(
-                Course(
-                    id = null,
-                    organization = TestData.organization,
-                    code = Course.Code(
-                        number = 1,
-                        letter = "b"
-                    ),
-                    schoolYear = "2010/2011",
-                    classTeacher = TestData.teacher,
-                    students = emptyList(),
-                    schoolYearBegin = LocalDate.of(2010, 9, 1),
-                    schoolYearSemesterEnd = LocalDate.of(2011, 2, 1),
-                    schoolYearEnd = LocalDate.of(2011, 6, 30),
-                    profile = null,
-                    profession = null,
-                    specialization = null,
-                )
-            )
-        }
+        // then
+        newCourse shouldBeEqualToComparingFields Course(
+            id = null,
+            organization = contextOrganization,
+            codeNumber = 1,
+            codeLetter = "b",
+            classTeacher = teacher,
+            students = emptySet(),
+            schoolYearBegin = LocalDate.of(2010, 9, 1),
+            schoolYearSemesterEnd = LocalDate.of(2011, 2, 1),
+            schoolYearEnd = LocalDate.of(2011, 6, 30),
+            profile = null,
+            profession = null,
+            specialization = null,
+            subjects = emptySet(),
+        )
     }
 })

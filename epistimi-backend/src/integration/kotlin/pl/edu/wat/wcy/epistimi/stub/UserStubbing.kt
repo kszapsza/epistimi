@@ -17,7 +17,7 @@ internal class UserStubbing(
     private val userRegistrationService: UserRegistrationService,
 ) {
     fun userExists(
-        organization: Organization,
+        organization: Organization?,
         firstName: String = "Jan",
         lastName: String = "Kowalski",
         role: UserRole = STUDENT,
