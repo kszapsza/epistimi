@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 object Versions {
     const val APACHE_HTTP_CLIENT = "4.5.13"
+    const val AWS_SDK = "1.12.380"
     const val JAXB = "2.4.0-b180830.0359"
     const val JJWT = "0.9.1"
     const val KOTEST = "5.2.2"
@@ -56,6 +57,7 @@ repositories {
 dependencies {
     implementation("ch.qos.logback", "logback-classic", Versions.LOGBACK)
     implementation("ch.qos.logback", "logback-core", Versions.LOGBACK)
+    implementation("com.amazonaws", "aws-java-sdk", Versions.AWS_SDK)
     implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310")
     implementation("com.fasterxml.jackson.module", "jackson-module-kotlin")
     implementation("io.jsonwebtoken", "jjwt", Versions.JJWT)
@@ -72,6 +74,7 @@ dependencies {
     implementation("org.springframework.boot", "spring-boot-starter-security")
     implementation("org.springframework.boot", "spring-boot-starter-validation")
     implementation("org.springframework.boot", "spring-boot-starter-web")
+
 
     testImplementation("io.kotest", "kotest-assertions-core", Versions.KOTEST)
     testImplementation("io.kotest", "kotest-property", Versions.KOTEST)

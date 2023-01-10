@@ -1,9 +1,17 @@
 epistimi:
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_ACCESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+      region:
+        static: eu-central-1
+      s3:
+        bucket-name: epistimi-s3
   external-apis:
     nominatim:
       url: https://nominatim.openstreetmap.org/search
   security:
-    jwt-expiry-millis: 900000
     jwt-secret: ${JWT_SECRET}
     password-encoder-strength: 12
 spring:
