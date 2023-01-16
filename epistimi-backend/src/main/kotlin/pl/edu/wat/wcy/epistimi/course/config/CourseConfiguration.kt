@@ -33,7 +33,7 @@ class CourseConfiguration {
     @Bean
     fun courseRegistrationService(
         courseRepository: CourseRepository,
-        teacherRepository: TeacherRepository,
+        teacherRepository: TeacherRepository, // TODO: use facade
     ): CourseRegistrationService {
         return CourseRegistrationService(
             courseRepository,

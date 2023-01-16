@@ -20,6 +20,13 @@ class NominatimOrganizationLocationClient(
     @Value("\${epistimi.external-apis.nominatim.url}") private val nominatimEndpoint: String,
 ) : OrganizationLocationClient {
 
+    companion object {
+        private const val SEARCH_PATH = "search"
+        private const val FORMAT_PARAM = "format"
+        private const val FORMAT_JSON = "json"
+        private const val QUERY_PARAM = "q"
+    }
+
     override fun getLocation(address: Address): Location? {
         return try {
             val url = buildNominatimUrl(address)
@@ -32,9 +39,9 @@ class NominatimOrganizationLocationClient(
 
     private fun buildNominatimUrl(address: Address): URI {
         return URIBuilder(nominatimEndpoint)
-            .setPath("search")
-            .addParameter("format", "json")
-            .addParameter("q", buildQuery(address))
+            .setPath(SEARCH_PATH)
+            .addParameter(FORMAT_PARAM, FORMAT_JSON)
+            .addParameter(QUERY_PARAM, buildQuery(address))
             .build()
     }
 

@@ -20,7 +20,7 @@ class NoticeboardPostConfiguration {
     @Bean
     fun noticeboardPostService(
         noticeboardPostRepository: NoticeboardPostRepository,
-        userRepository: UserRepository,
+        userRepository: UserRepository, // todo: use facade
     ): NoticeboardPostService {
         return NoticeboardPostService(
             noticeboardPostRepository,

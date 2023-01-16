@@ -25,7 +25,7 @@ class AuthenticationController(
     )
     @PostMapping(
         path = ["/login"],
-        produces = [MediaType.APPLICATION_JSON_V1]
+        produces = [MediaType.APPLICATION_JSON_V1],
     )
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<LoginResponse> {
         return ResponseEntity.ok(

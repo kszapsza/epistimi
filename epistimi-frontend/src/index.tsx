@@ -32,7 +32,7 @@ axios.interceptors.request.use(
 dayjs.extend(localizedFormat).locale('pl');
 dayjs.extend(relativeTime).locale('pl');
 
-ReactDOM.render(
+const application = (
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -43,7 +43,11 @@ ReactDOM.render(
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
+);
+
+ReactDOM.render(
+  application,
   document.getElementById('root'),
 );
 

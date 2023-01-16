@@ -3,7 +3,7 @@ epistimi:
     nominatim:
       url: https://nominatim.openstreetmap.org/search
   security:
-    jwt-expiry-millis: 900000
+    frontend-app-domain: http://localhost:3000
     jwt-secret: ${JWT_SECRET}
     password-encoder-strength: 12
 spring:
@@ -16,15 +16,3 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  data:
-    mongodb:
-      auto-index-creation: true
-      database: epistimi
-      uri: mongodb://admin:123456@localhost:27017/epistimi?retryWrites=true&w=majority
-logging:
-  level:
-    org:
-      springframework:
-        data:
-          mongodb:
-            DEBUG

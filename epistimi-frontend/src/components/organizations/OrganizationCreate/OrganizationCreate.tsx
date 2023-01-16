@@ -98,6 +98,7 @@ export const OrganizationCreate = ({ submitCallback }: OrganizationEditProps): J
     axios.post<OrganizationRegisterResponse, AxiosResponse<OrganizationRegisterResponse>, OrganizationRegisterRequest>(
       '/api/organization', buildRequestBody())
       .then((response) => {
+        setSubmitError(null);
         setCreateResponse(response.data);
         setStep(OrganizationCreateStep.SUMMARY);
         submitCallback(response.data);

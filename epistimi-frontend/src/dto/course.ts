@@ -39,12 +39,24 @@ export interface CoursesResponse {
   courses: CourseResponse[];
 }
 
-export interface CourseCreateRequest {
+export interface CourseFormData {
   codeNumber?: number;
   codeLetter: string;
   schoolYearBegin?: Date;
   schoolYearSemesterEnd?: Date;
   schoolYearEnd?: Date;
+  classTeacherId: string;
+  profile?: string;
+  profession?: string;
+  specialization?: string;
+}
+
+export interface CourseCreateRequest {
+  codeNumber?: number;
+  codeLetter: string;
+  schoolYearBegin?: string;
+  schoolYearSemesterEnd?: string;
+  schoolYearEnd?: string;
   classTeacherId: string;
   profile?: string;
   profession?: string;

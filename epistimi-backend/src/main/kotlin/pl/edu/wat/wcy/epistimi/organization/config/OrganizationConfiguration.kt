@@ -27,7 +27,7 @@ class OrganizationConfiguration {
     @Bean
     fun organizationRegistrationService(
         organizationRepository: OrganizationRepository,
-        userRegistrationService: UserRegistrationService,
+        userRegistrationService: UserRegistrationService, // TODO: use facade
         locationClient: OrganizationLocationClient,
     ): OrganizationRegistrationService {
         return OrganizationRegistrationService(

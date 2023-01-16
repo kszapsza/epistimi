@@ -1,10 +1,12 @@
 # epistimi-backend
 
-A monolithic backend for Epistimi, build with Spring Boot.
+A monolithic backend for Epistimi, built with Spring Boot.
+
+----
 
 ## Prerequisites
 
-Setup and run local databases:
+Setup and run local PostgreSQL database:
 
 ```bash
 docker compose -f docker-compose.yml up -d

@@ -28,10 +28,10 @@ class Course(
     @ManyToOne
     val organization: Organization,
 
-    @Column(name = "code_number")
+    @Column(name = "code_number", nullable = false)
     val codeNumber: Int,
 
-    @Column(name = "code_letter")
+    @Column(name = "code_letter", nullable = false)
     val codeLetter: String,
 
     @ManyToOne(optional = false)
@@ -45,13 +45,13 @@ class Course(
     @JoinColumn(name = "course_id")
     val subjects: Set<Subject>,
 
-    @Column(name = "school_year_begin")
+    @Column(name = "school_year_begin", nullable = false)
     val schoolYearBegin: LocalDate,
 
-    @Column(name = "school_year_semester_end")
+    @Column(name = "school_year_semester_end", nullable = false)
     val schoolYearSemesterEnd: LocalDate,
 
-    @Column(name = "school_year_end")
+    @Column(name = "school_year_end", nullable = false)
     val schoolYearEnd: LocalDate,
 
     @Column(name = "profile")

@@ -30,7 +30,7 @@ class Organization(
     @Column(name = "street", nullable = false)
     val street: String,
 
-    @Column(name = "postal_code", nullable = false)
+    @Column(name = "postal_code", length = 6, nullable = false)
     val postalCode: String,
 
     @Column(name = "city", nullable = false)

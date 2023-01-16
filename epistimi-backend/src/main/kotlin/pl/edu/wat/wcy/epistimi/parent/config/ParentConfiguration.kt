@@ -31,7 +31,7 @@ class ParentConfiguration {
     @Bean
     fun parentRegistrationService(
         parentRepository: ParentRepository,
-        userRegistrationService: UserRegistrationService,
+        userRegistrationService: UserRegistrationService, // TODO: use facade
     ): ParentRegistrationService {
         return ParentRegistrationService(
             parentRepository,

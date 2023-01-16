@@ -24,3 +24,4 @@ class CourseFacade(
         return courseRegistrationService.createCourse(contextUser.organization, createRequest)
     }
 }
+
