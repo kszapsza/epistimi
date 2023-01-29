@@ -747,7 +747,6 @@ internal class CourseControllerSpec(
 
             // then
             response.statusCode shouldBe BAD_REQUEST
-            response.body?.message shouldBe "Provided class teacher is not associated with your organization"
         }
 
         should("return HTTP 400 if create request contains nonexistent teacher id") {

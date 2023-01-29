@@ -6,7 +6,7 @@ import pl.edu.wat.wcy.epistimi.organization.OrganizationFacade
 import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
 import pl.edu.wat.wcy.epistimi.organization.domain.service.OrganizationRegistrationService
-import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
+import pl.edu.wat.wcy.epistimi.user.UserFacade
 
 @Configuration
 class OrganizationConfiguration {
@@ -27,12 +27,12 @@ class OrganizationConfiguration {
     @Bean
     fun organizationRegistrationService(
         organizationRepository: OrganizationRepository,
-        userRegistrationService: UserRegistrationService, // TODO: use facade
+        userFacade: UserFacade,
         locationClient: OrganizationLocationClient,
     ): OrganizationRegistrationService {
         return OrganizationRegistrationService(
             organizationRepository,
-            userRegistrationService,
+            userFacade,
             locationClient,
         )
     }

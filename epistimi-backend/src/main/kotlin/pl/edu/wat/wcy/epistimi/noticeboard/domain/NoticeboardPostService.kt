@@ -3,12 +3,12 @@ package pl.edu.wat.wcy.epistimi.noticeboard.domain
 import pl.edu.wat.wcy.epistimi.logger
 import pl.edu.wat.wcy.epistimi.noticeboard.domain.port.NoticeboardPostRepository
 import pl.edu.wat.wcy.epistimi.organization.domain.Organization
+import pl.edu.wat.wcy.epistimi.user.UserFacade
 import pl.edu.wat.wcy.epistimi.user.domain.User
-import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
 
 class NoticeboardPostService(
     private val noticeboardPostRepository: NoticeboardPostRepository,
-    private val userRepository: UserRepository,
+    private val userFacade: UserFacade,
 ) {
     companion object {
         private val logger by logger()
@@ -38,7 +38,7 @@ class NoticeboardPostService(
         return noticeboardPostRepository.savePost(
             NoticeboardPost(
                 organization = contextUser.organization!!,
-                author = userRepository.findById(contextUser.id!!),
+                author = userFacade.getUserById(contextUser.id!!),
                 title = createRequest.title,
                 content = createRequest.content,
                 createdAt = null,

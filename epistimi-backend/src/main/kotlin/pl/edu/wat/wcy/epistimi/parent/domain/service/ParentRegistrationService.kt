@@ -3,13 +3,14 @@ package pl.edu.wat.wcy.epistimi.parent.domain.service
 import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.parent.domain.Parent
 import pl.edu.wat.wcy.epistimi.parent.domain.port.ParentRepository
+import pl.edu.wat.wcy.epistimi.user.UserFacade
 import pl.edu.wat.wcy.epistimi.user.domain.UserRegisterRequest
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 
 class ParentRegistrationService(
     private val parentRepository: ParentRepository,
-    private val userRegistrationService: UserRegistrationService,
+    private val userFacade: UserFacade,
 ) {
     data class NewParent(
         val parent: Parent,
@@ -41,7 +42,7 @@ class ParentRegistrationService(
     ): List<UserRegistrationService.NewUser> {
         return usersData
             .map { it.copy(role = UserRole.PARENT) }
-            .let { userRegistrationService.registerUsers(contextOrganization, requests = it) }
+            .let { userFacade.registerUsers(contextOrganization, requests = it) }
     }
 
     private fun registerParents(

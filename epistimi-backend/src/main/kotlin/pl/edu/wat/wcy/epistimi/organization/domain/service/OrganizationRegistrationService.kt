@@ -5,13 +5,13 @@ import pl.edu.wat.wcy.epistimi.organization.domain.Organization
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationRegisterRequest
 import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationLocationClient
 import pl.edu.wat.wcy.epistimi.organization.domain.port.OrganizationRepository
+import pl.edu.wat.wcy.epistimi.user.UserFacade
 import pl.edu.wat.wcy.epistimi.user.domain.UserRole
-import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService
 import pl.edu.wat.wcy.epistimi.user.domain.service.UserRegistrationService.NewUser
 
 class OrganizationRegistrationService(
     private val organizationRepository: OrganizationRepository,
-    private val userRegistrationService: UserRegistrationService,
+    private val userFacade: UserFacade,
     private val locationClient: OrganizationLocationClient,
 ) {
     data class NewOrganization(
@@ -33,7 +33,7 @@ class OrganizationRegistrationService(
         registerRequest: OrganizationRegisterRequest,
         organization: Organization,
     ): NewUser {
-        return userRegistrationService.registerUser(
+        return userFacade.registerUser(
             contextOrganization = organization,
             request = registerRequest.admin.copy(role = UserRole.ORGANIZATION_ADMIN)
         )

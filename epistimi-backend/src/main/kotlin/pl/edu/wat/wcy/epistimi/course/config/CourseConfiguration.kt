@@ -6,7 +6,7 @@ import pl.edu.wat.wcy.epistimi.course.CourseFacade
 import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.course.domain.service.CourseAggregatorService
 import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
-import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
+import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
 
 @Configuration
 class CourseConfiguration {
@@ -33,11 +33,11 @@ class CourseConfiguration {
     @Bean
     fun courseRegistrationService(
         courseRepository: CourseRepository,
-        teacherRepository: TeacherRepository, // TODO: use facade
+        teacherFacade: TeacherFacade,
     ): CourseRegistrationService {
         return CourseRegistrationService(
             courseRepository,
-            teacherRepository,
+            teacherFacade,
         )
     }
 }

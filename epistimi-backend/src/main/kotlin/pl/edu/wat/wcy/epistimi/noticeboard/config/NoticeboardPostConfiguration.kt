@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration
 import pl.edu.wat.wcy.epistimi.noticeboard.NoticeboardPostFacade
 import pl.edu.wat.wcy.epistimi.noticeboard.domain.NoticeboardPostService
 import pl.edu.wat.wcy.epistimi.noticeboard.domain.port.NoticeboardPostRepository
-import pl.edu.wat.wcy.epistimi.user.domain.port.UserRepository
+import pl.edu.wat.wcy.epistimi.user.UserFacade
 
 @Configuration
 class NoticeboardPostConfiguration {
@@ -20,11 +20,11 @@ class NoticeboardPostConfiguration {
     @Bean
     fun noticeboardPostService(
         noticeboardPostRepository: NoticeboardPostRepository,
-        userRepository: UserRepository, // todo: use facade
+        userFacade: UserFacade,
     ): NoticeboardPostService {
         return NoticeboardPostService(
             noticeboardPostRepository,
-            userRepository,
+            userFacade,
         )
     }
 }

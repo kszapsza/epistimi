@@ -13,28 +13,27 @@ import pl.edu.wat.wcy.epistimi.course.domain.CourseCreateRequest
 import pl.edu.wat.wcy.epistimi.course.domain.port.CourseRepository
 import pl.edu.wat.wcy.epistimi.course.domain.service.CourseRegistrationService
 import pl.edu.wat.wcy.epistimi.organization.domain.OrganizationId
+import pl.edu.wat.wcy.epistimi.teacher.TeacherFacade
 import pl.edu.wat.wcy.epistimi.teacher.domain.Teacher
 import pl.edu.wat.wcy.epistimi.teacher.domain.TeacherId
-import pl.edu.wat.wcy.epistimi.teacher.domain.port.TeacherRepository
 import pl.edu.wat.wcy.epistimi.user.domain.UserId
 import java.time.LocalDate
 import java.util.UUID
 
 internal class CourseRegistrarTest : ShouldSpec({
     val courseRepository = mockk<CourseRepository>()
-    val teacherRepository = mockk<TeacherRepository>()
+    val teacherFacade = mockk<TeacherFacade>()
 
     val courseRegistrationService = CourseRegistrationService(
         courseRepository,
-        teacherRepository,
+        teacherFacade,
     )
 
-    val contextOrganization = TestData.organization()
+    val organizationAdmin = TestData.Users.organizationAdmin()
+    val organization = organizationAdmin.organization!!
 
     val teacher = TestData.teacher(
-        user = TestData.Users.teacher(
-            organization = contextOrganization,
-        ),
+        user = TestData.Users.teacher(organization = organization),
     )
 
     val validCourseCreateRequest = CourseCreateRequest(
@@ -58,7 +57,7 @@ internal class CourseRegistrarTest : ShouldSpec({
                     schoolYearSemesterEnd = LocalDate.of(2010, 7, 1),
                     schoolYearEnd = LocalDate.of(2011, 6, 30),
                 ),
-                contextOrganization = contextOrganization,
+                contextUser = organizationAdmin,
             )
         }
 
@@ -75,7 +74,7 @@ internal class CourseRegistrarTest : ShouldSpec({
                     schoolYearSemesterEnd = LocalDate.of(2011, 2, 10),
                     schoolYearEnd = LocalDate.of(2009, 6, 30),
                 ),
-                contextOrganization = contextOrganization,
+                contextUser = organizationAdmin,
             )
         }
 
@@ -92,7 +91,7 @@ internal class CourseRegistrarTest : ShouldSpec({
                     schoolYearSemesterEnd = LocalDate.of(2011, 2, 10),
                     schoolYearEnd = LocalDate.of(2011, 1, 28),
                 ),
-                contextOrganization = contextOrganization,
+                contextUser = organizationAdmin,
             )
         }
 
@@ -109,7 +108,7 @@ internal class CourseRegistrarTest : ShouldSpec({
                     schoolYearSemesterEnd = LocalDate.of(2010, 10, 1),
                     schoolYearEnd = LocalDate.of(2010, 11, 1),
                 ),
-                contextOrganization = contextOrganization,
+                contextUser = organizationAdmin,
             )
         }
 
@@ -121,7 +120,7 @@ internal class CourseRegistrarTest : ShouldSpec({
         // given
         val teacherFromOtherOrganizationId = TeacherId(UUID.randomUUID())
 
-        every { teacherRepository.findById(teacherFromOtherOrganizationId) } returns Teacher(
+        every { teacherFacade.getTeacherById(organizationAdmin, teacherFromOtherOrganizationId) } returns Teacher(
             id = teacherFromOtherOrganizationId,
             user = TestData.Users.teacher(
                 id = UserId(UUID.randomUUID()),
@@ -136,7 +135,7 @@ internal class CourseRegistrarTest : ShouldSpec({
                 createRequest = validCourseCreateRequest.copy(
                     classTeacherId = teacherFromOtherOrganizationId,
                 ),
-                contextOrganization = contextOrganization,
+                contextUser = organizationAdmin,
             )
         }
 
@@ -146,19 +145,19 @@ internal class CourseRegistrarTest : ShouldSpec({
 
     should("successfully register new course") {
         // given
-        every { teacherRepository.findById(teacher.id!!) } returns teacher
+        every { teacherFacade.getTeacherById(organizationAdmin, teacher.id!!) } returns teacher
         every { courseRepository.save(any()) } returnsArgument 0
 
         // when
         val newCourse = courseRegistrationService.createCourse(
             createRequest = validCourseCreateRequest,
-            contextOrganization = contextOrganization,
+            contextUser = organizationAdmin,
         )
 
         // then
         newCourse shouldBeEqualToComparingFields Course(
             id = null,
-            organization = contextOrganization,
+            organization = organization,
             codeNumber = 1,
             codeLetter = "b",
             classTeacher = teacher,
