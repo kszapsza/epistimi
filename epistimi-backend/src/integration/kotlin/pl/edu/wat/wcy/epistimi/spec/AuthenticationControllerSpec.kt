@@ -71,7 +71,8 @@ internal class AuthenticationControllerSpec(
 
         // then
         response.statusCode shouldBe OK
-        response.headers.contentType.toString() shouldContain MediaType.APPLICATION_JSON_V1
+        response.headers.contentType.toString() shouldContain
+                MediaType.APPLICATION_JSON_V1
         response.body!!.token.shouldNotBeEmpty()
     }
 })

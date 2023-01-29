@@ -18,15 +18,15 @@ describe('OrganizationDetailsLocation component', () => {
     const { getByText } = render(
       <OrganizationDetailsLocation
         address={{
-          street: 'Szkolna 17',
-          postalCode: '15-640',
+          street: 'Słonimska 1',
+          postalCode: '15-950',
           city: 'Białystok',
         }}
       />);
 
     await waitFor(() => {
-      expect(getByText(STREET_LABEL_REGEXP).parentElement).toHaveTextContent(/Szkolna 17/);
-      expect(getByText(POSTAL_CODE_LABEL_REGEXP).parentElement).toHaveTextContent(/15-640/);
+      expect(getByText(STREET_LABEL_REGEXP).parentElement).toHaveTextContent(/Słonimska 1/);
+      expect(getByText(POSTAL_CODE_LABEL_REGEXP).parentElement).toHaveTextContent(/15-950/);
       expect(getByText(CITY_LABEL_REGEXP).parentElement).toHaveTextContent(/Białystok/);
     });
   });

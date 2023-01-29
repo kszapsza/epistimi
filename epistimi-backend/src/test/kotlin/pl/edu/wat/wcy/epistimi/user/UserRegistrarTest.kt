@@ -25,7 +25,7 @@ internal class UserRegistrarTest : ShouldSpec({
 
     should("successfully register user with provided credentials") {
         // given
-        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>() }
+        every { userRepository.save(ofType(User::class)) } answers { firstArg() }
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
 
         // when
@@ -47,7 +47,7 @@ internal class UserRegistrarTest : ShouldSpec({
 
     should("successfully register user with generated credentials if not provided") {
         // given
-        every { userRepository.save(ofType(User::class)) } answers { firstArg<User>() }
+        every { userRepository.save(ofType(User::class)) } answers { firstArg() }
         every { passwordEncoder.encode(ofType(CharSequence::class)) } returnsArgument 0
         every { credentialsGenerator.generate("Jan", "Kowalski") } returns
             Credentials("jan.kowalski", "123")

@@ -52,11 +52,13 @@ class StudentGradeAggregatorService(
 
         return students
             .map { student ->
+                val subjects = student.course.subjects
+                    .filter { subjectIds == null || it.id!! in subjectIds }
                 StudentGrades(
                     id = student.id!!,
                     firstName = student.user.firstName,
                     lastName = student.user.lastName,
-                    subjects = student.course.subjects
+                    subjects = subjects
                         .map { subject ->
                             buildSubjectGradesSummary(
                                 subject = subject,

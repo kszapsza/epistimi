@@ -1,7 +1,3 @@
-spring:
-  data:
-    mongodb:
-      database: epistimi_integration
 epistimi:
   security:
     jwt-secret: jwt_secret

@@ -1,26 +1,31 @@
 # epistimi
 
-A platform combining electronic school diary and e-learning features.
+An integrated platform for electronic school register.
+
+> :warning: **Note:** This repository contains the source code that is the implementation of
+> “Application for integrated electronic school register” engineering thesis and
+> and will not be developed any further.
 
 ## Tech stack
 
-**Backend:**
+### Backend
 
 * 🍅 Kotlin
 * 🍃 Spring Boot
-* 🧪 Kotest
-* 📦 PostgreSQL, MongoDB
+* 🧪 Kotest, Mockk
+* 📦 PostgreSQL
 
-**Frontend:**
+### Frontend
 
 * ⚛️ TypeScript & React
-* 📦 Redux
 * 🧪 Jest & React Testing Library
-* 🎨 SCSS, Mantine UI
+* 🎨 Mantine UI, SCSS 
+* 📦 Redux
 
 ## Setup
 
-For instructions on how to set up an application, follow detailed instructions for backend and frontend modules accordingly:
+For instructions on how to set up an application, follow READMEs for backend
+and frontend modules accordingly:
 
 * [Setup `epistimi-backend`](epistimi-backend/README.md)
 * [Setup `epistimi-frontend`](epistimi-frontend/README.md)

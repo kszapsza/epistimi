@@ -22,6 +22,7 @@ import pl.edu.wat.wcy.epistimi.security.JwtAuthenticationFilter
 class WebSecurityConfiguration(
     private val jwtAuthenticationFilter: JwtAuthenticationFilter,
     @Value("\${epistimi.security.password-encoder-strength}") private val passwordEncoderStrength: Int,
+    @Value("\${epistimi.security.frontend-app-domain}") private val frontendAppDomain: String,
 ) : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
@@ -54,11 +55,11 @@ class WebSecurityConfiguration(
                         HttpMethod.POST.name,
                         HttpMethod.PUT.name,
                     )
-                    .allowedOrigins("http://localhost:3000")
+                    .allowedOrigins(frontendAppDomain)
                 registry
                     .addMapping("/auth/**")
                     .allowedMethods(HttpMethod.POST.name)
-                    .allowedOrigins("http://localhost:3000")
+                    .allowedOrigins(frontendAppDomain)
             }
         }
     }

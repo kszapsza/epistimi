@@ -36,6 +36,7 @@ internal class PostgreSqlConfigListener :
     }
 
     lateinit var container: PostgreSQLContainer<*>
+
     private lateinit var dataSource: DataSource
     private lateinit var jdbcTemplate: JdbcTemplate
 

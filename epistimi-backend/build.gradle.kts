@@ -13,7 +13,6 @@ object Versions {
     const val PASSAY = "1.6.1"
     const val SLF4J = "1.7.36"
     const val SPRINGFOX = "3.0.0"
-    const val TC_MONGO = "1.16.3"
     const val TC_POSTGRES = "1.17.3"
 }
 
@@ -68,7 +67,6 @@ dependencies {
     implementation("org.postgresql", "postgresql")
     implementation("org.slf4j", "slf4j-api", Versions.SLF4J)
     implementation("org.springframework.boot", "spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot", "spring-boot-starter-data-mongodb")
     implementation("org.springframework.boot", "spring-boot-starter-security")
     implementation("org.springframework.boot", "spring-boot-starter-validation")
     implementation("org.springframework.boot", "spring-boot-starter-web")
@@ -84,7 +82,6 @@ dependencies {
     integrationImplementation("io.kotest.extensions", "kotest-extensions-spring", Versions.KOTEST_SPRING)
     integrationImplementation("io.kotest.extensions", "kotest-extensions-testcontainers", Versions.KOTEST_TC)
     integrationImplementation("org.apache.httpcomponents", "httpclient", Versions.APACHE_HTTP_CLIENT)
-    integrationImplementation("org.testcontainers", "mongodb", Versions.TC_MONGO)
     integrationImplementation("org.testcontainers", "postgresql", Versions.TC_POSTGRES)
 }
 

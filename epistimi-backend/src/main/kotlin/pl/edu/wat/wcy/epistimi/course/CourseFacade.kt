@@ -21,6 +21,7 @@ class CourseFacade(
     }
 
     fun createCourse(contextUser: User, createRequest: CourseCreateRequest): Course {
-        return courseRegistrationService.createCourse(contextUser.organization, createRequest)
+        return courseRegistrationService.createCourse(contextUser, createRequest)
     }
 }
+

@@ -1,7 +1,7 @@
 import './CourseCreate.scss';
 import 'dayjs/locale/pl';
 import { Alert, Button, Loader, NativeSelect, NumberInput, TextInput } from '@mantine/core';
-import { CourseCreateRequest, CourseResponse } from '../../../dto/course';
+import { CourseCreateRequest, CourseFormData, CourseResponse } from '../../../dto/course';
 import { DatePicker } from '@mantine/dates';
 import { IconAlertCircle } from '@tabler/icons';
 import { TeachersResponse } from '../../../dto/teacher';
@@ -10,6 +10,7 @@ import { useFetch } from '../../../hooks';
 import { useForm } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 import axios, { AxiosResponse } from 'axios';
+import dayjs from 'dayjs';
 
 interface CourseCreateProps {
   submitCallback: (course: CourseResponse) => void;
@@ -24,7 +25,7 @@ export const CourseCreate = (props: CourseCreateProps): JSX.Element => {
 
   const { t } = useTranslation();
 
-  const form = useForm<CourseCreateRequest>({
+  const form = useForm<CourseFormData>({
     initialValues: {
       codeLetter: '',
       classTeacherId: '',
@@ -41,7 +42,7 @@ export const CourseCreate = (props: CourseCreateProps): JSX.Element => {
   });
 
   const validateSchoolYearBegin = (
-    { schoolYearBegin, schoolYearSemesterEnd, schoolYearEnd }: CourseCreateRequest,
+    { schoolYearBegin, schoolYearSemesterEnd, schoolYearEnd }: CourseFormData,
   ): string | null => {
     if (!schoolYearBegin) {
       return t('courses.courseEdit.requiredField');
@@ -59,7 +60,7 @@ export const CourseCreate = (props: CourseCreateProps): JSX.Element => {
   };
 
   const validateSchoolYearSemesterEnd = (
-    { schoolYearBegin, schoolYearSemesterEnd, schoolYearEnd }: CourseCreateRequest,
+    { schoolYearBegin, schoolYearSemesterEnd, schoolYearEnd }: CourseFormData,
   ): string | null => {
     if (!schoolYearSemesterEnd) {
       return t('courses.courseEdit.requiredField');
@@ -77,7 +78,7 @@ export const CourseCreate = (props: CourseCreateProps): JSX.Element => {
   };
 
   const validateSchoolYearEnd = (
-    { schoolYearBegin, schoolYearSemesterEnd, schoolYearEnd }: CourseCreateRequest,
+    { schoolYearBegin, schoolYearSemesterEnd, schoolYearEnd }: CourseFormData,
   ): string | null => {
     if (!schoolYearEnd) {
       return t('courses.courseEdit.requiredField');
@@ -97,15 +98,26 @@ export const CourseCreate = (props: CourseCreateProps): JSX.Element => {
     return null;
   };
 
-  const submitHandler = (formData: CourseCreateRequest): void => {
+  const submitHandler = (formData: CourseFormData): void => {
     axios.post<CourseResponse, AxiosResponse<CourseResponse>, CourseCreateRequest>(
-      '/api/course', formData,
+      '/api/course', {
+        ...formData,
+        schoolYearBegin: localDate(formData.schoolYearBegin),
+        schoolYearSemesterEnd: localDate(formData.schoolYearSemesterEnd),
+        schoolYearEnd: localDate(formData.schoolYearEnd),
+      },
     ).then((response) => {
       errorMessageHandlers.close();
       props.submitCallback(response.data);
     }).catch(() => {
       errorMessageHandlers.open();
     });
+  };
+
+  const localDate = (date?: Date): string | undefined => {
+    return date
+      ? dayjs(date).format('YYYY-MM-DD')
+      : date;
   };
 
   return (

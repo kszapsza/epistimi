@@ -93,7 +93,6 @@ class JwtAuthenticationFilter(
 
     private fun fetchContextUser(subjectClaim: String): User {
         return try {
-            // TODO: disabled organization
             userRepository.findById(UserId(subjectClaim))
         } catch (e: UserNotFoundException) {
             logger.error("Provided token for non-existent user id!: [$subjectClaim]!")
