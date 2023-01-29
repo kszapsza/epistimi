@@ -1,12 +1,10 @@
 # epistimi
 
-An integrated platform for electronic school journal.
+An integrated platform for electronic school register.
 
-----
-
-This repository contains the source code that is the implementation of
-“Application for integrated electronic journal” engineering thesis and
-is not intended to be developed any further.
+> :warning: **Note:** This repository contains the source code that is the implementation of
+> “Application for integrated electronic school register” engineering thesis and
+> and will not be developed any further.
 
 ## Tech stack
 
