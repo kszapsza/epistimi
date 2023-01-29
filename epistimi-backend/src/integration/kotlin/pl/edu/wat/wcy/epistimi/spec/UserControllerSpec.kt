@@ -76,8 +76,8 @@ internal class UserControllerSpec(
                   "email": "j.kowalski@gmail.com",
                   "phoneNumber": "+48123456789",
                   "address": {
-                    "street": "Szkolna 17",
-                    "postalCode": "15-640",
+                    "street": "Słonimska 1",
+                    "postalCode": "15-950",
                     "city": "Białystok"
                   }
                 }
@@ -150,8 +150,8 @@ internal class UserControllerSpec(
                       "email": "j.kowalski@gmail.com",
                       "phoneNumber": "+48123456789",
                       "address": {
-                        "street": "Szkolna 17",
-                        "postalCode": "15-640",
+                        "street": "Słonimska 1",
+                        "postalCode": "15-950",
                         "city": "Białystok"
                       }
                     }
@@ -193,8 +193,8 @@ internal class UserControllerSpec(
                       "email": "j.kowalski@gmail.com",
                       "phoneNumber": "+48123456789",
                       "address": {
-                        "street": "Szkolna 17",
-                        "postalCode": "15-640",
+                        "street": "Słonimska 1",
+                        "postalCode": "15-950",
                         "city": "Białystok"
                       }
                     }
@@ -239,8 +239,8 @@ internal class UserControllerSpec(
                       "email": "j.kowalski@gmail.com",
                       "phoneNumber": "+48123456789",
                       "address": {
-                        "street": "Szkolna 17",
-                        "postalCode": "15-640",
+                        "street": "Słonimska 1",
+                        "postalCode": "15-950",
                         "city": "Białystok"
                       }
                     },
@@ -255,8 +255,8 @@ internal class UserControllerSpec(
                       "email": "j.kowalski@gmail.com",
                       "phoneNumber": "+48123456789",
                       "address": {
-                        "street": "Szkolna 17",
-                        "postalCode": "15-640",
+                        "street": "Słonimska 1",
+                        "postalCode": "15-950",
                         "city": "Białystok"
                       }
                     }
@@ -366,8 +366,8 @@ internal class UserControllerSpec(
                   "email": "j.kowalski@gmail.com",
                   "phoneNumber": "+48123456789",
                   "address": {
-                    "street": "Szkolna 17",
-                    "postalCode": "15-640",
+                    "street": "Słonimska 1",
+                    "postalCode": "15-950",
                     "city": "Białystok"
                   }
                 }
@@ -456,8 +456,8 @@ internal class UserControllerSpec(
                   "email": "j.kowalski@gmail.com",
                   "phoneNumber": "+48123456789",
                   "address": {
-                    "street": "Szkolna 17",
-                    "postalCode": "15-640",
+                    "street": "Słonimska 1",
+                    "postalCode": "15-950",
                     "city": "Białystok"
                   }
                 }

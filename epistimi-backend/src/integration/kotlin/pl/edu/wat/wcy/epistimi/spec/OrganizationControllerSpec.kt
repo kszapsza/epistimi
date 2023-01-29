@@ -53,7 +53,7 @@ internal class OrganizationControllerSpec(
             sex = FEMALE,
             email = "a.nowak@gmail.com",
             phoneNumber = "+48987654321",
-            address = fakeAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+            address = fakeAddress.copy(street = "Borsucza 2", postalCode = "15-569"),
             organization = organization,
         )
     }
@@ -67,7 +67,7 @@ internal class OrganizationControllerSpec(
         sex = FEMALE,
         email = "a.nowak@gmail.com",
         phoneNumber = "+48987654321",
-        address = fakeAddress.copy(street = "Świętego Andrzeja Boboli 10", postalCode = "15-649"),
+        address = fakeAddress.copy(street = "Borsucza 2", postalCode = "15-569"),
     )
 
     context("get organization by id") {
@@ -103,14 +103,14 @@ internal class OrganizationControllerSpec(
                     "email": "a.nowak@gmail.com",
                     "phoneNumber": "+48987654321",
                     "address": {
-                      "street": "Świętego Andrzeja Boboli 10",
-                      "postalCode": "15-649",
+                      "street": "Borsucza 2",
+                      "postalCode": "15-569",
                       "city": "Białystok"
                     }
                   },
                   "address": {
-                      "street": "Szkolna 17",
-                      "postalCode": "15-640",
+                      "street": "Słonimska 1",
+                      "postalCode": "15-950",
                       "city": "Białystok"
                   }
                 }
@@ -225,14 +225,14 @@ internal class OrganizationControllerSpec(
                         "email": "a.nowak@gmail.com",
                         "phoneNumber": "+48987654321",
                         "address": {
-                          "street": "Świętego Andrzeja Boboli 10",
-                          "postalCode": "15-649",
+                          "street": "Borsucza 2",
+                          "postalCode": "15-569",
                           "city": "Białystok"
                         }
                       },
                       "address": {
-                          "street": "Szkolna 17",
-                          "postalCode": "15-640",
+                          "street": "Słonimska 1",
+                          "postalCode": "15-950",
                           "city": "Białystok"
                       }
                     }
@@ -249,8 +249,8 @@ internal class OrganizationControllerSpec(
                 name = "Gimnazjum nr 2",
                 admin = adminUserCreateRequest,
                 address = Address(
-                    street = "Szkolna 17",
-                    postalCode = "15-640",
+                    street = "Słonimska 1",
+                    postalCode = "15-950",
                     city = "Białystok",
                 )
             )
@@ -281,8 +281,8 @@ internal class OrganizationControllerSpec(
                     name = "Gimnazjum nr 2",
                     admin = adminUserCreateRequest,
                     address = Address(
-                        street = "Szkolna 17",
-                        postalCode = "15-640",
+                        street = "Słonimska 1",
+                        postalCode = "15-950",
                         city = "Białystok",
                     )
                 )
@@ -336,15 +336,15 @@ internal class OrganizationControllerSpec(
                       "email": "a.nowak@gmail.com",
                       "phoneNumber": "+48987654321",
                       "address": {
-                        "street": "Świętego Andrzeja Boboli 10",
-                        "postalCode": "15-649",
+                        "street": "Borsucza 2",
+                        "postalCode": "15-569",
                         "city": "Białystok"
                       }  
                     }
                   },
                   "address": {
-                      "street": "Szkolna 17",
-                      "postalCode": "15-640",
+                      "street": "Słonimska 1",
+                      "postalCode": "15-950",
                       "city": "Białystok"
                   }
                 }
@@ -456,14 +456,14 @@ internal class OrganizationControllerSpec(
                     "email": "a.nowak@gmail.com",
                     "phoneNumber": "+48987654321",
                     "address": {
-                      "street": "Świętego Andrzeja Boboli 10",
-                      "postalCode": "15-649",
+                      "street": "Borsucza 2",
+                      "postalCode": "15-569",
                       "city": "Białystok"
                     }
                   },
                   "address": {
-                      "street": "Szkolna 17",
-                      "postalCode": "15-640",
+                      "street": "Słonimska 1",
+                      "postalCode": "15-950",
                       "city": "Białystok"
                   }             
                 }
